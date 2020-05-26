@@ -1,0 +1,25 @@
+.editor-block{
+    min-height: 200px;
+    color: black;
+    padding: 10px;
+}
+.editor-parent-block{
+    background-color: white;
+    border: 1px solid #2A9FD6;
+    border-radius: 6px;
+}
+.editor-btn-block{
+    width: 100%;
+}
+.dropdown-item-editor{
+    padding: 0 0 0 10px !important;
+}
+.dropdown-menu-editor{
+    min-width: 4.9rem !important;
+}
+.dropdown-btn-editor{
+    border-radius: 0 !important;
+}
+.html-editor-btn{
+    border-radius: 0 0 0.25rem 0;
+}

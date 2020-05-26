@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteRule changelog[/]?$ /changelog.php
+
+    RewriteRule ^cp/s-home/(.*)$ /cp/$1
+</IfModule>
