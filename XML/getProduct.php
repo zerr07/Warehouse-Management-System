@@ -14,6 +14,7 @@ if (isset($_POST['username']) && isset($_POST['password'])){
 }
 $check = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*XML_users*} 
                                                                                         WHERE username='$user'"));
+$shard = _ENGINE['id_shard'];
 $res = mysqli_fetch_assoc($check);
 if (mysqli_num_rows($check) == 0){
     /* No such user */
@@ -27,7 +28,7 @@ if (mysqli_num_rows($check) == 0){
     $coefficient = mysqli_fetch_assoc($coefficient_q)['profitMargin'];
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *, 
         (SELECT `name` FROM {*category_name*} WHERE id_lang='3' AND id_category={*products*}.id_category) as category_name 
-        FROM {*products*} WHERE tag='$id' AND
+        FROM {*products*} WHERE tag='$id' AND id_shard='$shard' AND
         id IN (SELECT id_item FROM {*product_platforms*} WHERE id_platform='$platform' AND export='1')"));
 
     $xml = new XMLWriter();

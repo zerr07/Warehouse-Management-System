@@ -3,15 +3,16 @@ include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/getLang.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/get_platforms.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/applyRule.php');
 
-function get_product_range($page, $status){
+function get_product_range($page, $status, $shard){
     global $search, $select, $searchSelect, $searchSearch;
     $onPage = _ENGINE['onPage'];
     $start = $page*$onPage;
     if ($status == "Search"){
-        return /** @lang text */ "SELECT $searchSelect FROM {*products*} $searchSearch";
+        return /** @lang text */ "SELECT $searchSelect FROM {*products*} WHERE id_shard='$shard' $searchSearch";
     }
-    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *$select FROM {*products*} $search
-                                                       ORDER BY id DESC LIMIT $start, $onPage"));
+    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *$select FROM {*products*} 
+                                                        WHERE id_shard='$shard' $search
+                                                        ORDER BY id DESC LIMIT $start, $onPage"));
     if($result){
         return read_result_multiple($result);
     }
@@ -19,8 +20,8 @@ function get_product_range($page, $status){
 }
 
 
-function get_products(){
-    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*products*}"));
+function get_products($shard){
+    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*products*} WHERE id_shard='$shard'"));
     if($result){
         return read_result_multiple($result);
     }
@@ -233,12 +234,12 @@ if (isset($_GET['searchTagID'])) {
             $getEAN = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id_product FROM {*product_codes*} WHERE ean='$tagID'"));
             while ($row = mysqli_fetch_assoc($getEAN)) {
                 $id = $row['id_product'];
-                header("Location: /cp/SupplierManageTool/view/?view=$id");
+                header("Location: /cp/WMS/view/?view=$id");
             }
         } else {
             while ($row = mysqli_fetch_assoc($q)) {
                 $id = $row['id'];
-                header("Location: /cp/SupplierManageTool/view/?view=$id");
+                header("Location: /cp/WMS/view/?view=$id");
             }
         }
 
@@ -248,7 +249,7 @@ if (isset($_GET['searchTagID'])) {
 }
 if (isset($_GET['searchName'])){
     $smarty->assign("searchName", $_GET['searchName']);
-    $search = "WHERE id IN (SELECT id_product FROM {*product_name*} WHERE id_lang='3'";
+    $search = "AND id IN (SELECT id_product FROM {*product_name*} WHERE id_lang='3'";
     $searchString = htmlentities($_GET['searchName'], ENT_QUOTES, "UTF-8");
     $searchString = explode(" ", $searchString);
     foreach ($searchString as $str){
@@ -259,28 +260,28 @@ if (isset($_GET['searchName'])){
 }
 if (isset($_POST['cat'])){
     $cat = $_POST['cat'];
-    $searchSearch = "WHERE id_category='$cat'";
-    $search = "WHERE id_category='$cat'"; 
+    $searchSearch = "AND id_category='$cat'";
+    $search = "AND id_category='$cat'";
 
 }
 if(isset($_GET['only']) && $_GET['only'] == "Full"){
     if ($arr['exportStatus'] != "Full"){
         $select = ", (SELECT COUNT(export) FROM {*product_platforms*} WHERE products.id = {*product_platforms*}.id_item AND export=1) as count1";
-        $search .= " HAVING count1=(SELECT COUNT(*) FROM {*platforms*})";
+        $search .= "HAVING count1=(SELECT COUNT(*) FROM {*platforms*})";
         $searchSelect = "COUNT((SELECT COUNT(export) as count1 FROM {*product_platforms*} 
             WHERE {*products.id*} = {*product_platforms*}.id_item AND export=1 HAVING count1=(SELECT COUNT(*) FROM {*platforms*}))) as count";
     }
 } elseif (isset($_GET['only']) && $_GET['only'] == "Partly"){
     if ($arr['exportStatus'] != "Partly"){
         $select = ", (SELECT COUNT(export) FROM {*product_platforms*} WHERE products.id = {*product_platforms*}.id_item AND export=1) as count1";
-        $search .= " HAVING count1!=0 AND count1 < (SELECT COUNT(*) FROM {*platforms*})";
+        $search .= "HAVING count1!=0 AND count1 < (SELECT COUNT(*) FROM {*platforms*})";
         $searchSelect = "COUNT((SELECT COUNT(export) as count1 FROM {*product_platforms*} 
             WHERE {*products.id*} = {*product_platforms*}.id_item AND export=1 HAVING count1!=0 AND count1 < (SELECT COUNT(*) FROM {*platforms*}))) as count";
     }
 } elseif (isset($_GET['only']) && $_GET['only'] == "No"){
     if ($arr['exportStatus'] != "No"){
         $select = ", (SELECT COUNT(export) FROM {*product_platforms*} WHERE products.id = {*product_platforms*}.id_item AND export=1) as count1";
-        $search .= " HAVING count1=0";
+        $search .= "HAVING count1=0";
         $searchSelect = "COUNT((SELECT COUNT(export) as count1 FROM {*product_platforms*} 
             WHERE {*products.id*} = {*product_platforms*}.id_item AND export=1 HAVING count1=0)) as count";
     }

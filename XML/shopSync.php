@@ -18,6 +18,9 @@ if (mysqli_num_rows($check) == 0){
     exit("Username or password is incorrect");
 } elseif (password_verify($pass, $res['password'])) {
     /* User verified */
+    if ($res['id'] != 3){
+        exit();
+    }
     header('Content-type: text/xml');
     $platform = $res['id_platform'];
     include($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
