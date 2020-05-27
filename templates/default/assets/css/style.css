@@ -244,7 +244,7 @@ div.preview > ol {
     /*animation: animate1 0.5s infinite linear;*/
 }
 .only[type=radio]:not(:checked) + img {
-    transform:rotate(180deg);
+    transform:rotate(180deg) translateY(-3px);
     transition: transform 1s ease-out;
 }
 
@@ -263,3 +263,8 @@ div.preview > ol {
     /*animation: animate1 0.07s 1.2s infinite linear;*/
 }
 
+#customToast{
+    position: fixed;
+    bottom: 0;
+    right: 10px;
+}

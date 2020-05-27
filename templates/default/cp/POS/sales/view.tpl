@@ -48,8 +48,8 @@
                             {foreach $desc as $prod}
                                 <tr>
                                     {if is_numeric($prod.id)}
-                                        <td class="td-20"><a style="color: white;text-overflow: ellipsis; " href="/cp/SupplierManageTool/view/?view={$prod.id}">{$prod.tag}</a></td>
-                                        <td class="td-20"><a style="color: white;text-overflow: ellipsis; " href="/cp/SupplierManageTool/view/?view={$prod.id}">{$prod.name}</a></td>
+                                        <td class="td-20"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id}">{$prod.tag}</a></td>
+                                        <td class="td-20"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id}">{$prod.name}</a></td>
                                         {else}
                                         <td class="td-20">{$prod.tag}</td>
                                         <td class="td-20">{$prod.name}</td>

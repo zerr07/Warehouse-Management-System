@@ -11,9 +11,9 @@
                             {if is_null($value.child)}
                                 <label class='form-check-label' for='exampleRadios1'>{$value.cat_id} {$value.name}</label><br>
                             {else}
-                                <label class='form-check-label' data-toggle='collapse' data-target="#{$key}" aria-expanded='false' aria-controls='collapseExample' for='exampleRadios1'>
+                                <label class='form-check-label' data-toggle='collapse' data-target="#k{$key}" aria-expanded='false' aria-controls='collapseExample' for='exampleRadios1'>
                                     {$value.cat_id} {$value.name}  +</label><br>
-                                <div  class='collapse' id='{$key}' style="margin: 0 0 0 {$margin*20}px">
+                                <div  class='collapse' id='k{$key}' style="margin: 0 0 0 {$margin*20}px">
                                     {if !is_null($value.child)}
                                         {cat_tree data=$value.child margin=$margin+1}
                                     {/if}

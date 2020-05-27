@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html style="max-width: 97vw;">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- PAGE settings -->
-  <link rel="icon" href="https://templates.pingendo.com/assets/Pingendo_favicon.ico">
   <title>Control Panel</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
@@ -35,16 +34,17 @@
   <script src="/templates/default/assets/fileup/fileup.js"></script>
   <script src="/templates/default/assets/js/fontawesome-all.js"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
   <!-- Text editor plugin -->
   <script src="/templates/default/assets/fileup/js/vendor/jquery.ui.widget.js"></script>
   <script src="/templates/default/assets/js/editor.js"></script>
+  <script src="/templates/default/assets/js/cookie.js"></script>
+
   <script src="/templates/default/assets/js/priceCalc.js"></script>
   <script src="/cp/POS/updateCart.js"></script>
   <script src="/cp/POS/displayCartPOS.js"></script>
-  <script src="/cp/SupplierManageTool/category/editLink.js"></script>
-  <script src="/cp/SupplierManageTool/item/edit/editEAN.js"></script>
+  <script src="/cp/WMS/category/editLink.js"></script>
+  <script src="/cp/WMS/item/edit/editEAN.js"></script>
 
 
 
@@ -68,7 +68,8 @@
   <wrapper class="d-flex flex-column fullHeight">
 
     <nav class="navbar navbar-expand-md navbar-light">
-      <div class="container"> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar6">
+      <div class="container">
+        <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar6">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar6"> <a class="navbar-brand text-primary d-none d-md-block" href="/">
@@ -84,24 +85,46 @@
               <a href="/cp/POS" class="nav-link text-primary"><i class="fas fa-store"></i> POS</a>
 
             </li>
-            <li class="nav-item">
-              <a href="/cp/SupplierManageTool/platforms/" class="nav-link text-primary"><i class="fas fa-store-alt"></i> Platforms</a>
 
-            </li>
+
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-qrcode"></i> Scanners
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a href="https://cp.azdev.eu/mobileScanner.php" class="nav-link text-primary"><i class="fas fa-qrcode"></i> Mobile scanner</a>
-                <a href="https://cp.azdev.eu/manualMobileScanner.php" class="nav-link text-primary"><i class="fas fa-qrcode"></i> Manual mobile scanner</a>
+                <a href="/mobileScanner.php" class="dropdown-item"><i class="fas fa-qrcode"></i> Mobile scanner</a>
+                <a href="/manualMobileScanner.php" class="dropdown-item"><i class="fas fa-qrcode"></i> Manual mobile scanner</a>
               </div>
             </li>
-            <li class="nav-item">
-              <button type="button" class="btn btn-link" data-toggle="modal" data-target="#staticBackdrop">
-                <i class="fas fa-tags"></i> Custom Label Generator
-              </button>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-cogs"></i> Tools
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a href="/cp/WMS/platforms/" class="dropdown-item"><i class="fas fa-store-alt"></i> Platforms</a>
+                <a href="#staticBackdrop" data-toggle="modal" data-target="#staticBackdrop" class="dropdown-item"><i class="fas fa-tags"></i> Custom Label Generator</a>
+              </div>
             </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-qrcode"></i> Shards
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {foreach $shards as $key => $shard}
+                  <a class="dropdown-item text-white" onclick="
+                          setCookie('shard', '{$shard}', 365);
+                          setCookie('id_shard', '{$key}', 365);
+                          location.reload();
+                          ">{$shard}</a>
+                {/foreach}
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/cp/WMS/shards">Manage</a>
+
+              </div>
+            </li>
+
             {/if}
             {if $group=='2'}
             <li class="nav-item">
