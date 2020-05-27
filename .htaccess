@@ -2,6 +2,6 @@
     RewriteEngine On
 
     RewriteRule changelog[/]?$ /changelog.php
+    RewriteRule /SupplierManageTool/(.*)$ /cp/WMS/$1 [R=301,L]
 
-    RewriteRule ^cp/s-home/(.*)$ /cp/$1
 </IfModule>
