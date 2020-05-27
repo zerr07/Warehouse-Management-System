@@ -16,7 +16,8 @@
                     <div id="collapse0.1.1" class="collapse" aria-labelledby="heading0.1.1" data-parent="#accordion">
                         <div class="card-body">
                             Implemented function to get product data by EAN code.<br />
-                            Manual scanners can now search products by EAN code.
+                            Manual scanners can now search products by EAN code.<br />
+                            Summernote library removed as it is not used anymore
                         </div>
                     </div>
                 </div>
