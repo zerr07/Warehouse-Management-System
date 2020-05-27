@@ -1,5 +1,5 @@
 <?php
-$url = "http://cp.azdev.eu/cp/SupplierManageTool/?searchTagID=&searchName=auto&search=Search&page=2";
+$url = "http://cp.azdev.eu/cp/WMS/?searchTagID=&searchName=auto&search=Search&page=2";
 $parts = parse_url($url);
 parse_str($parts['query'], $query);
 $link = "";

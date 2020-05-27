@@ -12,7 +12,7 @@
                     <h1>Supplier management tool</h1>
                     <p class="mb-3">Manage your supplier list.</p>
 
-                    <a href="/cp/SupplierManageTool" class="btn btn-outline-primary">Let's Go</a>
+                    <a href="/cp/WMS" class="btn btn-outline-primary">Let's Go</a>
 
 
                 </div>

@@ -22,5 +22,5 @@ if (isset($_POST['delete'])){
     $id = $_POST['deleteSMTitemPlatform'];
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_platforms*} WHERE id='$id'"));
 }
-header("Location: /cp/SupplierManageTool/");
+header("Location: /cp/WMS/");
 
