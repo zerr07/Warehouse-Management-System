@@ -1,6 +1,24 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 210.101 210.101" style="enable-background:new 0 0 210.101 210.101;" xml:space="preserve" width="512px" height="512px" class=""><g><g>
-	<g>
-		<path d="M161.617,153.535h-20.202V64.646V34.343C141.414,15.408,125.995,0,107.039,0h-3.977C84.107,0,68.688,15.408,68.688,34.343    v30.303v88.889H48.485c-15.594,0-28.283,12.689-28.283,28.283s12.689,28.283,28.283,28.283h24.242h64.646h24.242    c15.594,0,28.283-12.689,28.283-28.283S177.211,153.535,161.617,153.535z M68.688,202.02H48.485    c-11.139,0-20.202-9.063-20.202-20.202c0-11.139,9.063-20.202,20.202-20.202h20.202V202.02z M76.769,34.343    c0-13.789,10.7-25.107,24.242-26.159v3.937c0,2.233,1.807,4.04,4.04,4.04c2.233,0,4.04-1.807,4.04-4.04V8.185    c13.542,1.052,24.242,12.37,24.242,26.159v26.263H76.769V34.343z M133.334,157.576v44.444H76.769v-44.444V68.687h56.566V157.576z     M161.617,202.02h-20.202v-40.404h20.202c11.139,0,20.202,9.063,20.202,20.202S172.755,202.02,161.617,202.02z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#FFF400"/>
-	</g>
-</g></g> </svg>
+<svg xmlns="http://www.w3.org/2000/svg" height="512px" viewBox="0 0 480 480" width="512px" class="hovered-paths"><g><path d="m432 240c0 106.039062-85.960938 192-192 192s-192-85.960938-192-192 85.960938-192 192-192 192 85.960938 192 192zm0 0" fill="#cfd2fc" data-original="#CFD2FC" class="hovered-path active-path" style="fill:#F8FF00" data-old_color="#cfd2fc"/><path d="m240 480c-132.546875 0-240-107.453125-240-240s107.453125-240 240-240 240 107.453125 240 240c-.148438 132.484375-107.515625 239.851562-240 240zm0-464c-123.710938 0-224 100.289062-224 224s100.289062 224 224 224 224-100.289062 224-224c-.140625-123.652344-100.347656-223.859375-224-224zm0 0" fill="#8690fa" data-original="#8690FA" class="" data-old_color="#8690fa" style="fill:#F8FF00"/><path d="m352 240c0 61.855469-50.144531 112-112 112s-112-50.144531-112-112 50.144531-112 112-112 112 50.144531 112 112zm0 0" fill="#5153ff" data-original="#5153FF" class="" data-old_color="#5153ff" style="fill:#F8FF00"/><script xmlns="">
+  {
+    const open = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function (method, url) {
+      open.apply(this, arguments);
+      this.addEventListener('readystatechange', function _() {
+        if(this.readyState == this.HEADERS_RECEIVED) {
+          const contentType = this.getResponseHeader('Content-Type') || '';
+          if (contentType.startsWith('video/') || contentType.startsWith('audio/')) {
+            window.postMessage({
+              source: 'xmlhttprequest-open',
+              url,
+              mime: contentType,
+              method,
+              contentType
+            }, '*');
+          }
+          this.removeEventListener('readystatechange', _);
+        }
+      })
+    }
+  }
+  </script></g> </svg>
