@@ -34,7 +34,7 @@ $smarty = new Smarty_startup();
 $smarty->assign("basic", $translations);*/
 
 $smarty->assign("engine", _ENGINE);
-$smarty->assign("db", _DB);
+
 //$hookInfo = json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"].'/plugins/hooks.json'), true);
 //include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/loadHook.php');
 if (isset($_GET['logout'])){
