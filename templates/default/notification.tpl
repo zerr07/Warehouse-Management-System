@@ -7,7 +7,7 @@
         </button>
     </div>
     <div class="toast-body">
-        The system has been updated to version 0.1.5. <br />You can review changes <a href="/changelog">here</a>  :)
+        The system has been updated to version {$engine.version}. <br />You can review changes <a href="/changelog">here</a>  :)
     </div>
 </div>
 <script>

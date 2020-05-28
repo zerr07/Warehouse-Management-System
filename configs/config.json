@@ -13,7 +13,7 @@
     "onPage": "24",
     "siteName":"My site",
     "defaultLang":"ru",
-    "version":"0.15",
+    "version":"0.1.5",
     "id_shard": "1"
   }
 }

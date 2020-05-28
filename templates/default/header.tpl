@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- PAGE settings -->
-  <title>Control Panel</title>
+  <title>WMS v{$engine.version} - Control Panel</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
   <!-- CSS dependencies -->
