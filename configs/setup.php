@@ -44,4 +44,3 @@ if (isset($_GET['logout'])){
     header('Location: /');
     exit();
 }
-?>

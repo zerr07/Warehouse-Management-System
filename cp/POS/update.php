@@ -1,6 +1,5 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"].'/configs/setup.php');
-$smarty = new Smarty_startup();
 include($_SERVER["DOCUMENT_ROOT"].'/controllers/session.php');
 if (isset($_POST['id'])){
     $id1 = $_POST['id'];
