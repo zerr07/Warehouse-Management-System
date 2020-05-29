@@ -4,7 +4,7 @@ include($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
 <!DOCTYPE html>
 <html>
 <head>
-	<title>JQuery HTML5 QR Code Scanner using Instascan JS Example - ItSolutionStuff.com</title>
+	<title>Mobile Scanner</title>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="api/quagga/dist/quagga.min.js"></script>
     <link rel="stylesheet" href="/templates/default/assets/css/bootstrap.css">
