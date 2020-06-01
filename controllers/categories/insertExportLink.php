@@ -1,5 +1,5 @@
 <?php
-include($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+include_once($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
 $id = $_POST['catID'];
 $platformID = $_POST['platformID'];
 $platformCat = $_POST['platformCategory'];

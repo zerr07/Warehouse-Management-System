@@ -8,7 +8,7 @@
 ini_set("display_errors", "on");
 error_reporting(E_ALL ^ E_NOTICE);
 
-include($_SERVER["DOCUMENT_ROOT"] . '/configs/setup.php');
+include_once($_SERVER["DOCUMENT_ROOT"] . '/configs/setup.php');
 if (isset($_POST['submit'])){
     $start = $_POST['start'];
     $end = $_POST['end'];

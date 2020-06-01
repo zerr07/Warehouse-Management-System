@@ -179,39 +179,15 @@
                                         <br>
                                     </div>
                                     <div class="form-group"> <label>Image</label>
-                                        <div><label>These images are currently uploaded</label>
-                                            {foreach $item.images as $image}
-                                                {if $image!=null}
-                                                    <div class="form-check">
-                                                        {if $image.primary == True}
-                                                            <img class="img-fluid" src="/uploads/images/products/{$image.image}" width="140px" >
-                                                        {else}
-                                                            <img class="img-fluid" src="/uploads/images/products/{$image.image}" width="70px" >
-                                                        {/if}
-
-                                                        <input class="form-check-input" type="checkbox"
-                                                               id="defaultCheck1" value="{$image.id}"
-                                                               name="deleteIMG[{$image.id}]">
-                                                        <label class="form-check-label form-img-delete" for="defaultCheck1">
-                                                            Delete?
-                                                        </label>
-                                                        <input class="form-check-input" type="radio" style="margin-top: 22px;"
-                                                               name="defaultImage" id="defaultImage" value="{$image.image}" {if $image.primary}checked{/if}>
-                                                        <label class="form-check-label form-img-delete" style="margin-top: 20px;" for="defaultImage">
-                                                            Default
-                                                        </label>
-                                                    </div>
-
-                                                {/if}
-                                            {/foreach}
+                                        <div class="row pb-5">
+                                            <div id="previewImages" class="d-inline-block"></div>
+                                            <div id="previewImagesFunc" class="d-flex flex-column col-auto pt-3"></div>
                                         </div>
-                                        <div>
-                                            <label class="btn-primary rounded img_btn" for="image_uploads">Choose images to upload (PNG, JPG)</label>
-                                            <input type="file" id="image_uploads" name="image[]" accept=".jpg, .jpeg, .png" multiple> <!--multiple-->
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="imageInput" onchange="previewImage(this)" accept="image/*" multiple>
+                                            <label class="custom-file-label" for="imageInput" data-browse="Browse">Choose file</label>
                                         </div>
-                                        <div class="preview">
-                                            <p>No files currently selected for upload</p>
-                                        </div>
+                                        <input type="text" name="imagesJSON" id="imagesJSON" hidden>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade ml-20" id="tabwar" role="tabpanel">
@@ -270,6 +246,17 @@
         </div>
     </div>
 </main>
+<script>
+    let images = [
+        {foreach $item.images as $key => $value}
+        ['exist', "/uploads/images/products/{$value.image}", {$value.primary}],
+        {/foreach}
+    ];
+    $(window).on('load', function(){
+        displayImagePreview();
+    });
+</script>
+<script src="/controllers/JS/image-uploader.js"></script>
 <script>
 
     function addExtraLoc() {

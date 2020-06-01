@@ -5,7 +5,7 @@ $req_dump = print_r($_POST, TRUE);
 $fp = fopen($_SERVER["DOCUMENT_ROOT"]."/dump/".$date->getTimestamp().'.log', 'a');
 fwrite($fp, $req_dump);
 fclose($fp);
-include($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+include_once($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
 function writeFile($file, $txt, $UploadFolder){
     $WriteFile = fopen($UploadFolder.$file, "wb");
     fwrite($WriteFile,$txt);
@@ -121,91 +121,58 @@ $product = array("product" => array(
 ));
 $json = json_encode($product);
 file_put_contents($_SERVER['DOCUMENT_ROOT']."/translations/products/$last.json", $json);
-$UploadFolder = $_SERVER['DOCUMENT_ROOT']."/uploads/images/products";
-if (isset($_POST['deleteIMG'] )){
-    foreach ($_POST['deleteIMG'] as $delete){
-        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_images*}
-                                                    WHERE id='$delete'"));
-        $row = mysqli_fetch_assoc($q);
-        unlink($UploadFolder."/".$row['image']);
-        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_images*}
-                                                    WHERE id='$delete'"));
+
+function deleteImages($images, $id){
+    include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/products/get_products.php');
+    $DBimages = get_images($id);
+    foreach ($DBimages as $key => $value){
+        if (!in_array("/uploads/images/products/".$value['image'], $images)){
+            mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */"DELETE FROM {*product_images*} WHERE id='$key'"));
+            unlink($_SERVER["DOCUMENT_ROOT"] . '/uploads/images/products/'.$value['image']);
+        }
     }
 }
 
-$counter = 0;
-$errors = array();
-$uploadedFiles = array();
-$extension = array("jpeg","jpg","PNG","gif", "png");
-$list = "";
-foreach($_FILES["image"]["tmp_name"] as $key=>$tmp_name){
-    $temp = $_FILES["image"]["tmp_name"][$key];
-    $name = $_POST['imgName'][$counter];
-
-
-    if(empty($temp))
-    {
+mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "UPDATE {*product_images*}
+                                            SET `primary`='0' WHERE id_item='$last'"));
+$images = json_decode($_POST['imagesJSON'], true);
+$existImages = array();
+foreach ($images as $val) {
+    if ($val[0] == "exist"){
+        if ($val[2] == 1){
+            $tmp = str_replace("/uploads/images/products/","", $val[1]);
+            mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "UPDATE {*product_images*}
+                                            SET `primary`='1' WHERE id_item='$last' AND image='$tmp'"));
+        }
+        array_push($existImages, $val[1]);
         continue;
     }
+    $extension = explode('/', mime_content_type($val[1]))[1];
+    list($type, $val[1]) = explode(';', $val[1]);
+    list(, $val[1]) = explode(',', $val[1]);
 
-    $counter++;
-    $UploadOk = true;
+    $value = base64_decode($val[1]);
 
-    $stamp = date_timestamp_get(date_create())*rand(1,100);
-    $ext = pathinfo($name, PATHINFO_EXTENSION);
+    $filename = $last . rand(1, 100000000000000) . "." . $extension;
+    $name = $_SERVER['DOCUMENT_ROOT'] . '/uploads/images/products/' . $filename;
 
-    if(in_array($ext, $extension) == false){
-        echo $ext;
-        $UploadOk = false;
-        echo "Not valid extension";
-
-    }
-
-    if(file_exists($UploadFolder."/".$name) == true){
-        $UploadOk = false;
-        echo "File already exists";
-    }
-
-    if($UploadOk == true){
-        move_uploaded_file($temp,$UploadFolder."/".$name);
-        array_push($uploadedFiles, $name);
-    }
-}
-if($counter>0){
-
-    if(count($uploadedFiles)>0){
-        echo "<b>Uploaded Files:</b>";
-        echo "<br/><ul>";
-        foreach($uploadedFiles as $fileName)
-        {
-            echo "<li>".$fileName."</li>";
-
-                $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_images*}
-                                                    (id_item, image, `primary`) VALUES ('$last', '$fileName', '0')"));
-
+    while (True) {
+        if (file_exists($name)) {
+            $filename = $last . rand(1, 100000000000000) . "." . $extension;
+            $name = $_SERVER['DOCUMENT_ROOT'] . '/uploads/images/products/' . $filename;
+        } else {
+            break;
         }
-
-        echo "</ul><br/>";
-
-        echo count($uploadedFiles)." file(s) are successfully uploaded.";
     }
+    file_put_contents($name, $value);
+    array_push($existImages, '/uploads/images/products/'.$filename);
+    mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*product_images*}
+                                            (id_item, image, `primary`) VALUES ('$last','$filename','$val[2]')"));
+
 }
-if(isset($_POST['defaultImage'])){
-    $primaryImg = $_POST['defaultImage'];
-    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET `primary`=0
-                                                    WHERE id_item='$last'"));
-    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET `primary`=1
-                                                    WHERE `image`='$primaryImg'"));
-}
-$q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_images*}
-                                                    WHERE id_item='$last' AND `primary`=1"));
-if (mysqli_num_rows($q) != 1){
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_images*}
-                                                    WHERE id_item='$last' AND `primary`=0"));
-    $row = mysqli_fetch_assoc($q);
-    $id = $row['id'];
-    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET `primary`=1
-                                                    WHERE id='$id'"));
-}
+deleteImages($existImages, $last);
+
+
 header("Location: /cp/WMS/");
+
 ?>

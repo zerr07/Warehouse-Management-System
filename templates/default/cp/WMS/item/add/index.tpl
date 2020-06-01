@@ -168,13 +168,15 @@
                                     <br>
                                 </div>
                                 <div class="form-group"> <label>Image</label>
-                                    <div>
-                                        <label class="btn-primary rounded img_btn" for="image_uploads">Choose images to upload (PNG, JPG)</label>
-                                        <input type="file" id="image_uploads" name="image[]" multiple accept=".jpg, .jpeg, .png"> <!--multiple-->
+                                    <div class="row pb-5">
+                                        <div id="previewImages" class="d-inline-block"></div>
+                                        <div id="previewImagesFunc" class="d-flex flex-column col-auto pt-3"></div>
                                     </div>
-                                    <div class="preview">
-                                        <p>No files currently selected for upload</p>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="imageInput" onchange="previewImage(this)" accept="image/*" multiple>
+                                        <label class="custom-file-label" for="imageInput" data-browse="Browse">Choose file</label>
                                     </div>
+                                    <input type="text" name="imagesJSON" id="imagesJSON" hidden>
                                 </div>
                             </div>
                             <div class="tab-pane fade ml-20" id="tabwar" role="tabpanel">
@@ -224,6 +226,11 @@
     </div>
 </main>
 <script>
+    let images = [];
+</script>
+<script src="/controllers/JS/image-uploader.js"></script>
+<script>
+
     function addExtraLoc() {
         var input = "<input type=\"text\" class=\"form-control SMTlocatiton\" style='margin-left: 25%;' name=\"itemLocation[]\" id=\"form17\" placeholder=\"Location\">";
         $("#listWarehouse").append(input);

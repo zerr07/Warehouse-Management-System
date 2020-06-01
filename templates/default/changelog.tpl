@@ -5,7 +5,24 @@
             <div class="accordion text-left" id="accordion">
 
                 <div class="card">
-                    <div class="card-header" id="heading0.1.5">
+                    <div class="card-header" id="heading016">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse015" aria-expanded="false" aria-controls="collapse016">
+                                Version 0.1.6
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse016" class="collapse" aria-labelledby="heading016" data-parent="#accordion">
+                        <div class="card-body">
+                            Blocked duplicate script calls.<br />
+                            New image uploader implemented.
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header" id="heading015">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse015" aria-expanded="false" aria-controls="collapse015">
                                 Version 0.1.5

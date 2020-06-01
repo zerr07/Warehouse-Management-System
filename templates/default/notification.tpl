@@ -1,7 +1,7 @@
 <div role="alert" id="customToast" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
     <div class="toast-header">
         <strong class="mr-auto">WMS</strong>
-        <small id="publishedTime">27<sup>th</sup> of May 2020</small>
+        <small id="publishedTime">1<sup>st</sup> of June 2020</small>
         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" style="color: black;">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -14,11 +14,11 @@
     $(document).ready(function(){
         let updName = "upd1";
         let upd = getCookie(updName);
-        if (upd === "false" || upd === ""){   // change true/false for new push notification
+        if (upd === "true" || upd === ""){   // change true/false for new push notification
             setTimeout(function () {
                 $('.toast').toast('show');
             }, 1000);
         }
-        setCookie(updName, "true", 365);      // change true/false for new push notification
+        setCookie(updName, "false", 365);      // change true/false for new push notification
     });
 </script>

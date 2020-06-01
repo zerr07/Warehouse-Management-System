@@ -1,5 +1,5 @@
 <?php
-include($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
+include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
 ?>
 <!DOCTYPE html>
 <html>

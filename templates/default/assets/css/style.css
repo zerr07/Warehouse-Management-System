@@ -268,3 +268,18 @@ div.preview > ol {
     bottom: 0;
     right: 10px;
 }
+
+.hover {
+    background-color: #007bff;
+}
+.image-primary-preview{
+    position: absolute;
+    left: 7%;
+    bottom: 0.7%;
+    background-color: #007bff;
+    border-radius: 0 0 3px 3px;
+    width: 86.3%;
+    text-align: center;
+    opacity: 0.8;
+    color: white;
+}
