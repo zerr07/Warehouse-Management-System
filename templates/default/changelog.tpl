@@ -15,7 +15,10 @@
                     <div id="collapse016" class="collapse" aria-labelledby="heading016" data-parent="#accordion">
                         <div class="card-body">
                             Blocked duplicate script calls.<br />
-                            New image uploader implemented.
+                            New image uploader implemented.<br />
+                            <hr>
+                            Hotfix<br />
+                            Fixed links in POS
                         </div>
                     </div>
                 </div>

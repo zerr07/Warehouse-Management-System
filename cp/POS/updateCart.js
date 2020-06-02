@@ -53,8 +53,8 @@ function searchModal(name) {
         } else {
             name = "<span class='d-inline-block text-truncate' style='max-width: 250px;'>" +
                 "<a title='"+cart[key]['name']+"' style='color: white;text-overflow: ellipsis;' " +
-                "href="+cart[key]['id']+"'/cp/WMS/view?view='>"+cart[key]['name']+"</a></span>"
-            console.log(cart[key]['name']);
+                "href='/cp/WMS/view?view="+cart[key]['id']+"'>"+cart[key]['name']+"</a></span>"
+
         }
         let loc = "";
         if (cart[key]['loc'] !== null || cart[key]['loc'] !== ""){
