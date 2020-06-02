@@ -16,6 +16,7 @@
                         <div class="card-body">
                             Blocked duplicate script calls.<br />
                             New image uploader implemented.<br />
+                            Tags now appear in Scanner and on POS page.
                             <hr>
                             Hotfix<br />
                             Fixed links in POS
