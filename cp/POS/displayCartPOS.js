@@ -8,6 +8,7 @@ function displayCart(index) {
     tbody.innerHTML = "";
     let counter = 0;
     for (var key in cart){
+        let tag = "";
         let imgURL = "";
         if (cart[key]['IMG'] === null || cart[key]['IMG'] === ""){
             imgURL = "https://static.pingendo.com/img-placeholder-1.svg";
@@ -15,23 +16,37 @@ function displayCart(index) {
             imgURL = "/uploads/images/products/"+cart[key]['IMG'];
         }
         let name = "";
+        let available = "";
         if (cart[key]['tag'] === "Buffertoode"){
             name = "<input type='text' class='form-control' name='buffer[]' value='"+cart[key]['name']+"'" +
                 " placeholder='Buffer name' id='buffer' data-placement='top' title='Try not to use numbers!'>" +
                 "<input type='text' name='bufferID[]' value='"+cart[key]['id']+"' hidden>"
+            tag = "<span class='d-inline-block text-truncate' style='max-width: 50px;color: white;text-overflow: ellipsis;'>" + cart[key]['tag'] + "</span>";
         } else {
+            available = cart[key]['Available'];
             name = "<span class='d-inline-block text-truncate' style='max-width: 250px;'>" +
                 "<a title='"+cart[key]['name']+"' style='color: white;text-overflow: ellipsis;' " +
-                "href='/cp/WMS/view?view="+cart[key]['id']+"'>"+cart[key]['name']+"</a></span>"
+                "href='/cp/WMS/view?view="+cart[key]['id']+"'>"+cart[key]['name']+"</a></span>";
+            tag = "<span class='d-inline-block text-truncate' style='max-width: 50px;color: white;text-overflow: ellipsis;'>"
+                + "<a title='"+cart[key]['tag']+"' href='/cp/WMS/view?view="+cart[key]['id']+"'>"
+                + cart[key]['tag'] +
+                "</a></span>";
         }
+
         let loc = "";
+        console.log(tag);
         if (cart[key]['loc'] !== null || cart[key]['loc'] !== ""){
-            for(var place in cart[key]['loc']){
-                loc = cart[key]['loc'][place].toString();
-                break;
+            if (cart[key]['tag'] !== "Buffertoode") {
+                for (var place in cart[key]['loc']) {
+                    loc = cart[key]['loc'][place].toString();
+                    break;
+                }
             }
         }
-        $("#"+index).append("<tr>" +
+
+
+        $("#"+index).append("<tr>"
+            + "<td class='POStalble'>" + tag + "</td>" +
             "<td>" + "<input type='text' name='id[]' value='"+cart[key]['id']+"' hidden>" +
             "<img class='img-fluid d-block itemSMimg' src='"+imgURL+"' width='70px' >" +
             "</td>" +
@@ -41,7 +56,7 @@ function displayCart(index) {
             "onchange='sum();checkQuantity("+cart[key]['Available']+", "+counter+")' " +
             "name='quantity[]' value='"+cart[key]['quantity']+"' placeholder='Quantity'>" +
             "</td>" +
-            "<td class='POStalble'>"+cart[key]['Available']+"</td>" +
+            "<td class='POStalble'>"+available+"</td>" +
             "<td class='POStalble'>"+loc+"</td>" +
             "<td class='POStalble'>" +
             "<input type='text' class='form-control' id='price'"+counter+" onchange='sum()' name='price[]' value='"+cart[key]['basePrice']+"' placeholder='Price'>" +

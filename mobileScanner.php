@@ -104,6 +104,7 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
             "<div class='col-9'>" +
             "<h1 class='display-4'>"+ data['name']['et'] +"</h1>" +
             "</div></div>"+
+            "<p class='lead display-4'>Tag: " + data['tag'] + "</p>"+
             "<p class='lead display-4'>Location: " + data['locations'] + "</p>"+
             "<p class='lead display-4'>Quantity: " + data['quantity'] + "</p>"+
             "<button type=\"button\" class=\"btn btn-primary btnQuantity\"   onclick=\"changeQuantity('plus1',      "+ data['id'] +")\">+1</button>" +

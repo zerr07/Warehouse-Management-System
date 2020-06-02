@@ -18,11 +18,12 @@
                         {include file='cp/POS/searchModal.tpl'}
                         <div class="col-12">
                             <div class="d-inline-flex w-100">
-                                <div class="col-9 form-group">
+                                <div class="col-10 form-group">
 
                                     <table class="table table-sm table-responsive">
                                         <thead>
                                         <tr>
+                                            <th></th>
                                             <th></th>
                                             <th class="POStalble">Name</th>
                                             <th class="POStalble">Quantity</th>
@@ -39,7 +40,7 @@
                                     </table>
                                     <h5 id="sum">Sum: {$cartTotal}</h5>
                                 </div>
-                                <div class="col-3 form-group">
+                                <div class="col-2 form-group">
                                     <button type="submit" class="btn btn-info w-100" id="saveCart" name="update" formaction="/cp/POS/update.php" style="margin-top: 25px;">Save cart</button>
                                     <a href="/cp/POS/search.php?clear=yes" class="btn btn-dark w-100"  style="margin-top: 10px; display: block;">Clear cart</a>
                                     <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#saleModal" style="margin-top: 10px; display: block;">Perform sale</button>
