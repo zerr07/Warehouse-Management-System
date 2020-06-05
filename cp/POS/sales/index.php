@@ -16,5 +16,3 @@ if (isset($_GET['view'])){
 } else {
     $smarty->display('cp/POS/sales/index.tpl');
 }
-
-?>

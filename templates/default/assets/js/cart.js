@@ -28,10 +28,16 @@ function sum(){
         counter++;
     });
     for (var i = 0; i < counter; i++){
-        document.getElementById('totalPrice'+i).innerHTML = totalPrice[i];
+        if(document.getElementById('totalPrice'+i)){
+            document.getElementById('totalPrice'+i).innerHTML = totalPrice[i];
+        }
+
     }
     sum = sum.toFixed(2);
-    document.getElementById('sum').innerHTML = 'Sum: '+sum;
+    if (document.getElementById('sum')){
+        document.getElementById('sum').innerHTML = 'Sum: '+sum;
+
+    }
     document.getElementById('modalSUM').innerHTML = 'Sum: '+sum;
     return sum;
 }

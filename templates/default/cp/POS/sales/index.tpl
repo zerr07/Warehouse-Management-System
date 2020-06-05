@@ -71,4 +71,3 @@
 
 {include file='pagination.tpl'}
 {include file='footer.tpl'}
-{debug}

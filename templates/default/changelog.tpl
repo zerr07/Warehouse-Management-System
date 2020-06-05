@@ -5,6 +5,22 @@
             <div class="accordion text-left" id="accordion">
 
                 <div class="card">
+                    <div class="card-header" id="heading017">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse017" aria-expanded="false" aria-controls="collapse017">
+                                Version 0.1.7
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse017" class="collapse" aria-labelledby="heading016" data-parent="#accordion">
+                        <div class="card-body">
+                            Implemented cart reservations. New functionality allows to reserve cart in POS so that
+                            selected amount of products becomes unavailable for purchase.<br />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
                     <div class="card-header" id="heading016">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse016" aria-expanded="false" aria-controls="collapse016">

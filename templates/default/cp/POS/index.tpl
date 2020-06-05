@@ -41,9 +41,10 @@
                                     <h5 id="sum">Sum: {$cartTotal}</h5>
                                 </div>
                                 <div class="col-2 form-group">
+                                    <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#saleModal" style=" height: 5em; margin-top: 10px; display: block;">Perform sale</button>
                                     <button type="submit" class="btn btn-info w-100" id="saveCart" name="update" formaction="/cp/POS/update.php" style="margin-top: 25px;">Save cart</button>
                                     <a href="/cp/POS/search.php?clear=yes" class="btn btn-dark w-100"  style="margin-top: 10px; display: block;">Clear cart</a>
-                                    <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#saleModal" style="margin-top: 10px; display: block;">Perform sale</button>
+
                                     <a href="/cp/POS/sales" class="btn btn-light w-100"  style="margin-top: 10px; display: block;">Sales history</a>
                                     <select class="custom-select mr-sm-2" id="modeSelect" name="mode"
                                             style="height:42px;margin-top: 10px; display: block;
@@ -54,6 +55,8 @@
                                         <option value="Shoppa">Shoppa</option>
                                     </select>
                                     <input type="submit"  formaction="/cp/POS/buffer.php" name="addBuffer" class="btn btn-outline-success w-100" style="margin-top: 10px; display: block;" value="Add Buffertoode">
+                                    <button type="button" class="btn btn-outline-info w-100" style="margin-top: 10px; display: block;" onclick="reserveCart()">Reserve this cart</button>
+                                    <a href="/cp/POS/reserve" class="btn btn-info w-100"  style="margin-top: 10px; display: block;">Reserved carts</a>
 
                                 </div>
                             </div>
@@ -67,7 +70,25 @@
 <script src="/templates/default/assets/js/cart.js"></script>
 
 <script>
-
+    {literal}
+    function reserveCart(){
+        let data = {reserve: "true", note: prompt("Reservation note: ")};
+        if (data.note === null) {
+            return; //prompt cancelled
+        }
+        $.ajax({
+            type     : "POST",
+            cache    : false,
+            url      :"/cp/POS/reserve/reserve.php",
+            dataType: 'json',
+            data: {req: JSON.stringify(data)},
+            success: function(result){
+                console.log(result);
+            }
+        });
+        location.reload();
+    }
+    {/literal}
     $(document).ready(function(){
         $('input#buffer').tooltip();
         displayCart("POScart");

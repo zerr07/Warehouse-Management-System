@@ -24,7 +24,9 @@ $smarty->assign('products', $arr);
 $smarty->assign('onlyFilter', $_GET['only']);
 
 $smarty->assign('cat_tree', array_filter(get_tree()));
-
+if (isset($_GET['searchName'])) {
+    $smarty->assign("searchName", $_GET['searchName']);
+}
 $smarty->display('cp/WMS/index.tpl');
 
 ?>

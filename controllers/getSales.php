@@ -1,4 +1,5 @@
 <?php
+include_once $_SERVER['DOCUMENT_ROOT'].'/controllers/products/get_products.php';
 $searchQuery = "";
 $arr = array(array());
 $desc = array(array());
@@ -49,7 +50,7 @@ for ($i = 0;$row = mysqli_fetch_assoc($q); $i++){
             $qItemDesc = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*products*} WHERE id='$itemID'"));
 
             while ($rowItemDesc = mysqli_fetch_assoc($qItemDesc)){
-                $desc[$rowItems['id']]['name'] = $rowItemDesc['name'];
+                $desc[$rowItems['id']]['name'] = get_name($itemID)['et'];
                 $desc[$rowItems['id']]['tag'] = $rowItemDesc['tag'];
                 $desc[$rowItems['id']]['id'] = $rowItemDesc['id'];
             }

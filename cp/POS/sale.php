@@ -1,33 +1,101 @@
 <?php
 ini_set("display_errors", "on");
 error_reporting(E_ALL ^ E_NOTICE);
-include($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/update.php';
+include_once($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/update.php';
 
-include($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
+include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
+include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/products/get_products.php';
+include_once($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/reserve/reserve.php';
 
-$sum = $_SESSION['cartTotal'];
-$card = $_POST['card'];
-$cash = $_POST['cash'];
+
+
+function orderMode($mode, $ostja){
+    if($mode != 'Bigshop'){
+        return $mode;
+    }
+    if ($ostja != ""){
+        return $_POST['ostja'];
+    } else {
+        return "Eraisik";
+    }
+}
+
+if (isset($_GET['reservation'])){
+    if ($_GET['reservation'] === NULL || $_GET['reservation'] == "" || empty($_GET['reservation'])){
+        exit("Cannot process empty reservation. Please verify that the reservation contained items or contact the 
+        administrator.");
+    } else {
+        $sum = 0.00;
+        if (isset($_GET['cart'])){
+            $cartItems = json_decode($_GET['cart'],true);
+            foreach ($cartItems as $key => $value){
+                $sum += $cartItems[$key]['quantity']*$cartItems[$key]['basePrice'];
+                $cartItems[$key]['name'] = get_name($key)['et'];
+                $cartItems[$key]['tag'] = get_tag($key);
+            }
+        } elseif ($_GET['id_cart']){
+            $reservation = getSingleCartReservation($_GET['id_cart']);
+            $cartItems = $reservation['products'];
+            foreach ($cartItems as $key => $value){
+                $sum += $cartItems[$key]['quantity']*$cartItems[$key]['basePrice'];
+                $cartItems[$key]['name'] = $cartItems[$key]['name']['et'];
+            }
+
+        } else {
+            exit("No reserved product or reservation id found in the URL contact the administrator.");
+        }
+    }
+} else {
+    $cartItems = $_SESSION['cart'];
+    $sum = $_SESSION['cartTotal'];
+}
+
+// card init
+if (isset($_POST['card'])){
+    $card = $_POST['card'];
+} elseif (isset($_GET['card'])){
+    $card = $_GET['card'];
+}
+// cash init
+if (isset($_POST['cash'])){
+    $cash = $_POST['cash'];
+} elseif (isset($_GET['cash'])){
+    $cash = $_GET['cash'];
+}
+// mode init
+if (isset($_POST['mode'])){
+    $mode = $_POST['mode'];
+} elseif (isset($_GET['mode'])){
+    $mode = $_GET['mode'];
+}
+
 $tagasi = number_format((float)($card+$cash)-$sum, 2, ".", "");
-$sumKM = round($_SESSION['cartTotal']/1.2, 2);
-$KM = $_SESSION['cartTotal'] - $sumKM;
-$mode = $_POST['mode'];
+$sumKM = round($sum/1.2, 2);
+$KM = $sum - $sumKM;
+
 $date = date("d.m.Y H:i:s");
 $mysqldate = date("Y-m-d H:i:s");
 $stamp = date_timestamp_get(date_create())*9;
-if ($_POST['ostja'] != ""){
-    $ostja = $_POST['ostja'];
-} else {
-    $ostja = "Eraisik";
+
+if (isset($_POST['ostja'])){
+    $ostja = orderMode($mode, $_POST['ostja']);
+} elseif (isset($_GET['ostja'])){
+    $ostja = orderMode($mode, $_POST['ostja']);
 }
-if($mode != 'Bigshop'){
-    $ostja = $mode;
-}
-if ($_POST['tellimuseNr'] != "") {
+
+// Tellimuse number init
+if(isset($_POST['tellimuseNr']) && $_POST['tellimuseNr'] != ""){
     $telli = $_POST['tellimuseNr'];
 } else {
     $telli = "";
 }
+if(isset($_GET['tellimuseNr']) && $_GET['tellimuseNr'] != ""){
+    $telli = $_GET['tellimuseNr'];
+} else {
+    $telli = "";
+}
+
+
 mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*sales*}
                                 (cartSum, card, cash, arveNr, saleDate, ostja, modeSet, tellimuseNr) 
                                 VALUES ('$sum', '$card', '$cash', '$stamp','$mysqldate', '$ostja', '$mode', '$telli')"));
@@ -37,21 +105,27 @@ $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT MAX(
 
 $row = mysqli_fetch_assoc($q);
 $id = $row['id'];
-foreach ($_SESSION['cart'] as $key => $value){
-    $itemID = $value['id'];
+foreach ($cartItems as $value){
+    if (isset($_GET['id_cart'])) {
+        $itemID = $value['id_product'];
+    } elseif (isset($_GET['cart'])){
+        $itemID = $value['id'];
+    } else {
+        $itemID = $value['id'];
+        if($value['tag'] != "Buffertoode"){
+            mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
+                "UPDATE {*products*} SET quantity=quantity-$quantity WHERE id='$itemID'"));
+
+        } else {
+            $itemID = $value['name'];
+        }
+    }
     $quantity = $value['quantity'];
     $price = $value['price'];
     $basePrice = $value['basePrice'];
-    if($value['tag'] != "Buffertoode"){
-        mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
-            "UPDATE {*products*} SET quantity=quantity-$quantity WHERE id='$key'"));
-
-    } else {
-        $key = $value['name'];
-    }
     mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
         "INSERT INTO {*sold_items*} (id_sale, id_item, price, quantity, basePrice, statusSet
-                                        ) VALUES ('$id', '$key', '$price', '$quantity', '$basePrice','Müük')"));
+                                        ) VALUES ('$id', '$itemID', '$price', '$quantity', '$basePrice','Müük')"));
 
 }
 ?>
@@ -91,8 +165,8 @@ foreach ($_SESSION['cart'] as $key => $value){
 <div id="printable" style="height: auto">
     <center style="font-weight: bold; padding-bottom: 50px"><?= $date;?><br>
      Arve nr: <?= $stamp; ?><br>
-    <?php if ($_POST['ostja'] != ""){
-        echo "Ostja:".$_POST['ostja']; ?><?php
+    <?php if ($ostja != ""){
+        echo "Ostja:".$ostja; ?><?php
     } else {
         ?>Ostja: Eraisik<?php
     }
@@ -100,7 +174,7 @@ foreach ($_SESSION['cart'] as $key => $value){
     </center>
     <div style="padding-bottom: 50px">
         <?php
-        foreach ($_SESSION['cart'] as $key => $value){
+        foreach ($cartItems as $key => $value){
         ?>
         <table>
             <tr>
@@ -118,7 +192,7 @@ foreach ($_SESSION['cart'] as $key => $value){
         ?>
         <p align="right" style="float: right">Kokku KM-ta: <?= $sumKM;?>€<br>
         KM: <?= $KM;?>€<br>
-        Kokku KM-ga: <?= $_SESSION['cartTotal'];?>€</p>
+        Kokku KM-ga: <?= $sum;?>€</p>
         </div>
     <p align="right" style="float: right">Sularahaga: <?= $cash;?>€<br>
         Kaardiga: <?= $card;?>€<br>
@@ -132,7 +206,33 @@ foreach ($_SESSION['cart'] as $key => $value){
     www.bigshop.ee<br>
     <br>
     <center style="font-weight: bold;">Kohtumiseni!</center></p>
-</div><?php unset($_SESSION['cart']); unset($_SESSION['cartTotal']); updateCart();?>
+</div>
+<?php
+if (!isset($_GET['reservation'])){
+    unset($_SESSION['cart']);
+    unset($_SESSION['cartTotal']);
+    updateCart();
+} else {
+    if (isset($_GET['cart'])){
+        foreach ($cartItems as $key => $value){
+            $id_res=$_GET['id_res'];
+            mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "DELETE FROM {*reserved_products*} WHERE id_product='$key' AND id_reserved='$id_res'"));
+            $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT COUNT(*) as count FROM 
+                    {*reserved_products*} WHERE id_reserved='$id_res'"));
+            while ($row = mysqli_fetch_assoc($q)){
+                if ($row['count'] == 0){
+                    mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
+                        "DELETE FROM {*reserved*} WHERE id='$id_res'"));
+                }
+            }
+        }
+    } elseif ($_GET['id_cart']){
+        $id_res = $_GET['id_cart'];
+        mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "DELETE FROM {*reserved*} WHERE id='$id_res'"));
+        mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "DELETE FROM {*reserved_products*} WHERE id_reserved='$id_res'"));
+    }
+}
+?>
 <script>
     function printDiv(divName) {
         var printContents = document.getElementById(divName).innerHTML;

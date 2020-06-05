@@ -1,4 +1,5 @@
 <?php
+require($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/getLang.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/get_platforms.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/applyRule.php');
@@ -205,7 +206,16 @@ function get_carrier($index){
     }
     return $arr;
 }
-
+function get_quantity($index){
+    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT quantity FROM {*products*}
+                                                                                    WHERE id='$index'"));
+    if($result){
+        while ($row = $result->fetch_assoc()) {
+            return $row['quantity'];
+        }
+    }
+    return null;
+}
 
 function get_name($index){
     $arr = array();
@@ -220,6 +230,17 @@ function get_name($index){
         $arr[$lang] = html_entity_decode($row['name'], ENT_QUOTES, "UTF-8");;
     }
     return $arr;
+}
+
+function get_tag($index){
+    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT tag FROM {*products*} 
+                                                                                    WHERE id='$index'"));
+    if($result){
+        while ($row = $result->fetch_assoc()) {
+            return $row['tag'];
+        }
+    }
+    return null;
 }
 
 $search = "";
@@ -248,7 +269,6 @@ if (isset($_GET['searchTagID'])) {
     }
 }
 if (isset($_GET['searchName'])){
-    $smarty->assign("searchName", $_GET['searchName']);
     $search = "AND id IN (SELECT id_product FROM {*product_name*} WHERE id_lang='3'";
     $searchString = htmlentities($_GET['searchName'], ENT_QUOTES, "UTF-8");
     $searchString = explode(" ", $searchString);
