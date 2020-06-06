@@ -1,6 +1,8 @@
 <?php
-include($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
-include($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
+if (!defined('PRODUCTS_INCLUDED')){
+    include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
+}
 include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_platforms.php');
 $platform_desc = get_platform_desc_decoded(10);
 

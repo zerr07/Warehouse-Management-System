@@ -1,5 +1,5 @@
 <?php
-include_once ($_SERVER['DOCUMENT_ROOT'].'/configs/config.php');
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 if (isset($_POST['username']) && isset($_POST['password'])){
     $user = $_POST['username'];
     $check = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*users*} 

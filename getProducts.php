@@ -1,6 +1,6 @@
 <?php
 $my_file = 'ProductList.xml';
-include($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 include $_SERVER['DOCUMENT_ROOT'] . "/controllers/products/applyRule.php";
 //$q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*products*} WHERE tag LIKE 'AZ%' AND
                                     //id IN (SELECT id_item FROM {*product_platforms*} WHERE id_platform='2' AND export='1')"));

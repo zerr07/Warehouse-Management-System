@@ -1,5 +1,5 @@
 <?php
-include_once($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 if (isset($_GET['id']) && isset($_GET['location'])){
     $id = $_GET['id'];
     $loc = $_GET['location'];

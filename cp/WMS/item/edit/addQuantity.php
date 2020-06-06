@@ -1,5 +1,5 @@
 <?php
-include_once($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 $id = $_GET['editSMT'];
 $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT quantity FROM {*products*} WHERE id='$id'"));
 

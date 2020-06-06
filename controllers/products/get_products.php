@@ -1,5 +1,6 @@
 <?php
-require($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+define('PRODUCTS_INCLUDED', TRUE);
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/getLang.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/get_platforms.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/applyRule.php');

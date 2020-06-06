@@ -7,7 +7,9 @@ include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/session.php');
 include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/categories/get_categories.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/get_platforms.php');
-include_once ($_SERVER["DOCUMENT_ROOT"]).'/controllers/products/get_products.php';
+if (!defined('PRODUCTS_INCLUDED')){
+    include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
+}
 
 $smarty->assign('cat_tree', array_filter(get_tree()));
 $smarty->assign('platforms', get_platforms());

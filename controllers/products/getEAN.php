@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: text/plain');
-include_once($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 $arr = array();
 $index = $_POST['index'];
 $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_codes*} WHERE id_product='$index'"));

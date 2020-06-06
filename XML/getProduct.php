@@ -1,6 +1,9 @@
 <?php
 
-include($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
+if (!defined('PRODUCTS_INCLUDED')){
+    include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
+}
 if (isset($_GET['username']) && isset($_GET['password'])){
     $user = $_GET['username'];
     $pass = $_GET['password'];
@@ -23,7 +26,6 @@ if (mysqli_num_rows($check) == 0){
     /* User verified */
     header('Content-type: text/xml');
     $platform = $res['id_platform'];
-    include($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
     $coefficient_q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT profitMargin FROM {*platforms*} WHERE id='$platform'"));
     $coefficient = mysqli_fetch_assoc($coefficient_q)['profitMargin'];
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *, 

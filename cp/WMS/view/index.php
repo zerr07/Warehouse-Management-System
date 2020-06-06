@@ -11,7 +11,9 @@ error_reporting(E_ALL ^ E_NOTICE);
 include_once($_SERVER["DOCUMENT_ROOT"].'/configs/setup.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/session.php');
 include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
-include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/products/get_products.php';
+if (!defined('PRODUCTS_INCLUDED')){
+    include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
+}
 $smarty->assign('platforms', get_platforms());
 $smarty->assign("item", get_product($_GET['view']));
 $smarty->display('cp/WMS/view/index.tpl');

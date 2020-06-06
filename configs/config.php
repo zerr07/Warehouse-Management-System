@@ -1,12 +1,20 @@
 <?php
+
 global $DBCONN, $BIGCONN;
 include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/DB/query.php');
 include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/saveCart.php');
 
 //include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/url_gen.php');
-define("SETTINGS", json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"].'/configs/config.json'), true));
-define("_DB", SETTINGS['database']);
-define("_ENGINE", SETTINGS['engine']);
+if (!defined('SETTINGS')){
+    define("SETTINGS", json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"].'/configs/config.json'), true));
+}
+if (!defined('_DB')){
+    define("_DB", SETTINGS['database']);
+}
+if (!defined('_ENGINE')){
+    define("_ENGINE", SETTINGS['engine']);
+}
+
 $DBCONN = new MySQLi(
     _DB['dbhost'],
     _DB['dbuser'],

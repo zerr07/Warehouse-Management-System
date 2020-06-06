@@ -1,6 +1,9 @@
 <?php
 $my_file = 'ProductList.xml';
-include($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
+if (!defined('PRODUCTS_INCLUDED')){
+    include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
+}
 if (isset($_GET['username']) && isset($_GET['password'])){
     $user = $_GET['username'];
     $pass = $_GET['password'];
@@ -23,7 +26,6 @@ if (mysqli_num_rows($check) == 0){
     }
     header('Content-type: text/xml');
     $platform = $res['id_platform'];
-    include($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *, 
         (SELECT `name` FROM {*category_name*} WHERE id_lang='3' AND id_category={*products*}.id_category) as category_name 
         FROM {*products*} WHERE tag LIKE 'AZ%' AND

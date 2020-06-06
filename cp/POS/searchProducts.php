@@ -1,7 +1,9 @@
 <?php
 header('Content-Type: application/json');
 include_once($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/update.php';
-include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/products/get_products.php';
+if (!defined('PRODUCTS_INCLUDED')){
+    include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
+}
 include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/session.php';
 if (isset($_POST['searchTagID']) && $_POST['searchTagID'] != ""){
     addToCartByTag($_POST['searchTagID']);

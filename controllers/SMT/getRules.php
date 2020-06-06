@@ -1,4 +1,5 @@
 <?php
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 $arr = array(array());
 $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_price_rules*} 
                                                                                         ORDER BY CAST(startPrice as SIGNED INTEGER) ASC"));

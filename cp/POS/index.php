@@ -4,7 +4,9 @@ error_reporting(E_ALL ^ E_NOTICE);
 
 include_once($_SERVER["DOCUMENT_ROOT"].'/configs/setup.php');
 include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/session.php');
-include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/products/get_products.php';
+if (!defined('PRODUCTS_INCLUDED')){
+    include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
+}
 
 include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
 if (isset($_GET['success'])){

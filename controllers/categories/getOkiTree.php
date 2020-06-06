@@ -1,4 +1,5 @@
 <?php
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 function get_platform_tree(){
     global $langID;
     $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*TreeOki*} WHERE `parent`='0'"));

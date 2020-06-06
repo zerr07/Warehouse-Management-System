@@ -1,4 +1,7 @@
 <?php
+
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
+
 $get_lang = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*languages*}"));
 $lang = array();
 while ($row = mysqli_fetch_assoc($get_lang)){

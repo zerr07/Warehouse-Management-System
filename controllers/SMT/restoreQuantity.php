@@ -1,4 +1,5 @@
 <?php
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 function restore($arr){
    foreach ($arr as $item){
        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*sold_items*} 

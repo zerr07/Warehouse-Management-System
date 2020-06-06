@@ -1,7 +1,6 @@
 <?php
 
-include_once($_SERVER['DOCUMENT_ROOT'] . '/configs/config.php');
-
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 function get_product_pages($currentPage){
     $query = get_product_range(1, "Search", $_COOKIE['id_shard']);
     $result = mysqli_query($GLOBALS['DBCONN'],prefixQuery($query));

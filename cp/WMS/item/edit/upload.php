@@ -5,7 +5,7 @@ $req_dump = print_r($_POST, TRUE);
 $fp = fopen($_SERVER["DOCUMENT_ROOT"]."/dump/".$date->getTimestamp().'.log', 'a');
 fwrite($fp, $req_dump);
 fclose($fp);
-include_once($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 function writeFile($file, $txt, $UploadFolder){
     $WriteFile = fopen($UploadFolder.$file, "wb");
     fwrite($WriteFile,$txt);

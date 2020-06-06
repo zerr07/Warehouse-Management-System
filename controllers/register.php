@@ -25,7 +25,7 @@
 <?php
 ini_set("display_errors", "on");
 error_reporting(E_ALL ^ E_NOTICE);
-include_once ($_SERVER['DOCUMENT_ROOT'].'/configs/config.php');
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 if (isset($_POST['submit'])){
     $email = $_POST['email'];
     $check = mysqli_query($GLOBALS['DBCONN'], prefixQuery("SELECT username FROM {*users*} WHERE username='$email'"));

@@ -1,7 +1,9 @@
 <?php
 $my_file = 'ProductList.xml';
-include($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
-include($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
+if (!defined('PRODUCTS_INCLUDED')){
+    include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
+}
 $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*products*} WHERE tag LIKE 'AZ%' AND
                                 id IN (SELECT id_item FROM {*product_platforms*} WHERE id_platform='6' AND export='1')"));
 

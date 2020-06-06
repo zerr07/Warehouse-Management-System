@@ -16,6 +16,9 @@
                         <div class="card-body">
                             Implemented cart reservations. New functionality allows to reserve cart in POS so that
                             selected amount of products becomes unavailable for purchase.<br />
+                            <hr>
+                            Hotfix<br />
+                            Fixed include errors
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 <?php
 
-include($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 if (isset($_GET['username']) && isset($_GET['password'])){
     $user = $_GET['username'];
     $pass = $_GET['password'];

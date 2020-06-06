@@ -1,7 +1,7 @@
 <?php
 
 header('Content-Type: text/plain');
-include_once($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 $arr = array();
 $index = $_POST['index'];
 $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*category_import*} WHERE id_category='$index'"));

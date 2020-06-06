@@ -1,4 +1,5 @@
 <?php
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 function applyRule($id, $round, $platform){
 
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_price_rules*}"));

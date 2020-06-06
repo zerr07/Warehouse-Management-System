@@ -1,4 +1,7 @@
 <?php
+
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
+
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/getLang.php');
 
 function get_tree(){

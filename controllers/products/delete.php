@@ -1,6 +1,5 @@
 <?php
-include_once($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
-
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 if (isset($_POST['delete'])){
     $id = $_POST['delete'];
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*products*} WHERE id='$id'"));

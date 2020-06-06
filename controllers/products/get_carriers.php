@@ -1,4 +1,5 @@
 <?php
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 function get_carrier_default(){
     $arr = array();
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *

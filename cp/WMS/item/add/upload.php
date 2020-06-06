@@ -11,7 +11,7 @@ function writeFile($file, $txt, $UploadFolder){
     fwrite($WriteFile,$txt);
     fclose($WriteFile);
 }
-include_once($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 session_start();
 
 

@@ -2,7 +2,8 @@
 <?php
 
 // загружаем библиотеку Smarty
-include_once($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
+
 require($_SERVER["DOCUMENT_ROOT"].'/Smarty/Smarty.class.php');
 // Файл setup.php - это хорошее место для
 // подключения библиотечных файлов вашего приложения,
