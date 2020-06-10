@@ -1,4 +1,5 @@
 <?php
-include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
-echo "sdasd";
+$file = file_get_contents($_SERVER['DOCUMENT_ROOT']."/translations/products/29.json");
+$arr = json_decode($file);
+echo '<pre>'; print_r ($arr); echo '</pre>';
 
