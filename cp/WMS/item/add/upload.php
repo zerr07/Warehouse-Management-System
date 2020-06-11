@@ -152,7 +152,7 @@ if (!empty($images)) {
             }
         }
         file_put_contents($name, $value);
-        array_push($existImages, '/tmp/' . $filename);
+        array_push($existImages, '/uploads/images/products/' . $filename);
         mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*product_images*}
                                             (id_item, image, `primary`) VALUES ('$last','$filename','$val[2]')"));
 
