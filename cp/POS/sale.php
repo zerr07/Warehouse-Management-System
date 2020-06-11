@@ -108,6 +108,7 @@ $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT MAX(
 $row = mysqli_fetch_assoc($q);
 $id = $row['id'];
 foreach ($cartItems as $value){
+    $quantity = $value['quantity'];
     if (isset($_GET['id_cart'])) {
         $itemID = $value['id_product'];
     } elseif (isset($_GET['cart'])){
@@ -117,12 +118,10 @@ foreach ($cartItems as $value){
         if($value['tag'] != "Buffertoode"){
             mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
                 "UPDATE {*products*} SET quantity=quantity-$quantity WHERE id='$itemID'"));
-
         } else {
             $itemID = $value['name'];
         }
     }
-    $quantity = $value['quantity'];
     $price = $value['price'];
     $basePrice = $value['basePrice'];
     mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
