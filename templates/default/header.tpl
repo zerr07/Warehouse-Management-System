@@ -104,6 +104,7 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a href="/cp/WMS/platforms/" class="dropdown-item"><i class="fas fa-store-alt"></i> Platforms</a>
                 <a href="#staticBackdrop" data-toggle="modal" data-target="#staticBackdrop" class="dropdown-item"><i class="fas fa-tags"></i> Custom Label Generator</a>
+                <a href="/cp/tree-links" class="dropdown-item"><i class="fas fa-tree"></i> Tree list</a>
               </div>
             </li>
 
