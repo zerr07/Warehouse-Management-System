@@ -100,9 +100,16 @@ function applyMargin(key, price, platforms) {
 
 function calcProfit(key, price, platforms) {  // key = platform id, price = actual price, platforms = list of platforms
     let final = document.getElementById("platform"+platforms[key]['id'].toString()).value;
-    if(key === "1" || key === "2"){
-        document.getElementById("profit"+platforms[key]['id'].toString()).innerHTML =
-            (( ( parseFloat(final) / parseFloat(platforms[key]['margin']) )/1.2 ) - price).toFixed(2).toString();
+    if(key === "1" || key === "2") {
+        document.getElementById("profit" + platforms[key]['id'].toString()).innerHTML =
+            (((parseFloat(final) / parseFloat(platforms[key]['margin'])) / 1.2) - price).toFixed(2).toString();
+    } else if (key === "11"){
+        let commission = 0.1*parseFloat(final);
+        if (commission < 0.65){
+            commission = 0.65;
+        }
+        document.getElementById("profit" + platforms[key]['id'].toString()).innerHTML =
+            (((parseFloat(final)-commission) / 1.2) - price).toFixed(2).toString();
     } else {
         document.getElementById("profit"+platforms[key]['id'].toString()).innerHTML =
             (( ( parseFloat(final) / parseFloat(platforms[key]['margin']) ) * parseFloat(platforms[key]['profitMargin'])  ) - price).toFixed(2).toString();

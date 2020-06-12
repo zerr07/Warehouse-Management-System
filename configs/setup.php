@@ -45,3 +45,8 @@ if (isset($_GET['logout'])){
     header('Location: /');
     exit();
 }
+$id_shard = $_COOKIE['id_shard'];
+$q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */"SELECT tag_prefix FROM {*shards*} WHERE id='$id_shard'"));
+if ($q){
+    $smarty->assign("shard_prefix", $q->fetch_assoc()['tag_prefix']);
+}

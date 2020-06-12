@@ -31,7 +31,14 @@ require_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/shards.php');
 
 if (!isset($_COOKIE['shard'])){
     setcookie("shard", getShardName(_ENGINE['id_shard']), time() + (86400 * 30), "/"); // 86400 = 1 day
+    header("Refresh:0");
+} else {
+    setcookie("shard", $_COOKIE['shard'], time() + (86400 * 30), "/"); // 86400 = 1 day
 }
+
 if (!isset($_COOKIE['id_shard'])){
     setcookie("id_shard", _ENGINE['id_shard'], time() + (86400 * 30), "/"); // 86400 = 1 day
+    header("Refresh:0");
+} else {
+    setcookie("id_shard", $_COOKIE['id_shard'], time() + (86400 * 30), "/"); // 86400 = 1 day
 }
