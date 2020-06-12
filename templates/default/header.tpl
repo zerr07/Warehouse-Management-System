@@ -72,9 +72,8 @@
         <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar6">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbar6"> <a class="navbar-brand text-primary d-none d-md-block" href="/">
-            {include file="logo.tpl"}
-          </a>
+        <div class="collapse navbar-collapse" id="navbar6">
+          {include file="logo.tpl"}
           <ul class="navbar-nav mx-auto">
             <li class="nav-item">
               {if isset($user)}

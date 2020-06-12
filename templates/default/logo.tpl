@@ -1,4 +1,7 @@
-<a class="navbar-brand" href="/"><svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100px" height="50px" viewBox="0 0 270 150">
+<a class="navbar-brand text-primary d-none d-md-block" href="/" style="margin-right: 0 !important;">
+    <svg version="1.1" id="Ebene_1"
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            width="50px" height="70px" viewBox="0 0 270 150">
         <style type="text/css">
 
             @import url(https://fonts.googleapis.com/css?family=Share+Tech+Mono);
@@ -18,14 +21,11 @@
                 color: white;
             }
 
-
-
-
             text {
                 filter: url(#filter);
                 fill: white;
                 font-family: 'Share Tech Mono', sans-serif;
-                font-size: 100px;
+                font-size: 170px;
                 -webkit-font-smoothing: antialiased;
                 -moz-osx-font-smoothing: grayscale;
             }
@@ -77,6 +77,8 @@
         </defs>
 
         <g>
-            <text x="0" y="100">AZdev</text>
+            <text x="0" y="100">WMS</text>
         </g>
-    </svg></a>
+
+    </svg>
+</a><small style="color:white">{$engine.siteName}</small>
