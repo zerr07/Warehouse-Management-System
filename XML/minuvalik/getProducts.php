@@ -53,14 +53,14 @@ if (mysqli_num_rows($check) == 0){
             $xml->text($arr['tag']);
             $xml->endElement();
 
-            $xml->startElement('PRICE');
-            $xml->text($arr['platforms'][$platform]['price']);
-            $xml->endElement();
-
             $xml->startElement('QNT');
             $xml->text($arr['quantity']);
             $xml->endElement();
 
+            $xml->startElement('PRICE');
+            $xml->text($arr['platforms'][$platform]['price']);
+            $xml->endElement();
+            
             $xml->endElement();
 
         }
