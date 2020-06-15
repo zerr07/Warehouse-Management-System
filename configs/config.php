@@ -11,6 +11,9 @@ if (!defined('SETTINGS')){
 if (!defined('_DB')){
     define("_DB", SETTINGS['database']);
 }
+if (!defined('_DB_EX')){
+    define("_DB_EX", SETTINGS['database_export']);
+}
 if (!defined('_ENGINE')){
     define("_ENGINE", SETTINGS['engine']);
 }
@@ -22,10 +25,10 @@ $DBCONN = new MySQLi(
     _DB['dbname']);
 $DBCONN->query("SET NAMES utf8");
 $BIGCONN = new MySQLi(
-    "159.69.219.35",
-    "bigshop17_d_usr",
-    "0dAUE7nDDDAxk3A4",
-    "bigshop17_db");
+    _DB_EX['dbhost'],
+    _DB_EX['dbuser'],
+    _DB_EX['dbpass'],
+    _DB_EX['dbname']);
 $BIGCONN->query("SET NAMES utf8");
 require_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/shards.php');
 
