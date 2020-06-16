@@ -29,9 +29,9 @@ define('DEBUG', false);
 
 define('_PS_DEBUG_SQL_', false);
 
-define('PS_SHOP_PATH', 'http://bigshop.ee/');
+define('PS_SHOP_PATH', _DB_EXPORT['url']);
 
-define('PS_WS_AUTH_KEY', '***REMOVED***');
+define('PS_WS_AUTH_KEY',  _DB_EXPORT['auth_key']);
 
 require_once($_SERVER['DOCUMENT_ROOT'].'/PSWebServiceLibrary.php');
 
