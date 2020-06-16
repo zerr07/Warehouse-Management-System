@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
-                <p class="mb-0">© 2018-2020 AZdev. All rights reserved. Version: <a href="/changelog">{$engine.version}</a></p>
+                <p class="mb-0">© 2018-2020 AZdev. All rights reserved. Version: <a href="/changelog">{$system.version}</a></p>
             </div>
         </div>
     </div>

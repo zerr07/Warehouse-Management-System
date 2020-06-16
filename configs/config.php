@@ -11,8 +11,11 @@ if (!defined('SETTINGS')){
 if (!defined('_DB')){
     define("_DB", SETTINGS['database']);
 }
-if (!defined('_DB_EX')){
-    define("_DB_EX", SETTINGS['database_export']);
+if (!defined('_DB_EXPORT')){
+    define("_DB_EXPORT", SETTINGS['database_export']);
+}
+if (!defined('_SYSTEM')){
+    define("_SYSTEM", json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"].'/configs/sys.json'), true)['system']);
 }
 if (!defined('_ENGINE')){
     define("_ENGINE", SETTINGS['engine']);
@@ -25,10 +28,10 @@ $DBCONN = new MySQLi(
     _DB['dbname']);
 $DBCONN->query("SET NAMES utf8");
 $BIGCONN = new MySQLi(
-    _DB_EX['dbhost'],
-    _DB_EX['dbuser'],
-    _DB_EX['dbpass'],
-    _DB_EX['dbname']);
+    _DB_EXPORT['dbhost'],
+    _DB_EXPORT['dbuser'],
+    _DB_EXPORT['dbpass'],
+    _DB_EXPORT['dbname']);
 $BIGCONN->query("SET NAMES utf8");
 require_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/shards.php');
 
