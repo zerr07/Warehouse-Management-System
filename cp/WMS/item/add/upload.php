@@ -58,14 +58,17 @@ for ($i = 0; $i < sizeof($_POST['itemSupplierName']); $i++){
                                                     VALUES ('$last', '$url', '$price', '$priceVAT', '$name')"));
     }
 }
-foreach ($_POST['customCarrier'] as $key => $value){
-    if (isset($_POST['customCarrier'][$key]) && $_POST['customCarrier'][$key] == "Yes"){
-        $price = $_POST['carrierPrice'][$key];
-        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*carrier_custom*}
+if (isset($_POST['customCarrier'])){
+    foreach ($_POST['customCarrier'] as $key => $value){
+        if (isset($_POST['customCarrier'][$key]) && $_POST['customCarrier'][$key] == "Yes"){
+            $price = $_POST['carrierPrice'][$key];
+            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*carrier_custom*}
                                                     (id_carrier, id_product, price)
                                                     VALUES ('$key', '$last', '$price')"));
+        }
     }
 }
+
 if(isset($_POST['carrierEnabled'])){
     foreach ($_POST['carrierEnabled'] as $key => $value){
         if ($_POST['carrierEnabled'][$key] == "Yes") {
@@ -134,11 +137,16 @@ $images = json_decode($_POST['imagesJSON'], true);
 $existImages = array();
 if (!empty($images)) {
     foreach ($images as $val) {
-        $extension = explode('/', mime_content_type($val[1]))[1];
-        list($type, $val[1]) = explode(';', $val[1]);
-        list(, $val[1]) = explode(',', $val[1]);
-
-        $value = base64_decode($val[1]);
+        if(mime_content_type($val[1])) {
+            $extension = explode('/', mime_content_type($val[1]))[1];
+            list($type, $val[1]) = explode(';', $val[1]);
+            list(, $val[1]) = explode(',', $val[1]);
+            $img = $val[1];
+        } else {
+            $extension = 'jpeg';
+            $img = $val[1];
+        }
+        $value = base64_decode($img);
 
         $filename = $last . rand(1, 100000000000000) . "." . $extension;
         $name = $_SERVER['DOCUMENT_ROOT'] . '/uploads/images/products/' . $filename;

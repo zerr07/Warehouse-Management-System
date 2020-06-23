@@ -86,9 +86,30 @@ function read_result_single($row){
     $arr['carrier'] = get_carrier($id);
     $arr['exportStatus'] = get_export_state($id);
     $arr['category_name'] = get_product_category_name($arr['id_category']);
+    //$arr['attributes'] = get_attributes($id);
+    $arr['manufacturer'] = get_manufacturer_name($arr['id_manufacturer']);
     return $arr;
 }
-
+function get_manufacturer_name($index){
+    $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*manufacturer*}
+        WHERE id='$index'"));
+    while ($row = mysqli_fetch_assoc($query)) {
+        return $row['name'];
+    }
+    return null;
+}
+function get_attributes($index){
+    $arr = array(array());
+    $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_attributes*}
+        WHERE id_product='$index'"));
+    if ($query){
+        while ($row = mysqli_fetch_assoc($query)) {
+            $arr[$row['id']] = $row['attribute'];
+        }
+        return $arr;
+    }
+    return null;
+}
 function get_locations($index){
     $arr = array();
     $arr['locationList'] = array();
@@ -228,7 +249,7 @@ function get_name($index){
         } else {
             $lang = 'ru';
         }
-        $arr[$lang] = html_entity_decode($row['name'], ENT_QUOTES, "UTF-8");;
+        $arr[$lang] = $row['name'];
     }
     return $arr;
 }

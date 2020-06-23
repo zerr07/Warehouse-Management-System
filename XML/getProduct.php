@@ -17,7 +17,15 @@ if (isset($_POST['username']) && isset($_POST['password'])){
 }
 $check = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*XML_users*} 
                                                                                         WHERE username='$user'"));
-$shard = _ENGINE['id_shard'];
+if (isset($_POST['shard']) || isset($_GET['shard'])){
+    if (isset($_POST['shard'])){
+        $shard = $_POST['shard'];
+    } elseif (isset($_GET['shard'])){
+        $shard = $_GET['shard'];
+    }
+} else {
+    $shard = _ENGINE['id_shard'];
+}
 $res = mysqli_fetch_assoc($check);
 if (mysqli_num_rows($check) == 0){
     /* No such user */
@@ -85,6 +93,10 @@ if (mysqli_num_rows($check) == 0){
                 $xml->startElement('description_ru');
                 $xml->writeCdata($arr['descriptions']['ru']);
                 $xml->endElement();
+
+                $xml->startElement('manufacturer');
+                $xml->writeCdata($arr['manufacturer']);
+                $xml->endElement();
             }
             if (isset($_POST['type']) && $_POST['type'] == "full"){
 
@@ -102,6 +114,10 @@ if (mysqli_num_rows($check) == 0){
 
                 $xml->startElement('description_ru');
                 $xml->writeCdata($arr['descriptions']['ru']);
+                $xml->endElement();
+
+                $xml->startElement('manufacturer');
+                $xml->writeCdata($arr['manufacturer']);
                 $xml->endElement();
             }
 

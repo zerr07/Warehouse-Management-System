@@ -14,8 +14,19 @@ if (isset($_POST['username']) && isset($_POST['password'])){
 }
 $check = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*XML_users*} 
                                                                                         WHERE username='$user'"));
-$shard = _ENGINE['id_shard'];
-
+if (isset($_POST['shard']) || isset($_GET['shard'])){
+    if (isset($_POST['shard'])){
+        $shard = $_POST['shard'];
+    } elseif (isset($_GET['shard'])){
+        $shard = $_GET['shard'];
+    }
+} else {
+    $shard = _ENGINE['id_shard'];
+}
+$q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */"SELECT tag_prefix FROM {*shards*} WHERE id='$shard'"));
+if ($q){
+    $prefix = $q->fetch_assoc()['tag_prefix'];
+}
 $res = mysqli_fetch_assoc($check);
 if (mysqli_num_rows($check) == 0){
     /* No such user */
@@ -28,7 +39,7 @@ if (mysqli_num_rows($check) == 0){
     $coefficient = mysqli_fetch_assoc($coefficient_q)['profitMargin'];
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *,
         (SELECT `name` FROM {*category_name*} WHERE id_lang='3' AND id_category={*products*}.id_category) as category_name 
-        FROM {*products*} WHERE tag LIKE 'AZ%' AND id_shard='$shard' AND
+        FROM {*products*} WHERE tag LIKE '$prefix%' AND id_shard='$shard' AND
         id IN (SELECT id_item FROM {*product_platforms*} WHERE id_platform='$platform' AND export='1')"));
 
 
@@ -85,6 +96,10 @@ if (mysqli_num_rows($check) == 0){
                 $xml->startElement('description_ru');
                 $xml->writeCdata($arr['descriptions']['ru']);
                 $xml->endElement();
+
+                $xml->startElement('manufacturer');
+                $xml->writeCdata($arr['manufacturer']);
+                $xml->endElement();
             }
             if (isset($_POST['type']) && $_POST['type'] == "full"){
 
@@ -102,6 +117,10 @@ if (mysqli_num_rows($check) == 0){
 
                 $xml->startElement('description_ru');
                 $xml->writeCdata($arr['descriptions']['ru']);
+                $xml->endElement();
+
+                $xml->startElement('manufacturer');
+                $xml->writeCdata($arr['manufacturer']);
                 $xml->endElement();
             }
 
@@ -131,20 +150,20 @@ if (mysqli_num_rows($check) == 0){
                 $images = "";
                 $xml->startElement('image_tree');
                 if (isset($arr['mainImage']) && $arr['mainImage'] != ""){
-                    $images = "http://cp.azdev.eu/uploads/images/products/".$arr['mainImage'];
+                    $images = "http://".$_SERVER['SERVER_NAME']."/uploads/images/products/".$arr['mainImage'];
                 }
                 foreach ($arr['images'] as $img){
                     if ($img['primary'] != 1){
                         if ($images != ""){
-                            $images .= "|http://cp.azdev.eu/uploads/images/products/".$img['image'];
+                            $images .= "|http://".$_SERVER['SERVER_NAME']."/uploads/images/products/".$img['image'];
                         } else {
-                            $images .= "http://cp.azdev.eu/uploads/images/products/".$img['image'];
+                            $images .= "http://".$_SERVER['SERVER_NAME']."/uploads/images/products/".$img['image'];
                         }
                     }
                 }
                 $xml->text($images);
                 $xml->endElement();
-            } elseif ($platform==2) {
+            } elseif ($platform==2 || $platform==1) {
                 $images = "";
                 $xml->startElement('image_tree');
                 if (isset($arr['mainImage']) && $arr['mainImage'] != ""){
@@ -165,13 +184,13 @@ if (mysqli_num_rows($check) == 0){
                 $xml->startElement('images');
 
                 $xml->startElement('image_url');
-                $xml->text("http://cp.azdev.eu/uploads/images/products/" . $arr['mainImage']);
+                $xml->text("http://".$_SERVER['SERVER_NAME']."/uploads/images/products/" . $arr['mainImage']);
                 $xml->endElement();
 
                 foreach ($arr['images'] as $img) {
                     if ($img['primary'] != 1) {
                         $xml->startElement('image_url');
-                        $xml->text("http://cp.azdev.eu/uploads/images/products/" . $img['image']);
+                        $xml->text("http://".$_SERVER['SERVER_NAME']."/uploads/images/products/" . $img['image']);
                         $xml->endElement();
                     }
                 }

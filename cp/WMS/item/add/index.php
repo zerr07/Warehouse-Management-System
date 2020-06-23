@@ -15,7 +15,7 @@ $smarty->assign('carriers', get_carrier_default());
 $tag_prefix = $smarty->getTemplateVars('shard_prefix');
 $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT tag FROM {*products*} WHERE tag LIKE '$tag_prefix%' ORDER BY id DESC LIMIT 1"));
 if ($q->num_rows > 0){
-    $tag = explode("AZ", $q->fetch_assoc()['tag']);
+    $tag = explode($tag_prefix, $q->fetch_assoc()['tag']);
     $tag = $tag[1]+1;
 } else {
     $tag = 1;
