@@ -300,8 +300,8 @@ if (isset($_GET['searchName'])){
     $search.=")";
     $searchSearch = $search;
 }
-if (isset($_POST['cat'])){
-    $cat = $_POST['cat'];
+if (isset($_GET['cat'])){
+    $cat = $_GET['cat'];
     $searchSearch = "AND id_category='$cat'";
     $search = "AND id_category='$cat'";
 

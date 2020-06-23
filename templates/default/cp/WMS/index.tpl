@@ -13,7 +13,7 @@
                     </a>
                     <div class="collapse multi-collapse" id="moresettings" style="margin-top: 4px;">
                         <div class="card card-body" >
-                            <form action="/cp/WMS/" class="text-left" style="margin-left: 10px;" method="POST">
+                            <form action="/cp/WMS/" class="text-left" style="margin-left: 10px;" method="GET">
                                 {include file='cp/WMS/category/tree.tpl'}
                             </form>
                         </div>

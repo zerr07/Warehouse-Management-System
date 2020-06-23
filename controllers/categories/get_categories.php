@@ -13,7 +13,10 @@ function get_tree(){
         while ($row = $result->fetch_assoc()){
             $id = $row['id'];
             $name = get_category_name($id);
-            $temp[$id] = array("id"=> $id, "enabled"=>$row['enabled'], "name"=>$name, "parent"=>$row['parent'], "child"=>array());
+            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */"SELECT COUNT(*) as product_count FROM 
+            {*products*} WHERE id_category='$id'"));
+            $count = $q->fetch_assoc()['product_count'];
+            $temp[$id] = array("id"=> $id, "enabled"=>$row['enabled'], "name"=>$name, "parent"=>$row['parent'], "child"=>array(), "count"=>$count);
             $temp[$id]['child'] = get_sub_cat($id);
         }
         return $temp;
@@ -27,7 +30,10 @@ function get_sub_cat($index) {
         while ($row = $result->fetch_assoc()){
             $id = $row['id'];
             $name = get_category_name($id);
-            $temp[$id] = array("id"=> $id, "enabled"=>$row['enabled'], "name"=>$name, "parent"=>$row['parent'], "child"=>array());
+            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */"SELECT COUNT(*) as product_count FROM 
+            {*products*} WHERE id_category='$id'"));
+            $count = $q->fetch_assoc()['product_count'];
+            $temp[$id] = array("id"=> $id, "enabled"=>$row['enabled'], "name"=>$name, "parent"=>$row['parent'], "child"=>array(), "count"=>$count);
             $temp[$id]['child'] = get_sub_cat($id);
         }
         return $temp;

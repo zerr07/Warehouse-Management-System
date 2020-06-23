@@ -3,10 +3,12 @@
     {foreach $data as $key => $value}
         <input class='form-check-input' type='radio' name='cat' id='cat{$key}' value='{$key}' >
         {if is_null($value.child)}
-            <label class='form-check-label' for='exampleRadios1'>{$value.name}</label><br>
+            <label class='form-check-label' for='exampleRadios1'>
+                {$value.name}<span class="badge badge-secondary">{$value.count}</span>
+            </label><br>
         {else}
             <label class='form-check-label' data-toggle='collapse' data-target="#k{$key}" aria-expanded='false' aria-controls='collapseExample' for='exampleRadios1'>
-                {$value.name}+</label><br>
+                {$value.name}<span class="badge badge-secondary">{$value.count}</span>+</label><br>
             <div  class='collapse collapseDiv' id='k{$key}' style="margin: 0 0 0 {$margin*20}px">
                 {if !is_null($value.child)}
                     {cat_tree data=$value.child margin=$margin+1}
@@ -28,10 +30,12 @@
             <input class='form-check-input' type='radio' name='cat' id='cat{$key}' value='{$key}' >
         {/if}
         {if is_null($value.child)}
-            <label class='form-check-label' for='exampleRadios1'>{$value.name}</label><br>
+            <label class='form-check-label' for='exampleRadios1'>
+                {$value.name}<span class="badge badge-secondary">{$value.count}</span>
+            </label><br>
         {else}
             <label class='form-check-label' data-toggle='collapse' data-target="#collapse{$key}" aria-expanded='false' aria-controls='collapseExample' for='exampleRadios1'>
-                {$value.name}+</label><br>
+                {$value.name}<span class="badge badge-secondary">{$value.count}</span>+</label><br>
             <div  class='collapse collapseDiv' id='collapse{$key}' style="margin: 0 0 0 {$margin*20}px">
                 {if !is_null($value.child)}
                     {cat_treeEdit data=$value.child margin=$margin+1}
