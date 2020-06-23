@@ -14,6 +14,14 @@ function writeFile($file, $txt, $UploadFolder){
 include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 session_start();
 
+if (isset($_COOKIE['id_shard'])){
+    $shard = $_COOKIE['id_shard'];
+} else {
+    $shard = _ENGINE['id_shard'];
+}
+$q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */"SELECT tag_prefix FROM {*shards*} WHERE id='$shard'"));
+$prefix = $q->fetch_assoc()['tag_prefix'];
+
 
 $itemActPrice = $_POST['itemActPrice'];
 $itemTagID = $_POST['itemTagID'];
@@ -27,6 +35,32 @@ if ($_POST['override'] == "Yes"){
 
 $marginPercent = $_POST['itemMarginPercent'];
 $marginNumber = $_POST['itemMarginNumber'];
+
+// Tag check
+function check_tag($tag){
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT count(*) as product_count FROM 
+                                                                        {*products*} WHERE tag='$tag'"));
+    $count = $q->fetch_assoc()['product_count'];
+    if ($count == 0){
+        return True;
+    } else {
+        return False;
+    }
+}
+
+while (True){
+    if (check_tag($itemTagID)){
+        break;
+    } else {
+        $tag = explode($prefix, $itemTagID);
+        $tag = $tag[1]+1;
+        while(strlen($tag) < 3){
+            $tag = "0".$tag;
+        }
+        $itemTagID = $prefix.$tag;
+    }
+}
+
 
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*products*}
                         (id_category, actPrice, tag, quantity, override, def_margin_percent, def_margin_number) 
