@@ -249,7 +249,7 @@ function get_name($index){
         } else {
             $lang = 'ru';
         }
-        $arr[$lang] = $row['name'];
+        $arr[$lang] = html_entity_decode($row['name'], ENT_QUOTES, "UTF-8");
     }
     return $arr;
 }
