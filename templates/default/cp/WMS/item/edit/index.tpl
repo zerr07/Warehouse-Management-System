@@ -43,8 +43,8 @@
                                                        name="itemActPrice" id="actPrice" placeholder="Actual price" value="{$item.actPrice}">
                                             </div>
                                         </div>
-                                        <input type="text" style="max-width: 49.3%;" class="form-control form-small top-data" name="itemNameET" value="{$item.name.et}" id="form17" placeholder="Toode nimi" required="required">
-                                        <input type="text" style="max-width: 49.3%;" class="form-control form-small top-data" name="itemNameRU" value="{$item.name.ru}" id="form17" placeholder="Название товара">
+                                        <input type="text" style="max-width: 49.3%;" class="form-control form-small top-data" name="itemNameET" value="{$item.name.et|escape}" id="form17" placeholder="Toode nimi" required="required">
+                                        <input type="text" style="max-width: 49.3%;" class="form-control form-small top-data" name="itemNameRU" value="{$item.name.ru|escape}" id="form17" placeholder="Название товара">
                                         <div>
                                             <div class="input-group input-group-lg top-data" style="max-width: 49.3%;">
                                                 <div class="input-group-prepend">

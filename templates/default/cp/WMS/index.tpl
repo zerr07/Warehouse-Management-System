@@ -93,7 +93,7 @@
 
                                     <td class="formattedCell">
                                         <span class="d-inline-block text-truncate" style="max-width: 286px;">
-                                            <a style="color: white;text-overflow: ellipsis; " title="{$item.name.et}" href="/cp/WMS/view/?view={$item.id}">{$item.name.et}</a>
+                                            <a style="color: white;text-overflow: ellipsis; " title="{$item.name.et|escape}" href="/cp/WMS/view/?view={$item.id}">{$item.name.et}</a>
                                         </span>
                                     </td>
                                     <td>{$item.platforms.$SHOP.price}</td>
