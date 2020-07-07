@@ -34,7 +34,6 @@ if (mysqli_num_rows($check) == 0) {
     foreach ($cart as $key => $value){
         $sum += $value['price'];
     }
-    echo '<pre>'; print_r ($cart); echo '</pre>';
     if (array_key_exists("card", $data)){
         if ($data['card'] == 1){
             $cash = 0;

@@ -4,6 +4,25 @@
         <div class="container">
             <div class="accordion text-left" id="accordion">
 
+
+                <div class="card">
+                    <div class="card-header" id="heading018">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse018" aria-expanded="false" aria-controls="collapse018">
+                                Version 0.1.8
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse018" class="collapse" aria-labelledby="heading018" data-parent="#accordion">
+                        <div class="card-body">
+                            Extended API (Reserve cart, reservation removal and sale submitting functionality)<br />
+                            Minor bug fix in POS<br />
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="card">
                     <div class="card-header" id="heading017">
                         <h2 class="mb-0">
@@ -12,7 +31,7 @@
                             </button>
                         </h2>
                     </div>
-                    <div id="collapse017" class="collapse" aria-labelledby="heading016" data-parent="#accordion">
+                    <div id="collapse017" class="collapse" aria-labelledby="heading017" data-parent="#accordion">
                         <div class="card-body">
                             Implemented cart reservations. New functionality allows to reserve cart in POS so that
                             selected amount of products becomes unavailable for purchase.<br />
