@@ -86,7 +86,7 @@ text-overflow: ellipsis;"><?php echo $_GET['name']; ?></b></td>
                 </tr>
                 <tr>
                     <td style="font-size: 16px !important;">Address:</td>
-                    <td style="font-size: 16px !important;">Narva mnt 150, Tallinn, 13628</td>
+                    <td style="font-size: 16px !important;">Laki tn 9a, Tallinn, 10621</td>
                 </tr>
                 <tr>
                     <td>Importer:</td>

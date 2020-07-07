@@ -8,19 +8,7 @@ if (!defined('PRODUCTS_INCLUDED')){
     include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
 }
 include_once($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/reserve/reserve.php';
-
-
-
-function orderMode($mode, $ostja){
-    if($mode != 'Bigshop'){
-        return $mode;
-    }
-    if ($ostja != ""){
-        return $_POST['ostja'];
-    } else {
-        return "Eraisik";
-    }
-}
+include_once($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/orderMode.php';
 
 if (isset($_GET['reservation'])){
     if ($_GET['reservation'] === NULL || $_GET['reservation'] == "" || empty($_GET['reservation'])){
@@ -82,7 +70,7 @@ $stamp = date_timestamp_get(date_create())*9;
 if (isset($_POST['ostja'])){
     $ostja = orderMode($mode, $_POST['ostja']);
 } elseif (isset($_GET['ostja'])){
-    $ostja = orderMode($mode, $_POST['ostja']);
+    $ostja = orderMode($mode, $_GET['ostja']);
 }
 
 // Tellimuse number init

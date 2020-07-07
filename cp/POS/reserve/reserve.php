@@ -7,13 +7,13 @@ include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/saveCart.php');
 include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/session.php');
 
 
-function reserveCart($note){
+function reserveCart($note, $cart){
     mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*reserved*} (`comment`) 
                                                                                                 VALUES ('$note')"));
     $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT MAX(id) as id FROM {*reserved*}"));
     while($row = mysqli_fetch_assoc($q)){
         $id = $row['id'];
-        foreach ($_SESSION['cart'] as $key => $value){
+        foreach ($cart as $key => $value){
             if($value['tag'] != "Buffertoode") {
                 $quantity = $value['quantity'];
                 $price = $value['price'];
@@ -27,8 +27,6 @@ function reserveCart($note){
             }
         }
     }
-    $_SESSION['cart'] = array();
-    $_SESSION['cartTotal'] = 0.00;
     updateCart();
 }
 
@@ -105,7 +103,9 @@ function cancelReservationProduct($id, $id_prod_res){
 if (isset($_POST['req'])){
     $request = json_decode($_POST['req']);
     if ($request->reserve == "true") {
-        reserveCart($request->note);
+        reserveCart($request->note, $_SESSION['cart']);
+        $_SESSION['cart'] = array();
+        $_SESSION['cartTotal'] = 0.00;
         echo "Reserve success";
     }
 }
