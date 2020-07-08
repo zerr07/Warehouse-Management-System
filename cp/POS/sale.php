@@ -1,4 +1,5 @@
 <?php
+
 ini_set("display_errors", "on");
 error_reporting(E_ALL ^ E_NOTICE);
 include_once($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/update.php';
@@ -18,11 +19,15 @@ if (isset($_GET['reservation'])){
         $sum = 0.00;
         if (isset($_GET['cart'])){
             $cartItems = json_decode($_GET['cart'],true);
-            foreach ($cartItems as $key => $value){
-                $sum += $cartItems[$key]['quantity']*$cartItems[$key]['basePrice'];
-                $cartItems[$key]['name'] = get_name($key)['et'];
-                $cartItems[$key]['tag'] = get_tag($key);
+            $cartItemsTemp = array();
+            foreach ($cartItems as $value){
+                $key = $value['id'];
+                $cartItemsTemp[$key] = $value;
+                $sum += $cartItemsTemp[$key]['quantity']*$cartItemsTemp[$key]['basePrice'];
+                $cartItemsTemp[$key]['name'] = get_name($key)['et'];
+                $cartItemsTemp[$key]['tag'] = get_tag($key);
             }
+            $cartItems = $cartItemsTemp;
         } elseif ($_GET['id_cart']){
             $reservation = getSingleCartReservation($_GET['id_cart']);
             $cartItems = $reservation['products'];
@@ -163,7 +168,7 @@ foreach ($cartItems as $value){
     </center>
     <div style="padding-bottom: 50px">
         <?php
-        foreach ($cartItems as $key => $value){
+        foreach ($cartItems as $value){
         ?>
         <table>
             <tr>

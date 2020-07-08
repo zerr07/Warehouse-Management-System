@@ -18,6 +18,7 @@
                     <table class="table table-borderless">
                         <thead>
                         <tr>
+                            <th></th>
                             <th>Tag</th>
                             <th>Name</th>
                             <th>Quantity</th>
@@ -28,6 +29,12 @@
                         <tbody>
                         {foreach $reservation.products as $prod}
                             <tr>
+                                <td>
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="select{$prod.id_product}" value="{$prod.id_product}">
+                                        <label class="custom-control-label" for="select{$prod.id_product}"></label>
+                                    </div>
+                                </td>
                                 <td class="td-20"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id_product}">{$prod.tag}</a></td>
                                 <td class="td-20"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id_product}">{$prod.name.et}</a></td>
                                 <td>{$prod.quantity}</td>
@@ -52,7 +59,10 @@
                             onclick="confirmAll('{$reservation.id}')">
                         <i class="far fa-check-square"></i> Confirm All
                     </button>
-
+                    <button type="button" class="btn btn-info ml-2" style="display: inline-block; float:left;"
+                            onclick="confirmSelected('{$reservation.id}')">
+                        <i class="far fa-check-square"></i> Confirm selected
+                    </button>
 
 
 
@@ -159,5 +169,60 @@
         let mode = $("#modeSelect option:selected").val();
         window.location.href = "/cp/POS/sale.php?reservation=true&cash="+cash+"&card="+card+"&ostja="+ostja+"&tellimuseNr="+tellimuseNr+"&mode="+mode+"&id_cart="+id_reservation;
     }
+
+    function confirmSelected(id_reservation) {
+        let products;
+        $.ajax({
+            type: "GET",
+            cache: false,
+            url: "/cp/POS/reserve/reserve.php?getReservationItemsJSON=" + id_reservation,
+            success: function (result) {
+                products = JSON.parse(result)['products'];
+                document.getElementById('inputs').innerHTML = "";
+                for ( let key in products ) {
+                    if (document.getElementById("select"+products[key]['id_product']).checked){
+                        let quantityInput = "<input type='text' id='quantity"+key+"' name='quantity[]' value='"+products[key]['quantity']+"' hidden>";
+                        let priceInput = "<input type='text' id='price"+key+"' name='price[]' value='"+products[key]['basePrice']+"' hidden>";
+                        let totalPrice = "<table><td id='totalPrice"+key+"' hidden>"+products[key]['price']+"</td></table>";
+                        $("#inputs").append(quantityInput+priceInput+totalPrice);
+                    }
+
+                }
+                document.getElementById('sale').setAttribute("onclick","confirmProcessSelected('"+id_reservation+"', '"+encodeURIComponent(JSON.stringify(products))+"')");
+                sum();
+                $('#saleModal').modal('show');
+            }
+        });
+    }
+
+    function confirmProcessSelected(id_reservation, p) {
+        let arr = [];
+        let urlPart;
+        let products = JSON.parse(decodeURIComponent(p));
+        console.log(products);
+        for (let k in products){
+            if (document.getElementById("select"+products[k]['id_product']).checked) {
+                arr[products[k]['id_product']] = {
+                    id: products[k]['id_product'],
+                    price: products[k]['price'],
+                    basePrice: products[k]['basePrice'],
+                    quantity: products[k]['quantity']
+                };
+            }
+        }
+        const filtered = arr.filter(el => {
+            return el != null && el !== '';
+        });
+        urlPart = encodeURIComponent(JSON.stringify(filtered));
+        let cash = $("#cash").val();
+        let card = $("#card").val();
+        let ostja = $("#ostja").val();
+        let tellimuseNr = $("#tellimuseNr").val();
+        let mode = $("#modeSelect option:selected").val();
+
+        window.location.href = "/cp/POS/sale.php?reservation=true&cash="+cash+"&card="+card+"&ostja="+ostja+"&tellimuseNr="+tellimuseNr+"&mode="+mode+"&cart="+urlPart+"&id_res="+id_reservation;
+
+    }
+
 </script>
 {include file='footer.tpl'}
