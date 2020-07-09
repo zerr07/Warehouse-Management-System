@@ -63,6 +63,16 @@ function get_product_by_tag($index){
     }
     return null;
 }
+
+function get_product_id_by_tag($index){
+    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*products*} 
+                                                                                    WHERE tag='$index'"));
+    if($result){
+        return $result->fetch_assoc()['id'];
+    }
+    return null;
+}
+
 function read_result_multiple($result){
     global $langID, $lang;
     $arr = array(array());

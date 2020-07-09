@@ -16,7 +16,7 @@
                     </div>
                     <div id="collapse018" class="collapse" aria-labelledby="heading018" data-parent="#accordion">
                         <div class="card-body">
-                            Extended API (Reserve cart, reservation removal and sale submitting functionality)<br />
+                            Extended API (Reserve cart, reservation removal, reservation confirm and sale submitting functionality)<br />
                             Minor bug fix in POS<br />
                         </div>
                     </div>

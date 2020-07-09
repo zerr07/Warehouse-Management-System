@@ -5,9 +5,13 @@ if (!defined('PRODUCTS_INCLUDED')) {
 }
 
 function formCart($key, $value) { // $key is product tag, $value is array with at least quantity key
-    $cart = array(array());
     $arr = get_product_by_tag($key);
-    $cart[$arr['id']]['tag'] = $key;
+    $cart = formCartProcess($arr, $value);
+    return $cart;
+}
+
+function formCartProcess($arr, $value){
+    $cart = array(array());
     if (array_key_exists("quantity", $value)){
         $cart[$arr['id']]['quantity'] = $value['quantity'];
     } else {

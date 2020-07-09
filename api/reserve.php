@@ -24,7 +24,7 @@ if (mysqli_num_rows($check) == 0) {
     /* User verified */
 
     include_once ($_SERVER['DOCUMENT_ROOT']."/cp/POS/reserve/reserve.php");
-    include_once ($_SERVER['DOCUMENT_ROOT']."/api/fromCart.php");
+    include_once($_SERVER['DOCUMENT_ROOT'] . "/api/func/fromCart.php");
     
     $cart = array();
     foreach ($data['products'] as $key => $value){
