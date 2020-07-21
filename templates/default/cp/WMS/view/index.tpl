@@ -6,8 +6,25 @@
             <div class="row">
                 <div class="col-md-12" style="border-radius: 20px;border: solid 1px; padding: 10px;">
                     <form action="/cp/WMS/" class="text-left" style="padding-top: 10px;" method="GET">
-                        <input type="text" class="form-control inline-items" style="width:79%;height: 42px;" name="searchTagID" id="form17" placeholder="Search by ID" autofocus>
-                        <input type="submit" name="search" class="btn btn-outline-secondary inline-items" style="width: 20%; height: 42px;margin-bottom: 2px;" value="Search">
+                        <div class="row">
+                            <div class="col-3 px-0 pl-3">
+                                <input type="text" class="form-control inline-items w-100" style="height: 42px;"
+                                       name="searchTagID" id="form17" placeholder="Search by ID" autofocus>
+                            </div>
+                            <div class="col-6 px-0">
+                                <input type="text" class="form-control inline-items w-100 " style="height: 42px;"
+                                       name="searchName" id="form17" placeholder="Search by name"
+                                        {if isset($searchName) && $searchName != ""}
+                                            value="{$searchName}"
+                                        {/if}
+                                >
+                            </div>
+                            <div class="col-3 px-0 pr-3">
+                                <input type="submit" name="search" class="btn btn-outline-secondary inline-items w-100"
+                                       style="height: 42px;margin-bottom: 2px;" value="Search">
+                            </div>
+                        </div>
+
                     </form>
                     <div class="col-12" style="display: inline-flex;">
                         <div class="col-8" style="width: 79.9%;">

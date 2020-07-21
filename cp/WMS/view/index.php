@@ -16,17 +16,7 @@ if (!defined('PRODUCTS_INCLUDED')){
 }
 $smarty->assign('platforms', get_platforms());
 $smarty->assign("item", get_product($_GET['view']));
-$smarty->display('cp/WMS/view/index.tpl');
-$arr = get_product($_GET['view']);
-
-$exportName = "";
-$name = explode(" ", $arr['name']['et']);
-foreach ($name as $word){
-    if (strlen($exportName." ".$word) <= 60){
-        $exportName .= " ".$word;
-    } else {
-        break;
-    }
+if (isset($_GET['searchName'])) {
+    $smarty->assign("searchName", $_GET['searchName']);
 }
-var_dump(strlen($exportName));
-?>
+$smarty->display('cp/WMS/view/index.tpl');
