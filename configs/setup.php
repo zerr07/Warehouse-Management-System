@@ -52,3 +52,14 @@ $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */"SELECT tag_prefix F
 if ($q){
     $smarty->assign("shard_prefix", $q->fetch_assoc()['tag_prefix']);
 }
+include_once($_SERVER['DOCUMENT_ROOT'] . "/controllers/products/get_location_types.php");
+$smarty->assign("location_types", get_location_types());
+
+if (!isset($_COOKIE['default_location_type']) && isset($_COOKIE['Authenticated'])){
+    $user = $_COOKIE['Authenticated'];
+    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*users*} 
+                                                                                        WHERE username='$user'"));
+    $res = mysqli_fetch_assoc($q);
+    setcookie("default_location_type", $res['default_location_type'], time() + (86400 * 30), "/");
+    header("Refresh:0");
+}

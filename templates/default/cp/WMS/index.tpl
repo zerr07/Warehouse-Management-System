@@ -125,7 +125,7 @@
 
                                         {/if}
                                         <form method="POST" action="/controllers/products/delete.php" onsubmit="return confirm('Do you really want to delete item?');" style="display: inline-block;">
-                                            <button type="submit" class="btn btn-sm btn-outline-primary" name="delete" value="{$item.id}"><i class="fas fa-trash"></i> Delete</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" name="delete" value="{$item.id}"><i class="fas fa-trash"></i> Delete</button>
                                         </form>
                                     </td>
                                 </tr>

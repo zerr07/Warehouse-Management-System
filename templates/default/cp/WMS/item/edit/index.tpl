@@ -192,14 +192,28 @@
                                 </div>
                                 <div class="tab-pane fade ml-20" id="tabwar" role="tabpanel">
                                     <div id="listWarehouse">
-                                        <input type="text" class="form-control SMTitemsSM form-small" name="itemQuantity" id="form17" value="{$item.quantity}" placeholder="Quanitity">
                                         {assign var="counter" value=0}
                                         {foreach $item.locationList as $loc}
-                                            {if $counter == 0}
-                                                <input type="text" class="form-control SMTlocatiton" name="itemLocation[]" id="form17" value="{$loc}" placeholder="Location">
-                                            {else}
-                                                <input type="text" class="form-control SMTlocatiton" style='margin-left: 24.95%;' name="itemLocation[]" id="form17" value="{$loc}" placeholder="Location">
-                                            {/if}
+                                            <div class="row mb-2">
+                                                <div class="col-3">
+                                                    <input type="text" class="form-control SMTitemsSM form-small w-100 d-flex"
+                                                           name="itemQuantity[{$loc.id}]" value="{$loc.quantity}" id="form17"  placeholder="Quanitity">
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="text" class="form-control w-100 d-flex"
+                                                           name="itemLocation[{$loc.id}]" value="{$loc.location}" id="form17" placeholder="Location">
+                                                </div>
+                                                <div class="col-3">
+                                                    <select class="custom-select" name="loc_type[{$loc.id}]">
+                                                        {foreach $location_types as $loc_typ}
+                                                            <option value="{$loc_typ.id}"
+                                                                    {if $loc_typ.id==$loc.id_type} selected{/if}>
+                                                                {$loc_typ.name}
+                                                            </option>
+                                                        {/foreach}
+                                                    </select>
+                                                </div>
+                                            </div>
                                             {assign var="counter" value=$counter+1}
                                         {/foreach}
                                     </div>
@@ -260,7 +274,26 @@
 <script>
 
     function addExtraLoc() {
-        var input = "<input type=\"text\" class=\"form-control SMTlocatiton\" style='margin-left: 25%;' name=\"itemLocation[]\" id=\"form17\" placeholder=\"Location\">";
+        var input = "<div class=\"row mb-2\">\n" +
+            "<div class=\"col-3\">\n" +
+            "<input type=\"text\" class=\"form-control SMTitemsSM form-small w-100 d-flex\" \n" +
+            "   name=\"itemQuantityNew[]\" value=\"\" id=\"form17\"  placeholder=\"Quanitity\">\n" +
+            "</div>\n" +
+            "<div class=\"col-6\">\n" +
+            "<input type=\"text\" class=\"form-control w-100 d-flex\" \n" +
+            "   name=\"itemLocationNew[]\" value=\"\" id=\"form17\" placeholder=\"Location\">\n" +
+            "</div>\n" +
+            "<div class=\"col-3\">\n" +
+            "<select class=\"custom-select\" name=\"loc_type_new[]\">\n" +
+                {foreach $location_types as $loc_typ}
+            "<option value=\"{$loc_typ.id}\"\n" +
+                {if $loc_typ.id==$engine.locations.WMS} "selected"+{/if}
+            ">{$loc_typ.name}\n" +
+            "</option>\n" +
+                {/foreach}
+            "</select>\n" +
+            "</div>"+
+            "</div>";
         $("#listWarehouse").append(input);
     }
     function addExtra() {
@@ -300,3 +333,4 @@
     });
 </script>
 {include file='footer.tpl'}
+{debug}

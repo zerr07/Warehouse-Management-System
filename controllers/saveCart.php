@@ -31,7 +31,7 @@ function getCart(){
 function updateQuantity(){
     if (isset($_SESSION['cart'])){
         foreach ($_SESSION['cart'] as $key => $value){
-            $_SESSION['cart'][$key]['Available'] = get_quantity($key);
+            $_SESSION['cart'][$key]['Available'] = get_quantity_sum($key);
         }
     }
 

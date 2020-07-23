@@ -3,7 +3,7 @@ function displayCart(index) {
     let cart = getCartArray();
     cart = JSON.parse(cart.responseText);
 
-
+    console.log(cart);
     let tbody = document.getElementById(index);
     tbody.innerHTML = "";
     let counter = 0;
@@ -34,13 +34,27 @@ function displayCart(index) {
         }
 
         let loc = "";
-        console.log(tag);
         if (cart[key]['loc'] !== null || cart[key]['loc'] !== ""){
             if (cart[key]['tag'] !== "Buffertoode") {
-                for (var place in cart[key]['loc']) {
-                    loc = cart[key]['loc'][place].toString();
-                    break;
+                let def_loc = cart[key]['loc']['selected'].toString();
+                loc += "<select class=\"custom-select\" name='loc_select["+key+"]'>";
+                for (var place in cart[key]['loc']['locationList']) {
+                    if (!isNaN(def_loc) || def_loc !== null){
+                        if (place === def_loc){
+                            loc += "<option value='"+place+"' selected>";
+                        } else {
+                            loc += "<option value='"+place+"'>";
+                        }
+
+                    } else {
+                        loc += "<option value='"+place+"'>";
+                    }
+                        loc += cart[key]['loc']['locationList'][place]['type_name'].toString() + " - "
+                        +cart[key]['loc']['locationList'][place]['location'].toString() + " - "
+                        +cart[key]['loc']['locationList'][place]['quantity'].toString()
+                        +"</option>"
                 }
+                loc += "</select>";
             }
         }
 

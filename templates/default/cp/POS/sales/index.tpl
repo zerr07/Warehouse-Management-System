@@ -50,7 +50,7 @@
                                                 <i class="fas fa-link"></i>
                                                 View
                                             </a>
-                                            <a class="btn btn-outline-primary" href="/cp/POS/sales/index.php?{$item.tagastusFull}">
+                                            <a class="btn btn-outline-danger" href="/cp/POS/sales/index.php?{$item.tagastusFull}">
                                                 <i class="fas fa-frown"></i>
                                                 Tagastus
                                             </a>

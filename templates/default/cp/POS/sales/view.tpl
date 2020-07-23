@@ -59,7 +59,7 @@
                                     <td>{$prod.status}</td>
                                     <td>
                                         {if $prod.status != "Tagastus"}
-                                            <a class="btn btn-outline-primary" href="/cp/POS/sales/index.php?tagastusFull[]={$prod.saleID}">
+                                            <a class="btn btn-outline-danger" href="/cp/POS/sales/index.php?tagastusFull[]={$prod.saleID}">
                                                 <i class="fas fa-frown"></i>
                                                 Tagastus
                                             </a>

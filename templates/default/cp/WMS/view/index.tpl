@@ -53,24 +53,52 @@
                             {/if}
 
                             <div style="margin-top: 15px;">
-                                <a href="/cp/WMS/item/edit/addQuantity.php?editSMT={$item.id}&ammount=plus1" class="btn btn-primary">+1</a>
-                                <a href="/cp/WMS/item/edit/addQuantity.php?editSMT={$item.id}&ammount=plus3" class="btn btn-primary">+3</a>
-                                <a href="/cp/WMS/item/edit/addQuantity.php?editSMT={$item.id}&ammount=plus5" class="btn btn-primary">+5</a>
-                                <a href="/cp/WMS/item/edit/addQuantity.php?editSMT={$item.id}&ammount=plus10" class="btn btn-primary">+10</a>
-                                <a href="/cp/WMS/item/edit/addQuantity.php?editSMT={$item.id}&ammount=minus1" class="btn btn-secondary">-1</a>
+                                <form action="/cp/WMS/item/edit/addQuantity.php" method="GET">
+                                    <select class="custom-select w-25" name="location">
+                                        {foreach $item.locationList as $value}
+                                            <option value="{$value.id}"
+                                            {if $default_location_type===$value.id_type} selected{/if}
+                                            >
+                                                {$value.type_name} - {$value.location}
+                                            </option>
+                                        {/foreach}
+                                    </select>
+                                    <button type="submit" class="btn btn-primary" name="amount" value="plus1">
+                                        +1
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" name="amount" value="plus3">
+                                        +3
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" name="amount" value="plus5">
+                                        +5
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" name="amount" value="plus10">
+                                        +10
+                                    </button>
+                                    <button type="submit" class="btn btn-secondary" name="amount" value="minus1">
+                                        -1
+                                    </button>
+                                    <input type="text" name="editSMT" value="{$item.id}" hidden>
+                                </form>
                             </div>
                         </div>
                         <div class="col-3">
+                            <h3 class="pt-2">Locations</h3>
                             <table class="table table-borderless">
                                 <thead>
                                     <tr>
-                                        <th style="padding: 0 !important;"><h3>Locations</h3></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {foreach $item.locationList as $loc}
+                                        {assign var="id_type" value=$loc.id_type}
                                         <tr>
-                                            <td>{$loc}</td>
+                                            <td>{$loc.location}</td>
+                                            <td>{$loc.quantity}</td>
+                                            <td>{$location_types.$id_type.name}</td>
                                         </tr>
                                     {/foreach}
                                 </tbody>
@@ -197,3 +225,4 @@
     }
 </script>
 {include file='footer.tpl'}
+{debug}

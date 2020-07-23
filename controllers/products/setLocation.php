@@ -3,8 +3,12 @@ include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 if (isset($_GET['id']) && isset($_GET['location'])){
     $id = $_GET['id'];
     $loc = $_GET['location'];
-    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_locations*} WHERE
-                                          id_item='$id'"));
+    if (isset($_COOKIE['default_location_type'])){
+        $id_type = $_COOKIE['default_location_type'];
+    } else {
+        $id_type = 1;
+    }
+
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_locations*}
-                                          (id_item, location) VALUES ('$id', '$loc')"));
+                                          (id_item, location, id_type) VALUES ('$id', '$loc', '$id_type')"));
 }

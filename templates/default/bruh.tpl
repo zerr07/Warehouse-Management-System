@@ -10,7 +10,7 @@
                     <script>
                         document.body.addEventListener("click", function () {
                             var audio = document.getElementById("audio");
-                            audio.volume = 0.05;
+                            audio.volume = 1;
                             audio.play();
                             alert("Fak u");
 

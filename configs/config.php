@@ -1,6 +1,6 @@
 <?php
 
-global $DBCONN, $BIGCONN;
+global $DBCONN, $BIGCONN, $ENGINE;
 include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/DB/query.php');
 include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/saveCart.php');
 
@@ -19,6 +19,7 @@ if (!defined('_SYSTEM')){
 }
 if (!defined('_ENGINE')){
     define("_ENGINE", SETTINGS['engine']);
+    $ENGINE = SETTINGS['engine'];
 }
 
 $DBCONN = new MySQLi(

@@ -15,7 +15,6 @@ $actPrice = $_POST['itemActPrice'];
 $itemTagID = $_POST['itemTagID'];
 $catID = $_POST['cat'];
 $itemID = $_POST['idEdit'];
-$quantity = $_POST['itemQuantity'];
 
 
 if (isset($_POST['override']) && $_POST['override'] == "Yes"){
@@ -28,7 +27,7 @@ $marginPercent = $_POST['itemMarginPercent'];
 $marginNumber = $_POST['itemMarginNumber'];
 
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*products*} SET 
-        id_category='$catID', actPrice='$actPrice', tag='$itemTagID', quantity='$quantity', override='$override', 
+        id_category='$catID', actPrice='$actPrice', tag='$itemTagID', override='$override', 
         def_margin_percent='$marginPercent' , def_margin_number='$marginNumber' WHERE id='$itemID'"));
 
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_name*} WHERE id_product='$itemID'"));
@@ -41,7 +40,6 @@ $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_n
 $last = $itemID;
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*supplier_data*} WHERE id_item='$last'"));
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_platforms*} WHERE id_item='$last'"));
-$GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_locations*} WHERE id_item='$last'"));
 if (isset($_POST['itemSupplierName'])) {
     for ($i = 0; $i < sizeof($_POST['itemSupplierName']); $i++) {
         $name = htmlentities($_POST['itemSupplierName'][$i], ENT_QUOTES, 'UTF-8');
@@ -102,11 +100,24 @@ foreach ($_POST['platformID'] as $key => $value){
     }
 }
 
-for ($i = 0; $i < sizeof($_POST['itemLocation']); $i++){
-    $loc = $_POST['itemLocation'][$i];
-    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_locations*}
-                                                    (id_item, location)
-                                                    VALUES ('$last', '$loc')"));}
+if (isset($_POST['itemLocationNew'])){
+    foreach ($_POST['itemLocationNew'] as $key => $value){
+        $quantity = $_POST['itemQuantityNew'][$key];
+        $id_type = $_POST['loc_type_new'][$key];
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_locations*}
+                                                        (id_item, location, id_type, quantity)
+                                                        VALUES ('$last', '$value', '$id_type', '$quantity')"));
+    }
+}
+if (isset($_POST['itemLocation'])) {
+    foreach ($_POST['itemLocation'] as $key => $value) {
+        $quantity = $_POST['itemQuantity'][$key];
+        $id_type = $_POST['loc_type'][$key];
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_locations*} SET location='$value', 
+    id_type='$id_type', quantity='$quantity' WHERE id='$key'"));
+    }
+}
+
 $plTXT = "\xEF\xBB\xBF".$_POST['PL'];
 $ruTXT = "\xEF\xBB\xBF".$_POST['RUS'];
 $enTXT = "\xEF\xBB\xBF".$_POST['ENG'];

@@ -10,7 +10,7 @@ if (!defined('PRODUCTS_INCLUDED')){
 }
 include_once($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/reserve/reserve.php';
 include_once($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/orderMode.php';
-
+include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/products/updateQuantity.php';
 if (isset($_GET['reservation'])){
     if ($_GET['reservation'] === NULL || $_GET['reservation'] == "" || empty($_GET['reservation'])){
         exit("Cannot process empty reservation. Please verify that the reservation contained items or contact the 
@@ -102,6 +102,14 @@ $row = mysqli_fetch_assoc($q);
 $id = $row['id'];
 foreach ($cartItems as $value){
     $quantity = $value['quantity'];
+    $loc = "";
+    if($value['tag'] != "Buffertoode"){
+        if(isset($value['id_location'])){
+            $loc = $value['id_location'];
+        } elseif (isset($value['loc']['selected'])){
+            $loc = $value['loc']['selected'];
+        }
+    }
     if (isset($_GET['id_cart'])) {
         $itemID = $value['id_product'];
     } elseif (isset($_GET['cart'])){
@@ -109,17 +117,17 @@ foreach ($cartItems as $value){
     } else {
         $itemID = $value['id'];
         if($value['tag'] != "Buffertoode"){
-            mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
-                "UPDATE {*products*} SET quantity=quantity-$quantity WHERE id='$itemID'"));
+            update_quantity($itemID ,$loc, "-", $quantity);
         } else {
             $itemID = $value['name'];
         }
     }
     $price = $value['price'];
     $basePrice = $value['basePrice'];
+
     mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
-        "INSERT INTO {*sold_items*} (id_sale, id_item, price, quantity, basePrice, statusSet
-                                        ) VALUES ('$id', '$itemID', '$price', '$quantity', '$basePrice','Müük')"));
+        "INSERT INTO {*sold_items*} (id_sale, id_item, price, quantity, basePrice, statusSet, id_location
+                                        ) VALUES ('$id', '$itemID', '$price', '$quantity', '$basePrice','Müük', '$loc')"));
 
 }
 ?>

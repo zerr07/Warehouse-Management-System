@@ -5,6 +5,8 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/update.php';
 if (!defined('PRODUCTS_INCLUDED')){
     include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
 }
+include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_location_types.php');
+
 include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/session.php';
 include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
 
@@ -57,17 +59,16 @@ if (isset($id) || isset($name) || isset($addID)) {
                 $_SESSION['cart'][$row['id']]['id'] = $row['id'];
                 $_SESSION['cart'][$row['id']]['tag'] = $row['tag'];
                 $_SESSION['cart'][$row['id']]['quantity'] = 1;
-                $_SESSION['cart'][$row['id']]['Available'] = $row['quantity'];
+                $_SESSION['cart'][$row['id']]['Available'] = get_quantity_sum($row['id']);
                 $queryName = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM 
                                                                     {*product_name*} WHERE id_product='$itemID' AND id_lang='3'"));
                 while ($rowName  = mysqli_fetch_assoc($queryName)){
                     $_SESSION['cart'][$row['id']]['name'] = html_entity_decode($rowName['name'], ENT_QUOTES, "UTF-8");
                 }
-                $queryLoc = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM 
-                                                                    {*product_locations*} WHERE id_item='$itemID'"));
-                while ($rowLoc  = mysqli_fetch_assoc($queryLoc)){
-                    $_SESSION['cart'][$row['id']]['loc'][$rowLoc['id']] = $rowLoc['location'];
-                }
+
+                $_SESSION['cart'][$row['id']]['loc'] = get_locations($row['id']);
+                $_SESSION['cart'][$row['id']]['loc']['selected'] =
+                    get_single_location_with_type($_COOKIE['default_location_type'], $_SESSION['cart'][$row['id']]['loc']['locationList']);
                 $query = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM 
                                                 {*product_platforms*} WHERE id_item='$dbID' AND id_platform='1'"));
                 while ($rowQ = mysqli_fetch_assoc($query)) {

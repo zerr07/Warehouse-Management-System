@@ -181,8 +181,26 @@
                             </div>
                             <div class="tab-pane fade ml-20" id="tabwar" role="tabpanel">
                                 <div id="listWarehouse">
-                                    <input type="text" class="form-control SMTitemsSM form-small" name="itemQuantity" id="form17"  placeholder="Quanitity">
-                                    <input type="text" class="form-control SMTlocatiton" name="itemLocation[]" id="form17" placeholder="Location">
+                                    <div class="row mb-2">
+                                        <div class="col-3">
+                                            <input type="text" class="form-control SMTitemsSM form-small w-100 d-flex"
+                                                   name="itemQuantityNew[]" id="form17"  placeholder="Quanitity">
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="text" class="form-control w-100 d-flex"
+                                                   name="itemLocationNew[]" id="form17" placeholder="Location">
+                                        </div>
+                                        <div class="col-3">
+                                            <select class="custom-select" name="loc_type_new[]">
+                                                {foreach $location_types as $loc_typ}
+                                                    <option value="{$loc_typ.id}"
+                                                            {if $loc_typ.id==$engine.locations.WMS} selected{/if}>
+                                                        {$loc_typ.name}
+                                                    </option>
+                                                {/foreach}
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                                 <button type="button" style="width: 100%; margin: 10px 0 10px 0;" class="btn btn-primary" onclick="addExtraLoc()">Add extra</button>
                                 <br>
@@ -232,7 +250,26 @@
 <script>
 
     function addExtraLoc() {
-        var input = "<input type=\"text\" class=\"form-control SMTlocatiton\" style='margin-left: 25%;' name=\"itemLocation[]\" id=\"form17\" placeholder=\"Location\">";
+        var input = "<div class=\"row mb-2\">\n" +
+            "<div class=\"col-3\">\n" +
+            "<input type=\"text\" class=\"form-control SMTitemsSM form-small w-100 d-flex\" \n" +
+            "   name=\"itemQuantityNew[]\" value=\"\" id=\"form17\"  placeholder=\"Quanitity\">\n" +
+            "</div>\n" +
+            "<div class=\"col-6\">\n" +
+            "<input type=\"text\" class=\"form-control w-100 d-flex\" \n" +
+            "   name=\"itemLocationNew[]\" value=\"\" id=\"form17\" placeholder=\"Location\">\n" +
+            "</div>\n" +
+            "<div class=\"col-3\">\n" +
+            "<select class=\"custom-select\" name=\"loc_type_new[]\">\n" +
+                {foreach $location_types as $loc_typ}
+            "<option value=\"{$loc_typ.id}\"\n" +
+                {if $loc_typ.id==$engine.locations.WMS} "selected"+{/if}
+            ">{$loc_typ.name}\n" +
+            "</option>\n" +
+                {/foreach}
+            "</select>\n" +
+            "</div>"+
+            "</div>";
         $("#listWarehouse").append(input);
     }
     function addExtra() {

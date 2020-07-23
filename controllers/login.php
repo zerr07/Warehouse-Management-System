@@ -11,6 +11,7 @@ if (isset($_POST['username']) && isset($_POST['password'])){
         $id = $res['id'];
         setcookie("Authenticated", "$user", time() + (86400 * 30), "/");
         setcookie("user_id", "$id", time() + (86400 * 30), "/");
+        setcookie("default_location_type", $res['default_location_type'], time() + (86400 * 30), "/");
         header("Location: /cp");
     } else {
         header("Location: /?code=101");

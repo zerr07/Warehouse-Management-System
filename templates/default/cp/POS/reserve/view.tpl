@@ -41,7 +41,7 @@
                                 <td>{$prod.price}</td>
                                 <td>
                                     <button type="button" class="btn btn-outline-success"
-                                            onclick="confirmItem('{$prod.id_product}', '{$prod.price}', '{$prod.basePrice}', '{$prod.quantity}', '{$reservation.id}')">
+                                            onclick="confirmItem('{$prod.id_product}', '{$prod.price}', '{$prod.basePrice}', '{$prod.quantity}', '{$reservation.id}','{$prod.id_location}')">
                                         <i class="far fa-smile"></i>
                                         Confirm item
                                     </button>
@@ -114,13 +114,14 @@
             document.getElementById('sale').disabled = false;
         }
     });
-    function confirmProcess(id, price, basePrice, quantity, id_reservation) {
+    function confirmProcess(id, price, basePrice, quantity, id_reservation, id_location) {
         let arr = {};
         arr[id] = {};
         arr[id].id = id;
         arr[id].price = price;
         arr[id].basePrice = basePrice;
         arr[id].quantity = quantity;
+        arr[id].id_location = id_location;
         let urlPart = encodeURIComponent(JSON.stringify(arr));
         let cash = $("#cash").val();
         let card = $("#card").val();
@@ -129,13 +130,13 @@
         let mode = $("#modeSelect option:selected").val();
         window.location.href = "/cp/POS/sale.php?reservation=true&cash="+cash+"&card="+card+"&ostja="+ostja+"&tellimuseNr="+tellimuseNr+"&mode="+mode+"&cart="+urlPart+"&id_res="+id_reservation;
     }
-    function confirmItem(id, price, basePrice, quantity, id_reservation) {
+    function confirmItem(id, price, basePrice, quantity, id_reservation, id_location) {
         document.getElementById('inputs').innerHTML = "";
         let quantityInput = "<input type='text' id='quantity1' name='quantity[]' value='"+quantity+"' hidden>";
         let priceInput = "<input type='text' id='price1' name='price[]' value='"+basePrice+"' hidden>";
         let totalPrice = "<table><td id='totalPrice1' hidden>"+price+"</td></table>";
         $("#inputs").append(quantityInput+priceInput+totalPrice);
-        document.getElementById('sale').setAttribute("onclick","confirmProcess('"+id+"', '"+price+"', '"+basePrice+"', '"+quantity+"', '"+id_reservation+"')");
+        document.getElementById('sale').setAttribute("onclick","confirmProcess('"+id+"', '"+price+"', '"+basePrice+"', '"+quantity+"', '"+id_reservation+"', '"+id_location+"')");
         sum();
         $('#saleModal').modal('show');
     }
@@ -199,14 +200,14 @@
         let arr = [];
         let urlPart;
         let products = JSON.parse(decodeURIComponent(p));
-        console.log(products);
         for (let k in products){
             if (document.getElementById("select"+products[k]['id_product']).checked) {
                 arr[products[k]['id_product']] = {
                     id: products[k]['id_product'],
                     price: products[k]['price'],
                     basePrice: products[k]['basePrice'],
-                    quantity: products[k]['quantity']
+                    quantity: products[k]['quantity'],
+                    id_location: products[k]['id_location']
                 };
             }
         }

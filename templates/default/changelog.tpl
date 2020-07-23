@@ -4,6 +4,25 @@
         <div class="container">
             <div class="accordion text-left" id="accordion">
 
+                <div class="card">
+                    <div class="card-header" id="heading020">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse020" aria-expanded="false" aria-controls="collapse020">
+                                Version 0.2.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse020" class="collapse" aria-labelledby="heading020" data-parent="#accordion">
+                        <div class="card-body">
+                            Product quantities are now linked to their warehouse location. All quantities computation
+                            functions reworked. ( ╥﹏╥) ノシ<br />
+                            Location types added.<br />
+                            Cosmetic changes
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="card">
                     <div class="card-header" id="heading018">

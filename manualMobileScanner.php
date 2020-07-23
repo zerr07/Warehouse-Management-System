@@ -6,6 +6,7 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
 <head>
     <title>Manual Mobile Scanner</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/templates/default/assets/js/cookie.js"></script>
     <script type="text/javascript" src="api/quagga/dist/quagga.min.js"></script>
     <link rel="stylesheet" href="/templates/default/assets/css/bootstrap.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -160,6 +161,8 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
                 "<p class='lead display-4'>Tag: " + data['tag'] + "</p>"+
                 "<p class='lead display-4'>Location: " + data['locations'] + "</p>"+
                 "<p class='lead display-4'>Quantity: " + data['quantity'] + "</p>"+
+                "<select class=\"custom-select w-100\" name=\"location\" id='location'>"+
+                "</select>"+
                 "<button type=\"button\" class=\"btn btn-primary btnQuantity\"   onclick=\"changeQuantity('plus1',      "+ data['id'] +")\">+1</button>" +
                 "<button type=\"button\" class=\"btn btn-primary btnQuantity\"   onclick=\"changeQuantity('plus3',      "+ data['id'] +")\">+3</button>" +
                 "<button type=\"button\" class=\"btn btn-primary btnQuantity\"   onclick=\"changeQuantity('plus5',      "+ data['id'] +")\">+5</button>" +
@@ -170,7 +173,20 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
 
                 "</div>");
         }
-
+        let options = "";
+        let def = getCookie("default_location_type");
+        for (let c in data['locationList']){
+            if (def === data['locationList'][c]['id_type']){
+                options += "<option value='"+data['locationList'][c]['id']+"' selected>";
+            } else {
+                options += "<option value='"+data['locationList'][c]['id']+"'>";
+            }
+            options +=data['locationList'][c]['type_name']+" - "+
+                data['locationList'][c]['location']+" - "+
+                data['locationList'][c]['quantity']+
+                "</option>";
+        }
+        $("#location").html(options);
     }
     function inputNewLocation(id) {
         let newLoc = prompt("Enter new location: ", "");
@@ -205,10 +221,11 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
         productData = JSON.parse(product.responseText);
     }
     function changeQuantity(type, id){
+        let id_location = $("#location").find(":selected").val();
         $.ajax({
             dataType: "text",
             async: false,
-            url: "/cp/SupplierManageTool/item/edit/addQuantity.php?editSMT="+id+"&ammount="+type
+            url: "/cp/SupplierManageTool/item/edit/addQuantity.php?editSMT="+id+"&amount="+type+"&location="+id_location
         });
         getProductDataByID(id);
         buildProductBox(productData);

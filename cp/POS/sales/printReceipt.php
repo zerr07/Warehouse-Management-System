@@ -57,7 +57,13 @@ $desc = array_filter($desc);
             ?>
             <table>
                 <tr>
-                    <td style="padding-right: 25px"><?= $value['tag'];?></td>
+                    <?php
+                    if ($value['tag'] != "Buffertoode"){
+                        echo "<td style=\"padding-right: 25px\">";
+                        echo $value['tag']."</td>";
+                    } else {
+                    }
+                    ?>
                     <td><?= $value['name'];?></td>
                 </tr>
             </table>

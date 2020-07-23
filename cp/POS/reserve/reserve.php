@@ -3,6 +3,7 @@ include_once($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 if (!defined('PRODUCTS_INCLUDED')){
     include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
 }
+include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/updateQuantity.php');
 include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/saveCart.php');
 include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/session.php');
 
@@ -18,12 +19,17 @@ function reserveCart($note, $cart){
                 $quantity = $value['quantity'];
                 $price = $value['price'];
                 $basePrice = $value['basePrice'];
-                mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
-                    "UPDATE {*products*} SET quantity=quantity-$quantity WHERE id='$key'"));
+                $id_loc = "";
+                if (isset($value['loc']['selected'])){
+                    $id_loc = $value['loc']['selected'];
+                } elseif (isset($value['id_location'])){
+                    $id_loc = $value['id_location'];
+                }
+                update_quantity($key, $id_loc, "-", $quantity);
 
                 mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
-                    "INSERT INTO {*reserved_products*} (id_reserved, id_product, price, quantity, basePrice
-                                        ) VALUES ('$id', '$key', '$price', '$quantity', '$basePrice')"));
+                    "INSERT INTO {*reserved_products*} (id_reserved, id_product, price, quantity, basePrice, id_location
+                                        ) VALUES ('$id', '$key', '$price', '$quantity', '$basePrice', '$id_loc')"));
             }
         }
     }
@@ -63,14 +69,13 @@ function readReservationResult($row){
 }
 
 function cancelReservationFull($id){
-    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT id, quantity, id_product FROM 
+    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT id, quantity, id_product, id_location FROM 
                     {*reserved_products*} WHERE id_reserved='$id'"));
     while ($row = mysqli_fetch_assoc($q)){
         $quantity = $row['quantity'];
         $id_product = $row['id_product'];
         $reserved_prod_row_id = $row['id'];
-        mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
-            "UPDATE {*products*} SET quantity=quantity+$quantity WHERE id='$id_product'"));
+        update_quantity($id_product, $row['id_location'], "+", $quantity);
         mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
             "DELETE FROM {*reserved_products*} WHERE id='$reserved_prod_row_id'"));
     }
@@ -79,14 +84,13 @@ function cancelReservationFull($id){
 }
 
 function cancelReservationProduct($id, $id_prod_res){
-    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT id, quantity, id_product FROM 
+    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT id, quantity, id_product, id_location FROM 
                     {*reserved_products*} WHERE id='$id_prod_res'"));
     while ($row = mysqli_fetch_assoc($q)){
         $quantity = $row['quantity'];
         $reserved_prod_row_id = $row['id'];
         $id_product = $row['id_product'];
-        mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
-        "UPDATE {*products*} SET quantity=quantity+$quantity WHERE id='$id_product'"));
+        update_quantity($id_product, $row['id_location'], "+", $quantity);
         mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
             "DELETE FROM {*reserved_products*} WHERE id='$reserved_prod_row_id'"));
     }

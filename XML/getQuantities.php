@@ -3,6 +3,8 @@ include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 if (!defined('PRODUCTS_INCLUDED')){
     include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
 }
+include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_location_types.php');
+
 if (isset($_GET['username']) && isset($_GET['password'])){
     $user = $_GET['username'];
     $pass = $_GET['password'];
@@ -23,11 +25,10 @@ if (mysqli_num_rows($check) == 0){
     /* User verified */
     header('Content-type: text/xml');
 
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, quantity, tag,
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, tag,
      (SELECT priceVAT FROM {*supplier_data*} WHERE {*products*}.id={*supplier_data*}.id_item LIMIT 1) as priceVAT,
      (SELECT `name` FROM {*product_name*} WHERE {*products*}.id={*product_name*}.id_product AND id_lang=3) as nameET,
-     (SELECT `name` FROM {*product_name*} WHERE {*products*}.id={*product_name*}.id_product AND id_lang=1) as nameRU,
-     (SELECT location FROM {*product_locations*} WHERE {*products*}.id={*product_locations*}.id_item LIMIT 1) as location
+     (SELECT `name` FROM {*product_name*} WHERE {*products*}.id={*product_name*}.id_product AND id_lang=1) as nameRU
      FROM {*products*}"));
 
 
@@ -40,7 +41,7 @@ if (mysqli_num_rows($check) == 0){
 
     while ($row = mysqli_fetch_assoc($q)){
         $id = $row['id'];
-        if($row['tag'] != "" && $row['quantity'] != "" ) {
+        if($row['tag'] != "") {
 
             $xml->startElement('product');
             $xml->writeAttribute("SKU", $row['tag']);
@@ -62,21 +63,31 @@ if (mysqli_num_rows($check) == 0){
             $xml->endElement();
 
             $xml->startElement('quantity');
-            $xml->text($row['quantity']);
+            $xml->text(get_quantity_sum($id));
             $xml->endElement();
 
-            $xml->startElement('location');
-            $xml->text($row['location']);
-            $xml->endElement();
 
-            $code = "";
-            $queryCode = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_codes*} WHERE id_product='$id' LIMIT 1"));
-            while ($rowCode = mysqli_fetch_assoc($queryCode)){
-                $code = $rowCode['ean'];
+            $row = array_merge($row, get_locations($id));
+
+            $xml->startElement('locations');
+            foreach ($row['locationList'] as $key => $value){
+                $xml->startElement('location');
+                $xml->startAttribute("type");
+                $xml->text(get_location_type_name($value['id_type']));
+                $xml->endAttribute();
+                $xml->text($value['location']);
+                $xml->endElement();
             }
+            $xml->endElement();
 
-            $xml->startElement('EAN');
-            $xml->text($code);
+            $code = get_ean_codes($id);
+
+            $xml->startElement('codes');
+            foreach ($code as $value){
+                $xml->startElement('EAN');
+                $xml->text($value['ean']);
+                $xml->endElement();
+            }
             $xml->endElement();
 
             $xml->endElement();

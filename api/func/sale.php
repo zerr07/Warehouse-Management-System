@@ -1,5 +1,5 @@
 <?php
-function performSale($data, $cart){
+function performSale($data, $cart, $id_type){
     if (!defined('PRODUCTS_INCLUDED')){
         include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
     }
@@ -52,10 +52,15 @@ function performSale($data, $cart){
         $price = $value['price'];
         $quantity = $value['quantity'];
         $basePrice = $value['basePrice'];
+        $loc = $value['id_location'];
+        if (isset($value['id_location'])){
+            update_quantity($key, $value['id_location'], "-", $quantity);
+        } else {
+            $loc = get_single_location_with_type($id_type, get_locations($key)['locationList']);
+            update_quantity($key, "", "-", $quantity);
+        }
         mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
-            "UPDATE {*products*} SET quantity=quantity-$quantity WHERE id='$key'"));
-        mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
-            "INSERT INTO {*sold_items*} (id_sale, id_item, price, quantity, basePrice, statusSet
-                                        ) VALUES ('$id', '$key', '$price', '$quantity', '$basePrice','Müük')"));
+            "INSERT INTO {*sold_items*} (id_sale, id_item, price, quantity, basePrice, statusSet, id_location
+                                        ) VALUES ('$id', '$key', '$price', '$quantity', '$basePrice','Müük', '$loc')"));
     }
 }

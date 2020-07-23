@@ -4,7 +4,7 @@ include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/getLang.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/get_platforms.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/applyRule.php');
-
+include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/get_location_types.php');
 function get_product_range($page, $status, $shard){
     global $search, $select, $searchSelect, $searchSearch;
     $onPage = _ENGINE['onPage'];
@@ -87,6 +87,7 @@ function read_result_single($row){
     $id = $row['id'];
     $arr = $row;
     $arr['name'] = get_name($id);
+    $arr['quantity'] = get_quantity_sum($id);
     $arr = array_merge($arr, get_locations($id));
     $arr['suppliers'] = get_supplier_data($id);
     $arr['platforms'] = get_platform_data($id);
@@ -103,8 +104,18 @@ function read_result_single($row){
 function get_manufacturer_name($index){
     $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*manufacturer*}
         WHERE id='$index'"));
-    while ($row = mysqli_fetch_assoc($query)) {
-        return $row['name'];
+    if ($query){
+        while ($row = mysqli_fetch_assoc($query)) {
+            return $row['name'];
+        }
+    }
+
+    return null;
+}
+function get_quantity_sum($index){
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT SUM(quantity) as q FROM {*product_locations*} WHERE id_item='$index'"));
+    if ($q){
+        return $q->fetch_assoc()['q'];
     }
     return null;
 }
@@ -127,8 +138,8 @@ function get_locations($index){
     $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_locations*}
         WHERE id_item='$index'"));
     while ($row = mysqli_fetch_assoc($query)) {
-
-        array_push($arr['locationList'], $row['location']);
+        $arr['locationList'][$row['id']] = $row;
+        $arr['locationList'][$row['id']]['type_name'] = get_location_type_name($row['id_type']);
         $arr['locations'] .= " " . $row['location'];
     }
     return $arr;
@@ -197,6 +208,16 @@ function get_main_image($index){
     while ($row = mysqli_fetch_assoc($q)){
         return $row['image'];
     }
+    return null;
+}
+
+function get_ean_codes($index){
+    $arr = array();
+    $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_codes*} WHERE id_product='$index'"));
+    while($row = mysqli_fetch_assoc($query)){
+        $arr[$row['id']] = $row;
+    }
+    return $arr;
 }
 
 function get_export_state($index){
@@ -238,17 +259,6 @@ function get_carrier($index){
     }
     return $arr;
 }
-function get_quantity($index){
-    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT quantity FROM {*products*}
-                                                                                    WHERE id='$index'"));
-    if($result){
-        while ($row = $result->fetch_assoc()) {
-            return $row['quantity'];
-        }
-    }
-    return null;
-}
-
 function get_name($index){
     $arr = array();
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *

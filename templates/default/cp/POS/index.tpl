@@ -28,7 +28,7 @@
                                             <th class="POStalble">Name</th>
                                             <th class="POStalble">Quantity</th>
                                             <th class="POStalble">Available</th>
-                                            <th class="POStalble">Location</th>
+                                            <th class="POStalble" style="width: 30%;">Location</th>
                                             <th class="POStalble">Base price</th>
                                             <th class="POStalble">Total price</th>
                                             <th></th>

@@ -11,8 +11,7 @@ function restore($arr){
                 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*sold_items*} 
                                                                     SET statusSet='Tagastus' WHERE id='$item'"));
                 if (is_numeric($id)){
-                    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*products*} 
-                                                                SET quantity=quantity+$quantity WHERE id='$id'"));
+                    update_quantity($id, $row['id_location'], "+", $quantity);
                 }
             }
         }

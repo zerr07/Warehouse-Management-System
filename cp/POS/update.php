@@ -1,6 +1,12 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"].'/configs/setup.php');
 include($_SERVER["DOCUMENT_ROOT"].'/controllers/session.php');
+if (isset($_POST['loc_select'])){
+    foreach ($_POST['loc_select'] as $key => $value){
+        $_SESSION['cart'][$key]['loc']['selected'] = $value;
+    }
+    updateCart();
+}
 if (isset($_POST['id'])){
     $id1 = $_POST['id'];
     $i = 0;
