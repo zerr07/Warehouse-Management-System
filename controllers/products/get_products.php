@@ -91,6 +91,7 @@ function read_result_single($row){
     $arr = array_merge($arr, get_locations($id));
     $arr['suppliers'] = get_supplier_data($id);
     $arr['platforms'] = get_platform_data($id);
+    $arr['reservations'] = get_reserve_info($id);
     $arr['descriptions'] = get_desc($id);
     $arr['images'] = get_images($id);
     $arr['mainImage'] = get_main_image($id);
@@ -195,6 +196,21 @@ function get_images($index){
         $arr[$row['id']] = $row;
     }
     return array_filter($arr);
+}
+
+function get_reserve_info($index){
+    $arr = array(array());
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*reserved_products*} 
+    WHERE id_product='$index'"));
+    if ($q){
+        $arr['reserved_sum'] = 0;
+        while ($row = $q->fetch_assoc()){
+            $arr['reserved_list'][$row['id']] = $row;
+            $arr['reserved_sum'] += $row['quantity'];
+        }
+        return $arr;
+    }
+    return null;
 }
 
 function get_main_image($index){
@@ -311,7 +327,7 @@ if (isset($_GET['searchTagID'])) {
     }
 }
 if (isset($_GET['searchName'])){
-    $search = "AND id IN (SELECT id_product FROM {*product_name*} WHERE id_lang='3'";
+    $search = "AND id IN (SELECT id_product FROM {*product_name*} WHERE (id_lang='3' OR id_lang='1')";
     $searchString = htmlentities($_GET['searchName'], ENT_QUOTES, "UTF-8");
     $searchString = explode(" ", $searchString);
     foreach ($searchString as $str){

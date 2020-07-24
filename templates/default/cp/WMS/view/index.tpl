@@ -34,7 +34,21 @@
                             <h3>{$item.name.ru}</h3>
                             <p>Category: {$item.category_name}</p>
                             <p>Actual price - {$item.actPrice} <i class="fas fa-euro-sign"></i></p>
-                            <p>Quantity - {$item.quantity}</p>
+                            <p>Quantity - {$item.quantity} (+ {$item.reservations.reserved_sum} from
+                                <a data-toggle="collapse" href="#collapseReservations" role="button"
+                                   aria-expanded="false" aria-controls="collapseReservations">
+                                    reservations
+                                </a>
+                                )</p>
+                            <div class="collapse" id="collapseReservations">
+                                <div class="card card-body">
+                                    {foreach $item.reservations.reserved_list as $key => $value}
+                                        <a href="/cp/POS/reserve/index.php?view={$value.id_reserved}">
+                                            {$value.id_reserved} - {$value.quantity} pcs.
+                                        </a>
+                                    {/foreach}
+                                </div>
+                            </div>
                             {foreach $item.images as $image}
                                 {if $image!=null}
                                     {if $image.primary == True}
@@ -225,4 +239,3 @@
     }
 </script>
 {include file='footer.tpl'}
-{debug}
