@@ -1,15 +1,18 @@
 <?php
-function performSale($data, $cart, $id_type){
-    if (!defined('PRODUCTS_INCLUDED')){
+function performSale($data, $cart, $id_type)
+{
+    if (!defined('PRODUCTS_INCLUDED')) {
         include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
     }
+    include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/updateQuantity.php');
+
     $sum = 0;
 
-    foreach ($cart as $key => $value){
+    foreach ($cart as $key => $value) {
         $sum += $value['price'];
     }
-    if (array_key_exists("card", $data)){
-        if ($data['card'] == 1){
+    if (array_key_exists("card", $data)) {
+        if ($data['card'] == 1) {
             $cash = 0;
             $card = $sum;
         } else {
@@ -20,26 +23,26 @@ function performSale($data, $cart, $id_type){
         exit("No card key found.");
     }
 
-    include_once($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/orderMode.php';
-    if (!array_key_exists("mode", $data)){
+    include_once ($_SERVER["DOCUMENT_ROOT"]) . '/cp/POS/orderMode.php';
+    if (!array_key_exists("mode", $data)) {
         exit("No mode key found.");
     } else {
         $mode = $data['mode'];
     }
-    if (!array_key_exists("ostja", $data)){
+    if (!array_key_exists("ostja", $data)) {
         $ostja = "";
     } else {
         $ostja = $data['ostja'];
     }
     $ostja = orderMode($mode, $ostja);
 
-    if (!array_key_exists("tellimuseNr", $data)){
+    if (!array_key_exists("tellimuseNr", $data)) {
         $telli = "";
     } else {
         $telli = $data['tellimuseNr'];
     }
 
-    $stamp = date_timestamp_get(date_create())*9;
+    $stamp = date_timestamp_get(date_create()) * 9;
     $mysqldate = date("Y-m-d H:i:s");
     mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*sales*}
                                 (cartSum, card, cash, arveNr, saleDate, ostja, modeSet, tellimuseNr) 
@@ -48,12 +51,12 @@ function performSale($data, $cart, $id_type){
     $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT MAX(id) as id FROM sales"));
     $row = mysqli_fetch_assoc($q);
     $id = $row['id'];
-    foreach ($cart as $key => $value){
+    foreach ($cart as $key => $value) {
         $price = $value['price'];
         $quantity = $value['quantity'];
         $basePrice = $value['basePrice'];
         $loc = $value['id_location'];
-        if (isset($value['id_location'])){
+        if (isset($value['id_location'])) {
             update_quantity($key, $value['id_location'], "-", $quantity);
         } else {
             $loc = get_single_location_with_type($id_type, get_locations($key)['locationList']);
