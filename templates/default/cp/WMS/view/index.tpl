@@ -120,7 +120,7 @@
                         </div>
                 </div>
                     <div class="accordion mt-2" id="accordion">
-                        <div class="card">
+                        <div class="card bg-transparent">
                             <div class="card-header" id="headingOne">
                                 <h2 class="mb-0">
                                     <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
@@ -197,7 +197,7 @@
                                 </tbody>
                         </table>
                             </div>
-                            <div class="card">
+                            <div class="card bg-transparent">
                                 <div class="card-header" id="headingSales">
                                     <h2 class="mb-0">
                                         <button class="btn btn-link btn-block text-left collapsed" type="button"
