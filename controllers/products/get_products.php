@@ -300,7 +300,22 @@ function get_tag($index){
     }
     return null;
 }
-
+function get_product_sales($index){
+    $arr = array(array());
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*sold_items*} 
+        WHERE id_item='$index' LIMIT 50"));
+    if ($q){
+        while ($row = $q->fetch_assoc()){
+            $arr[$row['id']] = $row;
+            $i = $row['id_sale'];
+            $q1 = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT saleDate FROM {*sales*} 
+            WHERE id='$i'"));
+            $arr[$row['id']]['saleDate'] = $q1->fetch_assoc()['saleDate'];
+        }
+        return array_filter($arr);
+    }
+    return null;
+}
 $search = "";
 $select = "";
 $searchSelect ="COUNT(*) as count";

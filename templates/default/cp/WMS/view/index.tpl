@@ -119,6 +119,17 @@
                             </table>
                         </div>
                 </div>
+                    <div class="accordion mt-2" id="accordion">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                            data-target="#collapsePlatforms" aria-expanded="true" aria-controls="collapsePlatforms">
+                                        Platforms
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapsePlatforms" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                         <table class="table table-borderless">
                             <thead>
                             <tr>
@@ -185,6 +196,25 @@
                                 {/foreach}
                                 </tbody>
                         </table>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingSales">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left collapsed" type="button"
+                                                data-toggle="collapse" data-target="#collapseSales" aria-expanded="false" aria-controls="collapseSales">
+                                            Last 50 sales
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseSales" class="collapse" aria-labelledby="headingSales" data-parent="#accordion">
+                                    {foreach $sales as $sale}
+                                        <a href="/cp/POS/sales/index.php?view={$sale.id_sale}">
+                                            {$sale.saleDate} - {$sale.quantity} pcs.<br/>
+                                        </a>
+                                    {/foreach}
+                                </div>
+                            </div>
+                        </div>
                             <div style="padding-top: 20px;">
                                 <ul class="nav nav-tabs">
                                     <li class="nav-item"> <a href="" class="nav-link active show" data-toggle="tab" data-target="#tabRUS">RUS</a> </li>

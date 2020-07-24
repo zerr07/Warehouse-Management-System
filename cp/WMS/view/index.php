@@ -14,8 +14,10 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
 if (!defined('PRODUCTS_INCLUDED')){
     include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
 }
+
 $smarty->assign('platforms', get_platforms());
 $smarty->assign("item", get_product($_GET['view']));
+$smarty->assign("sales", get_product_sales($_GET['view']));
 if (isset($_GET['searchName'])) {
     $smarty->assign("searchName", $_GET['searchName']);
 }
