@@ -1,16 +1,19 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+include($_SERVER["DOCUMENT_ROOT"] . '/controllers/log.php');
 
 if (isset($_GET['username']) && isset($_GET['password'])) {
     $user = $_GET['username'];
     $pass = $_GET['password'];
     $id = $_GET['id'];
+    sys_log(array("GET"=>$_GET, "OTHERDATA"=>$id));
 }
 
 if (isset($_POST['username']) && isset($_POST['password'])) {
     $user = $_POST['username'];
     $pass = $_POST['password'];
     $id = $_POST['id'];
+    sys_log(array("POST"=>$_POST, "OTHERDATA"=>$id));
 }
 $check = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*users*} 
                                                                                         WHERE username='$user'"));
