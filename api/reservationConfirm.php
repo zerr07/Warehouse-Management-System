@@ -63,7 +63,7 @@ if (mysqli_num_rows($check) == 0) {
 
     $cart = array_filter($cart);
     include_once ($_SERVER['DOCUMENT_ROOT']."/api/func/sale.php");
-    performSale($data, $cart);
+    performSale($data, $cart,$_COOKIE['default_location_type']);
 
 
 } else {
