@@ -35,7 +35,11 @@
                                                 <i class="fas fa-link"></i>
                                                 View
                                             </a>
-                                            <a class="btn btn-outline-primary" href="/cp/POS/reserve/index.php?cancelFull={$item.id}">
+                                            <a class="btn btn-outline-info" href="/cp/POS/reserve/loadReservationInCart.php?id={$item.id}" >
+                                                <i class="fas fa-link"></i>
+                                                Load in POS
+                                            </a>
+                                            <a class="btn btn-outline-danger" href="/cp/POS/reserve/index.php?cancelFull={$item.id}">
                                                 <i class="fas fa-frown"></i>
                                                 Cancel
                                             </a>

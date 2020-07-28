@@ -51,7 +51,7 @@
                                         <i class="far fa-smile"></i>
                                         Confirm item
                                     </button>
-                                    <a class="btn btn-outline-primary" href="/cp/POS/reserve/index.php?cancel={$reservation.id}&prodCancel={$prod.id}">
+                                    <a class="btn btn-outline-danger" href="/cp/POS/reserve/index.php?cancel={$reservation.id}&prodCancel={$prod.id}">
                                         <i class="fas fa-frown"></i>
                                         Cancel item
                                     </a>
@@ -65,11 +65,14 @@
                             onclick="confirmAll('{$reservation.id}')">
                         <i class="far fa-check-square"></i> Confirm All
                     </button>
-                    <button type="button" class="btn btn-info ml-2" style="display: inline-block; float:left;"
+                    <button type="button" class="btn btn-primary ml-2" style="display: inline-block; float:left;"
                             onclick="confirmSelected('{$reservation.id}')">
                         <i class="far fa-check-square"></i> Confirm selected
                     </button>
-
+                    <a class="btn btn-info ml-2" style="display: inline-block; float:left;"
+                            href="/cp/POS/reserve/loadReservationInCart.php?id={$reservation.id}">
+                        <i class="far fa-check-square"></i> Load into POS
+                    </a>
 
 
                     <a class="btn btn-primary" style="display: inline-block; float:right;" href="/cp/POS/reserve">

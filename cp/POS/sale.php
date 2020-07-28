@@ -11,6 +11,7 @@ if (!defined('PRODUCTS_INCLUDED')){
 include_once($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/reserve/reserve.php';
 include_once($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/orderMode.php';
 include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/products/updateQuantity.php';
+include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/log.php';
 if (isset($_GET['reservation'])){
     if ($_GET['reservation'] === NULL || $_GET['reservation'] == "" || empty($_GET['reservation'])){
         exit("Cannot process empty reservation. Please verify that the reservation contained items or contact the 
@@ -44,6 +45,7 @@ if (isset($_GET['reservation'])){
     $cartItems = $_SESSION['cart'];
     $sum = $_SESSION['cartTotal'];
 }
+sys_log(array("GET"=>$_GET, "POST"=>$_POST));
 
 // card init
 if (isset($_POST['card'])){
