@@ -1,4 +1,7 @@
 {include file='header.tpl'}
+<script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+<link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
+{include file='cp/POS/reserve/invoice.tpl'}
 <main class="d-flex flex-column">
     <div class="py-3 fullHeight">
         <div class="container">
@@ -14,6 +17,9 @@
                             Date: {$reservation.date}<br>
                             {$reservation.comment}
                         </p>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#invoiceModal">
+                            Print invoice
+                        </button>
                     </div>
                     <table class="table table-borderless">
                         <thead>

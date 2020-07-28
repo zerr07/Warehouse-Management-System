@@ -7,7 +7,13 @@ include($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
 include($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/reserve/reserve.php';
 
 if (isset($_GET['view'])){
-    $smarty->assign("reservation", getSingleCartReservation($_GET['view']));
+    $arr = getSingleCartReservation($_GET['view']);
+    $sum = 0;
+    foreach ($arr['products'] as $val){
+        $sum+= $val['price'];
+    }
+    $smarty->assign("sum", $sum);
+    $smarty->assign("reservation", $arr);
     $smarty->display('cp/POS/reserve/view.tpl');
 } elseif (isset($_GET['cancelFull'])){
     cancelReservationFull($_GET['cancelFull']);

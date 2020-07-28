@@ -1,5 +1,7 @@
 {include file='header.tpl'}
-
+<script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+<link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
+{include file='cp/POS/sales/invoice.tpl'}
 <main class="d-flex flex-column">
     <div class="py-3 fullHeight">
         <div class="container">
@@ -31,7 +33,25 @@
                                 <br>Tellimuse Nr: {$item.tellimuseNr}
                             {/if}
                         </p>
-                        <a class="btn btn-primary" target="_blank" rel="noopener noreferrer" href="/cp/POS/sales/printReceipt.php?view={$item.id}">Print receipt</a>
+                        {*<a class="btn btn-primary" target="_blank" rel="noopener noreferrer" role="button"
+                           href="/cp/POS/sales/printReceipt.php?view={$item.id}">Print receipt</a>*}
+                        <button type="button" class="btn btn-primary" onclick="OpenReceipt()">Print receipt</button>
+                        <script>
+                            function OpenReceipt()
+                            {
+                                window.open("/cp/POS/sales/printReceipt.php?view={$item.id}", '_blank');
+                            }
+                        </script>
+                        {literal}
+                            <button type="button" class="btn btn-info ml-2"  onclick="printJS(
+                                {printable: 'form', type: 'html',
+                                documentTitle: 'Invoice',
+                                css: 'https\://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css'}
+                                        )">
+                                Print invoice
+                            </button>
+                        {/literal}
+
                     </div>
                     <table class="table table-borderless">
                         <thead>
