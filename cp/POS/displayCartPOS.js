@@ -17,6 +17,7 @@ function displayCart(index) {
         }
         let name = "";
         let available = "";
+
         if (cart[key]['tag'] === "Buffertoode"){
             name = "<input type='text' class='form-control' name='buffer[]' value='"+cart[key]['name']+"'" +
                 " placeholder='Buffer name' id='buffer' data-placement='top' title='Try not to use numbers!'>" +
@@ -57,7 +58,15 @@ function displayCart(index) {
                 loc += "</select>";
             }
         }
-
+        let quantityInput;
+        if (cart[key]['tag'] !== "Buffertoode"){
+            quantityInput = "<input type='text' class='form-control' id='quantity"+counter+"' " +
+                "name='quantity[]' value='"+cart[key]['quantity']+"' placeholder='Quantity'>";
+        } else {
+            quantityInput = "<input type='text' class='form-control' id='quantity"+counter+"' " +
+                "onchange='sum();checkQuantity("+cart[key]['Available']+", "+counter+")' " +
+                "name='quantity[]' value='"+cart[key]['quantity']+"' placeholder='Quantity'>";
+        }
 
         $("#"+index).append("<tr>"
             + "<td class='POStalble'>" + tag + "</td>" +
@@ -66,9 +75,7 @@ function displayCart(index) {
             "</td>" +
             "<td class='POStalble'>"+name+"</td>" +
             "<td class='POStalble'>" +
-            "<input type='text' class='form-control' id='quantity"+counter+"' " +
-            "onchange='sum();checkQuantity("+cart[key]['Available']+", "+counter+")' " +
-            "name='quantity[]' value='"+cart[key]['quantity']+"' placeholder='Quantity'>" +
+            quantityInput +
             "</td>" +
             "<td class='POStalble'>"+available+"</td>" +
             "<td class='POStalble'>"+loc+"</td>" +

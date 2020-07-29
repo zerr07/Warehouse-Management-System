@@ -1,7 +1,7 @@
 {include file='header.tpl'}
 <main class="d-flex flex-column">
     <div class="py-3 fullHeight">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12" style="white-space: nowrap;">
                     {if isset($success) and $success=='true'}
@@ -28,7 +28,7 @@
                                             <th class="POStalble">Name</th>
                                             <th class="POStalble">Quantity</th>
                                             <th class="POStalble">Available</th>
-                                            <th class="POStalble" style="width: 30%;">Location</th>
+                                            <th class="POStalble">Location</th>
                                             <th class="POStalble">Base price</th>
                                             <th class="POStalble">Total price</th>
                                             <th></th>
@@ -68,7 +68,7 @@
     </div>
 </main>
 <script src="/templates/default/assets/js/cart.js"></script>
-
+{debug}
 <script>
     {literal}
     function reserveCart(){
@@ -79,13 +79,22 @@
         $.ajax({
             type     : "POST",
             cache    : false,
-            url      :"/cp/POS/reserve/reserve.php",
-            dataType: 'json',
-            data: {req: JSON.stringify(data)},
-            success: function(result){
-                console.log(result);
+            url      :"/cp/POS/update.php",
+            data     : $("#POScartForm").serialize(),
+            success: function (result) {
+                $.ajax({
+                    type     : "POST",
+                    cache    : false,
+                    url      :"/cp/POS/reserve/reserve.php",
+                    dataType: 'json',
+                    data: {req: JSON.stringify(data)},
+                    success: function(result){
+                        console.log(result);
+                    }
+                });
             }
         });
+
         location.reload();
     }
     {/literal}

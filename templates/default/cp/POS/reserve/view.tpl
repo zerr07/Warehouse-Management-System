@@ -41,8 +41,15 @@
                                         <label class="custom-control-label" for="select{$prod.id_product}"></label>
                                     </div>
                                 </td>
-                                <td class="td-20"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id_product}">{$prod.tag}</a></td>
-                                <td class="td-20"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id_product}">{$prod.name.et}</a></td>
+
+                                {if $prod.tag == "Buffertoode"}
+                                    <td class="td-20"><a style="color: white;text-overflow: ellipsis; ">{$prod.tag}</a></td>
+                                    <td class="td-20"><a style="color: white;text-overflow: ellipsis; ">{$prod.name}</a></td>
+                                {else}
+                                    <td class="td-20"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id_product}">{$prod.tag}</a></td>
+                                    <td class="td-20"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id_product}">{$prod.name.et}</a></td>
+                                {/if}
+
                                 <td>{$prod.quantity}</td>
                                 <td>{$prod.price}</td>
                                 <td>
@@ -209,8 +216,8 @@
         let arr = [];
         let urlPart;
         let products = JSON.parse(decodeURIComponent(p));
-        for (let k in products){
-            if (document.getElementById("select"+products[k]['id_product']).checked) {
+        for (let k in products) {
+            if (document.getElementById("select" + products[k]['id_product']).checked) {
                 arr[products[k]['id_product']] = {
                     id: products[k]['id_product'],
                     price: products[k]['price'],
@@ -223,16 +230,30 @@
         const filtered = arr.filter(el => {
             return el != null && el !== '';
         });
+        for (let k in products) {
+            if (document.getElementById("select" + products[k]['id_product']).checked) {
+                if (!isNumeric(products[k]['id_product'])) {
+                    filtered.push({
+                        id: products[k]['id_product'],
+                        price: products[k]['price'],
+                        basePrice: products[k]['basePrice'],
+                        quantity: products[k]['quantity'],
+                        id_location: products[k]['id_location']
+                    });
+                }
+            }
+        }
         urlPart = encodeURIComponent(JSON.stringify(filtered));
         let cash = $("#cash").val();
         let card = $("#card").val();
         let ostja = $("#ostja").val();
         let tellimuseNr = $("#tellimuseNr").val();
         let mode = $("#modeSelect option:selected").val();
-
         window.location.href = "/cp/POS/sale.php?reservation=true&cash="+cash+"&card="+card+"&ostja="+ostja+"&tellimuseNr="+tellimuseNr+"&mode="+mode+"&cart="+urlPart+"&id_res="+id_reservation;
 
     }
-
+    function isNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
 </script>
 {include file='footer.tpl'}

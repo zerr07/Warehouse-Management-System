@@ -31,7 +31,9 @@ function getCart(){
 function updateQuantity(){
     if (isset($_SESSION['cart'])){
         foreach ($_SESSION['cart'] as $key => $value){
-            $_SESSION['cart'][$key]['Available'] = get_quantity_sum($key);
+            if ($value['tag'] != "Buffertoode"){
+                $_SESSION['cart'][$key]['Available'] = get_quantity_sum($key);
+            }
         }
     }
 

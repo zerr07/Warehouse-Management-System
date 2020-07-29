@@ -15,7 +15,7 @@ function reserveCart($note, $cart){
     while($row = mysqli_fetch_assoc($q)){
         $id = $row['id'];
         foreach ($cart as $key => $value){
-            if($value['tag'] != "Buffertoode") {
+
                 $quantity = $value['quantity'];
                 $price = $value['price'];
                 $basePrice = $value['basePrice'];
@@ -25,12 +25,16 @@ function reserveCart($note, $cart){
                 } elseif (isset($value['id_location'])){
                     $id_loc = $value['id_location'];
                 }
-                update_quantity($key, $id_loc, "-", $quantity);
+                if($value['tag'] != "Buffertoode") {
+                    update_quantity($key, $id_loc, "-", $quantity);
+                } else {
+                    $key = $value['name'];
+                }
 
                 mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
                     "INSERT INTO {*reserved_products*} (id_reserved, id_product, price, quantity, basePrice, id_location
                                         ) VALUES ('$id', '$key', '$price', '$quantity', '$basePrice', '$id_loc')"));
-            }
+
         }
     }
     updateCart();
@@ -62,8 +66,14 @@ function readReservationResult($row){
                                                                     {*reserved_products*} WHERE id_reserved='$id'"));
     while ($row_products = mysqli_fetch_assoc($q_products)){
         $arr['products'][$row_products['id']] = $row_products;
-        $arr['products'][$row_products['id']]['tag'] = get_tag($row_products['id_product']);
-        $arr['products'][$row_products['id']]['name'] = get_name($row_products['id_product']);
+        if (!is_numeric($row_products['id_product'])){
+            $arr['products'][$row_products['id']]['tag'] = "Buffertoode";
+            $arr['products'][$row_products['id']]['name'] = $row_products['id_product'];
+        } else {
+            $arr['products'][$row_products['id']]['tag'] = get_tag($row_products['id_product']);
+            $arr['products'][$row_products['id']]['name'] = get_name($row_products['id_product']);
+        }
+
     }
     return $arr;
 }
@@ -75,7 +85,9 @@ function cancelReservationFull($id){
         $quantity = $row['quantity'];
         $id_product = $row['id_product'];
         $reserved_prod_row_id = $row['id'];
-        update_quantity($id_product, $row['id_location'], "+", $quantity);
+        if (is_numeric($id_product)){
+            update_quantity($id_product, $row['id_location'], "+", $quantity);
+        }
         mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
             "DELETE FROM {*reserved_products*} WHERE id='$reserved_prod_row_id'"));
     }
@@ -90,7 +102,9 @@ function cancelReservationProduct($id, $id_prod_res){
         $quantity = $row['quantity'];
         $reserved_prod_row_id = $row['id'];
         $id_product = $row['id_product'];
-        update_quantity($id_product, $row['id_location'], "+", $quantity);
+        if (is_numeric($id_product)){
+            update_quantity($id_product, $row['id_location'], "+", $quantity);
+        }
         mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
             "DELETE FROM {*reserved_products*} WHERE id='$reserved_prod_row_id'"));
     }

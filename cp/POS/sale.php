@@ -25,8 +25,14 @@ if (isset($_GET['reservation'])){
                 $key = $value['id'];
                 $cartItemsTemp[$key] = $value;
                 $sum += $cartItemsTemp[$key]['quantity']*$cartItemsTemp[$key]['basePrice'];
-                $cartItemsTemp[$key]['name'] = get_name($key)['et'];
-                $cartItemsTemp[$key]['tag'] = get_tag($key);
+                if (!is_numeric($value['id'])){
+                    $cartItemsTemp[$key]['name'] = $value['id'];
+                    $cartItemsTemp[$key]['tag'] = "Buffertoode";
+                } else {
+                    $cartItemsTemp[$key]['name'] = get_name($key)['et'];
+                    $cartItemsTemp[$key]['tag'] = get_tag($key);
+                }
+
             }
             $cartItems = $cartItemsTemp;
         } elseif ($_GET['id_cart']){
@@ -34,7 +40,11 @@ if (isset($_GET['reservation'])){
             $cartItems = $reservation['products'];
             foreach ($cartItems as $key => $value){
                 $sum += $cartItems[$key]['quantity']*$cartItems[$key]['basePrice'];
-                $cartItems[$key]['name'] = $cartItems[$key]['name']['et'];
+                if (is_numeric($value['id_product'])){
+                    $cartItems[$key]['name'] = $cartItems[$key]['name']['et'];
+                } else {
+                    $cartItems[$key]['name'] = $value['id_product'];
+                }
             }
 
         } else {
@@ -45,6 +55,7 @@ if (isset($_GET['reservation'])){
     $cartItems = $_SESSION['cart'];
     $sum = $_SESSION['cartTotal'];
 }
+
 sys_log(array("GET"=>$_GET, "POST"=>$_POST));
 
 // card init
@@ -182,7 +193,13 @@ foreach ($cartItems as $value){
         ?>
         <table>
             <tr>
-                <td style="padding-right: 25px"><?= $value['tag'];?></td>
+                <?php
+                if ($value['tag'] != "Buffertoode"){
+                    echo "<td style=\"padding-right: 25px\">";
+                    echo $value['tag']."</td>";
+                } else {
+                }
+                ?>
                 <td><?= $value['name'];?></td>
             </tr>
         </table>

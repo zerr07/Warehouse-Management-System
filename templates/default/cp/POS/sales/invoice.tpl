@@ -32,7 +32,6 @@
                         12474341<br />
                         J. Koorti tn 2-122 Tallinn Harjumaa 13623<br />
                         EE101681917
-                        (‿|‿)
                     </div>
                 </div>
             </div>
@@ -76,7 +75,9 @@
         </div>
         {foreach $desc as $prod}
             <div class="row">
-                <div class="col-1" style="border: 1px solid black">{$prod.tag}</div>
+                <div class="col-1" style="border: 1px solid black">
+                {if $prod.tag !== "Buffertoode"}{$prod.tag}{/if}
+                </div>
                 <div class="col-3" style="border: 1px solid black">{$prod.name}</div>
                 <div class="col-1" style="border: 1px solid black">tk</div>
                 <div class="col-1" style="border: 1px solid black">{$prod.quantity}</div>

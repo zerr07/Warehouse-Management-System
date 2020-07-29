@@ -68,8 +68,13 @@
         </div>
         {foreach $reservation.products as $prod}
             <div class="row">
-                <div class="col-1" style="border: 1px solid black">{$prod.tag}</div>
-                <div class="col-3" style="border: 1px solid black">{$prod.name.et}</div>
+                {if $prod.tag == "Buffertoode"}
+                    <div class="col-1" style="border: 1px solid black"></div>
+                    <div class="col-3" style="border: 1px solid black">{$prod.name}</div>
+                {else}
+                    <div class="col-1" style="border: 1px solid black">{$prod.tag}</div>
+                    <div class="col-3" style="border: 1px solid black">{$prod.name.et}</div>
+                {/if}
                 <div class="col-1" style="border: 1px solid black">tk</div>
                 <div class="col-1" style="border: 1px solid black">{$prod.quantity}</div>
                 <div class="col-2" style="border: 1px solid black">{$prod.basePrice}</div>
