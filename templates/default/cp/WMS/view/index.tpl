@@ -114,12 +114,17 @@
                                             <td>{$loc.location}</td>
                                             <td>{$loc.quantity}</td>
                                             <td>{$location_types.$id_type.name}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger" onclick="delete_loc({$loc.id})">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     {/foreach}
                                 </tbody>
                             </table>
                         </div>
-                </div>
+                    </div>
                     <div class="accordion mt-2" id="accordion">
                         <div class="card bg-transparent">
                             <div class="card-header" id="headingOne">
@@ -251,6 +256,16 @@
     </div>
 </main>
 <script>
+    function delete_loc(index){
+        if (confirm('Do you really want to delete location? Supplied quantity will be lost!')){
+            $.ajax({
+                type: "GET",
+                cache: false,
+                url: "/controllers/products/deleteLoc.php?id=" + index
+            });
+            location.reload();
+        }
+    }
     $('input[type=radio]').on('change', function() {
         $(this).closest("form").submit();
     });
