@@ -37,6 +37,7 @@ function displayCart(index) {
         let loc = "";
         if (cart[key]['loc'] !== null || cart[key]['loc'] !== ""){
             if (cart[key]['tag'] !== "Buffertoode") {
+                console.log(key);
                 let def_loc = cart[key]['loc']['selected'].toString();
                 loc += "<select class=\"custom-select\" name='loc_select["+key+"]'>";
                 for (var place in cart[key]['loc']['locationList']) {
@@ -50,8 +51,8 @@ function displayCart(index) {
                     } else {
                         loc += "<option value='"+place+"'>";
                     }
-                        loc += cart[key]['loc']['locationList'][place]['type_name'].toString() + " - "
-                        +cart[key]['loc']['locationList'][place]['location'].toString() + " - "
+                        loc += cart[key]['loc']['locationList'][place]['type_name'].toString() + " : "
+                        +cart[key]['loc']['locationList'][place]['location'].toString() + " : "
                         +cart[key]['loc']['locationList'][place]['quantity'].toString()
                         +"</option>"
                 }

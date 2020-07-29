@@ -181,8 +181,8 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
             } else {
                 options += "<option value='"+data['locationList'][c]['id']+"'>";
             }
-            options +=data['locationList'][c]['type_name']+" - "+
-                data['locationList'][c]['location']+" - "+
+            options +=data['locationList'][c]['type_name']+" : "+
+                data['locationList'][c]['location']+" : "+
                 data['locationList'][c]['quantity']+
                 "</option>";
         }

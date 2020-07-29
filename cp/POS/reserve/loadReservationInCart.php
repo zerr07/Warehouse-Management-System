@@ -27,7 +27,12 @@ if (isset($_GET['id'])) {   //reservation id
             $_SESSION['cart'][$row['id']]['price'] = $reservation['products'][$key]['price'];
             $_SESSION['cart'][$row['id']]['basePrice'] = $reservation['products'][$key]['basePrice'];
         } else {
-            $stamp = date_timestamp_get(date_create())*99;
+            while (True){
+                $stamp = date_timestamp_get(date_create())*rand(0,100);
+                if (!isset($_SESSION['cart'][$stamp])){
+                    break;
+                }
+            }
             $_SESSION['cart'][$stamp]['IMG'] = "";
             $_SESSION['cart'][$stamp]['id'] = $stamp;
             $_SESSION['cart'][$stamp]['tag'] = "Buffertoode";
