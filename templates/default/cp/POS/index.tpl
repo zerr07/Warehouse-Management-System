@@ -68,7 +68,6 @@
     </div>
 </main>
 <script src="/templates/default/assets/js/cart.js"></script>
-{debug}
 <script>
     {literal}
     function reserveCart(){

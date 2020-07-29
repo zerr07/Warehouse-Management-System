@@ -1,7 +1,7 @@
 <div hidden>
-    <div id="form">
+    <div id="form" class="container">
         <div class="row">
-            <div class="col-8">
+            <div class="col-7">
                 <img src="/cp/POS/sales/aaaaaaa.png">
             </div>
             <div class="col-2">
@@ -10,7 +10,7 @@
                     Kuupäev
                 </b>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <b>
                     {$reservation.id} <br />
                     {$reservation.date}
@@ -57,29 +57,29 @@
                 0.05%
             </div>
         </div>
-        <div class="row">
-            <div class="col-1" style="border: 1px solid black">Kood</div>
-            <div class="col-3" style="border: 1px solid black">Teenuste/kaupade nimetus</div>
-            <div class="col-1" style="border: 1px solid black">Ühik</div>
-            <div class="col-1" style="border: 1px solid black">Maht</div>
-            <div class="col-2" style="border: 1px solid black">Hind KM-ga</div>
-            <div class="col-2" style="border: 1px solid black">Hind KM-ta</div>
-            <div class="col-2" style="border: 1px solid black">Kokku KM-ta</div>
+        <div class="row border border-dark">
+            <div class="col-1">Kood</div>
+            <div class="col-3">Teenuste/kaupade nimetus</div>
+            <div class="col-1">Ühik</div>
+            <div class="col-1">Maht</div>
+            <div class="col-2">Hind KM-ga</div>
+            <div class="col-2">Hind KM-ta</div>
+            <div class="col-2">Kokku KM-ta</div>
         </div>
         {foreach $reservation.products as $prod}
-            <div class="row">
+            <div class="row border border-dark">
                 {if $prod.tag == "Buffertoode"}
-                    <div class="col-1" style="border: 1px solid black"></div>
-                    <div class="col-3" style="border: 1px solid black">{$prod.name}</div>
+                    <div class="col-1"></div>
+                    <div class="col-3">{$prod.name}</div>
                 {else}
-                    <div class="col-1" style="border: 1px solid black">{$prod.tag}</div>
-                    <div class="col-3" style="border: 1px solid black">{$prod.name.et}</div>
+                    <div class="col-1">{$prod.tag}</div>
+                    <div class="col-3">{$prod.name.et}</div>
                 {/if}
-                <div class="col-1" style="border: 1px solid black">tk</div>
-                <div class="col-1" style="border: 1px solid black">{$prod.quantity}</div>
-                <div class="col-2" style="border: 1px solid black">{$prod.basePrice}</div>
-                <div class="col-2" style="border: 1px solid black">{($prod.basePrice/1.2)|round:4}</div>
-                <div class="col-2" style="border: 1px solid black">{($prod.price/1.2)|round:4}</div>
+                <div class="col-1">tk</div>
+                <div class="col-1">{$prod.quantity}</div>
+                <div class="col-2">{$prod.basePrice}</div>
+                <div class="col-2">{($prod.basePrice/1.2)|round:4}</div>
+                <div class="col-2">{($prod.price/1.2)|round:4}</div>
             </div>
         {/foreach}
 
@@ -91,9 +91,9 @@
                 Valuuta
             </div>
             <div class="col-4">
-                {($sum/1.2)|round:2}<br />
-                {($sum - $sum/1.2)|round:2}<br />
-                <b>{$sum}</b><br />
+                {($sum/1.2)|round:2|string_format:"%.2f"}<br />
+                {($sum - $sum/1.2)|round:2|string_format:"%.2f"}<br />
+                <b>{$sum|string_format:"%.2f"}</b><br />
                 <b>EUR</b>
             </div>
         </div>
