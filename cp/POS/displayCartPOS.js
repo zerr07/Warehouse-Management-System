@@ -60,12 +60,13 @@ function displayCart(index) {
             }
         }
         let quantityInput;
+        console.log(cart[key]['tag']);
         if (cart[key]['tag'] !== "Buffertoode"){
             quantityInput = "<input type='text' class='form-control' id='quantity"+counter+"' " +
+                "onchange='sum();checkQuantity("+cart[key]['Available']+", "+counter+")' " +
                 "name='quantity[]' value='"+cart[key]['quantity']+"' placeholder='Quantity'>";
         } else {
             quantityInput = "<input type='text' class='form-control' id='quantity"+counter+"' " +
-                "onchange='sum();checkQuantity("+cart[key]['Available']+", "+counter+")' " +
                 "name='quantity[]' value='"+cart[key]['quantity']+"' placeholder='Quantity'>";
         }
 
