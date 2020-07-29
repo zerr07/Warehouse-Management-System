@@ -42,7 +42,7 @@ function reserveCart($note, $cart){
 
 function getReservedCarts(){
     $arr = array(array());
-    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*reserved*}"));
+    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*reserved*} ORDER BY date DESC"));
     while ($row = mysqli_fetch_assoc($q)){
         $id = $row['id'];
         $arr[$id] = readReservationResult($row);
