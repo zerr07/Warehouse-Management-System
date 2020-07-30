@@ -47,7 +47,9 @@ foreach ($arr as $key => $value){
         $arr[$key]['link'] = mysqli_fetch_assoc($link)['id_category_platform'];
         $tree = getCategoryTree($arr[$key]['link']);
         if (isset($tree[1])) {
-            $arr[$key]['cat_tree'] = array_reverse($tree[1], false);
+            $tree[1] = array_reverse($tree[1], false);
+            $tree[1][0] = array_reverse($tree[1][0], false);
+            $arr[$key]['cat_tree'] = $tree[1];
             array_push($arr[$key]['cat_tree'], $tree[0]);
         } else {
             $arr[$key]['cat_tree'] = $tree[0];
