@@ -115,7 +115,7 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
             if (scannerState === "product"){
                 scanProduct();
             } else if (scannerState === "location"){
-                scanNewLocation(productData['id'], locbox.val());
+                //scanNewLocation(productData['id'], locbox.val());
             }
 
         }
