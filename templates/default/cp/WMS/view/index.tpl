@@ -273,11 +273,13 @@
 </main>
 <script>
     function getImages(index){
-        $.ajax({
+        window.location = "/controllers/products/getAllImages.php?id=" + index;
+
+        /*$.ajax({
             type: "GET",
             cache: false,
             url: "/controllers/products/getAllImages.php?id=" + index
-        });
+        });*/
 
     }
     function delete_loc(index){
