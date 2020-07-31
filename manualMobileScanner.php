@@ -58,7 +58,7 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
             </div>
         </div>
     </div>
-    <input type="text" id="tagbox" class="form-control-lg w-100 inputTag" placeholder="Product tag" onfocus="setScannerState('product')" autofocus>
+    <input type="text" id="tagbox" class="form-control-lg w-100 inputTag" placeholder="Product tag" onfocus="setScannerState('product')">
     <button type="button" class="btn btn-primary w-100" style="height: 250px;position: fixed;
     bottom: 0;
     left: 0;" onclick="scanProduct()">
@@ -87,6 +87,26 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
         </div>
     </div>
     <!-- End of product scanner -->
+    <!-- location delete Modal -->
+    <div id="location_delete" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="location_deleteLabel" aria-hidden="true" bis_skin_checked="1">
+        <div class="modal-dialog" role="document" bis_skin_checked="1">
+            <div class="modal-content" bis_skin_checked="1">
+                <div class="modal-header" bis_skin_checked="1">
+                    <h5 class="modal-title" id="location_deleteLabel">Delete locations</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center" bis_skin_checked="1" id="locationDeleteList">
+
+                </div>
+                <div class="modal-footer" bis_skin_checked="1">
+                    <button type="button" class="btn btn-lg btn-secondary w-100" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of location delete -->
 </div>
 <style>
     #interactive.viewport {position: relative; width: 100%; height: auto; overflow: hidden; text-align: center;}
@@ -99,6 +119,7 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
     let scannerState;
     let tagbox = $("#tagbox");
     let locbox = $("#scanLocationBox");
+    let locdeletebox = $("#location_delete");
     function setScannerState(state){
         scannerState = state;
     }
@@ -145,10 +166,34 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
         productData = JSON.parse(product.responseText);
         buildProductBox(productData);
     }
+    function delete_loc(index, id_product){
+        if (confirm('Do you really want to delete location? Supplied quantity will be lost!')){
+            $.ajax({
+                type: "GET",
+                cache: false,
+                url: "/controllers/products/deleteLoc.php?id=" + index
+            });
+            getProductDataByID(id_product);
+            buildProductBox(productData);
+        }
+    }
     function buildProductBox(data){
         if (data === null){
             $("#productBox").html("");
+            $("#locationDeleteList").html("");
         } else {
+            let locations = "";
+            for (i in productData['locationList']){
+                locations +=
+                    "<div class='row'>" +
+                    "<div class='col-12'><span class='align-middle' style='font-size: 5em;'>" + data['locationList'][i]['location']+"</span>"+
+                    " <button type=\"button\" class=\"btn btn-lg btn-danger\" onclick=\"delete_loc("+i+", "+data['id']+")\" style='font-size: 3rem'>"+
+                    "<i class=\"fas fa-trash\"></i>"+
+                    "</button>" +
+                    "</div>" +
+                    "</div>";
+            }
+            $("#locationDeleteList").html(locations);
             $("#productBox").html(
                 "<div class='jumbotron'>" +
                 "<div class='row'>" +
@@ -170,7 +215,8 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
                 "<button type=\"button\" class=\"btn btn-secondary btnQuantity\" onclick=\"changeQuantity('minus1',     "+ data['id'] +")\">-1</button>" +
                 "<button type=\"button\" class=\"btn btn-primary btnScan\"   onclick=\"setScannerState('location');locbox.focus();\"" +
                 " data-toggle=\"modal\" data-target=\"#location_scanner\">Scan new location</button>" +
-
+                "<button type=\"button\" class=\"btn btn-primary btnScan\"" +
+                " data-toggle=\"modal\" data-target=\"#location_delete\">Delete location</button>" +
                 "</div>");
         }
         let options = "";
