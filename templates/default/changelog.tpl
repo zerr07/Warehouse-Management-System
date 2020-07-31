@@ -5,6 +5,40 @@
             <div class="accordion text-left" id="accordion">
 
                 <div class="card">
+                    <div class="card-header" id="heading030">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse030" aria-expanded="false" aria-controls="collapse030">
+                                Version 0.3.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse030" class="collapse" aria-labelledby="heading030" data-parent="#accordion">
+                        <div class="card-body">
+                            EAN addition modal added to product view page.<br />
+                            Product images bulk download button added<br />
+                            Location deletion added to product scanner<br />
+                            Reservation quantity lists added<br />
+                            Product sale list added<br />
+                            Requests logging implemented<br />
+                            Reservation and sale invoices<br />
+                            Load reservation into cart functionality<br />
+                            Buffer products now supported in POS reservations<br />
+                            Location deletion function<br />
+                            Reservation list is now sorted by date<br />
+                            Cosmetic changes <br />
+                            <hr>
+                            Fixed:<br />
+                            Category tree output for OkiDoki<br />
+                            Location duplication in product scanner<br />
+                            Reservations load with multiple buffers fixed<br />
+                            POS quantity check fixed<br />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
                     <div class="card-header" id="heading020">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
