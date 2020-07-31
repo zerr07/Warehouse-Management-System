@@ -1,5 +1,6 @@
 {include file='header.tpl'}
 
+{include file='cp/WMS/item/EANModal.tpl'}
 <main class="d-flex flex-column">
     <div class="py-3 fullHeight">
         <div class="container">
@@ -34,7 +35,7 @@
                             <h3>{$item.name.ru}</h3>
                             <p>Category: {$item.category_name}</p>
                             <p>Actual price - {$item.actPrice} <i class="fas fa-euro-sign"></i></p>
-                            <p>Quantity - {$item.quantity} (+ {$item.reservations.reserved_sum} from
+                            <p>Quantity : {$item.quantity} (+ {$item.reservations.reserved_sum} from
                                 <a data-toggle="collapse" href="#collapseReservations" role="button"
                                    aria-expanded="false" aria-controls="collapseReservations">
                                     reservations
@@ -58,13 +59,28 @@
                                     {/if}
                                 {/if}
                             {/foreach}
-                            {if $item.tag == ""}
-                                <a class="btn btn-primary disabled" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape}&tag={$item.tag}">Print label</a>
-
-                            {else}
-                                <a class="btn btn-primary" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape}&tag={$item.tag}">Print label</a>
-
+                            {if !empty($item.images)}
+                                <div class="row mt-3">
+                                    <div class="col-12">
+                                        <button type="button" style="width: 30%" class="btn btn-primary"
+                                                onclick="getImages({$item.id})"><i class="far fa-images"></i> Download all images</button>
+                                    </div>
+                                </div>
                             {/if}
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    {if $item.tag == ""}
+                                        <a class="btn btn-primary disabled" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape}&tag={$item.tag}">Print label</a>
+
+                                    {else}
+                                        <a class="btn btn-primary" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape}&tag={$item.tag}">Print label</a>
+
+                                    {/if}
+                                    <button type="button" style="width: 30%" class="btn btn-primary" onclick="getCodes({$item.id})"
+                                            data-toggle="modal" data-target="#linkEANModalBody"><i class="fas fa-edit"></i> EAN Codes</button>
+                                </div>
+
+                            </div>
 
                             <div style="margin-top: 15px;">
                                 <form action="/cp/WMS/item/edit/addQuantity.php" method="GET">
@@ -256,6 +272,14 @@
     </div>
 </main>
 <script>
+    function getImages(index){
+        $.ajax({
+            type: "GET",
+            cache: false,
+            url: "/controllers/products/getAllImages.php?id=" + index
+        });
+
+    }
     function delete_loc(index){
         if (confirm('Do you really want to delete location? Supplied quantity will be lost!')){
             $.ajax({
