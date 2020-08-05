@@ -81,6 +81,8 @@ function readReservationResult($row){
 function cancelReservationFull($id){
     $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT id, quantity, id_product, id_location FROM 
                     {*reserved_products*} WHERE id_reserved='$id'"));
+
+
     while ($row = mysqli_fetch_assoc($q)){
         $quantity = $row['quantity'];
         $id_product = $row['id_product'];

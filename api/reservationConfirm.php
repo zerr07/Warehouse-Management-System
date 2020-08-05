@@ -48,22 +48,31 @@ if (mysqli_num_rows($check) == 0) {
         }
         $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*reserved_products*} WHERE id_reserved='$id' AND ($search)"));
     }
-    // Formatting cart
-    include_once($_SERVER["DOCUMENT_ROOT"] . '/cp/POS/reserve/reserve.php');
+    if ($q->num_rows == 1){
+        // Formatting cart
+        include_once($_SERVER["DOCUMENT_ROOT"] . '/cp/POS/reserve/reserve.php');
 
-    $cart = array();
-    while ($row = $q->fetch_assoc()){
-        $cart[$row['id_product']] = array(
-            "quantity" => $row['quantity'],
-            "price" => $row['price'],
-            "basePrice" => $row['basePrice']
-        );
-        cancelReservationProduct($data['id'], $row['id']);
+        $cart = array();
+        while ($row = $q->fetch_assoc()){
+            $cart[$row['id_product']] = array(
+                "quantity" => $row['quantity'],
+                "price" => $row['price'],
+                "basePrice" => $row['basePrice']
+            );
+            cancelReservationProduct($data['id'], $row['id']);
+        }
+
+        $cart = array_filter($cart);
+        include_once ($_SERVER['DOCUMENT_ROOT']."/api/func/sale.php");
+        if (isset($_COOKIE['default_location_type'])){
+            $def_loc = $_COOKIE['default_location_type'];
+        } else {
+            $def_loc = 1;
+        }
+        performSale($data, $cart,$def_loc);
+    } else {
+        exit("Could not get reservation with id:".$id);
     }
-
-    $cart = array_filter($cart);
-    include_once ($_SERVER['DOCUMENT_ROOT']."/api/func/sale.php");
-    performSale($data, $cart,$_COOKIE['default_location_type']);
 
 
 } else {
