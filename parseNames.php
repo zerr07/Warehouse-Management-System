@@ -217,5 +217,3 @@ if ( $xlsx = SimpleXLSX::parse('test_2020-06-11.xlsx') ) {
     echo SimpleXLSX::parseError();
 }
 */
-include ($_SERVER['DOCUMENT_ROOT']."/controllers/log.php");
-sys_log("asd");
