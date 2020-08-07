@@ -188,6 +188,7 @@
                             <table class="table table-borderless">
                                 <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Platform Name</th>
                                     <th>Price</th>
                                     <th></th>
@@ -196,6 +197,13 @@
                                 <tbody>
                                 {foreach $platforms as $key => $value}
                                     <tr>
+                                        <td>
+                                            {if ($item.platforms.$key.export=== "1")}
+                                                <i class="fas fa-file-export" style="color: green; font-size: 24px"></i>
+                                            {else}
+                                                <i class="fas fa-file-export" style="color: red; font-size: 24px"></i>
+                                            {/if}
+                                        </td>
                                         <td class="td-20">{$value.name}</td>
                                         <td class="td-20">{$item.platforms.$key.price} €</td>
                                         <td style="float: right;">
@@ -217,6 +225,7 @@
                                     </tr>
                                 {/foreach}
                                 </tbody>
+                                {debug}
                         </table>
                             </div>
                             <div class="card bg-transparent">
