@@ -1,5 +1,7 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
+include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/updateQuantity.php');
+
 function restore($arr){
    foreach ($arr as $item){
        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*sold_items*} 
