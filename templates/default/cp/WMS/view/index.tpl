@@ -225,7 +225,6 @@
                                     </tr>
                                 {/foreach}
                                 </tbody>
-                                {debug}
                         </table>
                             </div>
                             <div class="card bg-transparent">
