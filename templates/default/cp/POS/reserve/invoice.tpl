@@ -6,7 +6,7 @@
             </div>
             <div class="col-2">
                 <b>
-                    Reservatsioon id<br />
+                    Arve Nr<br />
                     Kuupäev
                 </b>
             </div>
