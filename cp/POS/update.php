@@ -11,7 +11,7 @@ if (isset($_POST['id'])){
     $id1 = $_POST['id'];
     $i = 0;
     foreach ($id1 as $item){
-        $_SESSION['cart'][$item]['basePrice'] = number_format($_POST['price'][$i],2, ".", "", ".", "");
+        $_SESSION['cart'][$item]['basePrice'] = number_format($_POST['price'][$i],2, ".", "");
         $_SESSION['cart'][$item]['quantity'] = $_POST['quantity'][$i];
         $i++;
 
