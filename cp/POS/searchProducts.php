@@ -65,15 +65,15 @@ function addToCart($q){
                 $query = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM 
                                                 {*product_platforms*} WHERE id_item='$dbID' AND id_platform='1'"));
                 while ($rowQ = mysqli_fetch_assoc($query)) {
-                    $_SESSION['cart'][$row['id']]['price'] = number_format($rowQ['price'], 2);
+                    $_SESSION['cart'][$row['id']]['price'] = number_format($rowQ['price'], 2, ".", "");
                     if (is_numeric($rowQ['price'])){
-                        $_SESSION['cart'][$row['id']]['basePrice'] = number_format($rowQ['price'], 2);
+                        $_SESSION['cart'][$row['id']]['basePrice'] = number_format($rowQ['price'], 2, ".", "");
                     } else {
-                        $_SESSION['cart'][$row['id']]['basePrice'] = number_format(0, 2);
+                        $_SESSION['cart'][$row['id']]['basePrice'] = number_format(0, 2, ".", "");
                     }
                 }
                 if (mysqli_num_rows($query) != 1){
-                    $_SESSION['cart'][$row['id']]['basePrice'] = number_format(0, 2);
+                    $_SESSION['cart'][$row['id']]['basePrice'] = number_format(0, 2, ".", "");
                 }
             }
             updateCart();

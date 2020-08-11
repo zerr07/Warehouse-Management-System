@@ -25,9 +25,9 @@ $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*sa
 for ($i = 0;$row = mysqli_fetch_assoc($q); $i++){
     $arr[$i]['arveNr'] = $row['arveNr'];
     $arr[$i]['date'] = date_format(date_create($row['saleDate']), "d.m.Y H:i:s");
-    $arr[$i]['sum'] = number_format($row['cartSum'], 2);
-    $arr[$i]['card'] = number_format($row['card'],2);
-    $arr[$i]['cash'] = number_format($row['cash'],2);
+    $arr[$i]['sum'] = number_format($row['cartSum'], 2, ".", "");
+    $arr[$i]['card'] = number_format($row['card'],2, ".", "");
+    $arr[$i]['cash'] = number_format($row['cash'],2, ".", "");
     $arr[$i]['id'] = $row['id'];
     $arr[$i]['ostja'] = $row['ostja'];
     $arr[$i]['tellimuseNr'] = $row['tellimuseNr'];
@@ -40,9 +40,9 @@ for ($i = 0;$row = mysqli_fetch_assoc($q); $i++){
     while ($rowItems = mysqli_fetch_assoc($qItems)){
         $arr[$i]['tagastusFull'] .= "tagastusFull[]=".$rowItems['id']."&";
         $desc[$rowItems['id']]['saleID'] = $rowItems['id'];
-        $desc[$rowItems['id']]['price'] = number_format($rowItems['price'],2);
+        $desc[$rowItems['id']]['price'] = number_format($rowItems['price'],2, ".", "");
         $desc[$rowItems['id']]['quantity'] = $rowItems['quantity'];
-        $desc[$rowItems['id']]['basePrice'] = number_format($rowItems['basePrice'], 2);
+        $desc[$rowItems['id']]['basePrice'] = number_format($rowItems['basePrice'], 2, ".", "");
         $desc[$rowItems['id']]['status'] = $rowItems['statusSet'];
         if ($rowItems['statusSet'] == "Müük"){
             $countTagastus++;
