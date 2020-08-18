@@ -200,8 +200,9 @@ function get_images($index){
 
 function get_reserve_info($index){
     $arr = array(array());
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*reserved_products*} 
-    WHERE id_product='$index'"));
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *,
+    (SELECT `comment` FROM {*reserved*} WHERE {*reserved*}.id={*reserved_products*}.id_reserved) as `comment`
+    FROM {*reserved_products*} WHERE id_product='$index'"));
     if ($q){
         $arr['reserved_sum'] = 0;
         while ($row = $q->fetch_assoc()){

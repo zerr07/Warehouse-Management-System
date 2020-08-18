@@ -45,7 +45,7 @@
                                 <div class="card card-body">
                                     {foreach $item.reservations.reserved_list as $key => $value}
                                         <a href="/cp/POS/reserve/index.php?view={$value.id_reserved}">
-                                            {$value.id_reserved} - {$value.quantity} pcs.
+                                            {$value.id_reserved} - {$value.comment} - {$value.quantity} pcs.
                                         </a>
                                     {/foreach}
                                 </div>
