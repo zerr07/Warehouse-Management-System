@@ -273,13 +273,25 @@
                                 </div>
                             </div>
                             <a href="/cp/WMS/item/edit/?edit={$item.id}" style="float: left;" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
-                            <a class="btn btn-primary" style="display: inline-block; float:right;" href="/cp/WMS/"><i class="fas fa-undo-alt"></i> Back</a>
+                        <button type="button" class="btn btn-secondary ml-2" style="float: left" onclick="duplicate_product({$item.id})">Duplicate</button>
+
+                        <a class="btn btn-primary" style="display: inline-block; float:right;" href="/cp/WMS/"><i class="fas fa-undo-alt"></i> Back</a>
                 </div>
             </div>
         </div>
     </div>
 </main>
 <script>
+    function duplicate_product(index) {
+        if (confirm('Do you really want to duplicate product?')){
+            $.ajax({
+                type: "GET",
+                cache: false,
+                url: "/controllers/products/duplicate_product.php?id=" + index
+            });
+            window.location = "/cp/WMS/";
+        }
+    }
     function getImages(index){
         window.location = "/controllers/products/getAllImages.php?id=" + index;
 
