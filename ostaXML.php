@@ -162,17 +162,15 @@ while ($row = mysqli_fetch_assoc($q)){
             xmlwriter_text($xw, "1");
             xmlwriter_end_element($xw); // smartpost_size_id
         }
-        /*if($arr['carrier'][2]['enabled']){
+        if($arr['carrier'][2]['enabled']){
             xmlwriter_start_element($xw, 'ship_courier_pickup');
             xmlwriter_end_element($xw); // ship_courier_pickup
             xmlwriter_start_element($xw, 'pickup_description');
-            xmlwriter_text($xw, "Kauba saab kätte aadressil Narva mnt 150, Tallinn, 1 korrus
-            Maja paremalt poolt sissepääs sildiga BigShop.ee
+            xmlwriter_text($xw, "Kauba saab kätte aadressil Laki 9a, Tallinn, 2 korrus
             Tööaeg: E-R 12.00-17.00
-            Tel. 58834435
-            Paluks jargi tulla mitte hiljem kui 3 tööpäeva jooksul");
+            Tel. 58834435");
             xmlwriter_end_element($xw); // pickup_description
-        }*/
+        }
         if($arr['carrier'][1]['enabled']){
             xmlwriter_start_element($xw, 'ship_courier_agreement');
             xmlwriter_end_element($xw); // ship_courier_agreement
