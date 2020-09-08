@@ -49,14 +49,14 @@ if (isset($_GET['id'])){
     }
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, image FROM {*product_images*} WHERE id_item='$last'"));
     while ($row = $q->fetch_assoc()){
-        $file = $_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$row['image'];
+        $oldfilename = $row['image'];
+        $file = $_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$oldfilename;
         $newfilename = $last . rand(1, 100000000000000) . "." .get_extension($row['image']);
         $newfile = $_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$newfilename;
         if (!copy($file, $newfile)) {
             echo "Error copying file";
         } else {
-            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET image='$newfilename' WHERE id='$last'"));
+            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET image='$newfilename' WHERE image='$oldfilename' AND id='$last'"));
         }
     }
 }
-
