@@ -1,5 +1,5 @@
 <?php
-$my_file = 'ProductList.xml';
+$my_file = 'ProductList_Osta.xml';
 include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 if (!defined('PRODUCTS_INCLUDED')){
     include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
