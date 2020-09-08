@@ -4,6 +4,31 @@
         <div class="container">
             <div class="accordion text-left" id="accordion">
 
+
+                <div class="card">
+                    <div class="card-header" id="heading031">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse031" aria-expanded="false" aria-controls="collapse031">
+                                Version 0.3.1
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse031" class="collapse" aria-labelledby="heading031" data-parent="#accordion">
+                        <div class="card-body">
+                            Product duplication functionality<br />
+                            Export indicators added<br />
+                            <hr>
+                            Fixed:<br />
+                            Reservation cancellation quantity operation fix<br />
+                            Quantity fix on product cancel<br />
+                            POS cart reservation bug fixed<br />
+                            Edited Osta.ee sync (created cron job to generate XML, new link is to download only now)<br />/>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="card">
                     <div class="card-header" id="heading030">
                         <h2 class="mb-0">
