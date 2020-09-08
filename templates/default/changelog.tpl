@@ -23,7 +23,7 @@
                             Reservation cancellation quantity operation fix<br />
                             Quantity fix on product cancel<br />
                             POS cart reservation bug fixed<br />
-                            Edited Osta.ee sync (created cron job to generate XML, new link is to download only now)<br />/>
+                            Edited Osta.ee sync (created cron job to generate XML, new link is to download only now)<br />
                         </div>
                     </div>
                 </div>
