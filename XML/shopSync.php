@@ -56,8 +56,9 @@ if (mysqli_num_rows($check) == 0){
     fwrite($handle, "<Products>\n");
 
     while ($row = mysqli_fetch_assoc($q)){
+        $quantity = get_quantity_sum($row['id']);
 
-        if($row['tag'] != "" && $row['quantity'] != "" ) {
+        if($row['tag'] != "" && !is_null($quantity) ) {
             $arr = read_result_single($row);
 
             $carriers_status = getEnabledCarriers($row['id']);
@@ -65,7 +66,7 @@ if (mysqli_num_rows($check) == 0){
             $price = str_replace(",", ".", $arr['platforms'][$platform]['price']);
             fwrite($handle, "    <Product>\n");
             fwrite($handle, "        <Tag>" . $row['tag'] . "</Tag>\n");
-            fwrite($handle, "        <Available>" . $row['quantity'] . "</Available>\n");
+            fwrite($handle, "        <Available>" . $quantity . "</Available>\n");
             fwrite($handle, "        <Price>" . $price . "</Price>\n");
             fwrite($handle, "        <Category>" . $row['id_category'] . "</Category>\n");
             if(!empty($carriers_status)){
