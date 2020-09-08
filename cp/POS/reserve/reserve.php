@@ -126,6 +126,7 @@ if (isset($_POST['req'])){
         reserveCart($request->note, $_SESSION['cart']);
         $_SESSION['cart'] = array();
         $_SESSION['cartTotal'] = 0.00;
+        updateCart();
         echo "Reserve success";
     }
 }
