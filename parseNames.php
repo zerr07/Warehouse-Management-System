@@ -217,3 +217,28 @@ if ( $xlsx = SimpleXLSX::parse('test_2020-06-11.xlsx') ) {
     echo SimpleXLSX::parseError();
 }
 */
+
+
+/* ------------ Find and remove(copy and update sql) image duplicates --------------------- */
+function get_extension($file) {
+    $array = explode(".", $file);
+    $extension = end($array);
+    return $extension ? $extension : false;
+}
+$q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *, COUNT(*) FROM product_images GROUP BY image HAVING COUNT(*) > 1"));
+while ($row = $q->fetch_assoc()){
+    $img = $row['image'];
+    $q_repl = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM product_images WHERE image='$img';"));
+    while ($row_repl = $q_repl->fetch_assoc()){
+        $id = $row_repl['id_item'];
+        $oldfilename = $row_repl['image'];
+        $file = $_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$oldfilename;
+        $newfilename = $row_repl['id'] . rand(1, 100000000000000) . "." .get_extension($row_repl['image']);
+        $newfile = $_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$newfilename;
+        if (!copy($file, $newfile)) {
+            echo "Error copying file";
+        } else {
+            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET image='$newfilename' WHERE image='$oldfilename' AND id_item='$id'"));
+        }
+    }
+}

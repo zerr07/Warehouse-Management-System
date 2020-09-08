@@ -56,7 +56,7 @@ if (isset($_GET['id'])){
         if (!copy($file, $newfile)) {
             echo "Error copying file";
         } else {
-            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET image='$newfilename' WHERE image='$oldfilename' AND id='$last'"));
+            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET image='$newfilename' WHERE image='$oldfilename' AND id_item='$last'"));
         }
     }
 }
