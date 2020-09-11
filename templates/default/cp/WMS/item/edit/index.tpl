@@ -178,7 +178,8 @@
                                         {include file='cp/WMS/category/tree.tpl'}
                                         <br>
                                     </div>
-                                    <div class="form-group"> <label>Image</label>
+                                    <div class="form-group"> <label>Image (In order not to loose image quality file size
+                                            should not exceed 1MB)</label>
                                         <div class="row pb-5">
                                             <div id="previewImages" class="d-inline-block"></div>
                                             <div id="previewImagesFunc" class="d-flex flex-column col-auto pt-3"></div>
