@@ -4,10 +4,29 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12" style="white-space: nowrap;">
-                    <form action="#" class="text-left" style="padding-top: 10px;" method="POST">
-                        <input type="text" class="form-control inline-items w-75" style="width: 20%; height: 42px;" name="searchArve" id="form17" placeholder="Search by Arve nr" autofocus>
-                        <input type="submit" name="search" class="btn btn-outline-secondary inline-items w-25" style="width: 20%; height: 42px;" value="Search">
-                    </form>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-9">
+                            <form action="#" class="text-left" style="padding-top: 10px;" method="POST">
+                                <input type="text" class="form-control inline-items w-75" style="width: 20%; height: 42px;" name="searchArve" id="form17" placeholder="Search by Arve nr" autofocus>
+                                <input type="submit" name="search" class="btn btn-outline-secondary inline-items w-25" style="width: 20%; height: 42px;" value="Search">
+                            </form>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <form action="#" class="text-left" style="padding-top: 10px;" method="GET">
+                                <select class="custom-select" id="modeSelect" name="mode" onchange="this.form.submit()"
+                                style="height: 42px;">
+                                    <option value="All" {if $modeSearch=='All'}selected{/if}>All</option>
+                                    <option value="Bigshop" {if $modeSearch=='Bigshop'}selected{/if}>Shop</option>
+                                    <option value="Osta" {if $modeSearch=='Osta'}selected{/if}>Osta</option>
+                                    <option value="Minuvalik" {if $modeSearch=='Minuvalik'}selected{/if}>Minuvalik</option>
+                                    <option value="Shoppa" {if $modeSearch=='Shoppa'}selected{/if}>Shoppa</option>
+                                </select>
+
+                            </form>
+                        </div>
+                    </div>
+
+
                     {if $sales|@count == 0}
                         <div class="row">
                             <div class="col-md-12" style="margin-top: 50px;">
@@ -68,6 +87,35 @@
         </div>
     </div>
 </main>
+<script>
+    window.onload = function (){
+        let select = $("select#modeSelect");
+        var val = select.children("option:selected").val();
+        if (val == 'All'){
+            select.css("background", "white");
+            select.css("border-color", "white");
+            select.css("color", "black");
+        } else if (val == 'Bigshop'){
+            select.css("background", "#009ac0");
+            select.css("border-color", "#009ac0");
+            select.css("color", "white");
+        } else if (val == "Osta") {
+            select.css("background", "orange");
+            select.css("border-color", "orange");
+            select.css("color", "black");
+        } else if (val == "Minuvalik") {
+            select.css("background", "greenyellow");
+            select.css("border-color", "greenyellow");
+            select.css("color", "black");
+        } else if (val == "Shoppa") {
+            select.css("background", "coral");
+            select.css("border-color", "coral");
+            select.css("color", "black");
+        }
+    }
+    $("select#modeSelect").change(function(){
 
+    });
+</script>
 {include file='pagination.tpl'}
 {include file='footer.tpl'}

@@ -10,6 +10,13 @@ if (isset($_POST['searchArve'])){
     $arve = $_POST['searchArve'];
     $searchQuery = "WHERE arveNr LIKE '%$arve%'";
 }
+if (isset($_GET['mode'])){
+    $mode = $_GET['mode'];
+    if ($mode != 'All'){
+        $searchQuery = "WHERE modeSet='$mode'";
+    }
+    $smarty->assign("modeSearch", $mode);
+}
 if (isset($_GET['view'])){
     $view = $_GET['view'];
     $searchQuery = "WHERE id='$view'";

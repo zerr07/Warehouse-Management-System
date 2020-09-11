@@ -8,6 +8,7 @@
                 <div class="col-md-12" style="border-radius: 20px;border: solid 1px; padding: 10px;">
                     <form action="/cp/WMS/" class="text-left" style="padding-top: 10px;" method="GET">
                         <div class="row">
+
                             <div class="col-3 px-0 pl-3">
                                 <input type="text" class="form-control inline-items w-100" style="height: 42px;"
                                        name="searchTagID" id="form17" placeholder="Search by ID" autofocus>
@@ -275,7 +276,11 @@
                             <a href="/cp/WMS/item/edit/?edit={$item.id}" style="float: left;" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
                         <button type="button" class="btn btn-secondary ml-2" style="float: left" onclick="duplicate_product({$item.id})">Duplicate</button>
 
-                        <a class="btn btn-primary" style="display: inline-block; float:right;" href="/cp/WMS/"><i class="fas fa-undo-alt"></i> Back</a>
+
+                        <a class="btn btn-primary ml-2" style="display: inline-block; float:right;" href="/cp/WMS/"><i class="fas fa-undo-alt"></i> Back</a>
+                        <form method="POST" action="/controllers/products/delete.php" onsubmit="return confirm('Do you really want to delete item?');" style="display: inline-block; float: right">
+                            <button type="submit" class="btn btn-danger" name="delete" value="{$item.id}"><i class="fas fa-trash"></i> Delete</button>
+                        </form>
                 </div>
             </div>
         </div>

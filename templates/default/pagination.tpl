@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <ul class="pagination ul-center">
             <li class="page-item li-center">
-                <a class="page-link" href="?page=1" >
+                <a class="page-link" href="{$pageBase}page=1" >
                     <span>«</span> <span class="sr-only">First page</span>
                 </a>
             </li>
