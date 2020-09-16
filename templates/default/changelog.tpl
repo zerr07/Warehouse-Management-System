@@ -18,6 +18,10 @@
                         <div class="card-body">
                             Sales platform filter added<br />
                             Added image size reduction function (decreases image quality until its size is less or equal to 1MB)<br />
+                            Images are now displayed as carousel in product table and view pages<br />
+                            Live images handling added<br />
+                            Image uploader library now works using prefix to allow multiple uploaders on single page.
+
                             <hr>
                             Fixed:<br />
                             Product image duplication function fixed<br />
