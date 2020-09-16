@@ -19,17 +19,25 @@ function getBase64FileSizeInKB(string){
 }
 
 function previewImage(input) {
+    if (input.id === "imageInput_live"){
+        var prefix = "_live";
+    } else {
+        var prefix = "";
+    }
     if (input.files) {
-
-        console.log(input.files);
         let count = input.files.length;
         for (let i = 0; i < count; i++) {
 
             let reader = new FileReader();
             reader.onload = function (e) {
+
                 if (e.target.result.match(/^(data:image)/i)) {
                     if (getBase64FileSizeInKB(e.target.result) < 1000){
-                        images.push(['new',e.target.result, "0"]);
+                        if (prefix === "_live"){
+                            images_live.push(['new',e.target.result, "0"]);
+                        } else {
+                            images.push(['new',e.target.result, "0"]);
+                        }
                     } else {
                         var image = new Image();
                         image.onload = function(e) {
@@ -39,65 +47,87 @@ function previewImage(input) {
                                 multiply++;
                                 newimg = resize(image, multiply);
                             }
-                            images.push(['new',newimg, "0"]);
-                            displayImagePreview();
+                            if (prefix === "_live"){
+                                images_live.push(['new',newimg, "0"]);
+                            } else {
+                                images.push(['new',newimg, "0"]);
+                            }
+                            displayImagePreview(prefix);
                             return;
                         };
                         image.src = e.target.result;
                     }
                 }
-                displayImagePreview();
+                displayImagePreview(prefix);
             };
             reader.readAsDataURL(input.files[i]);
         }
     }
 }
-function displayImagePreview() {
-    let imagesPreviewBlock = $("#previewImages");
+function displayImagePreview(prefix) {
+    if (prefix === "_live"){
+        var img = images_live;
+    } else {
+        var img = images;
+    }
+    let imagesPreviewBlock = $("#previewImages"+prefix);
     imagesPreviewBlock.html("");
-    for (let id in images){
-        if (images[id][2] === 1){
+    for (let id in img){
+        if (img[id][2] === 1){
 
             imagesPreviewBlock.append("<div class='col-auto d-inline-block'> " +
-                "<img width='200px' height='200px' src='"+images[id][1]+"' id='image"+id+"' alt='' class='img-thumbnail' onclick='displayPreviewFunc("+id+")' >" +
+                "<img width='200px' height='200px' src='"+img[id][1]+"' id='image"+id+"_"+prefix+"' alt='' class='img-thumbnail' onclick='displayPreviewFunc("+id+", \""+prefix+"\")' >" +
                 "<span class='image-primary-preview'>Primary</span></div>");
         } else {
             imagesPreviewBlock.append("<div class='col-auto d-inline-block'> " +
-                "<img width='200px' height='200px' src='"+images[id][1]+"' id='image"+id+"' alt='' class='img-thumbnail' onclick='displayPreviewFunc("+id+")' >" +
+                "<img width='200px' height='200px' src='"+img[id][1]+"' id='image"+id+"_"+prefix+"' alt='' class='img-thumbnail' onclick='displayPreviewFunc("+id+", \""+prefix+"\")' >" +
                 "</div>");
         }
 
 
     }
     $("#imagesJSON").val(JSON.stringify(images));
+    $("#imagesJSON_live").val(JSON.stringify(images_live));
 }
-function displayPreviewFunc(id) {
-    displayImagePreview();
-    $("#image"+id).addClass("hover");
-    let imagesPreviewBlock = $("#previewImages");
+function displayPreviewFunc(id, prefix) {
+    displayImagePreview(prefix);
+    $("#image"+id+"_"+prefix).addClass("hover");
+    let imagesPreviewBlock = $("#previewImages"+prefix);
     imagesPreviewBlock.addClass("col-10");
-    let previewFunc = $("#previewImagesFunc");
+    let previewFunc = $("#previewImagesFunc"+prefix);
     previewFunc.addClass("border border-dark rounded");
     previewFunc.html("");
-    previewFunc.append("<button type='button' class='btn btn-outline-primary' onclick='deleteImg("+id+")'>Delete</button>");
-    previewFunc.append("<button type='button' class='btn btn-outline-primary mt-3' onclick='setPrimaryImage("+id+")'>Set primary</button>");
+    previewFunc.append("<button type='button' class='btn btn-outline-primary' onclick='deleteImg("+id+", \""+prefix+"\")'>Delete</button>");
+    previewFunc.append("<button type='button' class='btn btn-outline-primary mt-3' onclick='setPrimaryImage("+id+", \""+prefix+"\")'>Set primary</button>");
 }
 
-function deleteImg(id) {
-    delete images[id];
+function deleteImg(id, prefix) {
+    if (prefix === "_live"){
+        delete images_live[id];
+    } else {
+        delete images[id];
+    }
     images = images.filter(Boolean);
-    displayImagePreview();
-    let previewFunc = $("#previewImagesFunc");
+    images_live = images_live.filter(Boolean);
+    displayImagePreview(prefix);
+    let previewFunc = $("#previewImagesFunc"+prefix);
     previewFunc.removeClass("border border-dark rounded");
     previewFunc.html("");
-    let imagesPreviewBlock = $("#previewImages");
+    let imagesPreviewBlock = $("#previewImages"+prefix);
     imagesPreviewBlock.removeClass("col-10");
 }
-function setPrimaryImage(id) {
-    for (index in images){
-        images[index][2] = 0;
+function setPrimaryImage(id, prefix) {
+    if (prefix === "_live"){
+        for (index in images_live){
+            images_live[index][2] = 0;
+        }
+        images_live[id][2] = 1;
+    } else {
+        for (index in images){
+            images[index][2] = 0;
+        }
+        images[id][2] = 1;
     }
-    images[id][2] = 1;
-    displayImagePreview();
-    displayPreviewFunc(id);
+    displayImagePreview(prefix);
+    displayPreviewFunc(id, prefix);
 }
