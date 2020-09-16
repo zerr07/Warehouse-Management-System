@@ -6,6 +6,28 @@
 
 
                 <div class="card">
+                    <div class="card-header" id="heading040">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse040" aria-expanded="false" aria-controls="collapse040">
+                                Version 0.4.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse040" class="collapse" aria-labelledby="heading040" data-parent="#accordion">
+                        <div class="card-body">
+                            Sales platform filter added<br />
+                            Added image size reduction function (decreases image quality until its size is less or equal to 1MB)<br />
+                            <hr>
+                            Fixed:<br />
+                            Product image duplication function fixed<br />
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="card">
                     <div class="card-header" id="heading031">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
