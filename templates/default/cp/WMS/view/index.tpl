@@ -42,6 +42,7 @@
                                     reservations
                                 </a>
                                 )</p>
+
                             <div class="collapse" id="collapseReservations">
                                 <div class="card card-body">
                                     {foreach $item.reservations.reserved_list as $key => $value}
@@ -51,15 +52,15 @@
                                     {/foreach}
                                 </div>
                             </div>
-                            {foreach $item.images as $image}
-                                {if $image!=null}
-                                    {if $image.primary == True}
-                                        <img class="img-fluid" src="/uploads/images/products/{$image.image}" width="140px" >
-                                    {else}
-                                        <img class="img-fluid" src="/uploads/images/products/{$image.image}" width="70px" >
-                                    {/if}
-                                {/if}
-                            {/foreach}
+                            {include file='cp/WMS/view/image_section.tpl'}
+                            <a data-toggle="collapse" href="#collapseImagesLive" role="button"
+                               aria-expanded="false" aria-controls="collapseImagesLive">
+                                Live Images
+                            </a>
+                            <div class="collapse" id="collapseImagesLive">
+                                {include file='cp/WMS/view/image_live_section.tpl'}
+                            </div>
+
                             {if !empty($item.images)}
                                 <div class="row mt-3">
                                     <div class="col-12">

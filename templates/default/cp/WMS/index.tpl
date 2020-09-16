@@ -71,12 +71,30 @@
                             <tbody>
                             {foreach $products as $item}
                                 <tr>
-                                    <td><a href="/cp/WMS/view/?view={$item.id}">
-                                        {if $item.mainImage != null}
-                                            <img class="img-fluid catalog-img" src="/uploads/images/products/{$item.mainImage}" width="50px" height="50px">
-                                        {else}
-                                            <img class="img-fluid catalog-img d-block" src="https://static.pingendo.com/img-placeholder-1.svg" width="50px" height="50px" >
-                                        {/if}
+                                    <td>
+                                        <a href="/cp/WMS/view/?view={$item.id}">
+                                            <div id="carousel{$item.id}" class="carousel slide" data-ride="carousel" style="width: 70px;height: 70px">
+                                                <div class="carousel-inner">
+                                                    {if $item.mainImage != null}
+                                                        <div class="carousel-item active">
+                                                            <img src="/uploads/images/products/{$item.mainImage}" class="d-block w-100" alt="...">
+                                                        </div>
+                                                    {else}
+                                                        <div class="carousel-item active">
+                                                            <img src="https://static.pingendo.com/img-placeholder-1.svg" class="d-block w-100" alt="...">
+                                                        </div>
+                                                    {/if}
+                                                    {if $item.images|@count > 1}
+                                                        {foreach $item.images as $img}
+                                                            {if $img.primary != True}
+                                                                <div class="carousel-item">
+                                                                    <img src="/uploads/images/products/{$img.image}" class="d-block w-100" alt="...">
+                                                                </div>
+                                                            {/if}
+                                                        {/foreach}
+                                                    {/if}
+                                                </div>
+                                            </div>
                                         </a>
                                     </td>
                                     <td><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$item.id}">{$item.tag}</a></td>
@@ -141,6 +159,9 @@
     </div>
 </main>
 <script>
+    window.onload = function (){
+        $('.carousel').carousel();
+    }
     $('input[name=cat]').on('change', function() {
         $(this).closest("form").submit();
     });

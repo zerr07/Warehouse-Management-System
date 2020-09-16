@@ -1,5 +1,6 @@
 <?php
-
+ini_set("display_errors", "on");
+error_reporting(E_ALL ^ E_NOTICE);
 $date = new DateTime();
 
 $req_dump = print_r($_POST, TRUE);
@@ -166,17 +167,21 @@ $json = json_encode($product);
 file_put_contents($_SERVER['DOCUMENT_ROOT']."/translations/products/$last.json", $json);
 
 
-function deleteImages($images, $id){
+function deleteImages($images, $id, $prefix){
     include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/products/get_products.php');
-    $DBimages = get_images($id);
+    if ($prefix == "_live"){
+        $DBimages = get_images_live($id);
+    } else {
+        $DBimages = get_images($id);
+    }
     foreach ($DBimages as $key => $value){
         if (!in_array("/uploads/images/products/".$value['image'], $images)){
-            mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */"DELETE FROM {*product_images*} WHERE id='$key'"));
+            mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */"DELETE FROM {*product_images$prefix*} WHERE id='$key'"));
             unlink($_SERVER["DOCUMENT_ROOT"] . '/uploads/images/products/'.$value['image']);
         }
     }
 }
-
+/* upload images */
 $images = json_decode($_POST['imagesJSON'], true);
 $existImages = array();
 if (!empty($images)) {
@@ -207,11 +212,43 @@ if (!empty($images)) {
         array_push($existImages, '/uploads/images/products/' . $filename);
         mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*product_images*}
                                             (id_item, image, `primary`) VALUES ('$last','$filename','$val[2]')"));
+    }
+    deleteImages($existImages, $last, "");
+}
+/* upload images live */
+$images = json_decode($_POST['imagesJSON_live'], true);
+$existImages = array();
+if (!empty($images)) {
+    foreach ($images as $val) {
+        if(mime_content_type($val[1])) {
+            $extension = explode('/', mime_content_type($val[1]))[1];
+            list($type, $val[1]) = explode(';', $val[1]);
+            list(, $val[1]) = explode(',', $val[1]);
+            $img = $val[1];
+        } else {
+            $extension = 'jpeg';
+            $img = $val[1];
+        }
+        $value = base64_decode($img);
+
+        $filename = $last . rand(1, 100000000000000) . "_live." . $extension;
+        $name = $_SERVER['DOCUMENT_ROOT'] . '/uploads/images/products/' . $filename;
+
+        while (True) {
+            if (file_exists($name)) {
+                $filename = $last . rand(1, 100000000000000) . "." . $extension;
+                $name = $_SERVER['DOCUMENT_ROOT'] . '/uploads/images/products/' . $filename;
+            } else {
+                break;
+            }
+        }
+        file_put_contents($name, $value);
+        array_push($existImages, '/uploads/images/products/' . $filename);
+        mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*product_images_live*}
+                                            (id_item, image, `primary`) VALUES ('$last','$filename','$val[2]')"));
 
     }
-    deleteImages($existImages, $last);
+    deleteImages($existImages, $last, "_live");
 }
-
-
 header("Location: /cp/WMS/");
 ?>

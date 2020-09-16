@@ -178,7 +178,8 @@
                                         {include file='cp/WMS/category/tree.tpl'}
                                         <br>
                                     </div>
-                                    <div class="form-group"> <label>Image (In order not to loose image quality file size
+                                    {* IMAGES *}
+                                    <div class="form-group"> <label>Images (In order not to loose image quality file size
                                             should not exceed 1MB)</label>
                                         <div class="row pb-5">
                                             <div id="previewImages" class="d-inline-block"></div>
@@ -189,6 +190,19 @@
                                             <label class="custom-file-label" for="imageInput" data-browse="Browse">Choose file</label>
                                         </div>
                                         <input type="text" name="imagesJSON" id="imagesJSON" hidden>
+                                    </div>
+                                    {* LIVE IMAGES *}
+                                    <div class="form-group"> <label>Live Images (In order not to loose image quality file size
+                                            should not exceed 1MB)</label>
+                                        <div class="row pb-5">
+                                            <div id="previewImages_live" class="d-inline-block"></div>
+                                            <div id="previewImagesFunc_live" class="d-flex flex-column col-auto pt-3"></div>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="imageInput_live" onchange="previewImage(this)" accept="image/*" multiple>
+                                            <label class="custom-file-label" for="imageInput_live" data-browse="Browse">Choose file</label>
+                                        </div>
+                                        <input type="text" name="imagesJSON_live" id="imagesJSON_live" hidden>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade ml-20" id="tabwar" role="tabpanel">
@@ -267,8 +281,14 @@
         ['exist', "/uploads/images/products/{$value.image}", {$value.primary}],
         {/foreach}
     ];
+    let images_live = [
+        {foreach $item.images_live as $key => $value}
+        ['exist', "/uploads/images/products/{$value.image}", {$value.primary}],
+        {/foreach}
+    ];
     $(window).on('load', function(){
-        displayImagePreview();
+        displayImagePreview("");
+        displayImagePreview("_live");
     });
 </script>
 <script src="/controllers/JS/image-uploader.js"></script>

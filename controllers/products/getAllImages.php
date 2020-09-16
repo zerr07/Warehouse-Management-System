@@ -15,7 +15,10 @@ $zip = new ZipArchive;
 $tmp_file = $_SERVER['DOCUMENT_ROOT']."/dump/temp/".$prod['tag'].".zip";
 if ($zip->open($tmp_file, ZipArchive::CREATE | ZIPARCHIVE::OVERWRITE) === TRUE) {
     foreach ($prod['images'] as $val){
-        $zip->addFile($_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$val['image'], $val['image']);
+        $zip->addFile($_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$val['image'], "warehouse/".$val['image']);
+    }
+    foreach ($prod['images_live'] as $val){
+        $zip->addFile($_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$val['image'], "live/".$val['image']);
     }
     $zip->close();
     header("Content-disposition: attachment; filename=".$prod['tag'].".zip");

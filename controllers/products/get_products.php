@@ -95,6 +95,8 @@ function read_result_single($row){
     $arr['descriptions'] = get_desc($id);
     $arr['images'] = get_images($id);
     $arr['mainImage'] = get_main_image($id);
+    $arr['images_live'] = get_images_live($id);
+    $arr['mainImage_live'] = get_main_image_live($id);
     $arr['carrier'] = get_carrier($id);
     $arr['exportStatus'] = get_export_state($id);
     $arr['category_name'] = get_product_category_name($arr['id_category']);
@@ -197,6 +199,39 @@ function get_images($index){
     }
     return array_filter($arr);
 }
+function get_main_image($index){
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT image
+                                FROM {*product_images*} WHERE id_item='$index' AND `primary`=1"));
+    if (mysqli_num_rows($q) == 0){
+        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT image 
+                                FROM {*product_images*} WHERE id_item='$index' AND `primary`=0 LIMIT 1"));
+    }
+    while ($row = mysqli_fetch_assoc($q)){
+        return $row['image'];
+    }
+    return null;
+}
+function get_images_live($index){
+    $arr = array(array());
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, image, `primary` 
+                                                                FROM {*product_images_live*} WHERE id_item='$index'"));
+    while ($row = mysqli_fetch_assoc($q)){
+        $arr[$row['id']] = $row;
+    }
+    return array_filter($arr);
+}
+function get_main_image_live($index){
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT image
+                                FROM {*product_images_live*} WHERE id_item='$index' AND `primary`=1"));
+    if (mysqli_num_rows($q) == 0){
+        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT image 
+                                FROM {*product_images_live*} WHERE id_item='$index' AND `primary`=0 LIMIT 1"));
+    }
+    while ($row = mysqli_fetch_assoc($q)){
+        return $row['image'];
+    }
+    return null;
+}
 
 function get_reserve_info($index){
     $arr = array(array());
@@ -214,19 +249,7 @@ function get_reserve_info($index){
     return null;
 }
 
-function get_main_image($index){
-    $arr = array();
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT image
-                                FROM {*product_images*} WHERE id_item='$index' AND `primary`=1"));
-    if (mysqli_num_rows($q) == 0){
-        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT image 
-                                FROM {*product_images*} WHERE id_item='$index' AND `primary`=0 LIMIT 1"));
-    }
-    while ($row = mysqli_fetch_assoc($q)){
-        return $row['image'];
-    }
-    return null;
-}
+
 
 function get_ean_codes($index){
     $arr = array();

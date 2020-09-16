@@ -180,6 +180,22 @@ if (mysqli_num_rows($check) == 0){
                 }
                 $xml->text($images);
                 $xml->endElement();
+                $images = "";
+                $xml->startElement('image_tree_live');
+                if (isset($arr['mainImage_live']) && $arr['mainImage_live'] != ""){
+                    $images = $arr['mainImage_live'];
+                }
+                foreach ($arr['images_live'] as $img){
+                    if ($img['primary'] != 1){
+                        if ($images != ""){
+                            $images .= "|".$img['image'];
+                        } else {
+                            $images .= $img['image'];
+                        }
+                    }
+                }
+                $xml->text($images);
+                $xml->endElement();
             } else {
                 $xml->startElement('images');
 
@@ -188,6 +204,21 @@ if (mysqli_num_rows($check) == 0){
                 $xml->endElement();
 
                 foreach ($arr['images'] as $img) {
+                    if ($img['primary'] != 1) {
+                        $xml->startElement('image_url');
+                        $xml->text("http://".$_SERVER['SERVER_NAME']."/uploads/images/products/" . $img['image']);
+                        $xml->endElement();
+                    }
+                }
+
+                $xml->endElement();
+                $xml->startElement('images_live');
+
+                $xml->startElement('image_url');
+                $xml->text("http://".$_SERVER['SERVER_NAME']."/uploads/images/products/" . $arr['mainImage_live']);
+                $xml->endElement();
+
+                foreach ($arr['images_live'] as $img) {
                     if ($img['primary'] != 1) {
                         $xml->startElement('image_url');
                         $xml->text("http://".$_SERVER['SERVER_NAME']."/uploads/images/products/" . $img['image']);
