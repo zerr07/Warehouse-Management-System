@@ -36,6 +36,8 @@ if (isset($_GET['id'])){
         SELECT '$last', ean FROM {*product_codes*} WHERE id_product=$id"));
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_images*} (id_item, image, `primary`) 
         SELECT '$last', image, `primary` FROM {*product_images*} where id_item=$id"));
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_images_live*} (id_item, image, `primary`) 
+        SELECT '$last', image, `primary` FROM {*product_images_live*} where id_item=$id"));
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*} (id_product, id_lang, `name`) 
         SELECT '$last', id_lang, `name` FROM  {*product_name*} WHERE id_product=$id"));
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_platforms*} (id_item, id_platform, URL, price, `custom`, `export`) 
@@ -57,6 +59,18 @@ if (isset($_GET['id'])){
             echo "Error copying file";
         } else {
             $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET image='$newfilename' WHERE image='$oldfilename' AND id_item='$last'"));
+        }
+    }
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, image FROM {*product_images_live*} WHERE id_item='$last'"));
+    while ($row = $q->fetch_assoc()){
+        $oldfilename = $row['image'];
+        $file = $_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$oldfilename;
+        $newfilename = $last . rand(1, 100000000000000) . "_live." .get_extension($row['image']);
+        $newfile = $_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$newfilename;
+        if (!copy($file, $newfile)) {
+            echo "Error copying file";
+        } else {
+            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images_live*} SET image='$newfilename' WHERE image='$oldfilename' AND id_item='$last'"));
         }
     }
 }
