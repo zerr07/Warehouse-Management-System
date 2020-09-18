@@ -85,14 +85,25 @@ function getLinks(index, name) {
             "<td><button type='button' class='btn btn-link btn-cat' onclick=\"deleteLink("+key+");getLinks("+index+",'"+name+"');\"><i class='fas fa-trash'></i> Delete</button></td>" +
             "</tr>");
     }
-    $("#linkExportModal").append("<form action='/controllers/categories/insertExportLink.php' method='post'><div class='form-group' id='formLinkExport'></div></form>");
-    $("#formLinkExport").append("<input type='text' name='catID' value='"+index+"' hidden>" +
-        "<select class='form-control doubleInput' id='linkSelect' name='platformID'></select>");
+    $("#linkExportModal").append("<form action='/controllers/categories/insertExportLink.php' method='post' id='form_export'>" +
+        "<div class='row' id='formLinkExport'>" +
+        "</div>" +
+        "</form>");
+    $("#formLinkExport").append(" <input type='text' name='catID' value='"+index+"' hidden>" +
+        "<div class='col-3 p-0'><select class='form-control' id='linkSelect' name='platformID'></select></div>");
     for (let key in platforms){
         $("#linkSelect").append("<option value='"+platforms[key]['id']+"'>"+platforms[key]['name']+"</option>");
     }
-    $("#formLinkExport").append("<input type='text' class='form-control doubleInput' id='exampleFormControlInput1' name='platformCategory' placeholder='Platform category id' required>" +
-        "<button type='submit' style='margin-bottom: 2px;' class='btn btn-primary'>Submit</button>");
+    $("#formLinkExport").append("<div class='col-4 p-0'>" +
+        "<input type='text' class='form-control' id='exampleFormControlInput1' name='platformCategory' placeholder='Platform category id' required>" +
+        "</div>" +
+        "<div class='col-2 p-0'>" +
+        "<button type='submit' style='margin-bottom: 1px;' class='btn btn-primary'>Submit</button>" +
+        "</div>"+
+        "<div class='col-3 p-0'>" +
+        "<input type='button' name='bulk' value='Bulk Submit' style='margin-bottom: 1px;' class='btn btn-primary' onclick=\"if (confirm('Are you sure?')){bulk_submit("+index+")}\"" +
+        "</div>");
+
 
     $('form').on('submit',function(e){
         e.preventDefault();
@@ -102,6 +113,7 @@ function getLinks(index, name) {
             url      : $(this).attr('action'),
             data     : $(this).serialize(),
             success  : function(data) {
+                console.log(data);
                 getLinks(index, name);
             }
         });
@@ -126,5 +138,18 @@ function deleteLinkImport(index) {
         dataType: "text",
         async: false,
         url: "/controllers/categories/deleteImportLink.php"
+    });
+}
+
+function bulk_submit(index){
+    $.ajax({
+        type     : "POST",
+        cache    : false,
+        url      : $("#form_export").attr('action'),
+        data     : $("#form_export").serialize()+ '&bulk=',
+        success  : function(data) {
+            console.log(data);
+            getLinks(index, name);
+        }
     });
 }
