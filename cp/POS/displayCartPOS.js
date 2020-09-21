@@ -25,6 +25,9 @@ function displayCart(index) {
             tag = "<span class='d-inline-block text-truncate' style='max-width: 50px;color: white;text-overflow: ellipsis;'>" + cart[key]['tag'] + "</span>";
         } else {
             available = cart[key]['Available'];
+            if (available == null){
+                available = 0;
+            }
             name = "<span class='d-inline-block text-truncate' style='max-width: 250px;'>" +
                 "<a title='"+cart[key]['name']+"' style='color: white;text-overflow: ellipsis;' " +
                 "href='/cp/WMS/view?view="+cart[key]['id']+"'>"+cart[key]['name']+"</a></span>";
@@ -38,25 +41,28 @@ function displayCart(index) {
         if (cart[key]['loc'] !== null || cart[key]['loc'] !== ""){
             if (cart[key]['tag'] !== "Buffertoode") {
                 console.log(key);
-                let def_loc = cart[key]['loc']['selected'].toString();
-                loc += "<select class=\"custom-select\" name='loc_select["+key+"]'>";
-                for (var place in cart[key]['loc']['locationList']) {
-                    if (!isNaN(def_loc) || def_loc !== null){
-                        if (place === def_loc){
-                            loc += "<option value='"+place+"' selected>";
+                if (cart[key]['loc']['selected']){
+                    let def_loc = cart[key]['loc']['selected'].toString();
+                    loc += "<select class=\"custom-select\" name='loc_select["+key+"]'>";
+                    for (var place in cart[key]['loc']['locationList']) {
+                        if (!isNaN(def_loc) || def_loc !== null){
+                            if (place === def_loc){
+                                loc += "<option value='"+place+"' selected>";
+                            } else {
+                                loc += "<option value='"+place+"'>";
+                            }
+
                         } else {
                             loc += "<option value='"+place+"'>";
                         }
-
-                    } else {
-                        loc += "<option value='"+place+"'>";
-                    }
                         loc += cart[key]['loc']['locationList'][place]['type_name'].toString() + " : "
-                        +cart[key]['loc']['locationList'][place]['location'].toString() + " : "
-                        +cart[key]['loc']['locationList'][place]['quantity'].toString()
-                        +"</option>"
+                            +cart[key]['loc']['locationList'][place]['location'].toString() + " : "
+                            +cart[key]['loc']['locationList'][place]['quantity'].toString()
+                            +"</option>"
+                    }
+                    loc += "</select>";
                 }
-                loc += "</select>";
+
             }
         }
         let quantityInput;
