@@ -24,7 +24,7 @@
             {/if}
             {if $item.images_live|@count > 1}
                 {foreach $item.images_live as $img}
-                    {if $img.primary != True}
+                    {if $img.position != 1}
                         <div class="carousel-item">
                             <a data-toggle="modal" data-target="#image_modal_live{$img.id}">
                                 <img src="/uploads/images/products/{$img.image}" class="img-fluid" alt="...">

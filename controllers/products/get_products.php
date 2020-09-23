@@ -5,6 +5,15 @@ include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/getLang.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/get_platforms.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/applyRule.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/get_location_types.php');
+function array_sort_by_column(&$arr, $col, $dir = SORT_ASC) {
+    $sort_col = array();
+    foreach ($arr as $key=> $row) {
+        $sort_col[$key] = $row[$col];
+    }
+
+    array_multisort($sort_col, $dir, $arr);
+}
+
 function get_product_range($page, $status, $shard){
     global $search, $select, $searchSelect, $searchSearch;
     $onPage = _ENGINE['onPage'];
@@ -192,19 +201,20 @@ function get_desc($index){
 
 function get_images($index){
     $arr = array(array());
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, image, `primary` 
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, image, `position` 
                                                                 FROM {*product_images*} WHERE id_item='$index'"));
     while ($row = mysqli_fetch_assoc($q)){
         $arr[$row['id']] = $row;
     }
+    array_sort_by_column($arr, 'position');
     return array_filter($arr);
 }
 function get_main_image($index){
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT image
-                                FROM {*product_images*} WHERE id_item='$index' AND `primary`=1"));
+                                FROM {*product_images*} WHERE id_item='$index' AND `position`=1"));
     if (mysqli_num_rows($q) == 0){
         $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT image 
-                                FROM {*product_images*} WHERE id_item='$index' AND `primary`=0 LIMIT 1"));
+                                FROM {*product_images*} WHERE id_item='$index' AND `position`!=1 LIMIT 1"));
     }
     while ($row = mysqli_fetch_assoc($q)){
         return $row['image'];
@@ -213,19 +223,20 @@ function get_main_image($index){
 }
 function get_images_live($index){
     $arr = array(array());
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, image, `primary` 
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, image, `position` 
                                                                 FROM {*product_images_live*} WHERE id_item='$index'"));
     while ($row = mysqli_fetch_assoc($q)){
         $arr[$row['id']] = $row;
     }
+    array_sort_by_column($arr, 'position');
     return array_filter($arr);
 }
 function get_main_image_live($index){
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT image
-                                FROM {*product_images_live*} WHERE id_item='$index' AND `primary`=1"));
+                                FROM {*product_images_live*} WHERE id_item='$index' AND `position`=1"));
     if (mysqli_num_rows($q) == 0){
         $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT image 
-                                FROM {*product_images_live*} WHERE id_item='$index' AND `primary`=0 LIMIT 1"));
+                                FROM {*product_images_live*} WHERE id_item='$index' AND `position`!=1 LIMIT 1"));
     }
     while ($row = mysqli_fetch_assoc($q)){
         return $row['image'];
@@ -403,3 +414,4 @@ if(isset($_GET['only']) && $_GET['only'] == "Full"){
             WHERE {*products.id*} = {*product_platforms*}.id_item AND export=1 HAVING count1=0)) as count";
     }
 }
+

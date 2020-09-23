@@ -171,27 +171,27 @@
                                 <div class="form-group"> <label>Images (In order not to loose image quality file size
                                     should not exceed 1MB)</label>
                                     <div class="row pb-5">
-                                        <div id="previewImages" class="d-inline-block"></div>
-                                        <div id="previewImagesFunc" class="d-flex flex-column col-auto pt-3"></div>
+                                        <div id="ImageUploader_previewImages" class="d-inline-block"></div>
+                                        <div id="ImageUploader_previewImagesFunc" class="d-flex flex-column col-auto pt-3"></div>
                                     </div>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="imageInput" onchange="previewImage(this)" accept="image/*" multiple>
-                                        <label class="custom-file-label" for="imageInput" data-browse="Browse">Choose file</label>
+                                        <input type="file" class="custom-file-input" id="ImageUploader_imageInput" onchange="ImageUploader_previewImage(this, '')" accept="image/*" multiple>
+                                        <label class="custom-file-label" for="ImageUploader_imageInput" data-browse="Browse">Choose file</label>
                                     </div>
-                                    <input type="text" name="imagesJSON" id="imagesJSON" hidden>
+                                    <input type="text" name="ImageUploader_imagesJSON" id="ImageUploader_imagesJSON" hidden>
                                 </div>
                                 {* LIVE IMAGES *}
                                 <div class="form-group"> <label>Live Images (In order not to loose image quality file size
                                         should not exceed 1MB)</label>
                                     <div class="row pb-5">
-                                        <div id="previewImages_live" class="d-inline-block"></div>
-                                        <div id="previewImagesFunc_live" class="d-flex flex-column col-auto pt-3"></div>
+                                        <div id="ImageUploader_previewImages_live" class="d-inline-block"></div>
+                                        <div id="ImageUploader_previewImagesFunc_live" class="d-flex flex-column col-auto pt-3"></div>
                                     </div>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="imageInput_live" onchange="previewImage(this)" accept="image/*" multiple>
-                                        <label class="custom-file-label" for="imageInput_live" data-browse="Browse">Choose file</label>
+                                        <input type="file" class="custom-file-input" id="ImageUploader_imageInput_live" onchange="ImageUploader_previewImage(this, '_live')" accept="image/*" multiple>
+                                        <label class="custom-file-label" for="ImageUploader_imageInput_live" data-browse="Browse">Choose file</label>
                                     </div>
-                                    <input type="text" name="imagesJSON_live" id="imagesJSON_live" hidden>
+                                    <input type="text" name="ImageUploader_imagesJSON_live" id="ImageUploader_imagesJSON_live" hidden>
                                 </div>
                             </div>
                             <div class="tab-pane fade ml-20" id="tabwar" role="tabpanel">
@@ -259,9 +259,10 @@
     </div>
 </main>
 <script>
-    let images = [];
-    let images_live = [];
+    let ImageUploader_images = [];
+    let ImageUploader_images_live = [];
 </script>
+<link rel="stylesheet" href="/templates/default/assets/css/image-uploader.css">
 <script src="/controllers/JS/image-uploader.js"></script>
 <script>
 

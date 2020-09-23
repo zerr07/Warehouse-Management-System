@@ -153,16 +153,18 @@ function deleteImages($images, $id, $prefix){
     }
 }
 /* upload images */
-$images = json_decode($_POST['imagesJSON'], true);
+$images = json_decode($_POST['ImageUploader_imagesJSON'], true);
+$GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET position='0' WHERE id_item='$last'"));
+
 $existImages = array();
+$counter = 1;
 if (!empty($images)) {
     foreach ($images as $val) {
         if ($val[0] == "exist"){
-            if ($val[2] == 1){
-                $tmp = str_replace("/uploads/images/products/","", $val[1]);
-                mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "UPDATE {*product_images*}
-                                            SET `primary`='1' WHERE id_item='$last' AND image='$tmp'"));
-            }
+            $tmp = str_replace("/uploads/images/products/","", $val[1]);
+            mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "UPDATE {*product_images*}
+                SET `position`='$counter' WHERE id_item='$last' AND image='$tmp'"));
+            $counter++;
             array_push($existImages, $val[1]);
             continue;
         }
@@ -191,24 +193,30 @@ if (!empty($images)) {
         file_put_contents($name, $value);
         array_push($existImages, '/uploads/images/products/' . $filename);
         mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*product_images*}
-                                            (id_item, image, `primary`) VALUES ('$last','$filename','$val[2]')"));
+                                            (id_item, image, `position`) VALUES ('$last','$filename','$counter')"));
         echo prefixQuery(/** @lang text */ "INSERT INTO {*product_images*}
-                                            (id_item, image, `primary`) VALUES ('$last','$filename','$val[2]')");
+                                            (id_item, image, `position`) VALUES ('$last','$filename','$counter')");
+        $counter++;
     }
-    deleteImages($existImages, $last, "");
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_images*} WHERE id_item='$last'
+        AND position='0'"));
+    //deleteImages($existImages, $last, "");
 }
 /* upload images live */
-$images = json_decode($_POST['imagesJSON_live'], true);
+$images = json_decode($_POST['ImageUploader_imagesJSON_live'], true);
+$GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images_live*} SET position='0' WHERE id_item='$last'"));
 $existImages = array();
+$counter = 1;
+
 if (!empty($images)) {
     foreach ($images as $val) {
         if ($val[0] == "exist"){
-            if ($val[2] == 1){
-                $tmp = str_replace("/uploads/images/products/","", $val[1]);
-                mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "UPDATE {*product_images_live*}
-                                            SET `primary`='1' WHERE id_item='$last' AND image='$tmp'"));
-            }
+           $tmp = str_replace("/uploads/images/products/","", $val[1]);
+           mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "UPDATE {*product_images_live*}
+                                            SET `position`='$counter' WHERE id_item='$last' AND image='$tmp'"));
+
             array_push($existImages, $val[1]);
+            $counter++;
             continue;
         }
         if(mime_content_type($val[1])) {
@@ -236,10 +244,13 @@ if (!empty($images)) {
         file_put_contents($name, $value);
         array_push($existImages, '/uploads/images/products/' . $filename);
         mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*product_images_live*}
-                                            (id_item, image, `primary`) VALUES ('$last','$filename','$val[2]')"));
+                                            (id_item, image, `position`) VALUES ('$last','$filename','$counter')"));
+        $counter++;
 
     }
-    deleteImages($existImages, $last, "_live");
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_images_live*} WHERE id_item='$last'
+        AND position='0'"));
+    //deleteImages($existImages, $last, "_live");
 }
 
 header("Location: /cp/WMS/");

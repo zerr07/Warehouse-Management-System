@@ -86,7 +86,7 @@
                                                     {/if}
                                                     {if $item.images|@count > 1}
                                                         {foreach $item.images as $img}
-                                                            {if $img.primary != True}
+                                                            {if $img.position != 1}
                                                                 <div class="carousel-item">
                                                                     <img src="/uploads/images/products/{$img.image}" class="d-block w-100" alt="...">
                                                                 </div>
