@@ -85,16 +85,18 @@
                     type     : "POST",
                     cache    : false,
                     url      :"/cp/POS/reserve/reserve.php",
-                    dataType: 'json',
                     data: {req: JSON.stringify(data)},
                     success: function(result){
-                        console.log(result);
+                        location.reload();
+                    },
+                    error: function (req, res){
+                        alert("Error!");
                     }
                 });
             }
         });
 
-        location.reload();
+
     }
     {/literal}
     $(document).ready(function(){

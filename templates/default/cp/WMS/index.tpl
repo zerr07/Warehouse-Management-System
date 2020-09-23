@@ -77,18 +77,18 @@
                                                 <div class="carousel-inner">
                                                     {if $item.mainImage != null}
                                                         <div class="carousel-item active">
-                                                            <img src="/uploads/images/products/{$item.mainImage}" class="d-block w-100" alt="...">
+                                                            <img src="/uploads/images/products/{$item.mainImage}" class="d-block w-100" alt="..." style="width: 70px;height: 70px">
                                                         </div>
                                                     {else}
                                                         <div class="carousel-item active">
-                                                            <img src="https://static.pingendo.com/img-placeholder-1.svg" class="d-block w-100" alt="...">
+                                                            <img src="https://static.pingendo.com/img-placeholder-1.svg" class="d-block w-100" alt="..." style="width: 70px;height: 70px">
                                                         </div>
                                                     {/if}
                                                     {if $item.images|@count > 1}
                                                         {foreach $item.images as $img}
                                                             {if $img.primary != True}
                                                                 <div class="carousel-item">
-                                                                    <img src="/uploads/images/products/{$img.image}" class="d-block w-100" alt="...">
+                                                                    <img src="/uploads/images/products/{$img.image}" class="d-block w-100" alt="..." style="width: 70px;height: 70px">
                                                                 </div>
                                                             {/if}
                                                         {/foreach}
