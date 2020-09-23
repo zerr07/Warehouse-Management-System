@@ -1,0 +1,93 @@
+<style>
+    .shake_hrusaha {
+        /* Start the shake animation and make the animation last for 0.5 seconds */
+        animation: shake 0.5s;
+
+        /* When the animation is finished, start again */
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes shake {
+        0% { transform: translate(1px, 1px) rotate(0deg); }
+        10% { transform: translate(-1px, -2px) rotate(-2deg); }
+        20% { transform: translate(-3px, 0px) rotate(2deg); }
+        30% { transform: translate(3px, 2px) rotate(0deg); }
+        40% { transform: translate(1px, -1px) rotate(2deg); }
+        50% { transform: translate(-1px, 2px) rotate(-2deg); }
+        60% { transform: translate(-3px, 1px) rotate(0deg); }
+        70% { transform: translate(3px, 1px) rotate(-2deg); }
+        80% { transform: translate(-1px, -1px) rotate(2deg); }
+        90% { transform: translate(1px, 2px) rotate(0deg); }
+        100% { transform: translate(1px, -2px) rotate(-2deg); }
+    }
+</style>
+<div class="modal fade" id="hrushaModal" tabindex="-1" role="dialog" aria-labelledby="hrushaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="hrushaModalLabel">Вас отхрюшили</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="player"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var player;
+    var checkInt; // save this as a var in this scope so we can clear it later
+    var myTimer;
+
+    // This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement("script");
+    tag.src = "//www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName("script")[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // This function creates an <iframe> (and YouTube player)
+    // after the API code downloads.
+    var player;
+    window.onYouTubeIframeAPIReady = function() {
+        $("#hrushaModal").modal("toggle");
+        player = new YT.Player('player', {
+            width: 450,
+            videoId: 'XRfgS6LIMdU',
+            playerVars: { 'autoplay': 0, 'controls': 0 },
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange,
+            }
+        });
+    }
+
+    // 4. The API will call this function when the video player is ready.
+    function onPlayerReady(event) {
+        event.target.playVideo();
+    }
+    function onPlayerStateChange(event){
+        if(event.data==1) { // playing
+            myTimer = setInterval(function(){
+                var time;
+                time = Math.round(player.getCurrentTime());
+                if (time === 12 || time === 33 || time === 54){
+                    document.getElementById('hrushaModal').classList.add("shake_hrusaha");
+                    document.getElementsByTagName('main')[0].classList.add("shake_hrusaha");
+                }
+                if (time === 23 || time === 44 || time === 65){
+                    document.getElementById('hrushaModal').classList.remove("shake_hrusaha");
+                    document.getElementsByTagName('main')[0].classList.remove("shake_hrusaha");
+                }
+            }, 500);
+        }
+        else { // not playing
+            clearInterval(myTimer);
+        }
+    }
+</script>

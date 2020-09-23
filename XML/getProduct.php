@@ -146,7 +146,7 @@ if (mysqli_num_rows($check) == 0){
                     $images = "http://cp.azdev.eu/uploads/images/products/".$arr['mainImage'];
                 }
                 foreach ($arr['images'] as $img){
-                    if ($img['primary'] != 1){
+                    if ($img['position'] != 1){
                        if ($images != ""){
                            $images .= "|http://cp.azdev.eu/uploads/images/products/".$img['image'];
                        } else {
@@ -162,7 +162,7 @@ if (mysqli_num_rows($check) == 0){
                     $images = "http://cp.azdev.eu/uploads/images/products/".$arr['mainImage_live'];
                 }
                 foreach ($arr['images_live'] as $img){
-                    if ($img['primary'] != 1){
+                    if ($img['position'] != 1){
                         if ($images != ""){
                             $images .= "|http://cp.azdev.eu/uploads/images/products/".$img['image'];
                         } else {
@@ -180,7 +180,7 @@ if (mysqli_num_rows($check) == 0){
                 $xml->endElement();
 
                 foreach ($arr['images'] as $img){
-                    if ($img['primary'] != 1){
+                    if ($img['position'] != 1){
                         $xml->startElement('image_url');
                         $xml->text("http://cp.azdev.eu/uploads/images/products/".$img['image']);
                         $xml->endElement();
@@ -195,7 +195,7 @@ if (mysqli_num_rows($check) == 0){
                 $xml->endElement();
 
                 foreach ($arr['images_live'] as $img){
-                    if ($img['primary'] != 1){
+                    if ($img['position'] != 1){
                         $xml->startElement('image_url');
                         $xml->text("http://cp.azdev.eu/uploads/images/products/".$img['image']);
                         $xml->endElement();

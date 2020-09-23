@@ -220,15 +220,15 @@ if ( $xlsx = SimpleXLSX::parse('test_2020-06-11.xlsx') ) {
 
 
 /* ------------ Find and remove(copy and update sql) image duplicates --------------------- */
-function get_extension($file) {
+/*function get_extension($file) {
     $array = explode(".", $file);
     $extension = end($array);
     return $extension ? $extension : false;
 }
-$q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *, COUNT(*) FROM product_images GROUP BY image HAVING COUNT(*) > 1"));
+$q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ /*"SELECT *, COUNT(*) FROM product_images GROUP BY image HAVING COUNT(*) > 1"));
 while ($row = $q->fetch_assoc()){
     $img = $row['image'];
-    $q_repl = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM product_images WHERE image='$img';"));
+    $q_repl = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ /*"SELECT * FROM product_images WHERE image='$img';"));
     while ($row_repl = $q_repl->fetch_assoc()){
         $id = $row_repl['id_item'];
         $oldfilename = $row_repl['image'];
@@ -238,7 +238,57 @@ while ($row = $q->fetch_assoc()){
         if (!copy($file, $newfile)) {
             echo "Error copying file";
         } else {
-            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET image='$newfilename' WHERE image='$oldfilename' AND id_item='$id'"));
+            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ /*"UPDATE {*product_images*} SET image='$newfilename' WHERE image='$oldfilename' AND id_item='$id'"));
         }
+    }
+}*/
+
+/* ------------ generate product image positions ------------ */
+
+$q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*products*}"));
+while($row = $q->fetch_assoc()){
+    $id = $row['id'];
+    $q_img = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_images*} WHERE id_item='$id'"));
+    $arr = array(array());
+    $arrMain = array();
+    while($row_img = $q_img->fetch_assoc()){
+        if ($row_img['position'] == '1'){
+            $arrMain = $row_img;
+        } else {
+            $arr[$row_img['id']] = $row_img;
+        }
+    }
+    $arr = array_filter($arr);
+    if (empty($arrMain)){
+        $counter = 1;
+    } else {
+        $counter = 2;
+        $mainID = $arrMain['id'];
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET position='1' WHERE id='$mainID'"));
+    }
+    foreach ($arr as $key => $value){
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET position='$counter' WHERE id='$key'"));
+        $counter++;
+    }
+    $q_img = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_images_live*} WHERE id_item='$id'"));
+    $arr = array(array());
+    $arrMain = array();
+    while($row_img = $q_img->fetch_assoc()){
+        if ($row_img['position'] == '1'){
+            $arrMain = $row_img;
+        } else {
+            $arr[$row_img['id']] = $row_img;
+        }
+    }
+    if (empty($arrMain)){
+        $counter = 1;
+    } else {
+        $counter = 2;
+        $mainID = $arrMain['id'];
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images_live*} SET position='1' WHERE id='$mainID'"));
+    }
+    foreach ($arr as $key => $value){
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images_live*} SET position='$counter' WHERE id='$key'"));
+        $counter++;
     }
 }

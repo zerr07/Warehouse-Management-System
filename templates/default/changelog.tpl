@@ -6,6 +6,30 @@
 
 
                 <div class="card">
+                    <div class="card-header" id="heading050">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse050" aria-expanded="false" aria-controls="collapse050">
+                                Version 0.5.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse050" class="collapse" aria-labelledby="heading050" data-parent="#accordion">
+                        <div class="card-body">
+                            Fixed error when trying to add product without location resulted in array error.<br />
+                            Export bulk link function added<br />
+                            Image uploader is now drag and drop<br />
+                            Live images handling added<br />
+                            Big hrusha update! Check it out (･ั(00)･ั)
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="card">
                     <div class="card-header" id="heading040">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
