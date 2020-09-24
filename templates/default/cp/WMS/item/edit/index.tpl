@@ -357,4 +357,3 @@
     });
 </script>
 {include file='footer.tpl'}
-{debug}
