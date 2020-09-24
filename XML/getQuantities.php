@@ -25,8 +25,7 @@ if (mysqli_num_rows($check) == 0){
     /* User verified */
     header('Content-type: text/xml');
 
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, tag,
-     (SELECT priceVAT FROM {*supplier_data*} WHERE {*products*}.id={*supplier_data*}.id_item LIMIT 1) as priceVAT,
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, tag, actPrice,
      (SELECT `name` FROM {*product_name*} WHERE {*products*}.id={*product_name*}.id_product AND id_lang=3) as nameET,
      (SELECT `name` FROM {*product_name*} WHERE {*products*}.id={*product_name*}.id_product AND id_lang=1) as nameRU
      FROM {*products*}"));
@@ -55,7 +54,7 @@ if (mysqli_num_rows($check) == 0){
             $xml->endElement();
 
             $xml->startElement('supplier_price');
-            $xml->text($row['priceVAT']);
+            $xml->text($row['actPrice']);
             $xml->endElement();
 
             $xml->startElement('SKU');
