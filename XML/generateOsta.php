@@ -1,5 +1,7 @@
 <?php
-$my_file = 'ProductList_Osta.xml';
+ini_set("display_errors", "on");
+error_reporting(E_ALL ^ E_NOTICE);
+$my_file = 'ProductList_Osta_tmp.xml';
 include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 if (!defined('PRODUCTS_INCLUDED')){
     include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
@@ -189,4 +191,8 @@ xmlwriter_end_element($xw); // items
 xmlwriter_end_document($xw);
 fwrite($handle, xmlwriter_output_memory($xw));
 flush(); // Flush system output buffer
+unlink('ProductList_Osta.xml');
+copy($my_file, 'ProductList_Osta.xml');
+unlink($my_file);
+
 exit;
