@@ -245,10 +245,10 @@ while ($row = $q->fetch_assoc()){
 
 /* ------------ generate product image positions ------------ */
 
-$q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*products*}"));
+/*$q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ /*"SELECT id FROM {*products*}"));
 while($row = $q->fetch_assoc()){
     $id = $row['id'];
-    $q_img = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_images*} WHERE id_item='$id'"));
+    $q_img = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ /*"SELECT * FROM {*product_images*} WHERE id_item='$id'"));
     $arr = array(array());
     $arrMain = array();
     while($row_img = $q_img->fetch_assoc()){
@@ -264,13 +264,13 @@ while($row = $q->fetch_assoc()){
     } else {
         $counter = 2;
         $mainID = $arrMain['id'];
-        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET position='1' WHERE id='$mainID'"));
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ /*"UPDATE {*product_images*} SET position='1' WHERE id='$mainID'"));
     }
     foreach ($arr as $key => $value){
-        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET position='$counter' WHERE id='$key'"));
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ /*"UPDATE {*product_images*} SET position='$counter' WHERE id='$key'"));
         $counter++;
     }
-    $q_img = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_images_live*} WHERE id_item='$id'"));
+    $q_img = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ /*"SELECT * FROM {*product_images_live*} WHERE id_item='$id'"));
     $arr = array(array());
     $arrMain = array();
     while($row_img = $q_img->fetch_assoc()){
@@ -285,10 +285,29 @@ while($row = $q->fetch_assoc()){
     } else {
         $counter = 2;
         $mainID = $arrMain['id'];
-        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images_live*} SET position='1' WHERE id='$mainID'"));
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ /*"UPDATE {*product_images_live*} SET position='1' WHERE id='$mainID'"));
     }
     foreach ($arr as $key => $value){
-        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images_live*} SET position='$counter' WHERE id='$key'"));
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ /*"UPDATE {*product_images_live*} SET position='$counter' WHERE id='$key'"));
         $counter++;
     }
+}*/
+
+function is_valid_xml($xml)
+{
+    libxml_use_internal_errors(true);
+
+    $doc = new DOMDocument('1.0', 'utf-8');
+
+    $doc->loadXML($xml);
+
+    $errors = libxml_get_errors();
+
+    return empty($errors);
 }
+
+echo "XML is updating please try again later";
+
+
+
+exit;
