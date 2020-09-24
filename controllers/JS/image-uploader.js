@@ -33,12 +33,7 @@ function ImageUploader_previewImage(input, prefix) {
 
                 if (e.target.result.match(/^(data:image)/i)) {
                     if (ImageUploader_getBase64FileSizeInKB(e.target.result) < 1000){
-
-                        if (prefix === "_live"){
-                            ImageUploader_images_live.push(['new',e.target.result]);
-                        } else {
-                            ImageUploader_images.push(['new',e.target.result]);
-                        }
+                        eval("ImageUploader_images"+prefix + ".push(['new',e.target.result])");
                     } else {
                         var image = new Image();
                         image.onload = function(e) {
@@ -48,12 +43,7 @@ function ImageUploader_previewImage(input, prefix) {
                                 multiply++;
                                 newimg = ImageUploader_resize(image, multiply);
                             }
-
-                            if (prefix === "_live"){
-                                ImageUploader_images_live.push(['new',newimg]);
-                            } else {
-                                ImageUploader_images.push(['new',newimg]);
-                            }
+                            eval("ImageUploader_images"+prefix + ".push(['new',newimg])");
                             ImageUploader_displayImagePreview(prefix);
                             return;
                         };
@@ -67,12 +57,7 @@ function ImageUploader_previewImage(input, prefix) {
     }
 }
 function ImageUploader_displayImagePreview(prefix) {
-    if (prefix === "_live"){
-        var img = ImageUploader_images_live;
-
-    } else {
-        var img = ImageUploader_images;
-    }
+    eval("var img = ImageUploader_images"+prefix);
     img = img.filter(function (el) {
         return el != null;
     });
@@ -83,16 +68,11 @@ function ImageUploader_displayImagePreview(prefix) {
             "<img width='200px' height='200px' src='"+img[id][1]+"' id='image"+id+"_"+prefix+"' alt='' class='img-thumbnail' onclick='ImageUploader_displayPreviewFunc("+id+", \""+prefix+"\")' >" +
             "</div><div class='ImageUploader_img_between'><div class='droppable'></div></div>");
     }
-    if ( $( "#ImageUploader_imagesJSON" ).length ) {
-        $("#ImageUploader_imagesJSON").val(JSON.stringify(ImageUploader_images));
-    }
-    if ( $( "#ImageUploader_imagesJSON_live" ).length ) {
-        $("#ImageUploader_imagesJSON_live").val(JSON.stringify(ImageUploader_images_live));
-    }
+    eval("if ( $( \"#ImageUploader_imagesJSON"+prefix+"\" ).length ) {$(\"#ImageUploader_imagesJSON"+prefix+"\").val(JSON.stringify(ImageUploader_images"+prefix+"));}");
     ImageUploader_addListeners();
 }
 function ImageUploader_displayPreviewFunc(id,prefix) {
-    var img = ImageUploader_images;
+    eval("var img = ImageUploader_images"+prefix);
     ImageUploader_displayImagePreview(prefix);
     $("#image"+id+"_"+prefix).addClass("hover");
     let imagesPreviewBlock = $("#ImageUploader_previewImages"+prefix);
@@ -104,13 +84,9 @@ function ImageUploader_displayPreviewFunc(id,prefix) {
 }
 
 function ImageUploader_deleteImg(id, prefix) {
-    if (prefix === "_live"){
-        delete ImageUploader_images_live[id];
-    } else {
-        delete ImageUploader_images[id];
-    }
-    ImageUploader_images = ImageUploader_images.filter(Boolean);
-    ImageUploader_images_live = ImageUploader_images_live.filter(Boolean);
+    eval("delete ImageUploader_images"+prefix+"[id]");
+    eval("ImageUploader_images"+prefix+" = ImageUploader_images"+prefix+".filter(Boolean)");
+
 
     ImageUploader_displayImagePreview(prefix);
     let previewFunc = $("#ImageUploader_previewImagesFunc"+prefix);
@@ -182,39 +158,27 @@ function ImageUploader_handleDrop(e) {
             }
         }
     }
-    let new_arr = [];
-    let els = document.querySelectorAll('#ImageUploader_previewImages > .ImageUploader_image img');
-
-    for (let i = 0; i< els.length; i++){
-        console.log(ImageUploader_isBase64(els[i].src));
-        console.log(ImageUploader_isBase64("http://dev.azdev.eu/uploads/images/products/14621156506985484.png"));
-
-        console.log(els[i].src);
-
-        if (ImageUploader_isBase64(els[i].src)){
-
-            new_arr.push(ImageUploader_search(els[i].src, ImageUploader_images));
-        } else {
-            let src = (els[i].src).substr(els[i].src.indexOf('/', 8) + 1);
-            new_arr.push(ImageUploader_search("/"+src, ImageUploader_images));
+    let new_arr;
+    let prefix = [];
+    for (var key in window) {
+        if (key.startsWith("ImageUploader_images")){
+            prefix.push(key.replace("ImageUploader_images", ""));
         }
     }
-
-    ImageUploader_images = new_arr;
-    let new_arr_live = [];
-    let els_live = document.querySelectorAll('#ImageUploader_previewImages_live > .ImageUploader_image img');
-    for (let i = 0; i< els_live.length; i++){
-        if (ImageUploader_isBase64(els_live[i].src)){
-            new_arr_live.push(ImageUploader_search(els_live[i].src, ImageUploader_images_live));
-        } else {
-            let src = (els_live[i].src).substr(els_live[i].src.indexOf('/', 8) + 1);
-            new_arr_live.push(ImageUploader_search("/"+src, ImageUploader_images_live));
+    for (var c in prefix){
+        new_arr = [];
+        let els = document.querySelectorAll('#ImageUploader_previewImages'+prefix[c]+' > .ImageUploader_image img');
+        for (let i = 0; i< els.length; i++){
+            if (ImageUploader_isBase64(els[i].src)){
+                eval("new_arr.push(ImageUploader_search(els[i].src, ImageUploader_images"+prefix[c]+"))");
+            } else {
+                let src = (els[i].src).substr(els[i].src.indexOf('/', 8) + 1);
+                eval("new_arr.push(ImageUploader_search(\"/\"+src, ImageUploader_images"+prefix[c]+"))");
+            }
         }
+        eval("ImageUploader_images"+prefix[c]+" = new_arr");
     }
-
-    ImageUploader_images_live = new_arr_live;
-    ImageUploader_displayImagePreview("");
-    ImageUploader_displayImagePreview("_live");
+    eval("ImageUploader_displayImagePreview(\""+prefix[c]+"\")");
     return false;
 }
 
