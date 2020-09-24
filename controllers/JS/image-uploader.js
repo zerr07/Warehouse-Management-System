@@ -43,7 +43,7 @@ function ImageUploader_previewImage(input, prefix) {
                         var image = new Image();
                         image.onload = function(e) {
                             let multiply = 1;
-                            let newimg = resize(image, multiply)
+                            let newimg = ImageUploader_resize(image, multiply)
                             while (ImageUploader_getBase64FileSizeInKB(newimg) > 1000){
                                 multiply++;
                                 newimg = ImageUploader_resize(image, multiply);
@@ -79,9 +79,9 @@ function ImageUploader_displayImagePreview(prefix) {
     let imagesPreviewBlock = $("#ImageUploader_previewImages"+prefix);
     imagesPreviewBlock.html("");
     for (let id in img){
-        imagesPreviewBlock.append("<div class='col-auto d-inline-flex ImageUploader_image' draggable='true'> " +
+        imagesPreviewBlock.append("<div class='ImageUploader_image' draggable='true'> " +
             "<img width='200px' height='200px' src='"+img[id][1]+"' id='image"+id+"_"+prefix+"' alt='' class='img-thumbnail' onclick='ImageUploader_displayPreviewFunc("+id+", \""+prefix+"\")' >" +
-            "</div><div class='col-auto d-inline-flex ImageUploader_img_between'><div class='droppable'></div></div>");
+            "</div><div class='ImageUploader_img_between'><div class='droppable'></div></div>");
     }
     if ( $( "#ImageUploader_imagesJSON" ).length ) {
         $("#ImageUploader_imagesJSON").val(JSON.stringify(ImageUploader_images));
@@ -156,12 +156,12 @@ function ImageUploader_handleDrop(e) {
         if (this.closest("div").parentNode.id === dragSrcEl.closest("div").parentNode.id){
 
 
-            if (this.closest("div").className === "col-auto d-inline-flex ImageUploader_img_between over" || this.closest("div").className === "col-auto d-inline-flex ImageUploader_img_between"){
+            if (this.closest("div").className === "ImageUploader_img_between over" || this.closest("div").className === "ImageUploader_img_between"){
                 let el = $(this).next()[0];
                 var NewElement = document.createElement('div');
                 NewElement.innerHTML = e.dataTransfer.getData('text/html');
                 NewElement.draggable = true;
-                NewElement.className = "col-auto d-inline-flex ImageUploader_image";
+                NewElement.className = "ImageUploader_image";
                 if (el !== undefined){
                     NewElement.appendBefore(el);
                 } else {
@@ -169,7 +169,7 @@ function ImageUploader_handleDrop(e) {
                 }
                 var NewElementBetween = document.createElement('div');
                 NewElementBetween.draggable = true;
-                NewElementBetween.className = "col-auto d-inline-flex ImageUploader_img_between";
+                NewElementBetween.className = "ImageUploader_img_between";
                 NewElementBetween.appendAfter(NewElement);
                 $(dragSrcEl).closest("div").next().remove();
                 dragSrcEl.closest("div").remove();

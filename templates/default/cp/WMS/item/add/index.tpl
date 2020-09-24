@@ -33,9 +33,9 @@
 
                                         <div class="input-group input-group-lg top-data" style="max-width: 19%;">
                                             <div class="input-group-prepend">
-                                                 <div class="form-small input-group-text">
-                                                     <i class="fas fa-euro-sign"></i>
-                                                 </div>
+                                                <div class="form-small input-group-text">
+                                                    <i class="fas fa-euro-sign"></i>
+                                                </div>
                                             </div>
                                             <input type="number" step="0.01" class="form-control form-small" onchange="changeNumber();applyPrices()"
                                                    name="itemActPrice" id="actPrice" placeholder="Actual price">
@@ -169,9 +169,9 @@
                                 </div>
                                 {* IMAGES *}
                                 <div class="form-group"> <label>Images (In order not to loose image quality file size
-                                    should not exceed 1MB)</label>
+                                        should not exceed 1MB)</label>
                                     <div class="row pb-5">
-                                        <div id="ImageUploader_previewImages" class="d-inline-block"></div>
+                                        <div id="ImageUploader_previewImages" class="d-flex flex-wrap align-items-center"></div>
                                         <div id="ImageUploader_previewImagesFunc" class="d-flex flex-column col-auto pt-3"></div>
                                     </div>
                                     <div class="custom-file">
@@ -184,7 +184,7 @@
                                 <div class="form-group"> <label>Live Images (In order not to loose image quality file size
                                         should not exceed 1MB)</label>
                                     <div class="row pb-5">
-                                        <div id="ImageUploader_previewImages_live" class="d-inline-block"></div>
+                                        <div id="ImageUploader_previewImages_live" class="d-flex flex-wrap align-items-center"></div>
                                         <div id="ImageUploader_previewImagesFunc_live" class="d-flex flex-column col-auto pt-3"></div>
                                     </div>
                                     <div class="custom-file">

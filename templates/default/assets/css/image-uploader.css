@@ -1,6 +1,6 @@
 .ImageUploader_image {
-    border: 3px solid #666;
-    background-color: #ddd;
+    /*border: 3px solid #666;
+    background-color: #ddd;*/
     border-radius: .5em;
     padding: 10px;
     cursor: move;
@@ -10,7 +10,7 @@
 }
 .ImageUploader_img_between {
     width: 30px;
-    height: 100%;
+    /*height: 100%;*/
     padding: 0 5px 0 5px;
     margin: 0 5px 0 5px;
 }
