@@ -297,7 +297,6 @@
 </script>
 
 <script>
-
     function addExtraLoc() {
         var input = "<div class=\"row mb-2\">\n" +
             "<div class=\"col-3\">\n" +
@@ -312,7 +311,7 @@
             "<select class=\"custom-select\" name=\"loc_type_new[]\">\n" +
                 {foreach $location_types as $loc_typ}
             "<option value=\"{$loc_typ.id}\"\n" +
-                {if $loc_typ.id==$engine.locations.WMS} "selected"+{/if}
+                {if $loc_typ.id==$default_location_type} "selected"+{/if}
             ">{$loc_typ.name}\n" +
             "</option>\n" +
                 {/foreach}
@@ -358,3 +357,4 @@
     });
 </script>
 {include file='footer.tpl'}
+{debug}
