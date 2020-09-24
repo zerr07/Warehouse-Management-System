@@ -258,12 +258,13 @@
         </div>
     </div>
 </main>
-<script>
-    let ImageUploader_images = [];
-    let ImageUploader_images_live = [];
-</script>
+
 <link rel="stylesheet" href="/templates/default/assets/css/image-uploader.css">
 <script src="/controllers/JS/image-uploader.js"></script>
+<script>
+    init_image_uploader("");
+    init_image_uploader("_live");
+</script>
 <script>
 
     function addExtraLoc() {

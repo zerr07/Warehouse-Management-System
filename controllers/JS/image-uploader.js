@@ -1,3 +1,8 @@
+function init_image_uploader(prefix){
+    eval("ImageUploader_images"+prefix + " = []");
+}
+
+
 function ImageUploader_resize(image, multiply){
     let canvas = document.createElement("canvas");
     let ctx = canvas.getContext("2d");
@@ -156,7 +161,7 @@ function ImageUploader_handleDrop(e) {
                 var NewElement = document.createElement('div');
                 NewElement.innerHTML = e.dataTransfer.getData('text/html');
                 NewElement.draggable = true;
-                NewElement.className = "ImageUploader_image";
+                NewElement.className = "col-auto d-inline-flex ImageUploader_image";
                 if (el !== undefined){
                     NewElement.appendBefore(el);
                 } else {
@@ -164,7 +169,7 @@ function ImageUploader_handleDrop(e) {
                 }
                 var NewElementBetween = document.createElement('div');
                 NewElementBetween.draggable = true;
-                NewElementBetween.className = "ImageUploader_img_between";
+                NewElementBetween.className = "col-auto d-inline-flex ImageUploader_img_between";
                 NewElementBetween.appendAfter(NewElement);
                 $(dragSrcEl).closest("div").next().remove();
                 dragSrcEl.closest("div").remove();
@@ -181,7 +186,13 @@ function ImageUploader_handleDrop(e) {
     let els = document.querySelectorAll('#ImageUploader_previewImages > .ImageUploader_image img');
 
     for (let i = 0; i< els.length; i++){
+        console.log(ImageUploader_isBase64(els[i].src));
+        console.log(ImageUploader_isBase64("http://dev.azdev.eu/uploads/images/products/14621156506985484.png"));
+
+        console.log(els[i].src);
+
         if (ImageUploader_isBase64(els[i].src)){
+
             new_arr.push(ImageUploader_search(els[i].src, ImageUploader_images));
         } else {
             let src = (els[i].src).substr(els[i].src.indexOf('/', 8) + 1);
@@ -246,9 +257,5 @@ window.onload = function(){
 }
 
 function ImageUploader_isBase64(str) {
-    try {
-        return btoa(atob(str)) === str;
-    } catch (err) {
-        return false;
-    }
+    return str.startsWith("data:image/");
 }

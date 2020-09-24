@@ -275,13 +275,17 @@
         </div>
     </div>
 </main>
+<link rel="stylesheet" href="/templates/default/assets/css/image-uploader.css">
+<script src="/controllers/JS/image-uploader.js"></script>
 <script>
-    let ImageUploader_images = [
+    init_image_uploader("");
+    init_image_uploader("_live");
+    ImageUploader_images = [
         {foreach $item.images as $key => $value}
         ['exist', "/uploads/images/products/{$value.image}"],
         {/foreach}
     ];
-    let ImageUploader_images_live = [
+    ImageUploader_images_live = [
         {foreach $item.images_live as $key => $value}
         ['exist', "/uploads/images/products/{$value.image}"],
         {/foreach}
@@ -291,8 +295,7 @@
         ImageUploader_displayImagePreview("_live");
     });
 </script>
-<link rel="stylesheet" href="/templates/default/assets/css/image-uploader.css">
-<script src="/controllers/JS/image-uploader.js"></script>
+
 <script>
 
     function addExtraLoc() {
