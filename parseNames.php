@@ -293,21 +293,5 @@ while($row = $q->fetch_assoc()){
     }
 }*/
 
-function is_valid_xml($xml)
-{
-    libxml_use_internal_errors(true);
+phpinfo();
 
-    $doc = new DOMDocument('1.0', 'utf-8');
-
-    $doc->loadXML($xml);
-
-    $errors = libxml_get_errors();
-
-    return empty($errors);
-}
-
-echo "XML is updating please try again later";
-
-
-
-exit;
