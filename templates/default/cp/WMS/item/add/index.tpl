@@ -209,7 +209,7 @@
                                             <select class="custom-select" name="loc_type_new[]">
                                                 {foreach $location_types as $loc_typ}
                                                     <option value="{$loc_typ.id}"
-                                                            {if $loc_typ.id==$engine.locations.WMS} selected{/if}>
+                                                            {if $loc_typ.id==$default_location_type} selected{/if}>
                                                         {$loc_typ.name}
                                                     </option>
                                                 {/foreach}
