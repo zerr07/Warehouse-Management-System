@@ -53,15 +53,16 @@
                                 </div>
                             </div>
                             {include file='cp/WMS/view/image_section.tpl'}
-                            <a data-toggle="collapse" href="#collapseImagesLive" role="button"
+                            <a data-toggle="collapse" href="javascript:void(0);" role="button" data-target="#collapseImagesLive"
                                aria-expanded="false" aria-controls="collapseImagesLive">
                                 Live Images
                             </a>
                             <div class="collapse" id="collapseImagesLive">
                                 {include file='cp/WMS/view/image_live_section.tpl'}
                             </div>
+                            {include file='cp/WMS/view/image_zoom.tpl'}
 
-                            {if !empty($item.images)}
+                            {if !empty($item.images) || !empty($item.images_live)}
                                 <div class="row mt-3">
                                     <div class="col-12">
                                         <button type="button" style="width: 30%" class="btn btn-primary"
