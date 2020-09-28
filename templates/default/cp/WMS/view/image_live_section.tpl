@@ -13,10 +13,9 @@
         <div class="carousel-inner">
             {if $item.mainImage_live != null}
                 <div class="carousel-item active">
-                    <a data-toggle="modal" data-target="#image_modal_main_live">
+                    <a data-toggle="modal" data-target="#image_modal">
                         <img src="/uploads/images/products/{$item.mainImage_live}" class="img-fluid" alt="..."></a>
                 </div>
-                {include file='cp/WMS/view/image_live_zoom.tpl'}
             {else}
                 <div class="carousel-item active">
                     <img src="https://static.pingendo.com/img-placeholder-1.svg" class="img-fluid" alt="...">
@@ -26,11 +25,10 @@
                 {foreach $item.images_live as $img}
                     {if $img.position != 1}
                         <div class="carousel-item">
-                            <a data-toggle="modal" data-target="#image_modal_live{$img.id}">
+                            <a data-toggle="modal" data-target="#image_modal">
                                 <img src="/uploads/images/products/{$img.image}" class="img-fluid" alt="...">
                             </a>
                         </div>
-                        {include file='cp/WMS/view/image_live_zoom.tpl'}
                     {/if}
                 {/foreach}
             {/if}
