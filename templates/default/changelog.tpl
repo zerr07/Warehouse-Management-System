@@ -4,6 +4,29 @@
         <div class="container">
             <div class="accordion text-left" id="accordion">
 
+                <div class="card">
+                    <div class="card-header" id="heading051">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse051" aria-expanded="false" aria-controls="collapse051">
+                                Version 0.5.1
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse051" class="collapse" aria-labelledby="heading051" data-parent="#accordion">
+                        <div class="card-body">
+                            Image zoom reworked.<br />
+                            Collapse autoscroll disabled.<br />
+                            Image download button fixed.<br />
+                            Default location type is now auto selected on new location creation form.<br />
+                            Osta XML generator now creates destination file only once its load finished.<br />
+                            Image uploader is now not bound to prefix name (any can be used from now on).<br />
+                            Image uploader css fixed.<br />
+                            Image uploader updated and fixed base encoding check function.
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="card">
                     <div class="card-header" id="heading050">

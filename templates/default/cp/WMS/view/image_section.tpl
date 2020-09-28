@@ -9,7 +9,7 @@
             cursor: zoom-in;
         }
     </style>
-    <div id="carousel{$item.id}" class="row align-items-center carousel slide" data-ride="carousel" style="width: 300px;height: 300px;margin: auto;">
+    <div id="carousel{$item.id}" class="row align-items-center carousel slide" data-ride="carousel" style="max-width: 300px;margin: auto;">
         <div class="carousel-inner">
             {if $item.mainImage != null}
                 <div class="carousel-item active">
