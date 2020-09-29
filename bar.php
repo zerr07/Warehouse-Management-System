@@ -61,6 +61,65 @@ if (isset($_GET['customBarcode']) && isset($_GET['customSubmit'])){
 
 </script>
 <?php
+} elseif (isset($_GET['customBarcode1']) && isset($_GET['customSubmit1'])){
+
+    ?>
+
+    <center>
+        <div id="printable" style="height: 100%;">
+            <style>
+
+                .print{
+                    -webkit-transform: rotate(90deg);
+                    -moz-transform: rotate(90deg);
+                    -o-transform: rotate(90deg);
+                    -ms-transform: rotate(90deg);
+                    transform: rotate(90deg);
+                }
+                #barcode{
+                    height: 700px;
+                }
+            </style>
+            <div class="print" style="position: absolute; bottom: 50px;left: -70px;font-size: 18px;font-family: Calibri, serif;">
+                <div style="display: flex;justify-content: center;align-items: center;">
+                    <svg id="barcode"></svg>
+                </div>
+            </div>
+        </div>
+    </center>
+    <script>
+        JsBarcode("#barcode", "<?php echo $_GET['customBarcode1'];?>", {
+            height: 50,
+            width: 3,
+            displayValue: true,
+            textPosition: "top",
+            fontSize: 200,
+            textAlign: "center",
+            textMargin: 70
+
+        });
+
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+            window.focus();
+            window.print();
+            window.close();
+            document.body.innerHTML = originalContents;
+
+        }
+
+        window.onload = function () {
+            setTimeout(function () {
+                printDiv('printable');
+            }, 1000);
+        };
+
+    </script>
+
+    <?php
 } else {
 
     ?>

@@ -103,6 +103,8 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a href="/cp/WMS/platforms/" class="dropdown-item"><i class="fas fa-store-alt"></i> Platforms</a>
                 <a href="#staticBackdrop" data-toggle="modal" data-target="#staticBackdrop" class="dropdown-item"><i class="fas fa-tags"></i> Custom Label Generator</a>
+                <a href="#staticBackdropLG" data-toggle="modal" data-target="#staticBackdropLG" class="dropdown-item"><i class="fas fa-tags"></i> Large Custom Label Generator</a>
+
                 <a href="/cp/tree-links" class="dropdown-item"><i class="fas fa-tree"></i> Tree list</a>
               </div>
             </li>
@@ -164,6 +166,31 @@
                 <input type="text" class="form-control" id="customBarcode" name="customBarcode">
               </div>
               <input type="submit" class="btn btn-primary w-100" name="customSubmit" value="Submit">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Custom Label Modal LG -->
+    <div class="modal fade" id="staticBackdropLG" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabelLG" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabelLG">Custom barcode</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body  text-left">
+            <form method="GET" action="/bar.php" target="_blank">
+              <div class="form-group">
+                <label for="customBarcode1" class="col-form-label">Barcode:</label>
+                <input type="text" class="form-control" id="customBarcode1" name="customBarcode1">
+              </div>
+              <input type="submit" class="btn btn-primary w-100" name="customSubmit1" value="Submit">
             </form>
           </div>
           <div class="modal-footer">
