@@ -81,8 +81,24 @@
                                     {/if}
                                     <button type="button" style="width: 30%" class="btn btn-primary" onclick="getCodes({$item.id})"
                                             data-toggle="modal" data-target="#linkEANModalBody"><i class="fas fa-edit"></i> EAN Codes</button>
-                                </div>
 
+                                </div>
+                                <div class="col-12">
+                                    <!-- Load c3.css -->
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
+                                    <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css" rel="stylesheet" />
+                                    <!--<link href="/templates/default/assets/css/c3.min.css" rel="stylesheet">-->
+
+                                    <!-- Load d3.js and c3.js -->
+                                    <!--<script src="/templates/default/assets/js/d3.min.js" charset="utf-8"></script>-->
+                                    <!--<script src="/templates/default/assets/js/c3.min.js"></script>-->
+                                    <script src="/templates/default/assets/js/moment.js"></script>
+
+                                    <button type="button" class="btn btn-info" onclick="loadAuctionCharts()"
+                                        ><i class="fas fa-ad"></i> View auction charts</button>
+                                    <div id="auction_charts"></div>
+                                </div>
                             </div>
 
                             <div style="margin-top: 15px;">
@@ -336,5 +352,64 @@
         document.execCommand("copy");
         $temp.remove();
     }
+    function loadAuctionCharts(){
+
+        $.ajax({
+            url: "/auctions_charts.html",
+            cache: false,
+            dataType: "html",
+            success: function(data) {
+                $("#auction_charts").html(data);
+                if (typeof(worker) == "undefined") {
+                    let tag = "{$item.tag}";
+                    worker = new Worker("/templates/default/assets/js/auction_charts.js");
+                    {literal}worker.postMessage(`{
+                    "type":"tag",
+                    "data":"`+tag+`"
+                    }`);{/literal}
+                    worker.onmessage = function(event) {
+                        let msg = JSON.parse(event.data);
+                        console.log(msg);
+                        if (msg['type'] === 'toggleModal'){
+                            $("#auction_charts_modal").modal("toggle");
+                        }
+                        if (msg['type'] === 'DrawChart1'){
+                            setTimeout(() => chart1(tag, msg['data']), 1000);
+                        }
+                        if (msg['type'] === 'noChart1'){
+                            document.getElementById("chart1").innerHTML = "No data ᕕ( ᐛ )ᕗ";
+                        }
+                        if (msg['type'] === 'DrawChart2'){
+                            setTimeout(() => chart2(tag, msg['data']), 1000);
+                        }
+                        if (msg['type'] === 'noChart2'){
+                            document.getElementById("chart2").innerHTML = "No data ᕕ( ᐛ )ᕗ";
+                        }
+                        if (msg['type'] === 'DrawChart3'){
+                            setTimeout(() => chart3(tag, msg['data']), 1000);
+                        }
+                        if (msg['type'] === 'noChart3'){
+                            document.getElementById("chart3").innerHTML = "No data ᕕ( ᐛ )ᕗ";
+                        }
+                        {literal}
+                        document.getElementById("chart2-tab").addEventListener("click", function (){
+                            worker.postMessage(`{"type":"loadChart2Data"}`);
+
+                        });
+                        document.getElementById("chart3-tab").addEventListener("click", function () {
+                            worker.postMessage(`{"type":"loadChart3Data"}`);
+                        });
+                        {/literal}
+
+                    };
+                } else {
+                    console.log("Web Workers are not supported in your browser");
+                }
+            }
+        });
+
+
+    }
+
 </script>
 {include file='footer.tpl'}

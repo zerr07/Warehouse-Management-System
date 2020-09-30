@@ -21,7 +21,7 @@
                 color: white;
             }
 
-            text {
+            #logo_text {
                 filter: url(#filter);
                 fill: white;
                 font-family: 'Share Tech Mono', sans-serif;
@@ -77,7 +77,7 @@
         </defs>
 
         <g>
-            <text x="0" y="100">WMS</text>
+            <text x="0" y="100" id="logo_text">WMS</text>
         </g>
 
     </svg>

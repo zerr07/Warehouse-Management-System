@@ -1,6 +1,6 @@
 <?php
 
-global $DBCONN, $BIGCONN, $ENGINE;
+global $DBCONN, $BIGCONN, $ENGINE, $DRUNCONN;
 include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/DB/query.php');
 include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/saveCart.php');
 
@@ -34,6 +34,7 @@ $BIGCONN = new MySQLi(
     _DB_EXPORT['dbpass'],
     _DB_EXPORT['dbname']);
 $BIGCONN->query("SET NAMES utf8");
+
 require_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/shards.php');
 
 if (!isset($_COOKIE['shard'])){

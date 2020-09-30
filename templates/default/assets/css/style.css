@@ -181,6 +181,53 @@ div.preview > ol {
 .loader:after {
     animation: animate 2s infinite linear;
 }
+.preloaderProgress-text{
+    position: absolute;
+    top: 53%;
+    left: 50%;
+    margin-left: -6px;
+}
+
+.loaderAreaProgress {
+    display: none;
+    background-color: black;
+    /*background: linear-gradient(120deg, #2A9FD6 30%, #9933CC 90%);*/
+    overflow: hidden;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right:0;
+    bottom:0;
+    z-index: 100000;
+}
+.loaderProgress {
+    display: none;
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    left: 50%;
+    margin-left: -20px;
+    top: 50%;
+    margin-top: -20px;
+}
+
+.loaderProgress:before,
+.loaderProgress:after {
+    content: "";
+    height: 40px;
+    width: 40px;
+    border: 8px solid rgba(255,255,255,.3);
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+}
+
+.loaderProgress:before {
+    animation: animate 2s infinite linear;
+}
+.loaderProgress:after {
+    animation: animate 2s infinite linear;
+}
 .form-small{
     height: 35px !important;
 }

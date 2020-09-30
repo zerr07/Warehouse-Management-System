@@ -64,7 +64,14 @@
 <div class="loaderArea">
   <div class="loader"></div><p class="preloader-text">Loading...</p>
 </div>
+<div class="loaderAreaProgress">
+  <div class="loaderProgress"></div>
 
+  <p class="preloaderProgress-text">Loading...</p>
+  <div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" id="preloaderProgress_progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+  </div>
+</div>
   <wrapper class="d-flex flex-column fullHeight">
 
     <nav class="navbar navbar-expand-md navbar-light">
