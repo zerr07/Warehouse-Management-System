@@ -19,7 +19,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="auction_charts_modalLabel">Charts</h5>
+                <h5 class="modal-title" id="auction_charts_modalLabel"><i class="fas fa-cat"></i> {$tag} - {$name}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -27,13 +27,13 @@
             <div class="modal-body">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="chart1-tab" data-toggle="tab" href="#chart1-box" role="tab" aria-controls="home" aria-selected="true">chart1</a>
+                        <a class="nav-link active" id="chart1-tab" data-toggle="tab" href="#chart1-box" role="tab" aria-controls="home" aria-selected="true">Profit</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="chart2-tab" data-toggle="tab" href="#chart2-box" role="tab" aria-controls="profile" aria-selected="false">chart2</a>
+                        <a class="nav-link" id="chart2-tab" data-toggle="tab" href="#chart2-box" role="tab" aria-controls="profile" aria-selected="false">Avg</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="chart3-tab" data-toggle="tab" href="#chart3-box" role="tab" aria-controls="contact" aria-selected="false">chart3</a>
+                        <a class="nav-link" id="chart3-tab" data-toggle="tab" href="#chart3-box" role="tab" aria-controls="contact" aria-selected="false">Avg (7 days)</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -55,9 +55,9 @@
         </div>
     </div>
 </div>
-
+{literal}
 <script>
-        function chart1(tag, data){
+    function chart1(tag, data){
 
         var profit_table = data[0];
         var labels_table = data[1];
@@ -131,8 +131,8 @@
                 {axis: 'y', start: 0, class: 'regionGood'}
             ]
         });
-            setPreloaderProgress("100");
-            turnOffProgressPreloader();
+        setPreloaderProgress("100");
+        turnOffProgressPreloader();
 
     }
 
@@ -248,4 +248,4 @@
         setPreloaderProgress("100");
         turnOffProgressPreloader();
     }
-</script>
+</script>{/literal}

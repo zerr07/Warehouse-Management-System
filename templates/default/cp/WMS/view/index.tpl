@@ -349,7 +349,8 @@
     function loadAuctionCharts(){
 
         $.ajax({
-            url: "/auctions_charts.html",
+            //url: "/auctions_charts.html",
+            url: "/cp/loadChart.php?tag={$item.tag}",
             cache: false,
             dataType: "html",
             success: function(data) {
