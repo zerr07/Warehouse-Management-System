@@ -38,6 +38,7 @@ postMessage(`{
 setTimeout(() => load_chart_data(tag), 1000);
 
 function get_chart2_data(){
+    console.log("dasdas");
     if (dataAvg.length !== 0){
         if (!chart2Loaded){
             postMessage(`{
@@ -63,6 +64,7 @@ function get_chart2_data(){
     }
 }
 function get_chart3_data(){
+    console.log(chart3Loaded);
     if (dataAvg7.length !== 0){
         if (!chart3Loaded){
             postMessage(`{
@@ -78,6 +80,7 @@ function get_chart3_data(){
                     "data": `+computeData3(dataAvg7)+`
                     }`;
             postMessage(msg)
+            chart3Loaded = true;
         }
     } else {
         let msg = `{
