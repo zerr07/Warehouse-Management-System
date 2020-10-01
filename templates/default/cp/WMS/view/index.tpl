@@ -95,7 +95,7 @@
                                     <!--<script src="/templates/default/assets/js/c3.min.js"></script>-->
                                     <script src="/templates/default/assets/js/moment.js"></script>
 
-                                    <button type="button" class="btn btn-info" onclick="loadAuctionCharts()"
+                                    <button type="button" class="btn btn-info mt-2" onclick="loadAuctionCharts()"
                                         ><i class="fas fa-ad"></i> View auction charts</button>
                                     <div id="auction_charts"></div>
                                 </div>
