@@ -57,28 +57,24 @@
 </div>
 
 <script>
-
-    $preloaderProgress = $('.loaderAreaProgress');
-    $loaderProgress = $preloaderProgress.find('.loaderProgress');
-    $loaderTextProgress = $preloaderProgress.find('.preloaderProgress-text');
-    $loaderProgressBar = $preloaderProgress.find('#preloaderProgress_progressBar');
-
-
         function chart1(tag, data){
 
         var profit_table = data[0];
         var labels_table = data[1];
         var cData = data[2];
-
+        var sum = data[3];
         var chart = c3.generate({
             bindto: "#chart1",
             data: {
                 xs: {
-                    'profit': 'x1'
+                    'profit': 'x1',
+                    'sum': 'x2'
                 },
                 columns: [
-                    labels_table,
-                    profit_table
+                    ['x1'].concat(labels_table),
+                    ['x2'].concat(labels_table),
+                    ['profit'].concat(profit_table),
+                    ['sum'].concat(sum)
                 ]
             },
             axis: {
@@ -97,27 +93,31 @@
             tooltip: {
                 grouped: false,
                 contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
+                    if (d[0].id === "profit"){
+                        let roi = Math.round(((cData[d[0].index][1]['profit']/cData[d[0].index][1]['buyprice'])*100)* 100) / 100;
+                        let e = moment(cData[d[0].index][1]['enddate']);
+                        let s = moment(cData[d[0].index][1]['startdate']);
+                        let diff = e.diff(s, 'days');
+                        return '<div class="tooltipBox">' +
+                            /*'end: ' + cData[d[0].index][1]['enddate'].format("DD.MM.YYYY") + "<br />" +
+                            'start: ' + cData[d[0].index][1]['startdate'].format("DD.MM.YYYY") + "<br />" +*/
+                            'Profit: ' + cData[d[0].index][1]['profit'] + "<br />" +
+                            'Duration: ' + diff + "<br />" +
+                            'Final Price: ' + cData[d[0].index][1]['finalprice'] + "<br />" +
+                            'Lisateenused: ' + cData[d[0].index][1]['lisateenused'] + "<br />" +
+                            'ROI: ' + roi + "%" + "<br />" +
+                            '</div>';
+                    } else {
+                        return '<div class="tooltipBox">' +
+                            'SUM: ' + sum[d[0].index] + "<br />" +
+                            '</div>';
+                    }
 
-                    let roi = Math.round(((cData[d[0].index][1]['profit']/cData[d[0].index][1]['buyprice'])*100)* 100) / 100
-                    console.log(cData[d[0].index][1]['enddate']);
-                    console.log(cData[d[0].index][1]['startdate']);
-                    let e = moment(cData[d[0].index][1]['enddate'])
-                    let s = moment(cData[d[0].index][1]['startdate'])
-                    let diff = e.diff(s, 'days')
-                    return '<div class="tooltipBox">' +
-                        /*'end: ' + cData[d[0].index][1]['enddate'].format("DD.MM.YYYY") + "<br />" +
-                        'start: ' + cData[d[0].index][1]['startdate'].format("DD.MM.YYYY") + "<br />" +*/
-                        'Profit: ' + cData[d[0].index][1]['profit'] + "<br />" +
-                        'Duration: ' + diff + "<br />" +
-                        'Final Price: ' + cData[d[0].index][1]['finalprice'] + "<br />" +
-                        'Lisateenused: ' + cData[d[0].index][1]['lisateenused'] + "<br />" +
-                        'ROI: ' + roi + "%" + "<br />" +
-                        '</div>';
 
                 }
             },
             legend: {
-                show: false
+                show: true
             },
             size: {
                 height: 600,
@@ -131,6 +131,8 @@
                 {axis: 'y', start: 0, class: 'regionGood'}
             ]
         });
+            setPreloaderProgress("100");
+            turnOffProgressPreloader();
 
     }
 
@@ -138,8 +140,7 @@
         var profit_table = data[0];
         var labels_table = data[1];
         var cData = data[2];
-        /*$($loaderProgressBar[0]).css("width", "50%");
-        $($loaderProgressBar[0]).attr("aria-valuenow", "50");*/
+        setPreloaderProgress("70");
         var chart = c3.generate({
             bindto: "#chart2",
             data: {
@@ -147,8 +148,8 @@
                     'profit': 'x1'
                 },
                 columns: [
-                    labels_table,
-                    profit_table
+                    ['x1'].concat(labels_table),
+                    ['profit'].concat(profit_table)
                 ]
             },
             axis: {
@@ -188,14 +189,14 @@
                 {axis: 'y', start: 0, class: 'regionGood'}
             ]
         });
-
+        setPreloaderProgress("100");
+        turnOffProgressPreloader();
     }
     function chart3(tag, data){
         var profit_table = data[0];
         var labels_table = data[1];
         var cData = data[2];
-        /*$($loaderProgressBar[0]).css("width", "50%");
-        $($loaderProgressBar[0]).attr("aria-valuenow", "50");*/
+        setPreloaderProgress("70");
         var chart = c3.generate({
             bindto: "#chart3",
             data: {
@@ -203,8 +204,8 @@
                     'profit': 'x1'
                 },
                 columns: [
-                    labels_table,
-                    profit_table
+                    ['x1'].concat(labels_table),
+                    ['profit'].concat(profit_table)
                 ]
             },
             axis: {
@@ -244,5 +245,7 @@
                 {axis: 'y', start: 0, class: 'regionGood'}
             ]
         });
+        setPreloaderProgress("100");
+        turnOffProgressPreloader();
     }
 </script>

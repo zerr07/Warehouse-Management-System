@@ -10,18 +10,28 @@ $DRUNCONN = new PDO("pgsql:host="._DB_DRUN['dbhost'].";dbname="._DB_DRUN['dbname
 if(isset($_GET['tag'])){
     $tag = $_GET['tag'];
     if (isset($DRUNCONN)) {
-        $q = $DRUNCONN->query("SELECT id, enddate, startdate, profit, finalprice, lisateenused,
-            (SELECT buyprice FROM products WHERE sku=auctions.productsku) as buyprice FROM auctions WHERE productsku='$tag' AND status != 'NotFinished'");
+        $q = $DRUNCONN->query("SELECT id, TO_DATE(enddate,'DD.MM.YYYY') as enddate, startdate, profit, finalprice, lisateenused,
+            (SELECT buyprice FROM products WHERE sku=auctions.productsku) as buyprice FROM auctions 
+            WHERE productsku='$tag' AND status != 'NotFinished' ORDER BY enddate ASC");
         $arr = array(array());
         foreach ($q as $row){
             $arr[$row['id']] = $row;
         }
     }
 
-    function sortFunction( $a, $b ) {
-        return strtotime($a["enddate"]) - strtotime($b["enddate"]);
+    echo json_encode(array_filter($arr));
+}
+if(isset($_GET['tagSUM'])){
+    $tag = $_GET['tagSUM'];
+    if (isset($DRUNCONN)) {
+        $q = $DRUNCONN->query("SELECT TO_DATE(enddate,'DD.MM.YYYY') as enddate, SUM(profit::numeric)
+            FROM auctions WHERE productsku='$tag' AND status != 'NotFinished' GROUP BY enddate ORDER BY enddate ASC;");
+        $arr = array(array());
+        foreach ($q as $row){
+            $arr[$row['enddate']] = $row;
+        }
     }
-    usort($arr, "sortFunction");
+
     echo json_encode(array_filter($arr));
 }
 if(isset($_GET['tagAVG'])){

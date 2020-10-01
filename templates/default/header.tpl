@@ -45,6 +45,7 @@
   <script src="/cp/POS/displayCartPOS.js"></script>
   <script src="/cp/WMS/category/editLink.js"></script>
   <script src="/cp/WMS/item/edit/editEAN.js"></script>
+  <script src="/templates/default/assets/js/script.js"></script>
 
 
 
@@ -64,7 +65,7 @@
 <div class="loaderArea">
   <div class="loader"></div><p class="preloader-text">Loading...</p>
 </div>
-<div class="loaderAreaProgress">
+<div class="loaderAreaProgress" id="loaderAreaProgress">
   <div class="loaderProgress"></div>
 
   <p class="preloaderProgress-text">Loading...</p>

@@ -317,13 +317,6 @@
     }
     function getImages(index){
         window.location = "/controllers/products/getAllImages.php?id=" + index;
-
-        /*$.ajax({
-            type: "GET",
-            cache: false,
-            url: "/controllers/products/getAllImages.php?id=" + index
-        });*/
-
     }
     function delete_loc(index){
         if (confirm('Do you really want to delete location? Supplied quantity will be lost!')){
@@ -352,6 +345,7 @@
         document.execCommand("copy");
         $temp.remove();
     }
+
     function loadAuctionCharts(){
 
         $.ajax({
@@ -360,6 +354,10 @@
             dataType: "html",
             success: function(data) {
                 $("#auction_charts").html(data);
+                if (typeof(worker) != "undefined") {
+                    worker.terminate();
+                    delete worker;
+                }
                 if (typeof(worker) == "undefined") {
                     let tag = "{$item.tag}";
                     worker = new Worker("/templates/default/assets/js/auction_charts.js");
@@ -367,6 +365,16 @@
                     "type":"tag",
                     "data":"`+tag+`"
                     }`);{/literal}
+                    {literal}
+                    var handleChart2 = function (){
+                        worker.postMessage(`{"type":"loadChart2Data"}`);
+                        document.getElementById("chart2-tab").removeEventListener("click", handleChart2);
+                    }
+                    var handleChart3 = function (){
+                        worker.postMessage(`{"type":"loadChart3Data"}`);
+                        document.getElementById("chart3-tab").removeEventListener("click", handleChart3);
+                    }
+                    {/literal}
                     worker.onmessage = function(event) {
                         let msg = JSON.parse(event.data);
                         console.log(msg);
@@ -391,14 +399,18 @@
                         if (msg['type'] === 'noChart3'){
                             document.getElementById("chart3").innerHTML = "No data ᕕ( ᐛ )ᕗ";
                         }
+                        if (msg['type'] === 'turnOnPreloader'){
+                            turnOnProgressPreloader();
+                        }
+                        if (msg['type'] === 'turnOffPreloader'){
+                            turnOffProgressPreloader();
+                        }
+                        if (msg['type'] === 'setPreloaderProgress'){
+                            setPreloaderProgress(msg['data']);
+                        }
                         {literal}
-                        document.getElementById("chart2-tab").addEventListener("click", function (){
-                            worker.postMessage(`{"type":"loadChart2Data"}`);
-
-                        });
-                        document.getElementById("chart3-tab").addEventListener("click", function () {
-                            worker.postMessage(`{"type":"loadChart3Data"}`);
-                        });
+                        document.getElementById("chart2-tab").addEventListener("click", handleChart2);
+                        document.getElementById("chart3-tab").addEventListener("click", handleChart3);
                         {/literal}
 
                     };
