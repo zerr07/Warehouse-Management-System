@@ -37,8 +37,10 @@ if(isset($_GET['tagSUM'])){
 if(isset($_GET['tagAVG'])){
     $tag = $_GET['tagAVG'];
     if (isset($DRUNCONN)) {
-        $q = $DRUNCONN->query("SELECT TO_DATE(enddate,'DD.MM.YYYY') as enddate, AVG(profit::numeric) 
-            FROM auctions WHERE productsku='$tag' AND status != 'NotFinished' GROUP BY enddate ORDER BY enddate ASC;");
+        $q = $DRUNCONN->query("SELECT TO_DATE(enddate,'DD.MM.YYYY') as enddate,
+       (SELECT AVG(profit::numeric) FROM auctions WHERE productsku='$tag' AND TO_DATE(enddate,'DD.MM.YYYY')>= TO_DATE(a1.enddate,'DD.MM.YYYY') AND status != 'NotFinished')
+            FROM auctions as a1 WHERE productsku='$tag' AND status != 'NotFinished' GROUP BY enddate ORDER BY enddate ASC;
+");
         $arr = array(array());
         foreach ($q as $row){
             $arr[$row['enddate']] = $row;
@@ -49,13 +51,13 @@ if(isset($_GET['tagAVG'])){
 if(isset($_GET['tagAVG7'])){
     $tag = $_GET['tagAVG7'];
     if (isset($DRUNCONN)) {
-        $q = $DRUNCONN->query("SELECT TO_DATE(enddate,'DD.MM.YYYY') as enddate, AVG(profit::numeric) 
-            FROM auctions WHERE productsku='$tag' AND status != 'NotFinished' 
-            AND TO_DATE(enddate,'DD.MM.YYYY') > current_date - interval '7 days' GROUP BY enddate ORDER BY enddate ASC;");
+        $q = $DRUNCONN->query("SELECT TO_DATE(enddate,'DD.MM.YYYY') as enddate,
+       (SELECT AVG(profit::numeric) FROM auctions WHERE productsku='$tag' AND TO_DATE(enddate,'DD.MM.YYYY')>= TO_DATE(a1.enddate,'DD.MM.YYYY') AND status != 'NotFinished')
+            FROM auctions as a1 WHERE productsku='$tag' AND status != 'NotFinished' GROUP BY enddate ORDER BY enddate DESC LIMIT 7");
         $arr = array(array());
         foreach ($q as $row){
             $arr[$row['enddate']] = $row;
         }
     }
-    echo json_encode(array_filter($arr));
+    echo json_encode(array_reverse(array_filter($arr)));
 }
