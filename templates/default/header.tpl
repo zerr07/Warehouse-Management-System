@@ -9,43 +9,43 @@
   <meta name="description" content="">
   <meta name="keywords" content="">
   <!-- CSS dependencies -->
-  <link rel="stylesheet" href="/templates/default/assets/css/bootstrap.css">
-  <link rel="stylesheet" href="/templates/default/assets/css/style.css">
-  <link rel="stylesheet" href="/templates/default/assets/css/editor.css">
+  <link rel="stylesheet" href="/templates/default/assets/css/bootstrap.css?t=01102020T151435">
+  <link rel="stylesheet" href="/templates/default/assets/css/style.css?t=01102020T151716">
+  <link rel="stylesheet" href="/templates/default/assets/css/editor.css?t=01102020T151731">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
   <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
   <!--<link rel="stylesheet" href="/templates/default/assets/fileup/css/jquery.fileupload.css"> -->
   <!-- Script: Make my navbar transparent when the document is scrolled to top -->
-  <script src="/templates/default/assets/js/navbar-ontop.js"></script>
+  <script src="/templates/default/assets/js/navbar-ontop.js?t=01102020T151739"></script>
   <!-- Script: Animated entrance -->
 
-  <script src="/templates/default/assets/js/animate-in.js"></script>
+  <script src="/templates/default/assets/js/animate-in.js?t=01102020T151742"></script>
 
-  <script src="/bar.js"></script>
-  <script src="/print.min.js"></script>
+  <script src="/bar.js?t=01102020T151747"></script>
+  <script src="/print.min.js?t=01102020T151750"></script>
   <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
   <!--<script src="/templates/default/assets/fileup/js/vendor/jquery.ui.widget.js"></script>-->
   <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
   <!--<script src="/templates/default/assets/fileup/js/jquery.iframe-transport.js"></script>-->
   <!-- The basic File Upload plugin -->
-  <script src="/templates/default/assets/fileup/js/jquery.fileupload.js"></script>
-  <script src="/templates/default/assets/fileup/fileup.js"></script>
-  <script src="/templates/default/assets/js/fontawesome-all.js"></script>
+  <script src="/templates/default/assets/fileup/js/jquery.fileupload.js?t=01102020T151754"></script>
+  <script src="/templates/default/assets/fileup/fileup.js?t=01102020T151758"></script>
+  <script src="/templates/default/assets/js/fontawesome-all.js?t=01102020T151801"></script>
 
 
   <!-- Text editor plugin -->
-  <script src="/templates/default/assets/fileup/js/vendor/jquery.ui.widget.js"></script>
-  <script src="/templates/default/assets/js/editor.js"></script>
-  <script src="/templates/default/assets/js/cookie.js"></script>
+  <script src="/templates/default/assets/fileup/js/vendor/jquery.ui.widget.js?t=01102020T151804"></script>
+  <script src="/templates/default/assets/js/editor.js?t=01102020T151809"></script>
+  <script src="/templates/default/assets/js/cookie.js?t=01102020T151812"></script>
 
-  <script src="/templates/default/assets/js/priceCalc.js"></script>
-  <script src="/cp/POS/updateCart.js"></script>
-  <script src="/cp/POS/displayCartPOS.js"></script>
-  <script src="/cp/WMS/category/editLink.js"></script>
-  <script src="/cp/WMS/item/edit/editEAN.js"></script>
-  <script src="/templates/default/assets/js/script.js"></script>
+  <script src="/templates/default/assets/js/priceCalc.js?t=01102020T151814"></script>
+  <script src="/cp/POS/updateCart.js?t=01102020T151817"></script>
+  <script src="/cp/POS/displayCartPOS.js?t=01102020T151820"></script>
+  <script src="/cp/WMS/category/editLink.js?t=01102020T151823"></script>
+  <script src="/cp/WMS/item/edit/editEAN.js?t=01102020T151824"></script>
+  <script src="/templates/default/assets/js/script.js?t=01102020T151827"></script>
 
 
 

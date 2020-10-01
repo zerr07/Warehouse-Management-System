@@ -361,7 +361,7 @@
                 }
                 if (typeof(worker) == "undefined") {
                     let tag = "{$item.tag}";
-                    worker = new Worker("/templates/default/assets/js/auction_charts.js");
+                    worker = new Worker("/templates/default/assets/js/auction_charts.js?t=01102020T150923");
                     {literal}worker.postMessage(`{
                     "type":"tag",
                     "data":"`+tag+`"
