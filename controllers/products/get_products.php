@@ -190,11 +190,13 @@ function get_platform_data($index){
 
 function get_desc($index){
     $arr = array();
-    $desc = json_decode( file_get_contents(
-        $_SERVER["DOCUMENT_ROOT"].'/translations/products/'.$index.'.json'), true);
-    $get_lang = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*languages*}"));
-    while ($row = mysqli_fetch_assoc($get_lang)){
-        $arr[$row['lang']] = html_entity_decode($desc['product'][$row['lang']]['description']);
+    if (file_exists($_SERVER["DOCUMENT_ROOT"].'/translations/products/'.$index.'.json')){
+        $desc = json_decode( file_get_contents(
+            $_SERVER["DOCUMENT_ROOT"].'/translations/products/'.$index.'.json'), true);
+        $get_lang = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*languages*}"));
+        while ($row = mysqli_fetch_assoc($get_lang)){
+            $arr[$row['lang']] = html_entity_decode($desc['product'][$row['lang']]['description']);
+        }
     }
     return $arr;
 }
