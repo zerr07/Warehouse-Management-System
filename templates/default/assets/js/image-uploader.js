@@ -64,9 +64,9 @@ function ImageUploader_displayImagePreview(prefix) {
     let imagesPreviewBlock = $("#ImageUploader_previewImages"+prefix);
     imagesPreviewBlock.html("");
     for (let id in img){
-        imagesPreviewBlock.append("<div class='ImageUploader_image' draggable='true'> " +
-            "<img width='200px' height='200px' src='"+img[id][1]+"' id='image"+id+"_"+prefix+"' alt='' class='img-thumbnail' onclick='ImageUploader_displayPreviewFunc("+id+", \""+prefix+"\")' >" +
-            "</div><div class='ImageUploader_img_between'><div class='droppable'></div></div>");
+        imagesPreviewBlock.append(" " +
+            "<img width='200px' height='200px' src='"+img[id][1]+"' id='image"+id+"_"+prefix+"' alt='' class='img-thumbnail ImageUploader_image' onclick='ImageUploader_displayPreviewFunc("+id+", \""+prefix+"\")' draggable='true'>" +
+            "<div class='ImageUploader_img_between' draggable='true'></div>");
     }
     eval("if ( $( \"#ImageUploader_imagesJSON"+prefix+"\" ).length ) {$(\"#ImageUploader_imagesJSON"+prefix+"\").val(JSON.stringify(ImageUploader_images"+prefix+"));}");
     ImageUploader_addListeners();
@@ -108,7 +108,7 @@ function ImageUploader_handleDragStart(e) {
     this.style.opacity = '0.4';
     dragSrcEl = this;
     e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/html', this.innerHTML);
+    e.dataTransfer.setData('text/html', this);
 }
 
 function ImageUploader_handleDragOver(e) {
@@ -119,41 +119,53 @@ function ImageUploader_handleDragOver(e) {
     return false;
 }
 function ImageUploader_handleDragEnter(e) {
-    this.classList.add('over');
+    if (this !== dragSrcEl){
+        this.style.opacity = '0.4';
+        ImageUploader_overin(this);
+    }
+
 }
 function ImageUploader_handleDragLeave(e) {
-    this.classList.remove('over');
+    if (this !== dragSrcEl){
+        this.style.opacity = '1';
+        ImageUploader_overout(this);
+    }
+
 }
 function ImageUploader_handleDrop(e) {
     if (e.stopPropagation) {
         e.stopPropagation(); // stops the browser from redirecting.
     }
     if (dragSrcEl !== this) {
-        if (this.closest("div").parentNode.id === dragSrcEl.closest("div").parentNode.id){
-
-
+        if (this.parentNode.id === dragSrcEl.closest("div").id){
             if (this.closest("div").className === "ImageUploader_img_between over" || this.closest("div").className === "ImageUploader_img_between"){
                 let el = $(this).next()[0];
-                var NewElement = document.createElement('div');
-                NewElement.innerHTML = e.dataTransfer.getData('text/html');
+                var NewElement = document.createElement('img');
+                NewElement.src = e.dataTransfer.getData('text/plain');
                 NewElement.draggable = true;
-                NewElement.className = "ImageUploader_image";
+                NewElement.id = dragSrcEl.id;
+                NewElement.width = dragSrcEl.width;
+                NewElement.height = dragSrcEl.height;
+                NewElement.className = "img-thumbnail ImageUploader_image";
+                NewElement.setAttribute("onclick", dragSrcEl.getAttribute("onclick"))
                 if (el !== undefined){
                     NewElement.appendBefore(el);
                 } else {
+                    console.log(this);
                     NewElement.appendBefore(this);
                 }
+
                 var NewElementBetween = document.createElement('div');
                 NewElementBetween.draggable = true;
                 NewElementBetween.className = "ImageUploader_img_between";
                 NewElementBetween.appendAfter(NewElement);
-                $(dragSrcEl).closest("div").next().remove();
-                dragSrcEl.closest("div").remove();
+                $(dragSrcEl).next().remove();
+                dragSrcEl.remove();
                 ImageUploader_addListeners();
             } else {
-                if(dragSrcEl.firstElementChild.tagName === "IMG"){
-                    dragSrcEl.innerHTML = this.innerHTML;
-                    this.innerHTML = e.dataTransfer.getData('text/html');
+                if(dragSrcEl.tagName === "IMG"){
+                    dragSrcEl.src = this.src;
+                    this.src = e.dataTransfer.getData('text/plain');
                 }
             }
         }
@@ -167,7 +179,8 @@ function ImageUploader_handleDrop(e) {
     }
     for (var c in prefix){
         new_arr = [];
-        let els = document.querySelectorAll('#ImageUploader_previewImages'+prefix[c]+' > .ImageUploader_image img');
+        let els = document.querySelectorAll('#ImageUploader_previewImages'+prefix[c]+' > .ImageUploader_image');
+        console.log(els);
         for (let i = 0; i< els.length; i++){
             if (ImageUploader_isBase64(els[i].src)){
                 eval("new_arr.push(ImageUploader_search(els[i].src, ImageUploader_images"+prefix[c]+"))");
@@ -177,22 +190,20 @@ function ImageUploader_handleDrop(e) {
             }
         }
         eval("ImageUploader_images"+prefix[c]+" = new_arr");
+        eval("ImageUploader_displayImagePreview(\""+prefix[c]+"\")");
+
     }
-    eval("ImageUploader_displayImagePreview(\""+prefix[c]+"\")");
     return false;
 }
 
 function ImageUploader_handleDragEnd(e) {
-    this.style.opacity = '1';
     items.forEach(function (item) {
-        item.classList.remove('over');
+        item.style.opacity = '1';
+        ImageUploader_overout(item);
     });
 }
 function ImageUploader_addListeners(){
-    items = document.querySelectorAll('.ImageUploader_image');
-    items.forEach(function(item) {
 
-    });
     items = document.querySelectorAll('.ImageUploader_image, .ImageUploader_img_between');
     items.forEach(function(item) {
         item.addEventListener('dragstart', ImageUploader_handleDragStart, false);
@@ -222,4 +233,11 @@ window.onload = function(){
 
 function ImageUploader_isBase64(str) {
     return str.startsWith("data:image/");
+}
+
+function ImageUploader_overin(el){
+    el.classList.add('over');
+}
+function ImageUploader_overout(el){
+    el.classList.remove('over');
 }
