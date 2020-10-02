@@ -20,6 +20,7 @@
                             Disabled warning message on no descriptions file.<br />
                             Timestamp 'GET' tags added to styles and scripts calls to enable force reload when needed.<br />
                             Large barcode generator added
+                            Tacos?!
                         </div>
                     </div>
                 </div>
