@@ -5,6 +5,27 @@
             <div class="accordion text-left" id="accordion">
 
                 <div class="card">
+                    <div class="card-header" id="heading060">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse060" aria-expanded="false" aria-controls="collapse060">
+                                Version 0.6.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse060" class="collapse" aria-labelledby="heading060" data-parent="#accordion">
+                        <div class="card-body">
+                            Auction charts added<br />
+                            Image uploader reworked (fixed effects on drag and drop)<br />
+                            Disabled warning message on no descriptions file.<br />
+                            Timestamp 'GET' tags added to styles and scripts calls to enable force reload when needed.<br />
+                            Large barcode generator added
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
                     <div class="card-header" id="heading051">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
