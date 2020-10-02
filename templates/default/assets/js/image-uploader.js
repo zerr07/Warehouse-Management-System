@@ -140,8 +140,9 @@ function ImageUploader_handleDrop(e) {
         if (this.parentNode.id === dragSrcEl.closest("div").id){
             if (this.closest("div").className === "ImageUploader_img_between over" || this.closest("div").className === "ImageUploader_img_between"){
                 let el = $(this).next()[0];
+                let dragTemp = dragSrcEl.src;
                 var NewElement = document.createElement('img');
-                NewElement.src = e.dataTransfer.getData('text/plain');
+                NewElement.src = dragTemp;
                 NewElement.draggable = true;
                 NewElement.id = dragSrcEl.id;
                 NewElement.width = dragSrcEl.width;
@@ -151,7 +152,6 @@ function ImageUploader_handleDrop(e) {
                 if (el !== undefined){
                     NewElement.appendBefore(el);
                 } else {
-                    console.log(this);
                     NewElement.appendBefore(this);
                 }
 
@@ -164,8 +164,10 @@ function ImageUploader_handleDrop(e) {
                 ImageUploader_addListeners();
             } else {
                 if(dragSrcEl.tagName === "IMG"){
-                    dragSrcEl.src = this.src;
-                    this.src = e.dataTransfer.getData('text/plain');
+                    let temp = this.src;
+                    let dragTemp = dragSrcEl.src;
+                    dragSrcEl.src = temp;
+                    this.src = dragTemp;
                 }
             }
         }
