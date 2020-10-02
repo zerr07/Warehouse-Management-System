@@ -8,12 +8,17 @@
     .c3-region.regionGood {
         fill: green;
     }
-    .tooltipBox {
+    #tooltip-span {
         background: rgb(2,0,36);
         background: radial-gradient(circle, rgba(24,19,122,0.6138830532212884) 0%, rgb(31 32 33) 0%, rgb(23 22 22) 100%);
         padding: 20px;
         border-radius: 5px;
+        z-index: 9999;
     }
+    .c3-line-profit{
+        stroke-width: 1.6px;
+    }
+
 </style>
 <div class="modal fade" id="auction_charts_modal" tabindex="-1" aria-labelledby="auction_charts_modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -25,6 +30,8 @@
                 </button>
             </div>
             <div class="modal-body">
+                <span id="tooltip-span" style="display: none; position: fixed"></span>
+
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active" id="chart1-tab" data-toggle="tab" href="#chart1-box" role="tab" aria-controls="home" aria-selected="true">Profit</a>
@@ -57,24 +64,30 @@
 </div>
 {literal}
 <script>
+    var tooltipSpan = document.getElementById('tooltip-span');
+
     function chart1(tag, data){
 
         var profit_table = data[0];
         var labels_table = data[1];
         var cData = data[2];
         var sum = data[3];
+        var mouseover;
         var chart = c3.generate({
             bindto: "#chart1",
             data: {
+                "onmouseover": customOver,
+                "onmouseout": customOut,
                 xs: {
-                    'profit': 'x1',
-                    'sum': 'x2'
+                    'sum': 'x2',
+                    'profit': 'x1'
                 },
                 columns: [
-                    ['x1'].concat(labels_table),
                     ['x2'].concat(labels_table),
-                    ['profit'].concat(profit_table),
-                    ['sum'].concat(sum)
+                    ['x1'].concat(labels_table),
+                    ['sum'].concat(sum),
+                    ['profit'].concat(profit_table)
+
                 ]
             },
             axis: {
@@ -91,29 +104,9 @@
                 }
             },
             tooltip: {
-                grouped: false,
+                grouped: true,
                 contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
-                    if (d[0].id === "profit"){
-                        let roi = Math.round(((cData[d[0].index][1]['profit']/cData[d[0].index][1]['buyprice'])*100)* 100) / 100;
-                        let e = moment(cData[d[0].index][1]['enddate']);
-                        let s = moment(cData[d[0].index][1]['startdate']);
-                        let diff = e.diff(s, 'days');
-                        return '<div class="tooltipBox">' +
-                            /*'end: ' + cData[d[0].index][1]['enddate'].format("DD.MM.YYYY") + "<br />" +
-                            'start: ' + cData[d[0].index][1]['startdate'].format("DD.MM.YYYY") + "<br />" +*/
-                            'Profit: ' + cData[d[0].index][1]['profit'] + "<br />" +
-                            'Duration: ' + diff + "<br />" +
-                            'Final Price: ' + cData[d[0].index][1]['finalprice'] + "<br />" +
-                            'Lisateenused: ' + cData[d[0].index][1]['lisateenused'] + "<br />" +
-                            'ROI: ' + roi + "%" + "<br />" +
-                            '</div>';
-                    } else {
-                        return '<div class="tooltipBox">' +
-                            'SUM: ' + sum[d[0].index] + "<br />" +
-                            '</div>';
-                    }
-
-
+                    mouseover = d
                 }
             },
             legend: {
@@ -126,6 +119,9 @@
             zoom: {
                 enabled: true
             },
+            color: {
+                pattern: ['#ff7f0e', '#1f77b4']
+            },
             regions: [
                 {axis: 'y', start: -999999999, end: 0, class: 'regionBad'},
                 {axis: 'y', start: 0, class: 'regionGood'}
@@ -133,7 +129,55 @@
         });
         setPreloaderProgress("100");
         turnOffProgressPreloader();
+        function customOver(d,i){
+            $(window).on("mousemove", cords);
+            if (mouseover.length === 2) {
+                let roi = Math.round(((cData[d.index][1]['profit']/cData[d.index][1]['buyprice'])*100)* 100) / 100;
+                let e = moment(cData[d.index][1]['enddate']);
+                let s = moment(cData[d.index][1]['startdate']);
+                let diff = e.diff(s, 'days');
+                tooltipSpan.innerHTML =  '' +
+                'Profit: ' + cData[d.index][1]['profit'] + "<br />" +
+                'Duration: ' + diff + "<br />" +
+                'Final Price: ' + cData[d.index][1]['finalprice'] + "<br />" +
+                'Lisateenused: ' + cData[d.index][1]['lisateenused'] + "<br />" +
+                'ROI: ' + roi + "%";
+            } else {
+                tooltipSpan.innerHTML =  '';
+                if (d.id === "profit"){
+                    let roi = Math.round(((cData[d.index][1]['profit']/cData[d.index][1]['buyprice'])*100)* 100) / 100;
+                    let e = moment(cData[d.index][1]['enddate']);
+                    let s = moment(cData[d.index][1]['startdate']);
+                    let diff = e.diff(s, 'days');
+                    tooltipSpan.innerHTML +=  '' +
+                        'Profit: ' + cData[d.index][1]['profit'] + "<br />" +
+                        'Duration: ' + diff + "<br />" +
+                        'Final Price: ' + cData[d.index][1]['finalprice'] + "<br />" +
+                        'Lisateenused: ' + cData[d.index][1]['lisateenused'] + "<br />" +
+                        'ROI: ' + roi + "%" +
+                        "<hr><br />";
+                }
+                tooltipSpan.innerHTML += 'SUM: ' + sum[d.index] + "<br />";
+                let quantity = mouseover.filter(function(value){
+                    return value.id === "profit";
+                }).length;
+                tooltipSpan.innerHTML += 'Quantity: ' + quantity + "<br />";
+                tooltipSpan.innerHTML += 'Avg : ' + sum[d.index]/quantity + "<br />";
+            }
 
+        }
+        function customOut(){
+            $(window).off("mousemove", cords);
+            tooltipSpan.style.display = "none";
+            tooltipSpan.innerHTML =  'Could not load.';
+        }
+    }
+    function cords (e) {
+        var x = e.clientX,
+            y = e.clientY;
+        tooltipSpan.style.top = (y + 20) + 'px';
+        tooltipSpan.style.left = (x + 20) + 'px';
+        tooltipSpan.style.display = "block";
     }
 
     function chart2(tag, data){

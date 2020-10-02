@@ -38,7 +38,6 @@ postMessage(`{
 setTimeout(() => load_chart_data(tag), 1000);
 
 function get_chart2_data(){
-    console.log("dasdas");
     if (dataAvg.length !== 0){
         if (!chart2Loaded){
             postMessage(`{
@@ -64,7 +63,6 @@ function get_chart2_data(){
     }
 }
 function get_chart3_data(){
-    console.log(chart3Loaded);
     if (dataAvg7.length !== 0){
         if (!chart3Loaded){
             postMessage(`{
@@ -151,6 +149,7 @@ function load_chart_data(tag){
     dataChart = Object.entries(dataChart);
     dataAvg = Object.entries(dataAvg);
     dataAvg7 = Object.entries(dataAvg7);
+    console.log(dataChart);
     if (dataChart.length !== 0){
         let msg = `{
          "type": "DrawChart1",

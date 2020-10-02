@@ -361,7 +361,7 @@
                 }
                 if (typeof(worker) == "undefined") {
                     let tag = "{$item.tag}";
-                    worker = new Worker("/templates/default/assets/js/auction_charts.js?t=01102020T150923");
+                    worker = new Worker("/templates/default/assets/js/auction_charts.js?t=02102020T124553");
                     {literal}worker.postMessage(`{
                     "type":"tag",
                     "data":"`+tag+`"
@@ -378,7 +378,6 @@
                     {/literal}
                     worker.onmessage = function(event) {
                         let msg = JSON.parse(event.data);
-                        console.log(msg);
                         if (msg['type'] === 'toggleModal'){
                             $("#auction_charts_modal").modal("toggle");
                         }
