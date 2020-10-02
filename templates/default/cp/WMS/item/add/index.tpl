@@ -260,7 +260,7 @@
 </main>
 <script src="/templates/default/assets/js/DragDropTouch.js?t=02102020T132423"></script>
 <link rel="stylesheet" href="/templates/default/assets/css/image-uploader.css?t=02102020T124614">
-<script src="/templates/default/assets/js/image-uploader.js?t=02102020T124618"></script>
+<script src="/templates/default/assets/js/image-uploader.js?t=02102020T135712"></script>
 <script>
     init_image_uploader("");
     init_image_uploader("_live");
