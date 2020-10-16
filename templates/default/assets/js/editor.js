@@ -73,7 +73,9 @@ function loadEditor(index, lang) {
     let editorAreaID = index+"editor";                                    // id of actual editor
 
     let btnAreaID = index+"button";
+    let btnRowAreaID = index+"row";
     let btnArea = "#"+btnAreaID;
+    let btnRowArea = "#"+btnRowAreaID;
 
     let parentBlockID = index+"parent";
     let parentBlock = "#"+parentBlockID;
@@ -81,7 +83,9 @@ function loadEditor(index, lang) {
     txtAreaObj.attr("hidden", true);
     let parent_div = "<div class='editor-parent-block' id='"+parentBlockID+"'></div>";
     let editor_div = "<div class='editor-block' id='"+editorAreaID+"' lang='"+lang+"' contenteditable='true' spellcheck='true'></div>"; // editor block
-    let button_div = "<div class='btn-group editor-btn-block' id='"+btnAreaID+"' role='group'></div>";
+    let button_div = "<div class='btn-group editor-btn-block' id='"+btnAreaID+"' role='group'>" +
+        "<div class='row m-0 w-100' id='"+btnRowAreaID+"'></div>" +
+        "</div>";
 
     $(parent_div).insertAfter(txtArea);
     $(parentBlock).append(button_div);
@@ -102,32 +106,31 @@ function loadEditor(index, lang) {
         }
 
     });
-    let boldButton = "<button class='btn btn-primary' id='btnBold' type='button' onclick='editor_bold()'><b>B</b></button>";
-    let italicButton = "<button class='btn btn-primary' type='button' onclick='editor_italic()'><em>I</em></button>";
-    let underlineButton = "<button class='btn btn-primary' type='button' onclick='editor_underline()'><u>U</u></button>";
-    let removeFormatButton = "<button class='btn btn-primary' type='button' onclick='editor_removeTextFormat()'><i class='fas fa-eraser'></i></button>";
-    let strikeThroughButton = "<button class='btn btn-primary' type='button' onclick='editor_strikeThrough()'><s>S</s></button>";
-    let subscriptButton = "<button class='btn btn-primary' type='button' onclick='editor_subscript()'>X<sub>2</sub></button>";
-    let superscriptButton = "<button class='btn btn-primary' type='button' onclick='editor_superscript()'>X<sup>2</sup></button>";
-
-    let orderedButton = "<button class='btn btn-primary' type='button' onclick='editor_insertOrderedList()'><i class='fas fa-list-ol'></i></button>";
-    let unorderedButton = "<button class='btn btn-primary' type='button' onclick='editor_insertUnorderedList()'><i class='fas fa-list'></i></button>";
-    let outdent = "<button class='btn btn-primary' type='button' onclick='editor_outdent()'><i class='fas fa-outdent'></i></button>";
-    let indent = "<button class='btn btn-primary' type='button' onclick='editor_indent()'><i class='fas fa-indent'></i></button>";
-    let justifyLeft = "<button class='btn btn-primary' type='button' onclick='editor_justifyLeft()'><i class='fas fa-align-left'></i></button>";
-    let justifyCenter = "<button class='btn btn-primary' type='button' onclick='editor_justifyCenter()'><i class='fas fa-align-center'></i></button>";
-    let justifyRight = "<button class='btn btn-primary' type='button' onclick='editor_justifyRight()'><i class='fas fa-align-right'></i></button>";
-    let justifyFull = "<button class='btn btn-primary' type='button' onclick='editor_justifyFull()'><i class='fas fa-align-justify'></i></button>";
+    let boldButton          = "<button class='btn btn-primary w-100' id='btnBold' type='button' onclick='editor_bold()'><b>B</b></button>";
+    let italicButton        = "<button class='btn btn-primary w-100' type='button' onclick='editor_italic()'><em>I</em></button>";
+    let underlineButton     = "<button class='btn btn-primary w-100' type='button' onclick='editor_underline()'><u>U</u></button>";
+    let removeFormatButton  = "<button class='btn btn-primary w-100' type='button' onclick='editor_removeTextFormat()'><i class='fas fa-eraser'></i></button>";
+    let strikeThroughButton = "<button class='btn btn-primary w-100' type='button' onclick='editor_strikeThrough()'><s>S</s></button>";
+    let subscriptButton     = "<button class='btn btn-primary w-100' type='button' onclick='editor_subscript()'>X<sub>2</sub></button>";
+    let superscriptButton   = "<button class='btn btn-primary w-100' type='button' onclick='editor_superscript()'>X<sup>2</sup></button>";
+    let orderedButton       = "<button class='btn btn-primary w-100' type='button' onclick='editor_insertOrderedList()'><i class='fas fa-list-ol'></i></button>";
+    let unorderedButton     = "<button class='btn btn-primary w-100' type='button' onclick='editor_insertUnorderedList()'><i class='fas fa-list'></i></button>";
+    let outdent             = "<button class='btn btn-primary w-100' type='button' onclick='editor_outdent()'><i class='fas fa-outdent'></i></button>";
+    let indent              = "<button class='btn btn-primary w-100' type='button' onclick='editor_indent()'><i class='fas fa-indent'></i></button>";
+    let justifyLeft         = "<button class='btn btn-primary w-100' type='button' onclick='editor_justifyLeft()'><i class='fas fa-align-left'></i></button>";
+    let justifyCenter       = "<button class='btn btn-primary w-100' type='button' onclick='editor_justifyCenter()'><i class='fas fa-align-center'></i></button>";
+    let justifyRight        = "<button class='btn btn-primary w-100' type='button' onclick='editor_justifyRight()'><i class='fas fa-align-right'></i></button>";
+    let justifyFull         = "<button class='btn btn-primary w-100' type='button' onclick='editor_justifyFull()'><i class='fas fa-align-justify'></i></button>";
 
     let HTMLtoggle = "<div class='btn-group-toggle' data-toggle='buttons' >" +
-                    "   <label class='btn btn-primary html-editor-btn' onclick='clickCheck(this)'>" +
+                    "   <label class='btn btn-primary html-editor-btn w-100' onclick='clickCheck(this)'>" +
                     "       <input type='checkbox' id='HTMLCheckbox"+index+"' autocomplete='off'>HTML" +
                     "   </label>" +
                     "</div>";
 
     let fontSizeDropdown = "" +
         "<div class='dropdown'>" +
-        "  <button class='btn btn-primary dropdown-toggle dropdown-btn-editor' type='button' id='dropdownMenuButton'" +
+        "  <button class='btn btn-primary dropdown-toggle dropdown-btn-editor w-100' type='button' id='dropdownMenuButton'" +
         "    data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>" +
         "   Font" +
         "  </button>" +
@@ -137,23 +140,23 @@ function loadEditor(index, lang) {
         "  </div>" +
         "</div>";
 
-    $(btnArea).append(boldButton);
-    $(btnArea).append(italicButton);
-    $(btnArea).append(underlineButton);
-    $(btnArea).append(removeFormatButton);
-    $(btnArea).append(strikeThroughButton);
-    $(btnArea).append(subscriptButton);
-    $(btnArea).append(superscriptButton);
-    $(btnArea).append(fontSizeDropdown);
-    $(btnArea).append(orderedButton);
-    $(btnArea).append(unorderedButton);
-    $(btnArea).append(justifyLeft);
-    $(btnArea).append(justifyCenter);
-    $(btnArea).append(justifyRight);
-    $(btnArea).append(justifyFull);
-    $(btnArea).append(outdent);
-    $(btnArea).append(indent);
-    $(btnArea).append(HTMLtoggle);
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+boldButton+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+italicButton+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+underlineButton+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+removeFormatButton+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+strikeThroughButton+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+subscriptButton+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+superscriptButton+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+fontSizeDropdown+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+orderedButton+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+unorderedButton+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+justifyLeft+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+justifyCenter+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+justifyRight+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+justifyFull+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+outdent+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+indent+"</div>");
+    $(btnRowArea).append("<div class='col p-0 m-0'>"+HTMLtoggle+"</div>");
     window.forms[index] = index+"editor";
     document.getElementById(editorAreaID).innerHTML = txtAreaObj.val();
 

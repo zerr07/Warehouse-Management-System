@@ -1,40 +1,11 @@
-<a class="navbar-brand text-primary d-none d-md-block" href="/" style="margin-right: 0 !important;">
-    <svg version="1.1" id="Ebene_1"
-            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-            width="50px" height="70px" viewBox="0 0 270 150">
-        <style type="text/css">
+<a class="text-primary" href="/" style="margin-right: 0 !important;    text-decoration: none;">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            width="50px" height="36px" viewBox="0 0 270 150">
 
-            @import url(https://fonts.googleapis.com/css?family=Share+Tech+Mono);
-
-
-            body{
-                background: black;
-            }
-
-            .info {
-                color: white;
-                font:1em/1 sans-serif;
-                text-align: center;
-            }
-
-            .info a{
-                color: white;
-            }
-
-            #logo_text {
-                filter: url(#filter);
-                fill: white;
-                font-family: 'Share Tech Mono', sans-serif;
-                font-size: 170px;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-            }
-
-        </style>
         <defs>
 
-            <filter id="filter">
-                <feFlood flood-color="black" result="black"></feFlood>
+            <filter id="{$filter}">
+                <feFlood flood-color="gray" result="gray"></feFlood>
                 <feFlood flood-color="red" result="flood1"></feFlood>
                 <feFlood flood-color="limegreen" result="flood2"></feFlood>
                 <feOffset in="SourceGraphic" dx="3" dy="0" result="off1a"></feOffset>
@@ -77,8 +48,9 @@
         </defs>
 
         <g>
-            <text x="0" y="100" id="logo_text">WMS</text>
+            <text x="0" y="100" id="{$filter_text}">WMS</text>
         </g>
 
     </svg>
-</a><small style="color:white">{$engine.siteName}</small>
+    <small style="color:white">{$engine.siteName}</small>
+</a>

@@ -1,0 +1,52 @@
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="602" width="802" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="Spicchi_sotto_e_lato"/>
+  <g id="luna">
+   <g id="svg_1">
+    <defs>
+     <rect height="1000" width="2000" y="-392" x="-5036" id="SVGID_3_"/>
+    </defs>
+    <clipPath id="SVGID_2_">
+     <use id="svg_2" xlink:href="#SVGID_3_"/>
+    </clipPath>
+    <path id="svg_3" d="m1147.333,5047c0,-2750.939 -2064.874,-4981 -4612.037,-4981c-2547.157,0 -4612.037,2230.061 -4612.037,4981s2064.88,4981 4612.037,4981c2547.163,0 4612.037,-2230.062 4612.037,-4981z" fill="#CCCCCC" clip-path="url(#SVGID_2_)"/>
+   </g>
+  </g>
+  <g id="Orizzontale_dark"/>
+  <g id="Quadrato1">
+   <g id="svg_4">
+    <defs transform="translate(-1,0) translate(1,1) translate(0,2) translate(0,-6) translate(0,-2) translate(-2,6) translate(3,1) translate(-1,-2) translate(0,-4) translate(0,8) translate(0,-8) translate(0,7) translate(0,-3) ">
+     <rect height="500" width="500" id="SVGID_7_"/>
+    </defs>
+    <clipPath transform="translate(-1,0) translate(1,1) translate(0,2) translate(0,-6) translate(0,-2) translate(-2,6) translate(3,1) translate(-1,-2) translate(0,-4) translate(0,8) translate(0,-8) translate(0,7) translate(0,-3) " id="SVGID_4_">
+     <use x="0" y="0" id="svg_5" xlink:href="#SVGID_7_"/>
+    </clipPath>
+    <circle id="svg_6" r="293.91199" cy="249.412" cx="102.588" fill="#6C757D" clip-path="url(#SVGID_4_)"/>
+    <circle id="svg_7" r="293.91299" cy="250.569" cx="395.438" fill="#F3F3F3" clip-path="url(#SVGID_4_)"/>
+    <circle id="svg_8" r="293.91199" cy="250.588" cx="553.412" fill="#CCCCCC" clip-path="url(#SVGID_4_)"/>
+   </g>
+  </g>
+  <g id="Quadrato2">
+   <g id="svg_9">
+    <defs>
+     <rect height="500" width="500" y="714" id="SVGID_9_"/>
+    </defs>
+    <clipPath id="SVGID_6_">
+     <use id="svg_10" xlink:href="#SVGID_9_"/>
+    </clipPath>
+    <circle id="svg_11" r="293.913" cy="713.072" cx="500.438" fill="#F3F3F3" clip-path="url(#SVGID_6_)"/>
+   </g>
+  </g>
+  <g id="Quadrato3"/>
+  <g id="Quadrato4"/>
+  <g id="Mobile"/>
+  <g id="Tablet"/>
+  <g id="Orizzontale_light"/>
+  <text xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="57" id="svg_12" y="254.4375" x="18.5" stroke-width="0" stroke="#000" fill="#000000">Unable to load file</text>
+ </g>
+</svg>

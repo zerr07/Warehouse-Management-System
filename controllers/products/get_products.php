@@ -350,7 +350,7 @@ function get_product_sales($index){
             $i = $row['id_sale'];
             $q1 = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT saleDate FROM {*sales*} 
             WHERE id='$i'"));
-            $arr[$row['id']]['saleDate'] = $q1->fetch_assoc()['saleDate'];
+            $arr[$row['id']]['saleDate'] = date_format(date_create($q1->fetch_assoc()['saleDate']), "d.m.Y H:i:s");
         }
         return array_filter($arr);
     }

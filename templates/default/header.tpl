@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html style="max-width: 97vw;">
+<html>
 
 <head>
+  <script type="text/javascript">
+    var timerStart = Date.now();
+  </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- PAGE settings -->
@@ -9,154 +12,63 @@
   <meta name="description" content="">
   <meta name="keywords" content="">
   <!-- CSS dependencies -->
-  <link rel="stylesheet" href="/templates/default/assets/css/bootstrap.css?t=01102020T151435">
-  <link rel="stylesheet" href="/templates/default/assets/css/style.css?t=01102020T151716">
-  <link rel="stylesheet" href="/templates/default/assets/css/editor.css?t=01102020T151731">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-  <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-  <!--<link rel="stylesheet" href="/templates/default/assets/fileup/css/jquery.fileupload.css"> -->
-  <!-- Script: Make my navbar transparent when the document is scrolled to top -->
-  <script src="/templates/default/assets/js/navbar-ontop.js?t=01102020T151739"></script>
-  <!-- Script: Animated entrance -->
-
-  <script src="/templates/default/assets/js/animate-in.js?t=01102020T151742"></script>
-
-  <script src="/bar.js?t=01102020T151747"></script>
-  <script src="/print.min.js?t=01102020T151750"></script>
-  <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-  <!--<script src="/templates/default/assets/fileup/js/vendor/jquery.ui.widget.js"></script>-->
-  <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-  <!--<script src="/templates/default/assets/fileup/js/jquery.iframe-transport.js"></script>-->
-  <!-- The basic File Upload plugin -->
-  <script src="/templates/default/assets/fileup/js/jquery.fileupload.js?t=01102020T151754"></script>
-  <script src="/templates/default/assets/fileup/fileup.js?t=01102020T151758"></script>
-  <script src="/templates/default/assets/js/fontawesome-all.js?t=01102020T151801"></script>
-
-
-  <!-- Text editor plugin -->
-  <script src="/templates/default/assets/fileup/js/vendor/jquery.ui.widget.js?t=01102020T151804"></script>
-  <script src="/templates/default/assets/js/editor.js?t=01102020T151809"></script>
-  <script src="/templates/default/assets/js/cookie.js?t=01102020T151812"></script>
-
-  <script src="/templates/default/assets/js/priceCalc.js?t=01102020T151814"></script>
-  <script src="/cp/POS/updateCart.js?t=01102020T151817"></script>
-  <script src="/cp/POS/displayCartPOS.js?t=01102020T151820"></script>
-  <script src="/cp/WMS/category/editLink.js?t=01102020T151823"></script>
-  <script src="/cp/WMS/item/edit/editEAN.js?t=01102020T151824"></script>
-  <script src="/templates/default/assets/js/script.js?t=01102020T151827"></script>
-
-
-
+  <link rel="stylesheet" href="/templates/default/assets/css/bootstrap.min.css?t=16102020T165624">
+  <link rel="stylesheet" href="/templates/default/assets/css/style.css?t=16102020T165622">
+  <link href="/templates/default/assets/css/sidebar.css?t=16102020T165621" rel="stylesheet">
+  <script src="/templates/default/assets/js/jquery.min.js?t=16102020T165620"></script>
+  <script src="/templates/default/assets/js/script.js?t=16102020T165618"></script>
   <script>
-    $(window).on('load', function () {
-      $preloader = $('.loaderArea'),
-              $loader = $preloader.find('.loader');
-      $loader.fadeOut();
-      $preloader.delay(150).fadeOut(100);
-    });
+    if('ontouchstart' in window){
+      document.write('<script type="text/javascript" src="/templates/default/assets/js/swipe_menu.js?t=16102020T165616""><\/script>');
+    }
   </script>
-
 
 </head>
 
-<body class="text-center">
-<div class="loaderArea">
-  <div class="loader"></div><p class="preloader-text">Loading...</p>
+<body class="">
+
+<div class="loaderArea" id="loaderArea">
+  <div class="loader spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+  <p class="preloader-text">Loading...</p>
 </div>
 <div class="loaderAreaProgress" id="loaderAreaProgress">
-  <div class="loaderProgress"></div>
-
+  <div class="loaderProgress spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
   <p class="preloaderProgress-text">Loading...</p>
+
+
+
   <div class="progress">
     <div class="progress-bar progress-bar-striped progress-bar-animated" id="preloaderProgress_progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
   </div>
 </div>
-  <wrapper class="d-flex flex-column fullHeight">
+{if isset($user)}
+  {include file='sidebar.tpl'}
+{/if}
+<main id="main_block" style="filter: blur(1.5rem)">
+<div class="container-fluid h-100 pt-1">
+  <div class="row mt-3">
+    {assign var="filter" value="filter1"}
+    {assign var="filter_text" value="filter_text1"}
+    {if isset($user)}
+      <span class="ml-2" id="sidebar_close_btn" style="cursor: pointer;top: 1rem;" onclick="openNav()"><i class="fas fa-bars"></i></span>
+    {/if}
+    <div class="col-6 ml-5">{include file="logo.tpl"}</div>
+  </div>
+  <hr style="top: 50px;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    border: none;
+    height: 2px;
+    background-color: #344a5fc9;">
+  <div class="row">
 
-    <nav class="navbar navbar-expand-md navbar-light">
-      <div class="container">
-        <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar6">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbar6">
-          {include file="logo.tpl"}
-          <ul class="navbar-nav mx-auto">
-            <li class="nav-item">
-              {if isset($user)}
-                <a class="nav-link text-primary " href="/cp"><i class="fas fa-home"></i> Home</a>
-
-            </li>
-            <li class="nav-item">
-              <a href="/cp/POS" class="nav-link text-primary"><i class="fas fa-store"></i> POS</a>
-
-            </li>
-
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-qrcode"></i> Scanners
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a href="/mobileScanner.php" class="dropdown-item"><i class="fas fa-qrcode"></i> Mobile scanner</a>
-                <a href="/manualMobileScanner.php" class="dropdown-item"><i class="fas fa-qrcode"></i> Manual mobile scanner</a>
-              </div>
-            </li>
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-cogs"></i> Tools
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a href="/cp/WMS/platforms/" class="dropdown-item"><i class="fas fa-store-alt"></i> Platforms</a>
-                <a href="#staticBackdrop" data-toggle="modal" data-target="#staticBackdrop" class="dropdown-item"><i class="fas fa-tags"></i> Custom Label Generator</a>
-                <a href="#staticBackdropLG" data-toggle="modal" data-target="#staticBackdropLG" class="dropdown-item"><i class="fas fa-tags"></i> Large Custom Label Generator</a>
-
-                <a href="/cp/tree-links" class="dropdown-item"><i class="fas fa-tree"></i> Tree list</a>
-              </div>
-            </li>
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-qrcode"></i> Shards
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {foreach $shards as $key => $shard}
-                  <a class="dropdown-item text-white" onclick="
-                          setCookie('shard', '{$shard}', 365);
-                          setCookie('id_shard', '{$key}', 365);
-                          location.reload();
-                          ">{$shard}</a>
-                {/foreach}
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/cp/WMS/shards">Manage</a>
-
-              </div>
-            </li>
-
-            {/if}
-            {if $group=='2'}
-            <li class="nav-item">
-                <a class="nav-link text-primary " href="/cp/register">Register user</a>
-            </li>
-              <li class="nav-item">
-                <a class="nav-link text-primary " href="/cp/manageServices">Manage services</a>
-              </li>
-            {/if}
-          </ul>
-          <ul class="navbar-nav" >
-            <li class="nav-item">
-              {if isset($user)}
-                <a>Logged as <a style="color: white">{$user}</a></a>
-                <a class="btn btn-outline-primary" href="?logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
-              {/if}
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
+    <div class="col-sm-12" id="content_block">
+      <div class="container-fluid pl-md-5 pr-md-5">
     <!-- Custom Label Modal -->
     <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">

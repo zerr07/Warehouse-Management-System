@@ -18,21 +18,33 @@
             <div class="modal-body" id="modalSHOP">
 
                 <h4 id="modalSUM">Sum: 0</h4>
-                <label for="cash" class="text-white" style="width: 10%">Cash:</label>
-                <input type="text" class="form-control w-75 d-inline-flex" id="cash" name="cash" placeholder="0.00" value="0.00" style="height: 42px">
-                <button type="button" class="btn btn-success d-inline-flex" id="cashBtn">100%</button>
+                <div class="row">
+                    <div class="col-2"><label for="cash" class="text-white">Cash:</label></div>
+                    <div class="col-6"><input type="text" class="form-control" id="cash" name="cash" placeholder="0.00" value="0.00"></div>
+                    <div class="col-4"><button type="button" class="btn btn-success w-100" id="cashBtn">100%</button></div>
+                </div>
+                <div class="row">
+                    <div class="col-2"><label for="card" class="text-white">Card:</label></div>
+                    <div class="col-6"><input type="text" class="form-control" id="card" name="card" placeholder="0.00" value="0.00"></div>
+                    <div class="col-4"><button type="button" class="btn btn-success w-100" id="cardBtn">100%</button></div>
+                </div>
                 <br>
-                <label for="card" class="text-white" style="width: 10%">Card:</label>
-                <input type="text" class="form-control w-75 d-inline-flex" id="card" name="card" placeholder="0.00" value="0.00" style="margin-top: 10px;height: 42px">
-                <button type="button" class="btn btn-success d-inline-flex" id="cardBtn">100%</button>
                 <br>
-                <label for="ostja" class="text-white" style="width: 10%;">Ostja:</label>
-                <input type="text" class="form-control d-inline-flex" id="ostja" name="ostja" placeholder="Ostja" style="height: 42px;margin-top: 10px; width: 90%">
+                <div class="row">
+                    <div class="col-2"><label for="ostja" class="text-white">Ostja:</label></div>
+                    <div class="col-10"><input type="text" class="form-control" id="ostja" name="ostja" placeholder="Ostja"></div>
+                </div>
+
+
                 <h4 style="margin-top: 10px" id="modalTagasi">Tagasi : </h4>
             </div>
             <div class="modal-body text-white" id="modalOTHER">
-                <label for="card" style="width: 25%">Tellimuse Nr:</label>
-                <input type="text" class="form-control w-75 d-inline-flex" id="tellimuseNr" name="tellimuseNr" placeholder="Tellimuse Nr" style="margin-top: 10px;height: 42px">
+                <div class="row">
+                    <div class="col-4"><label for="card" >Tellimuse Nr:</label></div>
+                    <div class="col-8"><input type="text" class="form-control" id="tellimuseNr" name="tellimuseNr" placeholder="Tellimuse Nr" style="margin-top: 10px;height: 42px"></div>
+                </div>
+
+
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="pood" id="pood" value="Pood" checked>
                     <label class="form-check-label" for="pood">

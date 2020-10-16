@@ -1,42 +1,36 @@
 {include file='header.tpl'}
-<main class="d-flex flex-column">
-    <div class="py-3 fullHeight">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <table class="table-responsive-sm w-100">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {foreach $shards as $key => $shard}
-                            <tr>
 
-                            <td>{$key}</td>
-
-                            <td>{$shard}</td>
-
-                            <td><button type="button" class="btn btn-primary btn-sm" onclick="deleteShard('{$key}')">
-
-                                    Delete
-
-                                </button></td>
-                            </tr>
-                        {/foreach}
-                        </tbody>
-                    </table>
-                    <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#addShardModal">
-                        Add new shard
+<div class="row">
+    <div class="col-12">
+        {foreach $shards as $key => $shard}
+            <div class="row mt-3 border border-secondary p-1">
+                <div class="col-4 m-auto">
+                    {$key}
+                </div>
+                <div class="col-4 m-auto d-flex justify-content-center">
+                    {$shard}
+                </div>
+                <div class="col-4 d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="deleteShard('{$key}')">
+                        Delete
                     </button>
                 </div>
             </div>
+        {/foreach}
+
+        <div class="row mt-3">
+            <div class="col-6">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addShardModal">
+                    Add new shard
+                </button>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+                <a class="btn btn-primary d-inline-flex ml-2" href="/cp/WMS/"><i class="fas fa-undo-alt"></i> Back</a>
+            </div>
         </div>
     </div>
-</main>
+</div>
+
 <script>
     function getAddress(id) {
         document.getElementById("id_shard").value = "";

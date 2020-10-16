@@ -24,7 +24,7 @@ function sum(){
         totalPrice.push((parseFloat(quantity[i])*parseFloat(price[i])).toFixed(2));
     }
     var counter = 0;
-    $('td[id^="totalPrice"]').each(function () {
+    $('div[id^="totalPrice"]').each(function () {
         counter++;
     });
     for (var i = 0; i < counter; i++){

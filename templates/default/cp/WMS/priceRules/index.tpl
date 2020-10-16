@@ -1,44 +1,47 @@
 {include file='header.tpl'}
 
-<main class="d-flex flex-column">
-    <div class="py-3 fullHeight">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12" style="border-radius: 20px;border: solid 1px; padding: 10px;">
-                    <div class="table-responsive" >
-                        <table class="table table-borderless">
-                            <thead>
-                            <tr>
-                                <th>From price €</th>
-                                <th>To price €</th>
-                                <th>Percent %</th>
-                                <th>Min margin €</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {foreach $rules as $item}
-                                <tr>
-                                    <td>{$item.start}€</td>
-                                    <td>{$item.end}€</td>
-                                    <td>{$item.percent}%</td>
-                                    <td>{$item.margin}€</td>
-                                    <td><a href="/cp/WMS/priceRule/index.php?delete={$item.id}" class="btn btn-danger">Delete</a></td>
-                                </tr>
-                            {/foreach}
-                            </tbody>
-                        </table>
-                    </div>
-                    <form class="text-left" action="#" method="post">
-                        <input type="text" class="form-control SMTitemsSM"   style="max-width: 19.8% !important;" name="start" id="form17"  placeholder="From price €" required>
-                        <input type="text" class="form-control SMTitemsSM"   style="max-width: 19.8% !important;"  name="end" id="form17"  placeholder="To price €" required>
-                        <input type="number" class="form-control SMTitemsSM" style="max-width: 19.8% !important;"  name="percent" id="form17"  placeholder="Percent %" required>
-                        <input type="number" class="form-control SMTitemsSM" style="max-width: 19.8% !important;" name="margin" step="0.01" id="form17"  placeholder="Min margin €">
-                        <input type="submit" class="btn btn-info SMTitemsSM" style="max-width: 19.8% !important;"  name="submit" id="form17" value="Add new">
-                    </form>
+<div class="row">
+    <div class="col-md-12">
+        {foreach $rules as $item}
+            <div class="row mt-3 border border-secondary p-2">
+                <div class="col-12 col-sm-12 col-md-3 text-center m-auto">
+                    {$item.start}€ to {$item.end}€
+                </div>
+                <div class="col-6 col-sm-6 col-md-3 text-center m-auto">
+                   Margin: {$item.percent}%
+                </div>
+                <div class="col-6 col-sm-6 col-md-3 text-center m-auto">
+                   Min: {$item.margin}€
+                </div>
+                <div class="col-12 col-sm-12 col-md-3">
+                    <a href="/cp/WMS/priceRule/index.php?delete={$item.id}" class="btn btn-danger w-100">Delete</a>
                 </div>
             </div>
-        </div>
+        {/foreach}
+        <form action="#" method="post">
+            <div class="form-row align-items-end">
+                <div class="form-group col-6 col-sm-6 col-md-3">
+                    <label for="start">From price €</label>
+                    <input type="text" class="form-control" name="start" id="start" placeholder="From price €" required>
+                </div>
+                <div class="form-group col-6 col-sm-6 col-md-3">
+                    <label for="end">To price €</label>
+                    <input type="text" class="form-control" name="end" id="end"  placeholder="To price €" required>
+                </div>
+                <div class="form-group col-6 col-sm-6 col-md-2">
+                    <label for="percent">Percent %</label>
+                    <input type="number" class="form-control" name="percent" id="percent"  placeholder="Percent %" required>
+                </div>
+                <div class="form-group col-6 col-sm-6 col-md-2">
+                    <label for="margin">Min margin €</label>
+                    <input type="number" class="form-control" name="margin" step="0.01" id="margin"  placeholder="Min margin €">
+                </div>
+                <div class="form-group col-12 col-sm-12 col-md-2">
+                    <input type="submit" class="btn btn-info w-100" name="submit" id="form17" value="Add new">
+                </div>
+            </div>
+        </form>
     </div>
-</main>
+</div>
+
 {include file='footer.tpl'}
