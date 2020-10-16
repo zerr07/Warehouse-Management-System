@@ -22,16 +22,16 @@ function displayCart(index) {
             name = "<input type='text' class='form-control' name='buffer[]' value='"+cart[key]['name']+"'" +
                 " placeholder='Buffer name' id='buffer' data-placement='top' title='Try not to use numbers!'>" +
                 "<input type='text' name='bufferID[]' value='"+cart[key]['id']+"' hidden>"
-            tag = "<span class='d-inline-block text-truncate' style='max-width: 50px;color: white;text-overflow: ellipsis;'>" + cart[key]['tag'] + "</span>";
+            tag = "<span class='text-truncate' style='text-overflow: ellipsis;'>" + cart[key]['tag'] + "</span>";
         } else {
             available = cart[key]['Available'];
             if (available == null){
                 available = 0;
             }
-            name = "<span class='d-inline-block text-truncate' style='max-width: 250px;'>" +
+            name = "<span class='text-truncate' >" +
                 "<a title='"+cart[key]['name']+"' style='color: white;text-overflow: ellipsis;' " +
                 "href='/cp/WMS/view?view="+cart[key]['id']+"'>"+cart[key]['name']+"</a></span>";
-            tag = "<span class='d-inline-block text-truncate' style='max-width: 50px;color: white;text-overflow: ellipsis;'>"
+            tag = "<span class='text-truncate' style='text-overflow: ellipsis;'>"
                 + "<a title='"+cart[key]['tag']+"' href='/cp/WMS/view?view="+cart[key]['id']+"'>"
                 + cart[key]['tag'] +
                 "</a></span>";
@@ -43,7 +43,8 @@ function displayCart(index) {
                 console.log(key);
                 if (cart[key]['loc']['selected']){
                     let def_loc = cart[key]['loc']['selected'].toString();
-                    loc += "<select class=\"custom-select\" name='loc_select["+key+"]'>";
+
+                    loc += "<select class=\"custom-select\" id='loc_select"+key+"' name='loc_select["+key+"]'>";
                     for (var place in cart[key]['loc']['locationList']) {
                         if (!isNaN(def_loc) || def_loc !== null){
                             if (place === def_loc){
@@ -55,9 +56,9 @@ function displayCart(index) {
                         } else {
                             loc += "<option value='"+place+"'>";
                         }
-                        loc += cart[key]['loc']['locationList'][place]['type_name'].toString() + " : "
-                            +cart[key]['loc']['locationList'][place]['location'].toString() + " : "
-                            +cart[key]['loc']['locationList'][place]['quantity'].toString()
+                        loc +=  cart[key]['loc']['locationList'][place]['type_name'].toString() + " : "
+                            +   cart[key]['loc']['locationList'][place]['location'].toString() + " : "
+                            +   cart[key]['loc']['locationList'][place]['quantity'].toString()
                             +"</option>"
                     }
                     loc += "</select>";
@@ -66,39 +67,98 @@ function displayCart(index) {
             }
         }
         let quantityInput;
+        let a;
         console.log(cart[key]['tag']);
         if (cart[key]['tag'] !== "Buffertoode"){
             quantityInput = "<input type='text' class='form-control' id='quantity"+counter+"' " +
                 "onchange='sum();checkQuantity("+cart[key]['Available']+", "+counter+")' " +
-                "name='quantity[]' value='"+cart[key]['quantity']+"' placeholder='Quantity'>";
+                "name='quantity[]' value='"+cart[key]['quantity']+"' placeholder='Quantity' hidden>";
+            a = "/ "+cart[key]['Available'];
         } else {
             quantityInput = "<input type='text' class='form-control' id='quantity"+counter+"' " +
-                "name='quantity[]' value='"+cart[key]['quantity']+"' placeholder='Quantity'>";
+                "name='quantity[]' value='"+cart[key]['quantity']+"' placeholder='Quantity' hidden>";
+            a = "";
         }
 
-        $("#"+index).append("<tr>"
-            + "<td class='POStalble'>" + tag + "</td>" +
-            "<td>" + "<input type='text' name='id[]' value='"+cart[key]['id']+"' hidden>" +
-            "<img class='img-fluid d-block itemSMimg' src='"+imgURL+"' width='70px' >" +
-            "</td>" +
-            "<td class='POStalble'>"+name+"</td>" +
-            "<td class='POStalble'>" +
-            quantityInput +
-            "</td>" +
-            "<td class='POStalble'>"+available+"</td>" +
-            "<td class='POStalble'>"+loc+"</td>" +
-            "<td class='POStalble'>" +
-            "<input type='text' class='form-control' id='price'"+counter+" onchange='sum()' name='price[]' value='"+cart[key]['basePrice']+"' placeholder='Price'>" +
-            "</td>" +
-            "<td class='POStalble' id='totalPrice"+counter+"'>"+cart[key]['price']+"</td>" +
-            "<td>" +
+        $("#"+index).append("<div class='row mt-3 border border-secondary p-1' data-toggle='popover' id='"+key+"'>" +
+            "<div class='p-0 col-3 col-sm-3 col-md-2 col-xl-2 m-auto d-flex justify-content-start'>" + tag + "</div>" +
+            "<div class='p-0 col-3 col-sm-3 col-md-5 col-xl-4 m-auto d-flex justify-content-center'>"+name + quantityInput+"<input type='text' class='form-control' id='price"+counter+"' onchange='sum()' name='price[]' value='"+cart[key]['basePrice']+"' placeholder='Price' hidden></div>" +
+            "<div class='p-0 d-none d-xl-flex col-xl-1 m-auto justify-content-center'><span id='quantityXL"+counter+"'>"+cart[key]['quantity']+"</span>" + "<span> "+a +" pcs</span></div>" +
+            "<div class='p-0 d-none d-xl-flex col-xl-1 m-auto justify-content-center'><span id='basePriceXL"+counter+"'>"+cart[key]['basePrice']+"</span></div>" +
+            "<div class='p-0 d-none d-xl-flex col-xl-2 m-auto justify-content-center'><span id='locXL"+counter+"'></span></div>" +
+            "<div class='p-0 col-3 col-sm-3 col-md-2 col-xl-1 m-auto d-flex justify-content-center'>Total : <div id='totalPrice"+counter+"'>"+cart[key]['price']+"</div></div>" +
+            "<div class='p-0 col-1 col-sm-1 col-md-1 col-xl-1 m-auto d-flex justify-content-end'>" +
             "<button type='submit' formaction='/cp/POS/update.php' name='delete' value='"+cart[key]['id']+"'" +
-            " class='btn btn-danger'><i class='fas fa-trash'></i></button>" +
-            "</td>" +
-            "</tr>");
+            " class='btn btn-link' style='color: #cd6464'><i class='fas fa-trash'></i></button>" +
+            "</div>" +
+            "</div>");
+        let div;
+        let input1 = document.createElement("input");
+        let label1 = document.createElement("label");
+        label1.setAttribute('for', "#popPrice"+counter);
+        label1.innerText = "Base price";
+        input1.setAttribute('onchange', "setValuePrice('"+counter+"')");
+        input1.setAttribute('type', "text");
+        input1.setAttribute('id', "popPrice"+counter);
+        input1.setAttribute('class', "form-control dont-hide");
+        let input2 = document.createElement("input");
+        let label2 = document.createElement("label");
+        label2.setAttribute('for', "#popQuantity"+counter);
+        label2.innerText = "Quantity";
+        if (cart[key]['tag'] !== "Buffertoode") {
+            input2.setAttribute('onchange', "setValueQuantity('" + cart[key]['Available'] + "','" + counter + "')");
+        }
+        input2.setAttribute('type', "text");
+        input2.setAttribute('id', "popQuantity"+counter);
+        input2.setAttribute('class', "form-control dont-hide");
+        div = document.createElement("div");
+        div.appendChild(label1);
+        div.appendChild(input1);
+        div.appendChild(label2);
+        div.appendChild(input2);
+        input1.value = cart[key]['basePrice'];
+        input2.value = cart[key]['quantity'];
+        var child = document.createElement('div');
+        child.innerHTML = loc;
+        child = child.firstChild;
+        let label3 = document.createElement("label");
+        label3.setAttribute('for', "#loc_select"+key);
+        label3.innerText = "Location";
+        div.appendChild(label3);
+        div.appendChild(child);
+        place = cart[key]['loc']['selected'];
+        console.log(place);
+
+        document.getElementById("locXL"+counter).innerText = cart[key]['loc']['locationList'][place]['type_name'].toString() + " : "+
+        cart[key]['loc']['locationList'][place]['location'].toString() + " : "+
+        cart[key]['loc']['locationList'][place]['quantity'].toString();
+        $("#"+key).popover({
+            html : true,
+            title: 'Controls',
+            content: div,
+            placement: 'left'
+        })
+
         counter++;
     }
 }
+function setValuePrice(counter){
+    let pop = $('#popPrice'+counter);
+    let target = $('#price'+counter);
+    target.val(pop.val());
+    sum()
+    document.getElementById("basePriceXL"+counter).innerText = pop.val();
+}
+
+function setValueQuantity(ava ,counter){
+    let pop = $('#popQuantity'+counter);
+    let target = $('#quantity'+counter);
+    target.val(pop.val());
+    sum();
+    checkQuantity(ava, counter)
+    document.getElementById("quantityXL"+counter).innerText = pop.val();
+}
+
 function getCartArray() {
     return $.ajax({
         dataType: "text",

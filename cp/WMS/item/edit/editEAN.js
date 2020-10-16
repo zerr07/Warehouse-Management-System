@@ -11,23 +11,11 @@ function getCodes(index) {
     document.getElementById("linkEANTitle").innerHTML = "Edit EAN";
     let tbody = document.getElementById("linkEANModal");
     tbody.innerHTML = "";
-    $("#linkEANModal").append("<div class='table-responsive'>" +
-        "<table class='table table-sm table-responsive'>" +
-        "<thead>" +
-        "<tr>" +
-        "<th>EAN</th>" +
-        "<th></th>" +
-        "</tr>" +
-        "</thead>" +
-        "<tbody id='EANTableBody'>" +
-        "</tbody>" +
-        "</table>" +
-        "</div>");
     for (let key in codes){
-        $("#EANTableBody").append("<tr>" +
-            "<td>"+codes[key]['ean']+"</td>" +
-            "<td><button type='button' class='btn btn-link btn-cat' onclick=\"deleteEAN("+key+");getCodes("+index+");\"><i class='fas fa-trash'></i> Delete</button></td>" +
-            "</tr>");
+        $("#linkEANModal").append("<div class='row'>" +
+            "<div class='col-6'>"+codes[key]['ean']+"</div> " +
+            "<div class='col-6'><button type='button' class='btn btn-link btn-cat' onclick=\"deleteEAN("+key+");getCodes("+index+");\"><i class='fas fa-trash'></i> Delete</button></div> " +
+            "</div>");
     }
     $("#linkEANModal").append("<form action='/cp/WMS/item/edit/setEAN.php' method='post' id='EANform'><div class='form-group' id='formEANExport'></div></form>");
     $("#formEANExport").append("<input type='text' name='prodID' value='"+index+"' hidden>");

@@ -1,14 +1,17 @@
 {include file='header.tpl'}
 {assign var="SHOP" value=1}
-<main class="d-flex flex-column">
-    <div class="py-3 fullHeight">
-        <div class="container">
             <div class="row">
-                <div class="col-md-12" style="white-space: nowrap;">
-                    <a class="btn btn-primary inline-items" style="width: 33.2%;" href="/cp/WMS/item/add/"><i class="fas fa-plus"></i>&nbsp;Add item</a>
-                    <a class="btn btn-primary inline-items" style="width: 33.2%;" href="/cp/WMS/priceRule/"><i class="fas fa-money-bill-wave"></i>&nbsp;Add price rule</a>
-                    <a class="btn btn-primary inline-items" style="width: 33.2%;" href="/cp/WMS/category/"><i class="fas fa-ellipsis-v"></i>&nbsp;Add/Edit category</a><br>
-                    <a class="btn btn-primary" style="width: 100%;margin-top: 4px;" href="#" data-toggle="collapse" data-target="#moresettings" aria-expanded="false" aria-controls="multiCollapseExample2">
+                <div class="col-md-4 col-sm-12 mt-3">
+                    <a class="btn btn-primary w-100" href="/cp/WMS/item/add/"><i class="fas fa-plus"></i>&nbsp;Add item</a>
+                </div>
+                <div class="col-md-4 col-sm-12 mt-3">
+                    <a class="btn btn-primary w-100" href="/cp/WMS/priceRule/"><i class="fas fa-money-bill-wave"></i>&nbsp;Add price rule</a>
+                </div>
+                <div class="col-md-4 col-sm-12 mt-3">
+                    <a class="btn btn-primary w-100"  href="/cp/WMS/category/"><i class="fas fa-ellipsis-v"></i>&nbsp;Add/Edit category</a><br>
+                </div>
+                <div class="col-sm-12 mt-3">
+                    <a class="btn btn-primary w-100" href="#" data-toggle="collapse" data-target="#moresettings" aria-expanded="false" aria-controls="multiCollapseExample2">
                         <i class="fas fa-filter"></i>&nbsp;Filter by category
                     </a>
                     <div class="collapse multi-collapse" id="moresettings" style="margin-top: 4px;">
@@ -18,31 +21,45 @@
                             </form>
                         </div>
                     </div>
-                    <form action="/cp/WMS/" class="text-left" style="padding-top: 10px;" method="GET">
-                        <input type="text" class="form-control inline-items" style="width: 20%; height: 42px;" name="searchTagID" id="form17" placeholder="Search by ID" autofocus>
-                        <input type="text" class="form-control inline-items" style="width: 46.7%; height: 42px;" name="searchName" id="form17" placeholder="Search by name"
-                        {if isset($searchName) && $searchName != ""}
+                </div>
+            </div>
+            <div class="row">
+                <form action="/cp/WMS/" class="text-left w-100 form-inline" style="padding-top: 10px;" method="GET">
+                    <div class="col-sm-12 col-md-4 col-lg-3 mt-2">
+                        <input type="text" class="form-control w-100" name="searchTagID" id="form17" placeholder="Search by ID" autofocus>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-3 mt-2">
+                        <input type="text" class="form-control w-100" name="searchName" id="form17" placeholder="Search by name"
+                                {if isset($searchName) && $searchName != ""}
                             value="{$searchName}"
-                        {/if}>
-
-                        <label>
+                                {/if}>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-3 text-center mt-2">
+                        <label class="d-inline-flex">
                             <input type="radio" class="only" name="only" value="Full" {if $onlyFilter == "Full"}checked{/if}>
                             <img width="32px" height="32px" src="/templates/default/assets/p-GREEN.svg" data-toggle="tooltip" data-placement="top" title="Only green">
                         </label>
-                        <label>
+                        <label class="d-inline-flex">
                             <input type="radio" class="only" name="only" value="Partly" {if $onlyFilter == "Partly"}checked{/if}>
                             <img width="32px" height="32px" src="/templates/default/assets/p-YELLOW.svg" data-toggle="tooltip" data-placement="top" title="Only yellow">
                         </label>
-                        <label>
+                        <label class="d-inline-flex">
                             <input type="radio" class="only" name="only" value="No" {if $onlyFilter == "No"}checked{/if}>
                             <img width="32px" height="32px" src="/templates/default/assets/p-RED.svg" data-toggle="tooltip" data-placement="top" title="Only red">
                         </label>
-                        <label>
+                        <label class="d-inline-flex">
                             <input type="radio" class="only" name="only" value="NoFilter" {if $onlyFilter == "NoFilter" || $onlyfilter === ""}checked{/if}>
                             <img width="32px" height="32px" src="/templates/default/assets/p-WHITE.svg" data-toggle="tooltip" data-placement="top" title="No filter">
                         </label>
-                        <input type="submit" name="search" class="btn btn-outline-secondary inline-items" style="width: 20%; height: 42px;margin-bottom: 2px;" value="Search">
-                    </form>
+                    </div>
+                    <div class="col-md-12 col-lg-3 mt-2 ">
+                        <input type="submit" name="search" class="btn btn-outline-secondary inline-items w-100" value="Search">
+                    </div>
+                </form>
+            </div>
+                <div class="row">
+                <div class="col-md-12">
+
                     {if $products|@count == 0}
                         <div class="row">
                             <div class="col-md-12" style="margin-top: 50px;">
@@ -52,112 +69,53 @@
                         </div>
                     {else}
 
-                    <div class="table-responsive" >
-                        <table class="table table-sm table-borderless">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th>Tag</th>
-                                <th>Export</th>
-                                <th>Name</th>
-                                <th>SHOP</th>
-                                <th>Quantity</th>
 
-                                <th>Location</th>
-                                {*<th>Supplier price</th>*}
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                        <div class="row mt-3">
+
                             {foreach $products as $item}
-                                <tr>
-                                    <td>
-                                        <a href="/cp/WMS/view/?view={$item.id}">
-                                            <div id="carousel{$item.id}" class="carousel slide" data-ride="carousel" style="width: 70px;height: 70px">
-                                                <div class="carousel-inner">
-                                                    {if $item.mainImage != null}
-                                                        <div class="carousel-item active">
-                                                            <img src="/uploads/images/products/{$item.mainImage}" class="d-block w-100" alt="..." style="width: 70px;height: 70px">
-                                                        </div>
-                                                    {else}
-                                                        <div class="carousel-item active">
-                                                            <img src="https://static.pingendo.com/img-placeholder-1.svg" class="d-block w-100" alt="..." style="width: 70px;height: 70px">
-                                                        </div>
-                                                    {/if}
-                                                    {if $item.images|@count > 1}
-                                                        {foreach $item.images as $img}
-                                                            {if $img.position != 1}
-                                                                <div class="carousel-item">
-                                                                    <img src="/uploads/images/products/{$img.image}" class="d-block w-100" alt="..." style="width: 70px;height: 70px">
-                                                                </div>
-                                                            {/if}
-                                                        {/foreach}
-                                                    {/if}
+                                <div class="col-lg-6 col-sm-12 mt-3" style="min-height: 210px;">
+                                    <div class="card mb-3 p-2 h-100">
+                                        <div class="row no-gutters h-100">
+                                            <div class="col-sm-3 d-flex align-items-center">
+                                                {include file="cp/WMS/image_on_page.tpl"}
+                                                {*<img src="..." class="card-img" alt="...">*}
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="card-body">
+                                                    <h5 class="card-title text-truncate"><a style="text-overflow: ellipsis; " title="{$item.name.et|escape}" href="/cp/WMS/view/?view={$item.id}">{$item.name.et}</a>
+                                                    </h5>
+                                                    <a style="text-overflow: ellipsis; " href="/cp/WMS/view/?view={$item.id}">{$item.tag}</a>
+
+                                                    <p class="card-text">Shop price: {if $item.platforms.$SHOP.price == ""}Not set{/if}{$item.platforms.$SHOP.price}</p>
+                                                    <p class="card-text">Quantity: {if $item.quantity == ""}Not set{/if}{$item.quantity}</p>
+                                                    <p class="card-text">Locations: {if $item.locations|replace:" ":"" == ""}Not set{/if}{$item.locations}</p>
+
+
+
                                                 </div>
                                             </div>
-                                        </a>
-                                    </td>
-                                    <td><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$item.id}">{$item.tag}</a></td>
+                                            <div class="col-sm-3 btn-group-vertical">
+                                                <a class="btn btn-outline-primary d-table" href="/cp/WMS/view/?view={$item.id}" ><i class="fas fa-link"></i>View</a>
+                                                <a class="btn btn-outline-primary d-table" href="/cp/WMS/item/edit/?edit={$item.id}" ><i class="fas fa-edit"></i>Edit</a>
+                                                {if $item.tag == ""}
+                                                    <a class="btn btn-primary disabled d-table" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape}&tag={$item.tag}">Print label</a>
+                                                {else}
+                                                    <a class="btn btn-primary d-table" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape}&tag={$item.tag}">Print label</a>
+                                                {/if}
+                                                <button type="button" class="btn btn-outline-danger d-table" onclick="deleteProduct('{$item.id}')"><i class="fas fa-trash"></i> Delete</button>
 
-                                    <td>
-                                        {if $item.exportStatus == "Full"}
-                                            <img class="p-Ico" width="32px" height="32px" src="/templates/default/assets/p-GREEN.svg" />
-                                        {elseif $item.exportStatus == "Partly"}
-                                            <img class="p-Ico" width="32px" height="32px" src="/templates/default/assets/p-YELLOW.svg" />
-                                        {else}
-                                            <img class="p-Ico" width="32px" height="32px" src="/templates/default/assets/p-RED.svg" />
-                                        {/if}
-                                    </td>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                    <td class="formattedCell">
-                                        <span class="d-inline-block text-truncate" style="max-width: 286px;">
-                                            <a style="color: white;text-overflow: ellipsis; " title="{$item.name.et|escape}" href="/cp/WMS/view/?view={$item.id}">{$item.name.et}</a>
-                                        </span>
-                                    </td>
-                                    <td>{$item.platforms.$SHOP.price}</td>
-                                    <td>{$item.quantity}</td>
-                                    <td>{$item.locations}</td>
-                                    {*<td>{$item.actPrice}</td>*}
-                                    <td>
-                                        {*<a class="btn btn-primary tooltip_copy" id='{$item.id}link' onclick="copyURL('#{$item.id}')" href="#" data-toggle="{$item.id}" title="Copied!">
-                                            <i class="fas fa-copy" ></i>
-                                            <p id='{$item.id}' hidden>{$item.URL}</p>
-                                        </a>
-                                        <a class="btn btn-outline-primary" href="{$item.URL}" >
-                                            <i class="fas fa-link"></i>
-                                            Go to
-                                        </a>*}
-                                        <a class="btn btn-sm btn-outline-primary" href="/cp/WMS/view/?view={$item.id}" >
-                                            <i class="fas fa-link"></i>
-                                            View
-                                        </a>
-                                        <a class="btn btn-sm btn-outline-primary" href="/cp/WMS/item/edit/?edit={$item.id}" >
-                                            <i class="fas fa-edit"></i>
-                                            Edit
-                                        </a>
-                                        {if $item.tag == ""}
-                                            <a class="btn btn-sm btn-primary disabled" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape}&tag={$item.tag}">Print label</a>
-
-                                        {else}
-                                            <a class="btn btn-sm btn-primary" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape}&tag={$item.tag}">Print label</a>
-
-                                        {/if}
-                                        <form method="POST" action="/controllers/products/delete.php" onsubmit="return confirm('Do you really want to delete item?');" style="display: inline-block;">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger" name="delete" value="{$item.id}"><i class="fas fa-trash"></i> Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
                             {/foreach}
-                            </tbody>
-                        </table>
-                    </div>
+                        </div>
                     {/if}
                     <a class="btn btn-primary" style="display: inline-block; float:right;" href="/cp/"><i class="fas fa-undo-alt"></i> Back</a>
                 </div>
             </div>
         </div>
-    </div>
-</main>
 <script>
     window.onload = function (){
         $('.carousel').carousel();
@@ -182,6 +140,7 @@
         document.execCommand("copy");
         $temp.remove();
     }
+
 </script>
 {include file='pagination.tpl'}
 {include file='footer.tpl'}

@@ -2,98 +2,107 @@
 <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
 <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
 {include file='cp/POS/reserve/invoice.tpl'}
-<main class="d-flex flex-column">
-    <div class="py-3 fullHeight">
-        <div class="container">
+<div class="row mt-3">
+    <div class="col-md-12" >
+        {include file='cp/POS/reserve/reserveConfirmModal.tpl'}
+        <div class="col-12">
             <div class="row">
-
-                <div class="col-md-12" style="border-radius: 20px;border: solid 1px; padding: 10px;">
-
-                        {include file='cp/POS/reserve/reserveConfirmModal.tpl'}
-
-                    <div class="col-12" style="display: inline-flex;">
-                        <p style="margin-right: auto; margin-left: auto">
-                            ID: {$reservation.id}<br>
-                            Date: {$reservation.date}<br>
-                            {$reservation.comment}
-                        </p>
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#invoiceModal">
-                            Print invoice
-                        </button>
-                    </div>
-                    <table class="table table-borderless">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>Tag</th>
-                            <th>Name</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {foreach $reservation.products as $prod}
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="select{$prod.id_product}" value="{$prod.id_product}">
-                                        <label class="custom-control-label" for="select{$prod.id_product}"></label>
-                                    </div>
-                                </td>
-
-                                {if $prod.tag == "Buffertoode"}
-                                    <td class="td-20"><a style="color: white;text-overflow: ellipsis; ">{$prod.tag}</a></td>
-                                    <td class="td-20"><a style="color: white;text-overflow: ellipsis; ">{$prod.name}</a></td>
-                                {else}
-                                    <td class="td-20"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id_product}">{$prod.tag}</a></td>
-                                    <td class="td-20"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id_product}">{$prod.name.et}</a></td>
-                                {/if}
-
-                                <td>{$prod.quantity}</td>
-                                <td>{$prod.price}</td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-success"
-                                            onclick="confirmItem('{$prod.id_product}', '{$prod.price}', '{$prod.basePrice}', '{$prod.quantity}', '{$reservation.id}','{$prod.id_location}')">
-                                        <i class="far fa-smile"></i>
-                                        Confirm item
-                                    </button>
-                                    <a class="btn btn-outline-danger" href="/cp/POS/reserve/index.php?cancel={$reservation.id}&prodCancel={$prod.id}">
-                                        <i class="fas fa-frown"></i>
-                                        Cancel item
-                                    </a>
-                                </td>
-                            </tr>
-                        {/foreach}
-                        </tbody>
-                    </table>
-
-                    <button type="button" class="btn btn-success" style="display: inline-block; float:left;"
-                            onclick="confirmAll('{$reservation.id}')">
-                        <i class="far fa-check-square"></i> Confirm All
+                <div class="col-6">
+                    <p>
+                        ID: {$reservation.id}<br>
+                        Date: {$reservation.date}<br>
+                        {$reservation.comment}
+                    </p>
+                </div>
+                <div class="col-6 d-flex justify-content-end">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#invoiceModal">
+                        Print invoice
                     </button>
-                    <button type="button" class="btn btn-primary ml-2" style="display: inline-block; float:left;"
-                            onclick="confirmSelected('{$reservation.id}')">
-                        <i class="far fa-check-square"></i> Confirm selected
-                    </button>
-                    <a class="btn btn-info ml-2" style="display: inline-block; float:left;"
-                            href="/cp/POS/reserve/loadReservationInCart.php?id={$reservation.id}">
-                        <i class="far fa-check-square"></i> Load into POS
-                    </a>
-
-
-                    <a class="btn btn-primary" style="display: inline-block; float:right;" href="/cp/POS/reserve">
-                        <i class="fas fa-undo-alt"></i> Back
-                    </a>
                 </div>
             </div>
+
+
         </div>
-    </div>
-    <div id="inputs">
+
+            {foreach $reservation.products as $prod}
+                <div class="row mt-3 border border-secondary p-1">
+                    <div class="col-1 m-auto">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="select{$prod.id_product}" value="{$prod.id_product}">
+                            <label class="custom-control-label" for="select{$prod.id_product}"></label>
+                        </div>
+                    </div>
+                    {if $prod.tag == "Buffertoode"}
+                        <div class="col-2 col-sm-2 col-lg-1 m-auto"><a style="color: white;text-overflow: ellipsis; ">{$prod.tag}</a>    </div>
+                        <div class="col-8 col-sm-8 col-lg-3 m-auto text-truncate"><a style="color: white;text-overflow: ellipsis; ">{$prod.name}</a>   </div>
+                    {else}
+                        <div class="col-2 col-sm-2 col-lg-1 m-auto"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id_product}">{$prod.tag}</a>       </div>
+                        <div class="col-8 col-sm-8 col-lg-3 m-auto text-truncate"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id_product}">{$prod.name.et}</a>   </div>
+                    {/if}
+                    <div class="col-6 col-sm-6 col-lg-1 m-auto d-flex justify-content-center">{$prod.quantity} pcs</div>
+                    <div class="col-6 col-sm-6 col-lg-1 m-auto d-flex justify-content-center">{$prod.price} €</div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-5 m-auto">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-6">
+                                <button type="button" class="btn btn-outline-success w-100"
+                                        onclick="confirmItem('{$prod.id_product}', '{$prod.price}', '{$prod.basePrice}', '{$prod.quantity}', '{$reservation.id}','{$prod.id_location}')">
+                                    <i class="far fa-smile"></i>
+                                    Confirm item
+                                </button>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6">
+                                <a class="btn btn-outline-danger w-100" href="/cp/POS/reserve/index.php?cancel={$reservation.id}&prodCancel={$prod.id}">
+                                    <i class="fas fa-frown"></i>
+                                    Cancel item
+                                </a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            {/foreach}
+        <div class="row mt-3">
+
+            <div class="col-10 d-flex justify-content-start">
+                <div class="row w-100">
+                    <div class="col-12 col-md-12 col-lg-4 mt-3">
+                        <button type="button" class="btn btn-success w-100"
+                                onclick="confirmAll('{$reservation.id}')">
+                            <i class="far fa-check-square"></i> Confirm All
+                        </button>
+                    </div>
+                    <div class="col-12 col-md-12 col-lg-4 mt-3">
+                        <button type="button" class="btn btn-primary w-100"
+                                onclick="confirmSelected('{$reservation.id}')">
+                            <i class="far fa-check-square"></i> Confirm selected
+                        </button>
+                    </div>
+                    <div class="col-12 col-md-12 col-lg-4 mt-3">
+                        <a class="btn btn-info w-100"
+                           href="/cp/POS/reserve/loadReservationInCart.php?id={$reservation.id}">
+                            <i class="far fa-check-square"></i> Load into POS
+                        </a>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="col-2 d-flex justify-content-end mt-3">
+                <a class="btn btn-primary" href="/cp/POS/reserve">
+                    <i class="fas fa-undo-alt"></i> Back
+                </a>
+            </div>
+        </div>
+
 
     </div>
-</main>
-<script src="/templates/default/assets/js/cart.js"></script>
+</div>
+<div id="inputs">
+</div>
+<script src="/templates/default/assets/js/cart.js?t=16102020T165728"></script>
 
 <script>
     $('#modalOTHER').hide();

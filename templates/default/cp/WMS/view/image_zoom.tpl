@@ -35,7 +35,6 @@
         set_prev_next_images(previous_img_slider.parentElement);
     }
     function set_prev_next_images(middle_image){
-        console.log(middle_image.parentElement);
         if (middle_image.parentElement.nextSibling.nextSibling === null){ // next element
             next_img_slider = middle_image.parentElement.parentElement.firstElementChild.firstElementChild.firstElementChild;
         } else {

@@ -64,36 +64,39 @@ function ImageUploader_displayImagePreview(prefix) {
     let imagesPreviewBlock = $("#ImageUploader_previewImages"+prefix);
     imagesPreviewBlock.html("");
     for (let id in img){
+        let btn1 = document.createElement("button");
+        btn1.setAttribute('onclick', "ImageUploader_deleteImg("+id+", \""+prefix+"\")");
+        btn1.setAttribute('type', "button");
+        btn1.setAttribute('class', "btn btn-outline-primary");
+        btn1.innerText = "Delete";
         imagesPreviewBlock.append(" " +
-            "<img width='200px' height='200px' src='"+img[id][1]+"' id='image"+id+"_"+prefix+"' alt='' class='img-thumbnail ImageUploader_image' onclick='ImageUploader_displayPreviewFunc("+id+", \""+prefix+"\")' draggable='true'>" +
+            "<img src='"+img[id][1]+"' id='image"+id+"_"+prefix+"' alt='' class='img-thumbnail ImageUploader_image'" +
+            " data-toggle='popover' onclick='ImageUploader_showPopover(this)' draggable='true'>" +
             "<div class='ImageUploader_img_between' draggable='true'></div>");
+
+        $("#image"+id+"_"+prefix).popover({
+            html : true,
+            title: 'Controls',
+            content: btn1,
+            placement: 'top'
+        })
     }
     eval("if ( $( \"#ImageUploader_imagesJSON"+prefix+"\" ).length ) {$(\"#ImageUploader_imagesJSON"+prefix+"\").val(JSON.stringify(ImageUploader_images"+prefix+"));}");
     ImageUploader_addListeners();
 }
-function ImageUploader_displayPreviewFunc(id,prefix) {
-    eval("var img = ImageUploader_images"+prefix);
-    ImageUploader_displayImagePreview(prefix);
-    $("#image"+id+"_"+prefix).addClass("hover");
-    let imagesPreviewBlock = $("#ImageUploader_previewImages"+prefix);
-    imagesPreviewBlock.addClass("col-10");
-    let previewFunc = $("#ImageUploader_previewImagesFunc"+prefix);
-    previewFunc.addClass("border border-dark rounded");
-    previewFunc.html("");
-    previewFunc.append("<button type='button' class='btn btn-outline-primary' onclick='ImageUploader_deleteImg("+id+", \""+prefix+"\")'>Delete</button>");
+
+function ImageUploader_showPopover(el){
+    $("[data-toggle='popover']").popover("hide");
+    $(el).popover("show");
 }
 
 function ImageUploader_deleteImg(id, prefix) {
+    $("[data-toggle='popover']").popover("hide");
     eval("delete ImageUploader_images"+prefix+"[id]");
     eval("ImageUploader_images"+prefix+" = ImageUploader_images"+prefix+".filter(Boolean)");
-
-
     ImageUploader_displayImagePreview(prefix);
-    let previewFunc = $("#ImageUploader_previewImagesFunc"+prefix);
-    previewFunc.removeClass("border border-dark rounded");
-    previewFunc.html("");
-    let imagesPreviewBlock = $("#ImageUploader_previewImages"+prefix);
-    imagesPreviewBlock.removeClass("col-10");
+
+
 }
 
 Element.prototype.appendAfter = function (element) {
@@ -182,7 +185,6 @@ function ImageUploader_handleDrop(e) {
     for (var c in prefix){
         new_arr = [];
         let els = document.querySelectorAll('#ImageUploader_previewImages'+prefix[c]+' > .ImageUploader_image');
-        console.log(els);
         for (let i = 0; i< els.length; i++){
             if (ImageUploader_isBase64(els[i].src)){
                 eval("new_arr.push(ImageUploader_search(els[i].src, ImageUploader_images"+prefix[c]+"))");
@@ -205,7 +207,6 @@ function ImageUploader_handleDragEnd(e) {
     });
 }
 function ImageUploader_addListeners(){
-
     items = document.querySelectorAll('.ImageUploader_image, .ImageUploader_img_between');
     items.forEach(function(item) {
         item.addEventListener('dragstart', ImageUploader_handleDragStart, false);

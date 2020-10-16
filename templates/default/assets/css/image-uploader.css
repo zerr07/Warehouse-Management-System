@@ -1,13 +1,15 @@
 .ImageUploader_image {
-    /*border: 3px solid #666;*/
     background-color: #ddd;
     border-radius: .5em;
-    /*padding: 10px;*/
     cursor: move;
+    min-width: 150px;
+    max-width: 15%;
+}
+.ImageUploader_stop_scroll{
+    touch-action: none;
 }
 .ImageUploader_image.over {
     border: 3px dotted #666;
-    /*transform: scale(1.2);*/
     animation: ImageUploader_leaves 0.2s alternate linear infinite;
     -webkit-animation: ImageUploader_leaves 0.2s alternate linear infinite;
 }
@@ -21,7 +23,7 @@
 }
 .ImageUploader_img_between {
     /*width: 30px;*/
-    height: 100%;
+    min-height: 200px;
     padding: 0 5px 0 5px;
     margin: 0 5px 0 5px;
 }

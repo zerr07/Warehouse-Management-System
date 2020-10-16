@@ -9,16 +9,17 @@
             cursor: zoom-in;
         }
     </style>
-    <div id="carousel{$item.id}" class="row align-items-center carousel slide" data-ride="carousel" style="width: 300px;min-height:300px;height:300px;margin: auto;">
+    <div id="carousel{$item.id}" class="row align-items-center carousel slide m-auto">
         <div class="carousel-inner">
             {if $item.mainImage != null}
                 <div class="carousel-item active">
                     <a data-toggle="modal" data-target="#image_modal">
-                        <img src="/uploads/images/products/{$item.mainImage}" class="img-fluid" alt="..."></a>
+                        <img src="/uploads/images/products/{$item.mainImage}" class="img-fluid" alt="..."
+                             onerror="this.src='/templates/default/assets/unable-to-load-img.svg'"></a>
                 </div>
             {else}
                 <div class="carousel-item active">
-                    <img src="https://static.pingendo.com/img-placeholder-1.svg" class="img-fluid" alt="...">
+                    <img src="/templates/default/assets/img-placeholder-1.svg" class="img-fluid" alt="...">
                 </div>
             {/if}
             {if $item.images|@count > 1}
@@ -26,7 +27,8 @@
                     {if $img.position != 1}
                         <div class="carousel-item">
                             <a data-toggle="modal" data-target="#image_modal">
-                                <img src="/uploads/images/products/{$img.image}" class="img-fluid" alt="...">
+                                <img src="/uploads/images/products/{$img.image}" class="img-fluid" alt="..."
+                                     onerror="this.src='/templates/default/assets/unable-to-load-img.svg'">
                             </a>
                         </div>
                     {/if}

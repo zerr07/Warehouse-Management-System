@@ -1,10 +1,9 @@
 {include file='header.tpl'}
+<link rel="stylesheet" href="/templates/default/assets/css/editor.css?t=16102020T165419">
 
-<main class="d-flex flex-column">
-    <div class="py-3 fullHeight">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12" style="border-radius: 20px;border: solid 1px; padding: 10px;">
+
+            <div class="row mt-3">
+                <div class="col-md-12">
                     <h1>Edit description for {$platform_name}</h1>
                     <form class="text-left" method="POST" action="upload.php">
                         <input type="text" name="id" value="{$platform_id}" hidden>
@@ -40,10 +39,11 @@
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
-</main>
+
+<script src="/templates/default/assets/js/editor.js?t=16102020T165416"></script>
+
 <script>
+
     $(window).on('load', function(){
         loadEditor('lvText', 'lv');
         loadEditor('plText', 'pl');

@@ -3,15 +3,22 @@
 {/if}
 
 
+
+</div>
+</div>
+</div>
+</div>
+
+
+</main>
 <div class="py-3">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
                 <p class="mb-0">© <span id="hr">2018-2020</span> AZdev. All rights reserved. Version:
-                    <a data-toggle="tooltip" data-placement="top" data-html="true" title="<pre class='text-left'>{literal}{\__/}
-(●_●)
-( >🌮 Want a taco?{/literal}</pre>"
-                            href="/changelog">{$system.version}</a>
+                    <a data-toggle="tooltip" data-placement="top" data-html="true" title="<pre class='text-left'>{literal}ฅ^•ﻌ•^ฅ
+#cats{/literal}</pre>"
+                       href="/changelog">{$system.version}</a>
                 </p>
             </div>
         </div>
@@ -30,10 +37,30 @@
         }
     }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<!-- Script: Smooth scrolling between anchors in a same page -->
-<script src="/templates/default/assets/js/smooth-scroll.js"></script>
-</wrapper>
+
+<script>
+    $(window).on('load', function () {
+        turnOffPreloader();
+    });
+</script>
+
+<script src="/templates/default/assets/js/fontawesome-all.js?t=16102020T165606"></script>
+
+<script src="/templates/default/assets/js/cookie.js?t=16102020T165605"></script>
+<script src="/templates/default/assets/js/popper.js?t=16102020T165603"></script>
+<script src="/templates/default/assets/js/bootstrap.min.js?t=16102020T165600"></script>
+
+
+<script src="/templates/default/assets/js/smooth-scroll.js?t=16102020T165557"></script>
+<script src="/templates/default/assets/js/sidebar.js?t=16102020T165553"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        console.log("Time until DOMready: ", Date.now()-timerStart);
+    });
+    $(window).on('load', function(){
+        console.log("Time until everything loaded: ", Date.now()-timerStart);
+    });
+</script>
 </body>
 </html>

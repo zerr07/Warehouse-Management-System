@@ -1,0 +1,108 @@
+#sidebar_close_btn{
+    position: absolute;
+    z-index: 1040;
+    /*margin-left: 16.866667%;*/
+
+}
+#sidebar_close_btn svg{
+    height: 30px;
+    width: 50px;
+}
+#sidebar_close_btn svg:hover{
+    opacity: 0.5;
+}
+.close_btn{
+    float: right;
+    margin-right: 10px;
+    font-size: 36px;
+    color: gray;
+}
+.close_btn:hover{
+    text-decoration: none;
+
+    opacity: 0.5;
+}
+
+#sidebar_menu {
+    display: flex;
+    position: fixed;
+    z-index: 99999999;
+    background-color: black;
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin-left: -250px;
+}
+@media screen and (max-width: 992px) {
+    #sidebar_menu.in {width: 100% !important;}
+    .sidebar_dropdown_item{
+        width: auto;
+        word-wrap: break-word;
+        display: inline-block;
+        white-space: initial;
+    }
+}
+body.in{
+    height: 100vh;
+    overflow: hidden;
+}
+#sidebar_menu {
+    -webkit-transition:  margin-left .5s, width .5s, height .5s;
+    -moz-transition:     margin-left .5s, width .5s, height .5s;
+    -o-transition:       margin-left .5s, width .5s, height .5s;
+    transition:          margin-left .5s, width .5s, height .5s;
+}
+
+.sidebar_item {
+    padding: 8px 8px 8px 32px;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.sidebar_item:hover {
+    color: #f1f1f1;text-decoration: none;
+}
+.sidebar_dropdown_item{
+    font-size: 18px;
+    width: 270px;
+    word-wrap: break-word;
+    display: block;
+    white-space: initial;
+}
+.sidebar_dropdown_menu{
+    background-color: transparent;
+    margin-left: 20px;
+}
+
+.sidebar_dropdown_item:active, .sidebar_dropdown_item:focus, .sidebar_dropdown_item:hover{
+    background-color: transparent;
+}
+#sidebar_body svg{
+    width: 30px;
+}
+.sidebar_rotate-off{
+    transform: rotate(-90deg);
+    -webkit-animation:  spin-off .5s ease-out forwards;
+    -moz-animation:     spin-off .5s ease-out forwards;
+    animation:          spin-off .5s ease-out forwards;
+}
+.sidebar_rotate-on{
+    -webkit-animation:  spin-on .5s ease-in forwards;
+    -moz-animation:     spin-on .5s ease-in forwards;
+    animation:          spin-on .5s ease-in forwards;
+}
+
+@-webkit-keyframes spin-on {
+    0%   { -webkit-transform: rotate(0deg);  }
+    100% { -webkit-transform: rotate(90deg);  }
+}
+@-webkit-keyframes spin-off {
+    0%   { -webkit-transform: rotate(90deg);  }
+    100% { -webkit-transform: rotate(0deg);  }
+}
+#sidebar_menu {
+    overflow-y: scroll;
+}
