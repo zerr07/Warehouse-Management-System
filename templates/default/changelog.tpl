@@ -5,6 +5,26 @@
             <div class="accordion text-left" id="accordion">
 
                 <div class="card">
+                    <div class="card-header" id="heading070">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse070" aria-expanded="false" aria-controls="collapse070">
+                                Version 0.7.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse070" class="collapse" aria-labelledby="heading070" data-parent="#accordion">
+                        <div class="card-body">
+                            Full redesign<br/>
+                            Mobile version implemented<br/>
+                            Chat implemented<br/>
+                            #cats
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
                     <div class="card-header" id="heading060">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
