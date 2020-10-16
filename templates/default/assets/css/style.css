@@ -451,3 +451,28 @@ div.preview > ol {
     height: 15px !important;
     width: 15px !important;
 }
+
+@media screen and (max-width: 767px) {
+    #myBtn {padding: 10px 5px 10px 5px !important;}
+}
+
+#myBtn {
+    opacity: 0.2;
+    display: none;
+    position: fixed;
+    bottom: 3px;
+    right: 3px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: gray;
+    color: white;
+    cursor: pointer;
+    padding: 14px;
+    border-radius: 4px;
+}
+
+#myBtn:hover {
+    background-color: #555;
+}

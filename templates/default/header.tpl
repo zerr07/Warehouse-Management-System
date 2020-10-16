@@ -50,11 +50,11 @@
 {/if}
 <main id="main_block" style="filter: blur(1.5rem)">
 <div class="container-fluid h-100 pt-1">
-  <div class="row mt-4">
+  <div class="row mt-3">
     {assign var="filter" value="filter1"}
     {assign var="filter_text" value="filter_text1"}
     {if isset($user)}
-      <span class="ml-1" id="sidebar_close_btn" style="cursor: pointer;top: 1.5rem;" onclick="openNav()"><i class="fas fa-bars"></i></span>
+      <span class="ml-2" id="sidebar_close_btn" style="cursor: pointer;top: 1rem;" onclick="openNav()"><i class="fas fa-bars"></i></span>
     {/if}
     <div class="col-6 ml-5">{include file="logo.tpl"}</div>
   </div>
