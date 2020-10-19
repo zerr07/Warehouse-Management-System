@@ -26,7 +26,12 @@ if (isset($id) || isset($name) || isset($addID)) {
         $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*products*} 
                                                                                             WHERE id='$addID'"));
     } elseif (isset($id)) {
-        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*products*} WHERE tag='$id'"));
+        if (is_numeric($id)){
+            $tempTag = "AZ".$id;
+        } else {
+            $tempTag = $id;
+        }
+        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*products*} WHERE tag='$tempTag'"));
         if(mysqli_num_rows($q) == 0){
             $q= $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*products*} WHERE id in (SELECT {*id_product*} FROM product_codes WHERE ean='$id')"));
         }

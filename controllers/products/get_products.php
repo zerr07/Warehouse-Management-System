@@ -74,6 +74,9 @@ function get_product_by_tag($index){
 }
 
 function get_product_id_by_tag($index){
+    if (is_numeric($index)){
+        $index = "AZ".$index;
+    }
     $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*products*} 
                                                                                     WHERE tag='$index'"));
     if($result){
@@ -360,7 +363,12 @@ $searchSearch ="";
 if (isset($_GET['searchTagID'])) {
     if ($_GET['searchTagID'] != "") {
         $tagID = $_GET['searchTagID'];
-        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*products*} WHERE tag='$tagID'"));
+        if (is_numeric($tagID)){
+            $tempTag = "AZ".$tagID;
+        } else {
+            $tempTag = $tagID;
+        }
+        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*products*} WHERE tag='$tempTag'"));
         if(mysqli_num_rows($q) == 0){
             $getEAN = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id_product FROM {*product_codes*} WHERE ean='$tagID'"));
             while ($row = mysqli_fetch_assoc($getEAN)) {
