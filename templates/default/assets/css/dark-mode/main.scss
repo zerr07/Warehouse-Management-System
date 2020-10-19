@@ -1,0 +1,19 @@
+@import '../import.scss';
+body {
+    background: black;
+}
+body, .navbar-brand, .navbar-light .navbar-nav .nav-link.active {
+    color: $white !important;
+}
+.navbar-light .navbar-nav .nav-link {
+    color: #ccccccfc !important;
+}
+.bg-light {
+    background-color: $gray-700 !important;
+}
+.card, .jumbotron {
+    background-color: $black !important;
+}
+.footer {
+    background-color: $gray-700;
+}

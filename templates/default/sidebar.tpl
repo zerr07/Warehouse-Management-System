@@ -46,6 +46,13 @@
             </div>
             <a href="/cp/chat" class="sidebar_item"><i class="far fa-comments"></i> Chat</a>
             <hr style="border-color: #4c4c4c;">
+            <select class="custom-select" id="themeSelector" onchange="toggleThemeMode(this)">
+                <option value="default" id="defaultTheme">Default</option>
+                <option value="standard" id="standardTheme">Standard (not tested)</option>
+                <option value="dark-mode" id="dark-modeTheme">Dark mode (not tested)</option>
+            </select>
+
+            <hr style="border-color: #4c4c4c;">
             <span class="sidebar_item mt-3">Logged as {$user}</span>
             <a class="sidebar_item" href="?logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
 

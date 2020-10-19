@@ -97,3 +97,48 @@ function scrollFunction() {
         mybutton.style.display = "none";
     }
 }
+
+$(window).on('load', function () {
+    if (getCookie("darkTheme") === "true"){
+        toggleTheme("dark-mode/main.css");
+        document.getElementById("dark-modeTheme").selected = true;
+    } else if (getCookie("standardTheme") === "true"){
+        toggleTheme("standard/main.css");
+        document.getElementById("standardTheme").selected = true;
+    } else if (getCookie("defaultTheme") === "true"){
+        toggleTheme("default/bootstrap.min.css");
+        document.getElementById("defaultTheme").selected = true;
+    }
+    turnOffPreloader();
+});
+function isCSSLinkLoaded(link) {
+    return Boolean(link.sheet);
+}
+function toggleThemeMode(select){
+    turnOnPreloader();
+    let link = document.getElementById("main-stylesheet");
+    setCookie("darkTheme", true, -1);
+    setCookie("standardTheme", true, -1);
+    setCookie("defaultTheme", true, -1);
+    if (select.value === "dark-mode"){
+        toggleTheme("dark-mode/main.css");
+        setCookie("darkTheme", true, 30);
+    } else if (select.value === "standard"){
+        toggleTheme("standard/main.css");
+        setCookie("standardTheme", true, 30);
+    } else {
+        toggleTheme("default/bootstrap.min.css");
+        setCookie("defaultTheme", true, 30);
+
+    }
+    while (isCSSLinkLoaded(link) === false){
+
+    }
+    turnOffPreloader()
+
+}
+function toggleTheme(theme){
+    let link = document.getElementById("main-stylesheet");
+    link.setAttribute("href", "/templates/default/assets/css/"+theme)
+
+}

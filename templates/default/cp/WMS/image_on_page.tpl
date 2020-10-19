@@ -5,19 +5,19 @@
                 <div class="carousel-inner">
                     {if $item.mainImage != null}
                         <div class="carousel-item active">
-                            <img src="/uploads/images/products/{$item.mainImage}" class="d-block w-100" alt="..."
+                            <img src="/uploads/images/products/{$item.mainImage}" class="d-block w-100" alt="..." style="max-height: 200px"
                                  onerror="this.src='/templates/default/assets/unable-to-load-img.svg'">
                         </div>
                     {else}
                         <div class="carousel-item active">
-                            <img src="/templates/default/assets/img-placeholder-1.svg" class="d-block w-100" alt="...">
+                            <img src="/templates/default/assets/img-placeholder-1.svg" class="d-block w-100" alt="..." style="max-height: 200px">
                         </div>
                     {/if}
                     {if $item.images|@count > 1}
                         {foreach $item.images as $img}
                             {if $img.position != 1}
                                 <div class="carousel-item">
-                                    <img src="/uploads/images/products/{$img.image}" class="d-block w-100" alt="..."
+                                    <img src="/uploads/images/products/{$img.image}" class="d-block w-100" alt="..." style="max-height: 200px"
                                          onerror="this.src='/templates/default/assets/unable-to-load-img.svg'">
                                 </div>
                             {/if}

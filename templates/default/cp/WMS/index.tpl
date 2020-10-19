@@ -73,7 +73,7 @@
                         <div class="row mt-3">
 
                             {foreach $products as $item}
-                                <div class="col-lg-6 col-sm-12 mt-3" style="min-height: 210px;">
+                                <div class="col-12 col-sm-12 col-lg-12 mt-3" style="min-height: 210px;">
                                     <div class="card mb-3 p-2 h-100">
                                         <div class="row no-gutters h-100">
                                             <div class="col-sm-3 d-flex align-items-center">
@@ -86,9 +86,9 @@
                                                     </h5>
                                                     <a style="text-overflow: ellipsis; " href="/cp/WMS/view/?view={$item.id}">{$item.tag}</a>
 
-                                                    <p class="card-text">Shop price: {if $item.platforms.$SHOP.price == ""}Not set{/if}{$item.platforms.$SHOP.price}</p>
-                                                    <p class="card-text">Quantity: {if $item.quantity == ""}Not set{/if}{$item.quantity}</p>
-                                                    <p class="card-text">Locations: {if $item.locations|replace:" ":"" == ""}Not set{/if}{$item.locations}</p>
+                                                    <p class="card-text m-0">Shop price: {if $item.platforms.$SHOP.price == ""}Not set{/if}{$item.platforms.$SHOP.price}</p>
+                                                    <p class="card-text m-0">Quantity: {if $item.quantity == ""}Not set{/if}{$item.quantity}</p>
+                                                    <p class="card-text m-0">Locations: {if $item.locations|replace:" ":"" == ""}Not set{/if}{$item.locations}</p>
 
 
 
@@ -102,7 +102,7 @@
                                                 {else}
                                                     <a class="btn btn-primary d-table" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape}&tag={$item.tag}">Print label</a>
                                                 {/if}
-                                                <button type="button" class="btn btn-outline-danger d-table" onclick="deleteProduct('{$item.id}')"><i class="fas fa-trash"></i> Delete</button>
+                                                <button type="button" class="btn btn-outline-danger d-table p-0" onclick="deleteProduct('{$item.id}')"><i class="fas fa-trash"></i> Delete</button>
 
                                             </div>
                                         </div>
