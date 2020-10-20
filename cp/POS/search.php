@@ -13,13 +13,14 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
 if (isset($_GET['addID']) && $_GET['addID'] != ""){
     $addID = $_GET['addID'];
 }
-if (isset($_POST['searchTagID']) && $_POST['searchTagID'] != ""){
-    $id = $_POST['searchTagID'];
-}
-if (isset($_POST['searchName']) && $_POST['searchName'] != ""){
-    $name = $_POST['searchName'];
+if (isset($_POST['searchTagIDPOS']) && $_POST['searchTagIDPOS'] != ""){
+    $id = $_POST['searchTagIDPOS'];
 }
 
+if (isset($_POST['searchNamePOS']) && $_POST['searchNamePOS'] != ""){
+    $name = $_POST['searchNamePOS'];
+}
+echo $id;
 
 if (isset($id) || isset($name) || isset($addID)) {
     if (isset($addID)){
@@ -55,6 +56,7 @@ if (isset($id) || isset($name) || isset($addID)) {
             $items[$row['id']]['mainImage'] = get_main_image($row['id']);
 
         } else {
+
             $dbID = $row['id'];
             if (isset($_SESSION['cart'][$row['id']])){
                 $_SESSION['cart'][$row['id']]['quantity']++;

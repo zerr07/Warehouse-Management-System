@@ -3,9 +3,8 @@ function updateCart(tag) {
         url:"/cp/POS/search.php", //the page containing php script
         type: "post", //request type,
         dataType: 'json',
-        data: {searchTagID: tag},
+        data: {searchTagIDPOS: tag},
         success:function(result){
-
         }
     });
 
@@ -16,7 +15,7 @@ function searchByName(name) {
         type: "post", //request type,
         dataType: 'json',
         async: false,
-        data: {searchName: name}
+        data: {searchNamePOS: name}
     });
 }
 function updateByID(index) {

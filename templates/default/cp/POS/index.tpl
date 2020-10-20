@@ -10,10 +10,10 @@
             {include file='cp/POS/saleModal.tpl'}
             <div class="row">
                 <div class="col-sm-12 col-md-4 mt-2">
-                    <input type="text" class="form-control" name="searchTagID" id="searchtagid" placeholder="Search by ID" autofocus>
+                    <input type="text" class="form-control" name="searchTagIDPOS" id="searchtagidPOS" placeholder="Search by ID" autofocus>
                 </div>
                 <div class="col-sm-12 col-md-4 mt-2">
-                    <input type="text" class="form-control" name="searchName" id="searchname" placeholder="Search by name">
+                    <input type="text" class="form-control" name="searchNamePOS" id="searchnamePOS" placeholder="Search by name">
                 </div>
                 <div class="col-sm-12 col-md-4 mt-2">
                     <input type="submit" formaction="/cp/POS/search.php" id='search' name="search" class="btn btn-outline-secondary w-100" value="Search">
@@ -54,7 +54,7 @@
 <script src="/templates/default/assets/js/cart.js?t=16102020T165705"></script>
 <script src="/cp/POS/displayCartPOS.js?t=16102020T165702"></script>
 
-<script src="/cp/POS/updateCart.js?t=16102020T165659"></script>
+<script src="/cp/POS/updateCart.js?t=20102020T145725"></script>
 <script>
     {literal}
     function reserveCart(){
@@ -136,7 +136,7 @@
         }
     });
     $(function() {
-        $("#searchname").keypress(function (e) {
+        $("#searchnamePOS").keypress(function (e) {
             if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
                 $('#search').click();
                 if (($("#exampleModalScrollable").data('bs.modal') || {})._isShown === false){
@@ -149,7 +149,7 @@
         });
     });
     $(function() {
-        $("#searchtagid").keypress(function (e) {
+        $("#searchtagidPOS").keypress(function (e) {
             $.ajax({
                 type     : "POST",
                 cache    : false,
@@ -157,8 +157,8 @@
                 data     : $("#POScartForm").serialize()
             });
             if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
-                updateCart($("#searchtagid").val());
-                document.getElementById("searchtagid").value = "";
+                updateCart($("#searchtagidPOS").val());
+                document.getElementById("searchtagidPOS").value = "";
                 setTimeout(function(){ displayCart("POScart");sum();}, 1000);
                 return false;
             }
