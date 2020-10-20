@@ -81,6 +81,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <hr style="border-color: #4c4c4c;">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6">
                                         <label for="itemNameET">Toode nimi<span style="color: red;">*</span> </label>
@@ -93,7 +94,7 @@
                                     </div>
                                 </div>
 
-
+                                <hr style="border-color: #4c4c4c;">
 
 
                                 <label class="mt-3">Supplier data </label>

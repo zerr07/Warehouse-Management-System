@@ -52,7 +52,7 @@
     </div>
 </div>
 <script src="/templates/default/assets/js/cart.js?t=16102020T165705"></script>
-<script src="/cp/POS/displayCartPOS.js?t=16102020T165702"></script>
+<script src="/cp/POS/displayCartPOS.js?t=20102020T132023"></script>
 
 <script src="/cp/POS/updateCart.js?t=20102020T145725"></script>
 <script>
@@ -98,7 +98,9 @@
     const target = document.querySelector('body');
 
     function checkQuantity(available, item) {
-        if ($("#quantity"+item).val() > available){
+        console.log(available)
+        console.log(item)
+        if ($("#quantity"+item).val() > parseInt(available)){
             alert("Item out of stock!");
         }
     }

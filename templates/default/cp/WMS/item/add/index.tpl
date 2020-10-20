@@ -78,6 +78,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <hr style="border-color: #4c4c4c;">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6">
                                         <label for="itemNameET">Toode nimi<span style="color: red;">*</span> </label>
@@ -91,7 +92,7 @@
                                 </div>
 
 
-
+                                <hr style="border-color: #4c4c4c;">
 
                                 <label class="mt-3">Supplier data </label>
                                 <div id="listURL">
@@ -138,10 +139,10 @@
                                             <input type="text" name="platformID[{$platform.id}]" value="{$platform.id}" hidden>
 
                                             <div class="row mt-3 border border-secondary p-2" style="border-radius: 2px">
-                                                <div class="col-6 order-0 mt-2 col-sm-6 col-md-3 col-lg-2 mt-lg-0">
+                                                <div class="col-6 order-0 mt-2 col-sm-6 col-md-3 col-lg-2 m-auto">
                                                     <span>{$platform.name}</span>
                                                 </div>
-                                                <div class="col-6 order-1 mt-2 col-sm-6 col-md-3 col-lg-1 mt-lg-0">
+                                                <div class="col-6 order-1 mt-2 col-sm-6 col-md-3 col-lg-1 m-auto">
                                                     <div class="form-check" style="display: inline-flex">
                                                         <input class="form-check-input" type="checkbox" value="Yes"
                                                                id="export{$platform.id}"
@@ -151,17 +152,17 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-6 order-2 mt-2 col-sm-6 col-md-6 col-lg-3 mt-lg-0">
+                                                <div class="col-6 order-2 mt-2 col-sm-6 col-md-6 col-lg-3 m-auto">
                                                     <input type="text" class="form-control"
                                                            name="platformURL[{$platform.id}]" placeholder="URL"
                                                            id="form17">
                                                 </div>
-                                                <div class="col-6 mt-2 col-sm-6 col-md-6 order-3 order-md-12 order-lg-3 col-lg-2 mt-lg-0">
+                                                <div class="col-6 mt-2 col-sm-6 col-md-6 order-3 order-md-12 order-lg-3 col-lg-2 m-auto">
                                                     <input type="number" step="0.01"  class="form-control" onchange="applyPrices()"
                                                            name="platformPrice[{$platform.id}]"
                                                            id="platform{$platform.id}" placeholder="Price €">
                                                 </div>
-                                                <div class="col-6 order-4 mt-2 col-sm-6 col-md-3 col-lg-2 mt-lg-0">
+                                                <div class="col-6 order-4 mt-2 col-sm-6 col-md-3 col-lg-2 m-auto">
                                                     <div class="form-check">
                                                         <input class="form-check-input" onclick="applyPrices()" type="checkbox" value="Yes"
                                                                id="platformCustom{$platform.id}"
@@ -171,7 +172,7 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-6 order-5 mt-2 col-sm-6 col-md-3 col-lg-2 mt-lg-0">
+                                                <div class="col-6 order-5 mt-2 col-sm-6 col-md-3 col-lg-2 m-auto">
                                                     <div style="padding-left: 20px">Profit:
                                                         <a id="profit{$platform.id}">0</a>
                                                         <i class="fas fa-euro-sign"></i>

@@ -11,7 +11,7 @@
                 <h4 id="modalSUM">Sum: 0</h4>
                 <div class="row">
                     <div class="col-2 m-auto">
-                        <span class="text-white">Cash:</span>
+                        <span>Cash:</span>
                     </div>
                     <div class="col-7">
                         <input type="text" class="form-control" id="cash" name="cash" placeholder="0.00" value="0.00">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="row">
                     <div class="col-2 m-auto">
-                        <span class="text-white">Card:</span>
+                        <span>Card:</span>
                     </div>
                     <div class="col-7">
                         <input type="text" class="form-control" id="card" name="card" placeholder="0.00" value="0.00" >
@@ -33,7 +33,7 @@
                 </div>
                 <div class="row">
                     <div class="col-2">
-                        <label for="ostja" class="text-white">Ostja:</label>
+                        <label for="ostja">Ostja:</label>
                     </div>
                     <div class="col-10">
                         <input type="text" class="form-control" id="ostja" name="ostja" placeholder="Ostja">
