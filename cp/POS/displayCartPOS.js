@@ -40,11 +40,10 @@ function displayCart(index) {
         let loc = "";
         if (cart[key]['loc'] !== null || cart[key]['loc'] !== ""){
             if (cart[key]['tag'] !== "Buffertoode") {
-                console.log(key);
                 if (cart[key]['loc']['selected']){
                     let def_loc = cart[key]['loc']['selected'].toString();
 
-                    loc += "<select class=\"custom-select\" id='loc_select"+key+"' name='loc_select["+key+"]'>";
+                    loc += "<select class=\"custom-select\" id='loc_selectPOP"+key+"' name='loc_selectPOP["+key+"]' onChange='setLoc(this)'>";
                     for (var place in cart[key]['loc']['locationList']) {
                         if (!isNaN(def_loc) || def_loc !== null){
                             if (place === def_loc){
@@ -66,6 +65,32 @@ function displayCart(index) {
 
             }
         }
+
+        let locHidden = "";
+        if (cart[key]['loc'] !== null || cart[key]['loc'] !== ""){
+            if (cart[key]['tag'] !== "Buffertoode") {
+                let def_loc = cart[key]['loc']['selected'].toString();
+                locHidden += "<select class=\"custom-select\" id='loc_select"+key+"' name='loc_select["+key+"]' hidden>";
+                for (var place in cart[key]['loc']['locationList']) {
+                    if (!isNaN(def_loc) || def_loc !== null){
+                        if (place === def_loc){
+                            locHidden += "<option value='"+place+"' selected>";
+                        } else {
+                            locHidden += "<option value='"+place+"'>";
+                        }
+
+                    } else {
+                        locHidden += "<option value='"+place+"'>";
+                    }
+                    locHidden += cart[key]['loc']['locationList'][place]['type_name'].toString() + " : "
+                        +cart[key]['loc']['locationList'][place]['location'].toString() + " : "
+                        +cart[key]['loc']['locationList'][place]['quantity'].toString()
+                        +"</option>"
+                }
+                locHidden += "</select>";
+            }
+        }
+
         let quantityInput;
         let a;
         console.log(cart[key]['tag']);
@@ -81,6 +106,8 @@ function displayCart(index) {
         }
 
         $("#"+index).append("<div class='row mt-3 border border-secondary p-1' data-toggle='popover' id='"+key+"'>" +
+            "<input type='text' name='id[]' value='"+cart[key]['id']+"' hidden>" +
+            locHidden +
             "<div class='p-0 col-3 col-sm-3 col-md-2 col-xl-2 m-auto d-flex justify-content-start'>" + tag + "</div>" +
             "<div class='p-0 col-3 col-sm-3 col-md-5 col-xl-4 m-auto d-flex justify-content-center'>"+name + quantityInput+"<input type='text' class='form-control' id='price"+counter+"' onchange='sum()' name='price[]' value='"+cart[key]['basePrice']+"' placeholder='Price' hidden></div>" +
             "<div class='p-0 d-none d-xl-flex col-xl-1 m-auto justify-content-center'><span id='quantityXL"+counter+"'>"+cart[key]['quantity']+"</span>" + "<span> "+a +" pcs</span></div>" +
@@ -103,10 +130,18 @@ function displayCart(index) {
         input1.setAttribute('class', "form-control dont-hide");
         let input2 = document.createElement("input");
         let label2 = document.createElement("label");
+        let child = document.createElement('div');
         label2.setAttribute('for', "#popQuantity"+counter);
         label2.innerText = "Quantity";
+        input2.setAttribute('onchange', "setValueQuantity('" + cart[key]['Available'] + "','" + counter + "')");
+
         if (cart[key]['tag'] !== "Buffertoode") {
-            input2.setAttribute('onchange', "setValueQuantity('" + cart[key]['Available'] + "','" + counter + "')");
+            child.innerHTML = loc;
+            child = child.firstChild;
+            place = cart[key]['loc']['selected'];
+            document.getElementById("locXL"+counter).innerText = cart[key]['loc']['locationList'][place]['type_name'].toString() + " : "+
+                cart[key]['loc']['locationList'][place]['location'].toString() + " : "+
+                cart[key]['loc']['locationList'][place]['quantity'].toString();
         }
         input2.setAttribute('type', "text");
         input2.setAttribute('id', "popQuantity"+counter);
@@ -118,20 +153,14 @@ function displayCart(index) {
         div.appendChild(input2);
         input1.value = cart[key]['basePrice'];
         input2.value = cart[key]['quantity'];
-        var child = document.createElement('div');
-        child.innerHTML = loc;
-        child = child.firstChild;
+
+
         let label3 = document.createElement("label");
-        label3.setAttribute('for', "#loc_select"+key);
+        label3.setAttribute('for', "#loc_selectPOP"+key);
         label3.innerText = "Location";
         div.appendChild(label3);
         div.appendChild(child);
-        place = cart[key]['loc']['selected'];
-        console.log(place);
 
-        document.getElementById("locXL"+counter).innerText = cart[key]['loc']['locationList'][place]['type_name'].toString() + " : "+
-        cart[key]['loc']['locationList'][place]['location'].toString() + " : "+
-        cart[key]['loc']['locationList'][place]['quantity'].toString();
         $("#"+key).popover({
             html : true,
             title: 'Controls',
@@ -142,6 +171,12 @@ function displayCart(index) {
         counter++;
     }
 }
+function setLoc(selectObject){
+    $("#"+(selectObject.id).replace("POP", "")).val($("#"+selectObject.id).val())
+
+}
+
+
 function setValuePrice(counter){
     let pop = $('#popPrice'+counter);
     let target = $('#price'+counter);
