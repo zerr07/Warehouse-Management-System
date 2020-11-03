@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="/templates/default/assets/css/style.css?t=16102020T165622">
   <link href="/templates/default/assets/css/sidebar.css?t=16102020T165621" rel="stylesheet">
   <script src="/templates/default/assets/js/jquery.min.js?t=16102020T165620"></script>
-  <script src="/templates/default/assets/js/script.js?t=16102020T165618"></script>
+  <script src="/templates/default/assets/js/script.js?t=20201026T154217"></script>
   <script>
     if('ontouchstart' in window){
       document.write('<script type="text/javascript" src="/templates/default/assets/js/swipe_menu.js?t=16102020T165616""><\/script>');
