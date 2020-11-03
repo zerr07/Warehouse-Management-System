@@ -3,7 +3,7 @@
 
 <div class="row mt-3">
     <div class="col-md-12">
-        <h1>Edit item</h1>
+        <h1>Add item</h1>
         {include file='cp/WMS/item/EANModal.tpl'}
         {include file='cp/WMS/item/customPriceModal.tpl'}
         <form class="text-left" method="POST" action="upload.php" enctype="multipart/form-data">
@@ -266,7 +266,7 @@
                         </div>
                     </div>
                     <button type="button" style="width: 100%; margin: 10px 0 10px 0;" class="btn btn-primary" onclick="addExtraLoc()">Add extra</button>
-                    {foreach $item.carrier as $carrier}
+                    {foreach $carriers as $carrier}
                         <div class="row mt-3 border border-secondary p-2 mb-3">
                             <div class="col-6 col-sm-6 col-md-3 m-auto order-0 order-md-0">
                                 <span>{$carrier.name}</span>
@@ -274,7 +274,7 @@
                             <div class="col-6 col-sm-6 col-md-3 m-auto order-2 order-md-1">
                                 <div class="custom-control custom-switch" style="display: inline-flex">
                                     <input type="checkbox" class="custom-control-input" id="carrierEnabled{$carrier.id}"
-                                           name="carrierEnabled[{$carrier.id}]" value="Yes">
+                                           name="carrierEnabled[{$carrier.id}]" value="Yes" checked>
                                     <label class="custom-control-label" for="carrierEnabled{$carrier.id}">Enabled</label>
                                 </div>
                             </div>
