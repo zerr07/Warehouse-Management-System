@@ -66,8 +66,6 @@ function deleteProduct(id){
 $("html").on("mouseup", function (e) {
     var l = $(e.target);
     if(l[0].getAttribute("class")){
-        console.log("sd");
-    console.log(l[0].className.indexOf("dont-hide"));
         if (l[0].className.indexOf("popover") >= 0 || l[0].className.indexOf("dont-hide") >= 0) {
 
         } else {
