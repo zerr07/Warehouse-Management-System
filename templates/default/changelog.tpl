@@ -2,6 +2,22 @@
 
             <div class="accordion text-left mt-4" id="accordion">
 
+                <div class="card">
+                    <div class="card-header" id="heading072">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse072" aria-expanded="false" aria-controls="collapse072">
+                                Version 0.7.2
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse072" class="collapse" aria-labelledby="heading072" data-parent="#accordion">
+                        <div class="card-body">
+                            Moved chart function to separate file to allow access from other pages.<br/>
+                            Fixed awkward image scaling<br/>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="card">
                     <div class="card-header" id="heading071">
