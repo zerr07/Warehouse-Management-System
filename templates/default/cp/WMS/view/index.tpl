@@ -92,7 +92,7 @@
             <link href="/templates/default/assets/css/c3.min.css?t=16102020T165344" rel="stylesheet" />
 
             <script src="/templates/default/assets/js/moment.js"></script>
-            <button type="button" class="btn btn-info" onclick="loadAuctionCharts()"
+            <button type="button" class="btn btn-info" onclick="loadAuctionCharts('{$item.tag}')"
                 ><i class="fas fa-ad"></i> View auction charts</button>
             <div id="auction_charts"></div>
         </div>
@@ -316,6 +316,7 @@
 
 
 <script src="/cp/WMS/item/edit/editEAN.js?t=16102020T165358"></script>
+<script src="/templates/default/assets/js/auction_charts_init.js?d=20201112T103709"></script>
 
 <script>
     function deleteSMTitemPlatform(id){
@@ -388,88 +389,6 @@
         $temp.remove();
     }
 
-    function loadAuctionCharts(){
-
-        $.ajax({
-            //url: "/auctions_charts.html",
-            url: "/cp/loadChart.php?tag={$item.tag}",
-            cache: false,
-            dataType: "html",
-            success: function(data) {
-                $("#auction_charts").html(data);
-                if (typeof(worker) != "undefined") {
-                    worker.terminate();
-                    delete worker;
-                }
-                if (typeof(worker) == "undefined") {
-                    let tag = "{$item.tag}";
-                    worker = new Worker("/templates/default/assets/js/auction_charts.js?t=02102020T124553");
-                    {literal}worker.postMessage(`{
-                    "type":"tag",
-                    "data":"`+tag+`"
-                    }`);{/literal}
-                    {literal}
-                    var handleChart2 = function (){
-                        worker.postMessage(`{"type":"loadChart2Data"}`);
-                        document.getElementById("chart2-tab").removeEventListener("click", handleChart2);
-                    }
-                    var handleChart3 = function (){
-                        worker.postMessage(`{"type":"loadChart3Data"}`);
-                        document.getElementById("chart3-tab").removeEventListener("click", handleChart3);
-                    }
-                    {/literal}
-                    worker.onmessage = function(event) {
-                        let msg = JSON.parse(event.data);
-                        if (msg['type'] === 'toggleModal'){
-                            $("#auction_charts_modal").modal("toggle");
-                        }
-                        if (msg['type'] === 'DrawChart1'){
-                            setTimeout(() => chart1(tag, msg['data']), 1000);
-                        }
-                        if (msg['type'] === 'noChart1'){
-                            document.getElementById("chart1").innerHTML = "No data ᕕ( ᐛ )ᕗ";
-                            setPreloaderProgress("100");
-                            turnOffProgressPreloader();
-                        }
-                        if (msg['type'] === 'DrawChart2'){
-                            setTimeout(() => chart2(tag, msg['data']), 1000);
-                        }
-                        if (msg['type'] === 'noChart2'){
-                            document.getElementById("chart2").innerHTML = "No data ᕕ( ᐛ )ᕗ";
-                            setPreloaderProgress("100");
-                            turnOffProgressPreloader();
-                        }
-                        if (msg['type'] === 'DrawChart3'){
-                            setTimeout(() => chart3(tag, msg['data']), 1000);
-                        }
-                        if (msg['type'] === 'noChart3'){
-                            document.getElementById("chart3").innerHTML = "No data ᕕ( ᐛ )ᕗ";
-                            setPreloaderProgress("100");
-                            turnOffProgressPreloader();
-                        }
-                        if (msg['type'] === 'turnOnPreloader'){
-                            turnOnProgressPreloader();
-                        }
-                        if (msg['type'] === 'turnOffPreloader'){
-                            turnOffProgressPreloader();
-                        }
-                        if (msg['type'] === 'setPreloaderProgress'){
-                            setPreloaderProgress(msg['data']);
-                        }
-                        {literal}
-                        document.getElementById("chart2-tab").addEventListener("click", handleChart2);
-                        document.getElementById("chart3-tab").addEventListener("click", handleChart3);
-                        {/literal}
-
-                    };
-                } else {
-                    console.log("Web Workers are not supported in your browser");
-                }
-            }
-        });
-
-
-    }
-
+    
 </script>
 {include file='footer.tpl'}
