@@ -62,6 +62,8 @@
         <button onclick="getAlbumsFB()" class="btn btn-info d-block w-100 mt-2">Get Albums</button>
         <button onclick="setCronFB()" class="btn btn-info d-block w-100 mt-2">Reset cron</button>
         <button onclick="getCronFB()" class="btn btn-info d-block w-100 mt-2">Get cron</button>
+        <button onclick="getUserByComment()" class="btn btn-info d-block w-100 mt-2">Get user ID by comment id</button>
+
     </div>
     <div class="col-12 col-sm-12 col-md-9">
         <div id="info-box">
@@ -90,6 +92,12 @@
     $("#postToPage").on("click", function (){
         batchPost();
     })
+    function getUserByComment(){
+        let commentID = prompt("Enter comment ID: ");
+        if (commentID){
+            getCommentDetails(commentID);
+        }
+    }
     document.addEventListener('FB_a_insert_success', function (e) {
         input.setAttribute("class", "form-control is-valid");
         feedback.setAttribute("class", "valid-feedback");

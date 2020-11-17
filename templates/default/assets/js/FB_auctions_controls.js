@@ -210,3 +210,24 @@ function getCronFB(){
 
         });
 }
+function getCommentDetails(CommentID){
+    const requestOptions = {
+        method: "POST",
+        headers:  new Headers({
+            'Content-Type': 'application/json'
+        }),
+        body: JSON.stringify({
+            CommentID: CommentID
+        })
+    };
+
+    return fetch(domain+"/getWonUserIDFromCommentID", requestOptions)
+        .then(response => response.json())
+        .then((d) => {
+            if (!d.hasOwnProperty("error")){
+                alert(d.from.name + " | " + d.from.id);
+            } else {
+                alert("Error, unknown ID or not permitted by the API.")
+            }
+        });
+}
