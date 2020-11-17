@@ -66,6 +66,7 @@ if (isset($id) || isset($name) || isset($addID)) {
                 $_SESSION['cart'][$row['id']]['IMG'] = get_main_image($itemID);
                 $_SESSION['cart'][$row['id']]['id'] = $row['id'];
                 $_SESSION['cart'][$row['id']]['tag'] = $row['tag'];
+                $_SESSION['cart'][$row['id']]['date_added'] = date("Y-m-d H:i:s");
                 $_SESSION['cart'][$row['id']]['quantity'] = 1;
                 $_SESSION['cart'][$row['id']]['Available'] = get_quantity_sum($row['id']);
                 $queryName = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM 

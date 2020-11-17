@@ -2,12 +2,19 @@ function displayCart(index) {
 
     let cart = getCartArray();
     cart = JSON.parse(cart.responseText);
+    let result = Object.keys(cart).map((key) => [cart[key]]);
 
+    result.sort(function (a,b) {
+        return new Date(b[0]["date_added"]) - new Date(a[0]["date_added"]);
+    })
+    console.log(result)
     console.log(cart);
     let tbody = document.getElementById(index);
     tbody.innerHTML = "";
     let counter = 0;
-    for (let key in cart){
+
+    for (let k in result){
+        let key = result[k][0].id;
         let tag = "";
         let imgURL = "";
         if (cart[key]['IMG'] === null || cart[key]['IMG'] === ""){
