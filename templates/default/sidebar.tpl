@@ -26,6 +26,17 @@
                 <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/WMS/platforms/"><i class="fas fa-store-alt"></i> Platforms</a>
                 <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="#staticBackdrop" data-toggle="modal" data-target="#staticBackdrop"><i class="fas fa-tags"></i> Custom Label Generator</a>
                 <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="#staticBackdropLG" data-toggle="modal" data-target="#staticBackdropLG"><i class="fas fa-tags"></i> Large Custom Label Generator</a>
+                <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/tree-links/"><i class="fas fa-tree"></i> Tree links</a>
+
+            </div>
+
+            <a class="sidebar_item" href="javascript:void(0);" data-toggle="collapse" data-target="#btnGroupDrop4"
+               role="button" aria-expanded="false" aria-controls="btnGroupDrop4">
+                <i class="fas fa-chart-line"></i> Statistics <i class="dropdown_svg fas fa-chevron-right"></i>
+            </a>
+            <div class="collapse multi-collapse sidebar_dropdown_menu" id="btnGroupDrop4">
+                <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/statistics/auctions/"><i class="fas fa-gavel"></i> Auctions</a>
+
             </div>
 
 

@@ -1,8 +1,28 @@
 {include file='header.tpl'}
-<main class="d-flex flex-column">
-    <div class="py-3 fullHeight">
-        <div class="container">
-            <div class="accordion text-left" id="accordion">
+
+            <div class="accordion text-left mt-4" id="accordion">
+
+
+                <div class="card">
+                    <div class="card-header" id="heading071">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse071" aria-expanded="false" aria-controls="collapse071">
+                                Version 0.7.1
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse071" class="collapse" aria-labelledby="heading071" data-parent="#accordion">
+                        <div class="card-body">
+                            Fixed POS search<br/>
+                            Fixed carrier form on item creation<br/>
+                            New styles added (can be switched between in the sidebar)<br/>
+                            Added auction statistics<br/>
+                        </div>
+                    </div>
+                </div>
+
+
 
                 <div class="card">
                     <div class="card-header" id="heading070">
@@ -299,7 +319,5 @@
 
 
             </div>
-        </div>
-    </div>
-</main>
+
 {include file='footer.tpl'}

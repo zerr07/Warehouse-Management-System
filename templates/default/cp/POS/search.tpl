@@ -5,10 +5,10 @@
                     <form action="/cp/POS/search.php" class="text-left" style="padding-top: 10px;" method="POST">
                         <div class="row">
                             <div class="col-sm-12 col-md-4 mt-2">
-                                <input type="text" class="form-control" name="searchTagID" id="searchtagid" placeholder="Search by ID" autofocus>
+                                <input type="text" class="form-control" name="searchTagIDPOS" id="searchtagid" placeholder="Search by ID" autofocus>
                             </div>
                             <div class="col-sm-12 col-md-4 mt-2">
-                                <input type="text" class="form-control" name="searchName" id="searchname" placeholder="Search by name">
+                                <input type="text" class="form-control" name="searchNamePOS" id="searchname" placeholder="Search by name">
                             </div>
                             <div class="col-sm-12 col-md-4 mt-2">
                                 <input type="submit" formaction="/cp/POS/search.php" id='search' name="search" class="btn btn-outline-secondary w-100" value="Search">

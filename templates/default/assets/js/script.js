@@ -142,3 +142,6 @@ function toggleTheme(theme){
     link.setAttribute("href", "/templates/default/assets/css/"+theme)
 
 }
+function round2D(i){
+    return Math.round(parseFloat(i) * 100) / 100;
+}
