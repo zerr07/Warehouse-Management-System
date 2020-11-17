@@ -149,7 +149,6 @@ function load_chart_data(tag){
     dataChart = Object.entries(dataChart);
     dataAvg = Object.entries(dataAvg);
     dataAvg7 = Object.entries(dataAvg7);
-    console.log(dataChart);
     if (dataChart.length !== 0){
         let msg = `{
          "type": "DrawChart1",

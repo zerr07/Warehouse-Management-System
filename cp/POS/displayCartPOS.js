@@ -7,7 +7,7 @@ function displayCart(index) {
     let tbody = document.getElementById(index);
     tbody.innerHTML = "";
     let counter = 0;
-    for (var key in cart){
+    for (let key in cart){
         let tag = "";
         let imgURL = "";
         if (cart[key]['IMG'] === null || cart[key]['IMG'] === ""){

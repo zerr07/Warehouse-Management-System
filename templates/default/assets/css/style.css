@@ -476,3 +476,18 @@ div.preview > ol {
 #myBtn:hover {
     background-color: #555;
 }
+.img_home_fit{
+    max-height: 200px;
+    object-fit: scale-down;
+}
+.img_view_fit{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 300px;
+    object-fit: scale-down;
+}
+#image_modal_body > .img_view_fit{
+    width: auto;
+    height: auto;
+}

@@ -123,12 +123,12 @@
                 document.getElementById("profitavg"+sku).innerText  = ((!isNaN(round2D(d['profitavg']   ))) ? round2D(d['profitavg'])+"€"   : 'Could not parse')
                 document.getElementById("lisasum"+sku).innerText    = ((!isNaN(round2D(d['lisasum']     ))) ? round2D(d['lisasum'])+"€"     : 'Could not parse')
                 document.getElementById("buysum"+sku).innerText     = ((!isNaN(round2D(d['buysum']      ))) ? round2D(d['buysum'])+"€"      : 'Could not parse')
-                document.getElementById("roi"+sku).innerText        = ((!isNaN(round2D(d['roi']         ))) ? round2D(d['roi']*100)+"%"         : 'Could not parse')
+                document.getElementById("roi"+sku).innerText        = ((!isNaN(round2D(d['roi']         ))) ? round2D(d['roi']*100)+"%"     : 'Could not parse')
 
 
             }
         });
     }
 
-</script>{debug}
+</script>
 {include file='footer.tpl'}
