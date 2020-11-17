@@ -3,6 +3,24 @@
             <div class="accordion text-left mt-4" id="accordion">
 
                 <div class="card">
+                    <div class="card-header" id="heading073">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse073" aria-expanded="false" aria-controls="collapse073">
+                                Version 0.7.3
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse073" class="collapse" aria-labelledby="heading073" data-parent="#accordion">
+                        <div class="card-body">
+                            POS products are now sorted by date they are added to the cart.<br/>
+                            Added Facebook auctions controls. (Currently for testing purposes)<br/>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
                     <div class="card-header" id="heading072">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
