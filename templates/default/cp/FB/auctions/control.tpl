@@ -1,20 +1,43 @@
 {include file='header.tpl'}
 
 <div class="row mt-3">
-    <div class="col-md-3">
+    <div class="col-12 mt-2">
+        Photos uploaded
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" id="PhotoProgress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+        </div>
+    </div>
+    <div class="col-12 mt-2">
+        Scheduled posts
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" id="ScheduleProgress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-6 mt-2">
+
         <div class="form-row">
             <div class="col" id="OutputProductForm">
-                <input type="text" class="form-control" aria-describedby="Product tag" list="tags" id="OutputProductInput">
+                <input type="text" class="form-control w-100" aria-describedby="Product tag" list="tags" id="OutputProductInput">
                 <div class="" id="OutputProductFeedback"></div>
                 <datalist id="tags"></datalist>
             </div>
             <div class="col">
-                <button type="button" class="btn btn-info" id="addToPosting">Add to posting</button>
+                <button type="button" class="btn btn-info w-100" id="addToPosting">Add</button>
             </div>
         </div>
 
     </div>
-    <div class="col-md-6">
+    <div class="col-12 col-sm-12 col-md-6  mt-2">
+        <div class="form-row">
+            <div class="col">
+                <input type="text" class="form-control w-100" aria-describedby="AlbumId" id="AlbumId">
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-info w-100" id="postToPage">Post to page</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 mt-2 mt-sm-2 mt-md-2">
         <div class="accordion" id="OutputAccordion">
             <div class="card">
                 <div class="card-header" id="headingOne">
@@ -30,6 +53,19 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+</div>
+<div class="row mt-2">
+    <div class="col-12 col-sm-12 col-md-3">
+        <button onclick="getAlbumsFB()" class="btn btn-info d-block w-100 mt-2">Get Albums</button>
+        <button onclick="setCronFB()" class="btn btn-info d-block w-100 mt-2">Reset cron</button>
+        <button onclick="getCronFB()" class="btn btn-info d-block w-100 mt-2">Get cron</button>
+    </div>
+    <div class="col-12 col-sm-12 col-md-9">
+        <div id="info-box">
+
         </div>
     </div>
 </div>
@@ -50,6 +86,9 @@
     }));
     $("#addToPosting").on("click", function (){
         insertOutputProduct();
+    })
+    $("#postToPage").on("click", function (){
+        batchPost();
     })
     document.addEventListener('FB_a_insert_success', function (e) {
         input.setAttribute("class", "form-control is-valid");

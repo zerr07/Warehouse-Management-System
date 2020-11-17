@@ -1,4 +1,9 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Max-Age: 1000");
+header("Access-Control-Allow-Headers: X-Requested-With, Content-Type, Origin, Cache-Control, Pragma, Authorization, Accept, Accept-Encoding");
+header("Access-Control-Allow-Methods: PUT, POST, GET, OPTIONS, DELETE");
 include($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
 if (!defined('PRODUCTS_INCLUDED')){
     include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
@@ -22,8 +27,11 @@ function getOutputProducts(){
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"SELECT *, (SELECT id FROM {*products*} WHERE tag={*FB_output*}.tag) as id FROM {*FB_output*}"));
     $arr = array();
     while ($row = $q->fetch_assoc()){
-
-        array_push($arr, array("tag"=>$row['tag'], "quantity"=>get_quantity_sum($row['id'])));
+        $image = get_main_image_live($row['id']);
+        if (is_null($image)){
+            $image = get_main_image($row['id']);
+        }
+        array_push($arr, array("tag"=>$row['tag'], "quantity"=>get_quantity_sum($row['id']), "image"=>$image));
     }
     $arr = array("tags"=>$arr);
     return json_encode($arr);
