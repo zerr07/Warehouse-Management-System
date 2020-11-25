@@ -1,3 +1,5 @@
+let quantityClicked = false;
+let basePriceClicked = false;
 function displayCart(index) {
 
     let cart = getCartArray();
@@ -117,8 +119,8 @@ function displayCart(index) {
             locHidden +
             "<div class='p-0 col-3 col-sm-3 col-md-2 col-xl-2 m-auto d-flex justify-content-start'>" + tag + "</div>" +
             "<div class='p-0 col-3 col-sm-3 col-md-5 col-xl-4 m-auto d-flex justify-content-center'>"+name + quantityInput+"<input type='text' class='form-control' id='price"+counter+"' onchange='sum()' name='price[]' value='"+cart[key]['basePrice']+"' placeholder='Price' hidden></div>" +
-            "<div class='p-0 d-none d-xl-flex col-xl-1 m-auto justify-content-center'><span id='quantityXL"+counter+"'>"+cart[key]['quantity']+"</span>" + "<span> "+a +" pcs</span></div>" +
-            "<div class='p-0 d-none d-xl-flex col-xl-1 m-auto justify-content-center'><span id='basePriceXL"+counter+"'>"+cart[key]['basePrice']+"</span></div>" +
+            "<div class='p-0 d-none d-xl-flex col-xl-1 m-auto justify-content-center' onclick='triggerQuantityClick()'><span id='quantityXL"+counter+"'>"+cart[key]['quantity']+"</span>" + "<span> "+a +" pcs</span></div>" +
+            "<div class='p-0 d-none d-xl-flex col-xl-1 m-auto justify-content-center' onclick='triggerBasePriceClick()'><span id='basePriceXL"+counter+"'>"+cart[key]['basePrice']+"</span></div>" +
             "<div class='p-0 d-none d-xl-flex col-xl-2 m-auto justify-content-center'><span id='locXL"+counter+"'></span></div>" +
             "<div class='p-0 col-3 col-sm-3 col-md-2 col-xl-1 m-auto d-flex justify-content-center'>Total : <div id='totalPrice"+counter+"'>"+cart[key]['price']+"</div></div>" +
             "<div class='p-0 col-1 col-sm-1 col-md-1 col-xl-1 m-auto d-flex justify-content-end'>" +
@@ -167,14 +169,27 @@ function displayCart(index) {
         label3.innerText = "Location";
         div.appendChild(label3);
         div.appendChild(child);
-
-        $("#"+key).popover({
+        let popover = $("#"+key);
+        popover.popover({
             html : true,
             title: 'Controls',
             content: div,
             placement: 'left'
         })
+        popover.on('shown.bs.popover', function () {
+            if (quantityClicked){
+                document.querySelector(".popover input[id^=popQuantity]").focus();
+                quantityClicked = false;
+            } else if (basePriceClicked){
+                document.querySelector(".popover input[id^=popPrice]").focus();
+                basePriceClicked = false;
+            }
+        })
+        popover.on('show.bs.popover', function () {
+            console.log("ad");
+            $(".popover").not($("#"+key)).popover('hide');
 
+        })
         counter++;
     }
 }
@@ -207,4 +222,12 @@ function getCartArray() {
         async: false,
         url: "/cp/POS/getCartJson.php"
     });
+}
+
+
+function triggerQuantityClick(){
+    quantityClicked = true;
+}
+function triggerBasePriceClick(){
+    basePriceClicked = true;
 }
