@@ -14,6 +14,9 @@ if (!defined('_DB')){
 if (!defined('_DB_EXPORT')){
     define("_DB_EXPORT", SETTINGS['database_export']);
 }
+if (!defined('_DB_AUC')){
+    define("_DB_AUC", SETTINGS['database_auctions']);
+}
 if (!defined('_SYSTEM')){
     define("_SYSTEM", json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"].'/configs/sys.json'), true)['system']);
 }
@@ -34,7 +37,12 @@ $BIGCONN = new MySQLi(
     _DB_EXPORT['dbpass'],
     _DB_EXPORT['dbname']);
 $BIGCONN->query("SET NAMES utf8");
-
+$FBCONN = new MySQLi(
+    _DB_AUC['dbhost'],
+    _DB_AUC['dbuser'],
+    _DB_AUC['dbpass'],
+    _DB_AUC['dbname']);
+$FBCONN->query("SET NAMES utf8");
 require_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/shards.php');
 
 if (!isset($_COOKIE['shard'])){

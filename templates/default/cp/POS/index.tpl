@@ -52,7 +52,7 @@
     </div>
 </div>
 <script src="/templates/default/assets/js/cart.js?t=16102020T165705"></script>
-<script src="/cp/POS/displayCartPOS.js?t=20102020T132023"></script>
+<script src="/cp/POS/displayCartPOS.js?t=20201117T170216"></script>
 
 <script src="/cp/POS/updateCart.js?t=20102020T145725"></script>
 <script>

@@ -36,7 +36,15 @@ function getOutputProducts(){
     $arr = array("tags"=>$arr);
     return json_encode($arr);
 }
-
+function getFinishedAuctions(){
+    $q = $GLOBALS['FBCONN']->query(prefixQuery(/** @lang */"SELECT * FROM {*auction_winners*}"));
+    $arr = array();
+    while ($row = $q->fetch_assoc()){
+        array_push($arr, array("id"=>$row['id'], "PhotoID"=>$row['PhotoID'], "CommentID"=>$row['CommentID']));
+    }
+    $arr = array("auctions"=>$arr);
+    return json_encode($arr);
+}
 function deleteOutputProduct($tag){
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"DELETE FROM {*FB_output*} WHERE tag='$tag'"));
 }
@@ -45,6 +53,9 @@ if (isset($_GET['insert'])){
 }
 if (isset($_GET['get'])){
     echo getOutputProducts();
+}
+if (isset($_GET['getAuctions'])){
+    echo getFinishedAuctions();
 }
 if (isset($_GET['delete'])){
     deleteOutputProduct($_GET['delete']);

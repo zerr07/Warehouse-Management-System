@@ -4,7 +4,8 @@ let eventInsertEmpty = document.createEvent('Event');
 eventInsertEmpty.initEvent('FB_a_insert_empty', true, true);
 let eventInsertUsed = document.createEvent('Event');
 eventInsertUsed.initEvent('FB_a_insert_used', true, true);
-let domain = "http://localhost:8080";
+let domain = "http://95.217.217.222:8080";
+//let domain = "http://localhost:8080";
 function getProductsToDataList(){
 
     fetch("/api/FB/getProductsJson.php?username=aztrade&password=Zajev123")
@@ -77,7 +78,7 @@ function getOutputProduct(){
                 document.getElementById("OutputProducts").appendChild(div);
                 div.innerHTML +=
                     "<div class='col-4'> " +
-                    "<button type='button' class='btn btn-link' onclick='loadAuctionCharts(\""+element.tag+"\")'><i class='fas fa-ad'></i> View auction charts</button>" +
+                    "<button type='button' class='btn btn-link' onclick='loadAuctionCharts(\""+element.tag+"\")' disabled><i class='fas fa-ad'></i> View auction charts</button>" +
                     "<div id='auction_charts'></div>" +
                     "</div>"+
                     "<div class='col-2'> " +
@@ -104,11 +105,15 @@ function batchPost(){
             count = 0;
             setPhotoProgress(count);
             setScheduleProgress(count);
+
             incrementor = 100/d.tags.length;
             for (const element of d.tags){
                 count += incrementor;
                 await postPhotoToFB(v, element.image, element.tag+" Auction");
             }
+        })
+        .finally(function () {
+            document.getElementById("postToPage").disabled = false;
         });
 }
 function sleep(ms) {
@@ -230,4 +235,17 @@ function getCommentDetails(CommentID){
                 alert("Error, unknown ID or not permitted by the API.")
             }
         });
+}
+
+async function getServerStatus() {
+    try {
+        await getServerStatusFetch();
+        document.getElementById("info-box").innerHTML = "Status: UP";
+    } catch (e) {
+        document.getElementById("info-box").innerHTML = "Status: DOWN";
+    }
+
+}
+async function getServerStatusFetch() {
+    return fetch(domain+"/getServerStatus");
 }
