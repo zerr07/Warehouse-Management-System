@@ -97,16 +97,19 @@ function scrollFunction() {
 }
 
 $(window).on('load', function () {
-    if (getCookie("darkTheme") === "true"){
-        toggleTheme("dark-mode/main.css");
-        document.getElementById("dark-modeTheme").selected = true;
-    } else if (getCookie("standardTheme") === "true"){
-        toggleTheme("standard/main.css");
-        document.getElementById("standardTheme").selected = true;
-    } else if (getCookie("defaultTheme") === "true"){
-        toggleTheme("default/bootstrap.min.css");
-        document.getElementById("defaultTheme").selected = true;
+    if (getCookie("user_id") !== ""){
+        if (getCookie("darkTheme") === "true"){
+            toggleTheme("dark-mode/main.css");
+            document.getElementById("dark-modeTheme").selected = true;
+        } else if (getCookie("standardTheme") === "true"){
+            toggleTheme("standard/main.css");
+            document.getElementById("standardTheme").selected = true;
+        } else if (getCookie("defaultTheme") === "true"){
+            toggleTheme("default/bootstrap.min.css");
+            document.getElementById("defaultTheme").selected = true;
+        }
     }
+
     turnOffPreloader();
 });
 function isCSSLinkLoaded(link) {
