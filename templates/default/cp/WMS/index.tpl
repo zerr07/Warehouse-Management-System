@@ -37,19 +37,19 @@
                     <div class="col-sm-12 col-md-4 col-lg-3 text-center mt-2">
                         <label class="d-inline-flex">
                             <input type="radio" class="only" name="only" value="Full" {if $onlyFilter == "Full"}checked{/if}>
-                            <img width="32px" height="32px" src="/templates/default/assets/p-GREEN.svg" data-toggle="tooltip" data-placement="top" title="Only green">
+                            <img width="32px" height="32px" src="/templates/default/assets/icons/p-GREEN.svg" data-toggle="tooltip" data-placement="top" title="Only green">
                         </label>
                         <label class="d-inline-flex">
                             <input type="radio" class="only" name="only" value="Partly" {if $onlyFilter == "Partly"}checked{/if}>
-                            <img width="32px" height="32px" src="/templates/default/assets/p-YELLOW.svg" data-toggle="tooltip" data-placement="top" title="Only yellow">
+                            <img width="32px" height="32px" src="/templates/default/assets/icons/p-YELLOW.svg" data-toggle="tooltip" data-placement="top" title="Only yellow">
                         </label>
                         <label class="d-inline-flex">
                             <input type="radio" class="only" name="only" value="No" {if $onlyFilter == "No"}checked{/if}>
-                            <img width="32px" height="32px" src="/templates/default/assets/p-RED.svg" data-toggle="tooltip" data-placement="top" title="Only red">
+                            <img width="32px" height="32px" src="/templates/default/assets/icons/p-RED.svg" data-toggle="tooltip" data-placement="top" title="Only red">
                         </label>
                         <label class="d-inline-flex">
                             <input type="radio" class="only" name="only" value="NoFilter" {if $onlyFilter == "NoFilter" || $onlyfilter === ""}checked{/if}>
-                            <img width="32px" height="32px" src="/templates/default/assets/p-WHITE.svg" data-toggle="tooltip" data-placement="top" title="No filter">
+                            <img width="32px" height="32px" src="/templates/default/assets/icons/p-WHITE.svg" data-toggle="tooltip" data-placement="top" title="No filter">
                         </label>
                     </div>
                     <div class="col-md-12 col-lg-3 mt-2 ">
