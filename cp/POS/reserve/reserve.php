@@ -1,3 +1,4 @@
+
 <?php
 include_once($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 if (!defined('PRODUCTS_INCLUDED')){
@@ -10,11 +11,15 @@ include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/session.php');
 
 function reserveCart($note, $cart){
     $type = $_GET['type'];
+
     mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*reserved*} (`comment`, `id_type`) 
                                                                                                 VALUES ('$note', '$type')"));
     $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT MAX(id) as id FROM {*reserved*}"));
     while($row = mysqli_fetch_assoc($q)){
         $id = $row['id'];
+        if ($type == "1"){
+            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"INSERT INTO {*shipment_status*} (id_status, id_shipment) VALUES ('1', '$id')"));
+        }
         foreach ($cart as $key => $value){
 
                 $quantity = $value['quantity'];
