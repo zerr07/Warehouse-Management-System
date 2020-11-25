@@ -19,7 +19,8 @@
                 <p class="mb-0">© <span id="hr">2018-2020</span> AZdev. All rights reserved. Version:
                     <a data-toggle="tooltip" data-placement="top" data-html="true" title="<pre class='text-left'>{literal}ฅ^•ﻌ•^ฅ
 #cats{/literal}</pre>"
-                       href="/changelog">{$system.version}</a>
+                       href="/changelog">{$system.version}</a> /
+                    <a href="/privacy">ToS</a>
                 </p>
             </div>
         </div>
