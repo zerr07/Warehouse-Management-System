@@ -491,3 +491,8 @@ div.preview > ol {
     width: auto;
     height: auto;
 }
+.POS-btn {
+    max-width: 100%;
+    background-color: blanchedalmond;
+    border-radius: 25px;
+}
