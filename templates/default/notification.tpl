@@ -1,7 +1,7 @@
 <div role="alert" id="customToast" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false" style="max-width: 500px !important;">
     <div class="toast-header">
         <strong class="mr-auto">WMS</strong>
-        <small id="publishedTime">17<sup>th</sup> of November 2020</small>
+        <small id="publishedTime">12<sup>th</sup> of November 2020</small>
         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" style="color: black;">
             <span aria-hidden="true">&times;</span>
         </button>

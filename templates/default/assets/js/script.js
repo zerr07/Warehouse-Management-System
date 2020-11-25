@@ -146,3 +146,7 @@ function toggleTheme(theme){
 function round2D(i){
     return Math.round(parseFloat(i) * 100) / 100;
 }
+function goToUrl(url){
+    console.log("Redirecting to : " + url);
+    window.location.href = url;
+}
