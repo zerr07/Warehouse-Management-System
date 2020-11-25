@@ -47,7 +47,7 @@
                         <a href="/cp/POS/reserve" class="btn btn-info w-100"  style="margin-top: 10px; display: block;">Reserved carts</a>
                     </div>*}
                     <div class="col-12 col-sm-12 col-md-12 col-lg-3  form-group">
-                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#saleModal" style=" height: 5em; margin-top: 10px; display: block;">Perform sale</button>
+                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#saleModal" style=" height: 5em; margin-top: 10px; display: block;" id="performSale">Perform sale</button>
                         <select class="custom-select mr-sm-2" id="modeSelect" name="mode"
                                 style="height:42px;margin-top: 10px; display: block;
                                             background: #009ac0; border-color: #009ac0;color: white;">

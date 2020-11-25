@@ -78,25 +78,32 @@ function displayCart(index) {
         let locHidden = "";
         if (cart[key]['loc'] !== null || cart[key]['loc'] !== ""){
             if (cart[key]['tag'] !== "Buffertoode") {
-                let def_loc = cart[key]['loc']['selected'].toString();
-                locHidden += "<select class=\"custom-select\" id='loc_select"+key+"' name='loc_select["+key+"]' hidden>";
-                for (var place in cart[key]['loc']['locationList']) {
-                    if (!isNaN(def_loc) || def_loc !== null){
-                        if (place === def_loc){
-                            locHidden += "<option value='"+place+"' selected>";
+                if (cart[key]['loc']['selected']){
+                    let def_loc = cart[key]['loc']['selected'].toString();
+                    locHidden += "<select class=\"custom-select\" id='loc_select"+key+"' name='loc_select["+key+"]' hidden>";
+                    for (var place in cart[key]['loc']['locationList']) {
+                        if (!isNaN(def_loc) || def_loc !== null){
+                            if (place === def_loc){
+                                locHidden += "<option value='"+place+"' selected>";
+                            } else {
+                                locHidden += "<option value='"+place+"'>";
+                            }
+
                         } else {
                             locHidden += "<option value='"+place+"'>";
                         }
-
-                    } else {
-                        locHidden += "<option value='"+place+"'>";
+                        locHidden += cart[key]['loc']['locationList'][place]['type_name'].toString() + " : "
+                            +cart[key]['loc']['locationList'][place]['location'].toString() + " : "
+                            +cart[key]['loc']['locationList'][place]['quantity'].toString()
+                            +"</option>"
                     }
-                    locHidden += cart[key]['loc']['locationList'][place]['type_name'].toString() + " : "
-                        +cart[key]['loc']['locationList'][place]['location'].toString() + " : "
-                        +cart[key]['loc']['locationList'][place]['quantity'].toString()
-                        +"</option>"
+                    locHidden += "</select>";
+                } else {
+                    alert("Unable to load location for "+cart[key]['tag']+". Fix error and reload page. Skipping.");
+                    document.getElementById("performSale").disabled = true;
+                    continue;
                 }
-                locHidden += "</select>";
+
             }
         }
 

@@ -17,7 +17,7 @@ function reserveCart($note, $cart){
     $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT MAX(id) as id FROM {*reserved*}"));
     while($row = mysqli_fetch_assoc($q)){
         $id = $row['id'];
-        if ($type == "1"){
+        if ($type == "2" || $type == 2){
             $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"INSERT INTO {*shipment_status*} (id_status, id_shipment) VALUES ('1', '$id')"));
         }
         foreach ($cart as $key => $value){
@@ -51,25 +51,26 @@ function getReservedCartsSearch($type){
     $qr1 = array();
     $qr2 = array();
     $str = "";
-    if (isset($_GET['statusSearch'])){
+    if (isset($_GET['statusSearch']) && $_GET['statusSearch'] != ""){
         foreach ($_GET['statusSearch'] as $value) {
             array_push($qr1, "(SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)='$value'");
         }
         $str .= "AND (".implode(" OR ", $qr1).")";
     }
-    if (isset($_GET['typeSearch'])){
+    if (isset($_GET['typeSearch']) && $_GET['typeSearch'] != ""){
         foreach ($_GET['typeSearch'] as $value){
             array_push($qr2, "(SELECT id_type FROM {*shipment_data*} WHERE id_shipment={*reserved*}.id)='$value'");
         }
         $str .= "AND (".implode(" OR ", $qr2).")";
     }
-    if (isset($_GET['searchIDorBarcode'])){
+    if (isset($_GET['searchIDorBarcode']) && $_GET['searchIDorBarcode'] != ""){
         $s = $_GET['searchIDorBarcode'];
         $str .= "AND ((SELECT barcode FROM {*shipment_data*} WHERE id_shipment={*reserved*}.id)='$s' OR {*reserved*}.id='$s')";
     }
 
 
     $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*reserved*} WHERE id_type='$type' AND (SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)!='6' $str ORDER BY date DESC"));
+    echo prefixQuery(/** @lang text */ "SELECT * FROM {*reserved*} WHERE id_type='$type' AND (SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)!='6' $str ORDER BY date DESC");
     while ($row = mysqli_fetch_assoc($q)){
         $id = $row['id'];
         $arr[$id] = readReservationResult($row);

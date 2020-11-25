@@ -18,6 +18,9 @@ if (isset($_GET['view'])){
 } elseif (isset($_GET['cancelFull'])){
     cancelReservationFull($_GET['cancelFull']);
     header("Location: /cp/POS/reserve/");
+} elseif (isset($_GET['cancelFullShip'])){
+    cancelReservationFull($_GET['cancelFullShip']);
+    header("Location: /cp/POS/shipping/");
 } elseif (isset($_GET['cancel']) && isset($_GET['prodCancel'])){
     cancelReservationProduct($_GET['cancel'], $_GET['prodCancel']);
     header("Location: /cp/POS/reserve/");

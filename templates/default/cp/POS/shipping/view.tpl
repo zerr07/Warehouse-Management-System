@@ -122,9 +122,10 @@
         fetch("/cp/POS/shipping/getShippingStatus.php?idJSON={$reservation.id}")
             .then(response => response.json())
             .then((d) => {
+                console.log(d)
                 if (d.id === "1" || d.id === "2"){
-                    document.getElementById("checkoutShipment").disabled = false;
-                    document.getElementById("markAsShipped").disabled = false;
+                    document.getElementById("checkoutShipment").disabled = true;
+                    document.getElementById("markAsShipped").disabled = true;
                     document.querySelectorAll(".cancelShipping").forEach(a => {
                         a.disabled = false;
                     });

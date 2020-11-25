@@ -111,6 +111,8 @@
                                 if (d.hasOwnProperty("data")){
                                     document.getElementById("SmartPostNameInput").value = d.data.name;
                                     document.getElementById("SmartPostPhoneInput").value = d.data.phone;
+                                    document.getElementById("SmartPost_email").value = d.data.email;
+
                                     document.getElementById("SmartPostDelivNrInput").value = d.data.deliveryNr;
                                     document.getElementById("SmartPostTerminalInput").value = document.querySelector("datalist > option[data-id='"+d.data.terminal+"']").value;
                                     document.querySelector("input[name='Smartpost_type'][value='"+d.data.checked+"']").checked = true;

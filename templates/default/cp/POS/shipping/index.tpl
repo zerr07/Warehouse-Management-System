@@ -70,7 +70,7 @@
                         <i class="fas fa-link"></i>
                         Load in POS
                     </a>
-                    <a class="btn btn-outline-danger w-100" href="/cp/POS/reserve/index.php?cancelFull={$item.id}">
+                    <a class="btn btn-outline-danger w-100" href="/cp/POS/reserve/index.php?cancelFullShip={$item.id}">
                         <i class="fas fa-frown"></i>
                         Cancel
                     </a>
