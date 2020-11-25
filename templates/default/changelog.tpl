@@ -3,6 +3,32 @@
             <div class="accordion text-left mt-4" id="accordion">
 
                 <div class="card">
+                    <div class="card-header" id="heading080">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse080" aria-expanded="false" aria-controls="collapse080">
+                                Version 0.8.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse080" class="collapse" aria-labelledby="heading080" data-parent="#accordion">
+                        <div class="card-body">
+                            Shipping type implemented.<br/>
+                            Reservation -> Shipping conversation function added.<br/>
+                            POS buttons changed to icons as there are too many of them now<br/>
+                            Added focus on input on click in POS.<br/>
+                            Some libraries saved as local<br/>
+                            FB auctions controller added<br/>
+                            Privacy statement added.<br/>
+                            Product name output added to auctions statistics.<br/>
+                            Fixed error of system trying to load config on not authorised user.<br/>
+                            <pre>ᕙ(⇀‸↼‶)ᕗ #angry</pre>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
                     <div class="card-header" id="heading073">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"

@@ -1,7 +1,7 @@
-<div role="alert" id="customToast" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false" style="max-width: 500px !important;">
+<div role="alert" id="customToast" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false" style="max-width: 400px !important;">
     <div class="toast-header">
         <strong class="mr-auto">WMS</strong>
-        <small id="publishedTime">12<sup>th</sup> of November 2020</small>
+        <small id="publishedTime">25<sup>th</sup> of November 2020</small>
         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" style="color: black;">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -34,7 +34,7 @@
       |      /                                          \           |
       |_____/                                            \__________|
 </pre>*}
-        <img src="https://memezila.com/wp-content/First-rule-of-2021-Never-talk-about-2020-meme-7526.png" style="max-height: 300px; width: auto">
+        <img src="/templates/default/assets/zKfn6RbJemw-1.jpg" style="max-height: 300px; width: auto">
     </div>
 </div>
 <script>
