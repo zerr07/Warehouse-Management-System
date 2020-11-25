@@ -7,21 +7,27 @@
         {include file='cp/POS/reserve/reserveConfirmModal.tpl'}
         <div class="col-12">
             <div class="row">
-                <div class="col-6">
-                    <p>
-                        ID: {$reservation.id}<br>
-                        Date: {$reservation.date}<br>
-                        {$reservation.comment}
-                    </p>
+                <div class="col-12 col-sm-12 col-md-9 col-lg-10">
+                    <div class="row">
+                        <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">ID: </div>
+                        <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-11">{$reservation.id}</div>
+
+                        <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">Date: </div>
+                        <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-11">{$reservation.date}</div>
+
+                        <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">Type: </div>
+                        <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-11">{$reservation.type_name}</div>
+
+                        <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">Comment: </div>
+                        <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-11">{$reservation.comment}</div>
+                    </div>
                 </div>
-                <div class="col-6 d-flex justify-content-end">
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#invoiceModal">
+                <div class="col-12 col-sm-12 col-md-3 col-lg-2 d-flex justify-content-end">
+                    <button type="button" class="btn btn-info w-100 h-100" data-toggle="modal" data-target="#invoiceModal">
                         Print invoice
                     </button>
                 </div>
             </div>
-
-
         </div>
 
             {foreach $reservation.products as $prod}
@@ -66,23 +72,28 @@
 
             <div class="col-10 d-flex justify-content-start">
                 <div class="row w-100">
-                    <div class="col-12 col-md-12 col-lg-4 mt-3">
-                        <button type="button" class="btn btn-success w-100"
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-3 mt-3">
+                        <button type="button" class="btn btn-success w-100 h-100"
                                 onclick="confirmAll('{$reservation.id}')">
                             <i class="far fa-check-square"></i> Confirm All
                         </button>
                     </div>
-                    <div class="col-12 col-md-12 col-lg-4 mt-3">
-                        <button type="button" class="btn btn-primary w-100"
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-3 mt-3">
+                        <button type="button" class="btn btn-primary w-100 h-100"
                                 onclick="confirmSelected('{$reservation.id}')">
                             <i class="far fa-check-square"></i> Confirm selected
                         </button>
                     </div>
-                    <div class="col-12 col-md-12 col-lg-4 mt-3">
-                        <a class="btn btn-info w-100"
-                           href="/cp/POS/reserve/loadReservationInCart.php?id={$reservation.id}">
-                            <i class="far fa-check-square"></i> Load into POS
-                        </a>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-3 mt-3">
+                        <button type="button" class="btn btn-info w-100 h-100"
+                                onclick="window.location = '/cp/POS/reserve/loadReservationInCart.php?id={$reservation.id}'">
+                            <i class="fas fa-download"></i> Load into POS
+                        </button>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-3 mt-3">
+                        <button type="button" class="btn btn-info w-100 h-100" onclick="convertToShippling('{$reservation.id}')">
+                            <i class="fas fa-dolly"></i> Convert to shipping
+                        </button>
                     </div>
                 </div>
 
@@ -108,21 +119,21 @@
     $('#modalOTHER').hide();
     $("select#modeSelect").change(function(){
         var val = $(this).children("option:selected").val();
-        if (val == 'Bigshop'){
+        if (val === 'Bigshop'){
             $(this).css("background", "#009ac0");
             $(this).css("border-color", "#009ac0");
             $(this).css("color", "white");
             $('#modalSHOP').show();
             $('#modalOTHER').hide();
             document.getElementById('sale').disabled = true;
-        } else if (val == "Osta") {
+        } else if (val === "Osta") {
             $(this).css("background", "orange");
             $(this).css("border-color", "orange");
             $(this).css("color", "black");
             $('#modalSHOP').hide();
             $('#modalOTHER').show();
             document.getElementById('sale').disabled = false;
-        } else if (val == "Minuvalik") {
+        } else if (val === "Minuvalik") {
             $(this).css("background", "greenyellow");
             $(this).css("border-color", "greenyellow");
             $(this).css("color", "black");
@@ -130,7 +141,7 @@
             $('#modalOTHER').show();
             document.getElementById('sale').disabled = false;
 
-        } else if (val == "Shoppa") {
+        } else if (val === "Shoppa") {
             $(this).css("background", "coral");
             $(this).css("border-color", "coral");
             $(this).css("color", "black");
@@ -139,6 +150,13 @@
             document.getElementById('sale').disabled = false;
         }
     });
+    function convertToShippling(id){
+        fetch("/cp/POS/shipping/convert.php?id="+id)
+            .then(response => response.json())
+            .then((d) => {
+                console.log(d)
+            });
+    }
     function confirmProcess(id, price, basePrice, quantity, id_reservation, id_location) {
         let arr = {};
         arr[id] = {};

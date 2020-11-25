@@ -9,8 +9,9 @@ include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/session.php');
 
 
 function reserveCart($note, $cart){
-    mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*reserved*} (`comment`) 
-                                                                                                VALUES ('$note')"));
+    $type = $_GET['type'];
+    mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*reserved*} (`comment`, `id_type`) 
+                                                                                                VALUES ('$note', '$type')"));
     $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT MAX(id) as id FROM {*reserved*}"));
     while($row = mysqli_fetch_assoc($q)){
         $id = $row['id'];
@@ -40,9 +41,58 @@ function reserveCart($note, $cart){
     updateCart();
 }
 
-function getReservedCarts(){
+function getReservedCartsSearch($type){
     $arr = array(array());
-    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*reserved*} ORDER BY date DESC"));
+    $qr1 = array();
+    $qr2 = array();
+    $str = "";
+    if (isset($_GET['statusSearch'])){
+        foreach ($_GET['statusSearch'] as $value) {
+            array_push($qr1, "(SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)='$value'");
+        }
+        $str .= "AND (".implode(" OR ", $qr1).")";
+    }
+    if (isset($_GET['typeSearch'])){
+        foreach ($_GET['typeSearch'] as $value){
+            array_push($qr2, "(SELECT id_type FROM {*shipment_data*} WHERE id_shipment={*reserved*}.id)='$value'");
+        }
+        $str .= "AND (".implode(" OR ", $qr2).")";
+    }
+    if (isset($_GET['searchIDorBarcode'])){
+        $s = $_GET['searchIDorBarcode'];
+        $str .= "AND ((SELECT barcode FROM {*shipment_data*} WHERE id_shipment={*reserved*}.id)='$s' OR {*reserved*}.id='$s')";
+    }
+
+
+    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*reserved*} WHERE id_type='$type' AND (SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)!='6' $str ORDER BY date DESC"));
+    while ($row = mysqli_fetch_assoc($q)){
+        $id = $row['id'];
+        $arr[$id] = readReservationResult($row);
+    }
+    return array_filter($arr);
+}
+
+function getReservedCartsShipmentOnlyChecked($type){
+    $str = "";
+    if (isset($_GET['searchIDorBarcode'])){
+        $s = $_GET['searchIDorBarcode'];
+        $str .= "AND ((SELECT barcode FROM {*shipment_data*} WHERE id_shipment={*reserved*}.id)='$s' OR {*reserved*}.id='$s')";
+    }
+    $arr = array(array());
+    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*reserved*} WHERE id_type='$type' AND (SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)='6' $str ORDER BY date DESC"));
+    while ($row = mysqli_fetch_assoc($q)){
+        $id = $row['id'];
+        $arr[$id] = readReservationResult($row);
+    }
+    return array_filter($arr);
+}
+function getReservedCarts($type){
+    $arr = array(array());
+    $str = "";
+    if ($type == 2){
+        $str = " AND (SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)!='6'";
+    }
+    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*reserved*} WHERE id_type='$type' $str ORDER BY date DESC"));
     while ($row = mysqli_fetch_assoc($q)){
         $id = $row['id'];
         $arr[$id] = readReservationResult($row);
@@ -52,7 +102,8 @@ function getReservedCarts(){
 
 function getSingleCartReservation($id){
     $arr = array();
-    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*reserved*} WHERE id='$id'"));
+    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT *, 
+    (SELECT `name` FROM {*reservation_types*} WHERE id={*reserved*}.id_type) as type_name FROM {*reserved*} WHERE id='$id'"));
     while ($row = mysqli_fetch_assoc($q)){
         $arr = readReservationResult($row);
     }

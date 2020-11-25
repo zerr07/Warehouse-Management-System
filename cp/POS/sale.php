@@ -103,10 +103,25 @@ if(isset($_GET['tellimuseNr']) && $_GET['tellimuseNr'] != ""){
     $telli = "";
 }
 
+if (isset($_GET['shipmentID'])){
+    include_once($_SERVER["DOCUMENT_ROOT"].'/cp/POS/shipping/getShippingData.php');
 
-mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*sales*}
+    $ship = $_GET['shipmentID'];
+    mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*sales*}
+                                (cartSum, card, cash, arveNr, saleDate, ostja, modeSet, tellimuseNr, shipment_id) 
+                                VALUES ('$sum', '$card', '$cash', '$stamp','$mysqldate', '$ostja', '$mode', '$telli', '$ship')"));
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"SELECT * FROM {*shipment_status*} WHERE id_shipment='$ship' LIMIT 1"));
+    if ($q->num_rows !== 0){
+        updateStatus(6, $ship);
+    } else {
+        setStatus(6, $ship);
+    }
+} else {
+    mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*sales*}
                                 (cartSum, card, cash, arveNr, saleDate, ostja, modeSet, tellimuseNr) 
                                 VALUES ('$sum', '$card', '$cash', '$stamp','$mysqldate', '$ostja', '$mode', '$telli')"));
+}
+
 
 
 $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT MAX(id) as id FROM sales"));
@@ -234,24 +249,27 @@ if (!isset($_GET['reservation'])){
     unset($_SESSION['cartTotal']);
     updateCart();
 } else {
-    if (isset($_GET['cart'])){
-        foreach ($cartItems as $key => $value){
-            $id_res=$_GET['id_res'];
-            mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "DELETE FROM {*reserved_products*} WHERE id_product='$key' AND id_reserved='$id_res'"));
-            $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT COUNT(*) as count FROM 
+    if(!isset($_GET['shipment'])){
+        if (isset($_GET['cart'])){
+            foreach ($cartItems as $key => $value){
+                $id_res=$_GET['id_res'];
+                mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "DELETE FROM {*reserved_products*} WHERE id_product='$key' AND id_reserved='$id_res'"));
+                $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT COUNT(*) as count FROM 
                     {*reserved_products*} WHERE id_reserved='$id_res'"));
-            while ($row = mysqli_fetch_assoc($q)){
-                if ($row['count'] == 0){
-                    mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
-                        "DELETE FROM {*reserved*} WHERE id='$id_res'"));
+                while ($row = mysqli_fetch_assoc($q)){
+                    if ($row['count'] == 0){
+                        mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
+                            "DELETE FROM {*reserved*} WHERE id='$id_res'"));
+                    }
                 }
             }
+        } elseif ($_GET['id_cart']){
+            $id_res = $_GET['id_cart'];
+            mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "DELETE FROM {*reserved*} WHERE id='$id_res'"));
+            mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "DELETE FROM {*reserved_products*} WHERE id_reserved='$id_res'"));
         }
-    } elseif ($_GET['id_cart']){
-        $id_res = $_GET['id_cart'];
-        mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "DELETE FROM {*reserved*} WHERE id='$id_res'"));
-        mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "DELETE FROM {*reserved_products*} WHERE id_reserved='$id_res'"));
     }
+
 }
 ?>
 <script>

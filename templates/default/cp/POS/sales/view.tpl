@@ -31,6 +31,9 @@
                         {if isset($item.tellimuseNr) and $item.tellimuseNr != ""}
                             <br>Tellimuse Nr: {$item.tellimuseNr}
                         {/if}
+                        {if isset($item.shipment_id) and $item.shipment_id != ""}
+                            <br>Shipment id: <a href="/cp/POS/shipping/index.php?view={$item.shipment_id}">{$item.shipment_id}</a>
+                        {/if}
                     </p>
                 </div>
                 <div class="col-6 d-flex justify-content-end">
@@ -86,5 +89,4 @@
         {/foreach}
     </div>
 </div>
-
 {include file='footer.tpl'}

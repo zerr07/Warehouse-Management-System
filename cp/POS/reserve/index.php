@@ -22,6 +22,6 @@ if (isset($_GET['view'])){
     cancelReservationProduct($_GET['cancel'], $_GET['prodCancel']);
     header("Location: /cp/POS/reserve/");
 } else {
-    $smarty->assign("reservedList", getReservedCarts());
+    $smarty->assign("reservedList", getReservedCarts(1));
     $smarty->display('cp/POS/reserve/index.tpl');
 }

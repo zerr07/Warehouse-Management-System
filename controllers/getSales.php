@@ -40,6 +40,7 @@ for ($i = 0;$row = mysqli_fetch_assoc($q); $i++){
     $arr[$i]['tellimuseNr'] = $row['tellimuseNr'];
     $arr[$i]['mode'] = $row['modeSet'];
     $arr[$i]['tagastusFull'] = "";
+    $arr[$i]['shipment_id'] = $row['shipment_id'];
     $id = $row['id'];
     $countTagastus = 0;
     $countItems = 0;
