@@ -24,7 +24,16 @@ function getCart(){
         if ($cart != $row['cart']){
             $_SESSION['cart'] = json_decode(rawurldecode($row['cart']),true);
         }
-    }
+        if (isset($_SESSION['cart'])){
+            foreach ($_SESSION['cart'] as $k => $v)
+                if (empty($v['loc']['locations'])){
+                    $_SESSION['cart'][$k]['loc'] = get_locations($k);
+                    $_SESSION['cart'][$k]['loc']['selected'] =
+                        get_single_location_with_type($_COOKIE['default_location_type'], $_SESSION['cart'][$k]['loc']['locationList']);
+                }
+        }
+        }
+
     updateQuantity();
 }
 
