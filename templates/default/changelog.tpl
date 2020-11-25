@@ -2,6 +2,30 @@
 
             <div class="accordion text-left mt-4" id="accordion">
 
+
+                <div class="card">
+                    <div class="card-header" id="heading081">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse081" aria-expanded="false" aria-controls="collapse081">
+                                Version 0.8.1
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse081" class="collapse" aria-labelledby="heading081" data-parent="#accordion">
+                        <div class="card-body">
+                            Added cart reload if empty locations.<br/>
+                            Location data added to reservations and shipping.<br/>
+                            Fixed margin in POS.<br/>
+                            Fixed shipping invalid filtration algorithm.<br/>
+                            Fixed shipping invalid button disabled state.<br/>
+                            Fixed shipping invalid request handler.<br/>
+                            <pre>ᕙ(⇀‸↼‶)ᕗ #VERYangry *Grrrr*</pre>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="card">
                     <div class="card-header" id="heading080">
                         <h2 class="mb-0">
