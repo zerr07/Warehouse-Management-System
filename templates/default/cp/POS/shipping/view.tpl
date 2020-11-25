@@ -59,9 +59,10 @@
                     <div class="col-2 col-sm-2 col-lg-1 m-auto"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id_product}">{$prod.tag}</a>       </div>
                     <div class="col-8 col-sm-8 col-lg-3 m-auto text-truncate"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id_product}">{$prod.name.et}</a>   </div>
                 {/if}
-                <div class="col-6 col-sm-6 col-lg-2 m-auto d-flex justify-content-center">{$prod.quantity} pcs</div>
-                <div class="col-6 col-sm-6 col-lg-2 m-auto d-flex justify-content-center">{$prod.price} €</div>
-                <div class="col-12 col-sm-12 col-md-12 col-lg-3 m-auto">
+                <div class="col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center">{$prod.quantity} pcs</div>
+                <div class="col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center">{$prod.price} €</div>
+                <div class="col-4 col-sm-4 col-lg-1 m-auto d-flex justify-content-center text-truncate">{$prod.location}</div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-2 m-auto">
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-12">
                             <button type="button" class="btn btn-outline-danger w-100 cancelShipping" onclick="goToUrl('/cp/POS/reserve/index.php?cancel={$reservation.id}&prodCancel={$prod.id}')" disabled>
@@ -112,7 +113,6 @@
 <div id="inputs">
 </div>
 <script src="/templates/default/assets/js/cart.js?t=16102020T165728"></script>
-
 <script>
     $(window).on("load", function () {
         setShippingStatus();

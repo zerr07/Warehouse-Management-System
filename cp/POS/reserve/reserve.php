@@ -8,7 +8,11 @@ include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/updateQuantity.p
 include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/saveCart.php');
 include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/session.php');
 
-
+function get_location_data($id){
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT location, (SELECT `name` FROM {*location_type*} WHERE id={*product_locations*}.id_type) as `name` FROM {*product_locations*} WHERE id='$id'"));
+    $row = $q->fetch_assoc();
+    return $row['name']." | ".$row['location'];
+}
 function reserveCart($note, $cart){
     $type = $_GET['type'];
 
@@ -129,6 +133,8 @@ function readReservationResult($row){
         } else {
             $arr['products'][$row_products['id']]['tag'] = get_tag($row_products['id_product']);
             $arr['products'][$row_products['id']]['name'] = get_name($row_products['id_product']);
+            $arr['products'][$row_products['id']]['location'] =  get_location_data($row_products['id_location']);
+
         }
 
     }
