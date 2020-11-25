@@ -42,13 +42,13 @@
         document.getElementById("customToast").style.display = "none";
         let updName = "upd1";
         let upd = getCookie(updName);
-        if (upd === "false" || upd === ""){   // change true/false for new push notification
+        if (upd === "true" || upd === ""){   // change true/false for new push notification
             setTimeout(function () {
                 document.getElementById("customToast").style.display = "";
 
                 $('.toast').toast('show');
             }, 1000);
         }
-        setCookie(updName, "true", 365);      // change true/false for new push notification
+        setCookie(updName, "false", 365);      // change true/false for new push notification
     });
 </script>

@@ -13,7 +13,7 @@
   <meta name="keywords" content="">
   <!-- CSS dependencies -->
   <link rel="stylesheet" href="/templates/default/assets/css/default/bootstrap.min.css?t=16102020T165624" id="main-stylesheet">
-  <link rel="stylesheet" href="/templates/default/assets/css/style.css?t=20201112T150941">
+  <link rel="stylesheet" href="/templates/default/assets/css/style.css?t=20201125T125319">
   <link href="/templates/default/assets/css/sidebar.css?t=16102020T165621" rel="stylesheet">
   <script src="/templates/default/assets/js/jquery.min.js?t=16102020T165620"></script>
   <script src="/templates/default/assets/js/script.js?t=20201125T122336"></script>
