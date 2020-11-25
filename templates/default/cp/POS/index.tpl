@@ -1,6 +1,6 @@
 {include file='header.tpl'}
 <div class="row">
-    <div class="col-md-12" style="white-space: nowrap;">
+    <div class="col-md-12 mt-3" style="white-space: nowrap;">
         {if isset($success) and $success=='true'}
             <div class="alert alert-success" role="alert">
                 Sale performed!
