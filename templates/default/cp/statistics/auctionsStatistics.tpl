@@ -1,7 +1,15 @@
 {include file='header.tpl'}
 
+<!-- Load c3.css -->
+<script src="/templates/default/assets/js/d3.min.js?t=16102020T165340"></script>
+<script src="/templates/default/assets/js/c3.min.js?t=16102020T165341"></script>
+<link href="/templates/default/assets/css/c3.min.css?t=16102020T165344" rel="stylesheet" />
+
+<script src="/templates/default/assets/js/moment.js"></script>
+<script src="/templates/default/assets/js/auction_charts_init.js?d=20201112T103709"></script>
 
 <div class="row mt-4">
+    <div id="auction_charts"></div>
     <div class="col-12">
         <input type="text" name="dates" class="form-control" placeholder="Date range">
         <div class="jumbotron jumbotron-fluid">
@@ -48,14 +56,14 @@
     </div>
     <div class="col-12">
         <div class="accordion" id="accordionSKU">
-            {foreach $AuctionsSKU as $sku}
+            {foreach $AuctionsSKU as $sku => $value}
                 <div class="card">
                     <div class="card-header" id="heading{$sku}">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
                                     data-target="#collapse{$sku}" aria-expanded="true" aria-controls="collapse{$sku}"
                                     onclick="loadSKUdata('{$sku}', '{$between}')">
-                                <i class="fas fa-cat"></i> {$sku}
+                                <i class="fas fa-cat"></i> {$sku} - {$value}
                             </button>
                         </h2>
                     </div>
@@ -91,6 +99,9 @@
                                 <div class="col-6 col-sm-6 col-md-3">ROI:</div>
                                 <div class="col-6 col-sm-6 col-md-9" id="roi{$sku}"></div>
                             </div>
+                            <button type="button" class="btn btn-info" onclick="loadAuctionCharts('{$sku}')"
+                            ><i class="fas fa-ad"></i> View auction charts</button>
+
                         </div>
                     </div>
                 </div>

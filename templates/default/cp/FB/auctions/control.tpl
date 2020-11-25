@@ -17,7 +17,7 @@
 
         <div class="form-row">
             <div class="col" id="OutputProductForm">
-                <input type="text" class="form-control w-100" aria-describedby="Product tag" list="tags" id="OutputProductInput">
+                <input type="text" class="form-control w-100" aria-describedby="Product tag" list="tags" id="OutputProductInput" placeholder="Product tag">
                 <div class="" id="OutputProductFeedback"></div>
                 <datalist id="tags"></datalist>
             </div>
@@ -30,7 +30,7 @@
     <div class="col-12 col-sm-12 col-md-6  mt-2">
         <div class="form-row">
             <div class="col">
-                <input type="text" class="form-control w-100" aria-describedby="AlbumId" id="AlbumId">
+                <input type="text" class="form-control w-100" aria-describedby="AlbumId" id="AlbumId" placeholder="Album ID">
             </div>
             <div class="col">
                 <button type="button" class="btn btn-info w-100" id="postToPage">Post to page</button>
@@ -59,11 +59,12 @@
 </div>
 <div class="row mt-2">
     <div class="col-12 col-sm-12 col-md-3">
-        <button onclick="getAlbumsFB()" class="btn btn-info d-block w-100 mt-2">Get Albums</button>
+        <button onclick="getAlbumsFB()" class="btn btn-info d-block w-100 mt-2">Get albums</button>
         <button onclick="setCronFB()" class="btn btn-info d-block w-100 mt-2">Reset cron</button>
         <button onclick="getCronFB()" class="btn btn-info d-block w-100 mt-2">Get cron</button>
-        <button onclick="getUserByComment()" class="btn btn-info d-block w-100 mt-2">Get user ID by comment id</button>
-
+        <button onclick="getFinishedAuctions()" class="btn btn-info d-block w-100 mt-2">Get finished auctions</button>
+        <button onclick="getUserByComment()" class="btn btn-info d-block w-100 mt-2">Get user ID by comment ID</button>
+        <button onclick="getServerStatus()" class="btn btn-info d-block w-100 mt-2">Get server status</button>
     </div>
     <div class="col-12 col-sm-12 col-md-9">
         <div id="info-box">
@@ -71,13 +72,13 @@
         </div>
     </div>
 </div>
-<script src="/templates/default/assets/js/auction_charts_init.js?d=20201112T103709"></script>
+<script src="/templates/default/assets/js/auction_charts_init.js?d=20201117T170243"></script>
 <script src="/templates/default/assets/js/d3.min.js?t=16102020T165340"></script>
 <script src="/templates/default/assets/js/c3.min.js?t=16102020T165341"></script>
 <link href="/templates/default/assets/css/c3.min.css?t=16102020T165344" rel="stylesheet" />
 
 <script src="/templates/default/assets/js/moment.js"></script>
-<script src="/templates/default/assets/js/FB_auctions_controls.js?d=20201111T161317"></script>
+<script src="/templates/default/assets/js/FB_auctions_controls.js?d=20201120T122437"></script>
 <script>
     let feedback = document.getElementById("OutputProductFeedback");
     let input = document.getElementById("OutputProductInput");
@@ -90,13 +91,36 @@
         insertOutputProduct();
     })
     $("#postToPage").on("click", function (){
+        document.getElementById("postToPage").disabled = true;
         batchPost();
     })
+
     function getUserByComment(){
         let commentID = prompt("Enter comment ID: ");
         if (commentID){
             getCommentDetails(commentID);
         }
+    }
+    function getFinishedAuctions(){
+        document.getElementById("info-box").innerHTML = "";
+        fetch("/api/FB/outputProducts.php?username=aztrade&password=Zajev123&getAuctions")
+            .then(response => response.json())
+            .then((d) => {
+                d.auctions.forEach(auc => {
+                    document.getElementById("info-box").innerHTML += ""+
+                        "<div class='row'>" +
+                        "<div class='col-4'>" +
+                        "ID: " + auc['id'] +
+                        "</div> " +
+                        "<div class='col-4'>" +
+                        "PhotoID: " + auc['PhotoID'] +
+                        "</div> " +
+                        "<div class='col-4'>" +
+                        "CommentID: " + auc['CommentID'] +
+                        "</div> " +
+                        "</div><hr>";
+                });
+            });
     }
     document.addEventListener('FB_a_insert_success', function (e) {
         input.setAttribute("class", "form-control is-valid");
