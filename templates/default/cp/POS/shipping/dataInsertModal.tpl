@@ -107,7 +107,7 @@
                         fetch("/cp/POS/shipping/getShippingStatus.php?data_id={$reservation.id}")
                             .then(response => response.json())
                             .then((d) => {
-
+                                console.log(d);
                                 if (d.hasOwnProperty("data")){
                                     document.getElementById("SmartPostNameInput").value = d.data.name;
                                     document.getElementById("SmartPostPhoneInput").value = d.data.phone;
@@ -195,14 +195,14 @@
         });
         let commentInput    = document.getElementById("SmartPostCommentInput");
         let obj = {
-            name: nameInput.value,
-            phone: phoneInput.value,
-            deliveryNr: deliveryNrInput.value,
-            terminal: terminalID,
-            checked: checked,
-            email: emailInput.value,
-            comment: commentInput.value,
-            COD_Sum: COD_SUMInput.value
+            name: nameInput.value.replace("#", ''),
+            phone: phoneInput.value.replace("#", ''),
+            deliveryNr: deliveryNrInput.value.replace("#", ''),
+            terminal: terminalID.replace("#", ''),
+            checked: checked.replace("#", ''),
+            email: emailInput.value.replace("#", ''),
+            comment: commentInput.value.replace("#", ''),
+            COD_Sum: COD_SUMInput.value.replace("#", '')
         }
         let json = JSON.stringify(obj);
         console.log("/cp/POS/shipping/getShippingData.php?saveSmartPost={$reservation.id}&saveSmartPostData="+json)
