@@ -1,6 +1,6 @@
 {include file='header.tpl'}
-<script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
-<link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
+<script src="/templates/default/assets/js/print.min.js"></script>
+<link rel="stylesheet" href="/templates/default/assets/css/print.min.css">
 {include file='cp/POS/reserve/invoice.tpl'}
 <div class="row mt-3">
     <div class="col-md-12" >
@@ -156,7 +156,7 @@
         fetch("/cp/POS/shipping/convert.php?id="+id)
             .then(response => response.json())
             .then((d) => {
-                console.log(d)
+                window.location.href = "/cp/POS/shipping";
             });
     }
     function confirmProcess(id, price, basePrice, quantity, id_reservation, id_location) {
