@@ -57,10 +57,12 @@
       <span class="ml-2" id="sidebar_close_btn" style="cursor: pointer;top: 1rem;" onclick="openNav()"><i class="fas fa-bars"></i></span>
     {/if}
     <div class="col-auto">{include file="logo.tpl"}</div>
+    {if isset($user)}
     <div class="col-auto">
       <a href="/cp/POS/" class="d-none d-sm-none d-md-inline-flex d-lg-inline-flex d-xl-inline-flex">POS</a>
       <a href="/cp/POS/shipping/" class="d-none d-sm-none d-md-inline-flex d-lg-inline-flex d-xl-inline-flex ml-3">Shipments</a>
     </div>
+    {/if}
   </div>
   <hr style="top: 50px;
     position: absolute;

@@ -25,7 +25,7 @@ function getShippingStatus($id, $type){
 }
 
 function getShippingStatuses(){
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"SELECT * FROM {*shipment_status_types*}"));
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"SELECT * FROM {*shipment_status_types*}  ORDER by `order` ASC"));
     if ($q->num_rows == 0){
         return json_encode(array("status"=>"empty"));
     } else {
