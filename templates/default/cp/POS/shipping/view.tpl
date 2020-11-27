@@ -54,18 +54,18 @@
             <div class="row mt-3 border border-secondary p-1">
                 {if $prod.tag == "Buffertoode"}
                     <div class="col-2 col-sm-2 col-lg-1 m-auto"><a style="color: white;text-overflow: ellipsis; ">{$prod.tag}</a>    </div>
-                    <div class="col-9 col-sm-9 col-lg-4 m-auto text-truncate"><a style="color: white;text-overflow: ellipsis; ">{$prod.name}</a>   </div>
+                    <div class="col-8 col-sm-8 col-lg-3 m-auto text-truncate"><a style="color: white;text-overflow: ellipsis; ">{$prod.name}</a>   </div>
                 {else}
                     <div class="col-2 col-sm-2 col-lg-1 m-auto"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id_product}">{$prod.tag}</a>       </div>
                     <div class="col-8 col-sm-8 col-lg-3 m-auto text-truncate"><a style="color: white;text-overflow: ellipsis; " href="/cp/WMS/view/?view={$prod.id_product}">{$prod.name.et}</a>   </div>
                 {/if}
-                <div class="col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center">{$prod.quantity} pcs</div>
+                <div class="col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center"><span class="{if $prod.quantity > 1}highlight{/if}">{$prod.quantity} pcs</span></div>
                 <div class="col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center">{$prod.price} €</div>
                 <div class="col-4 col-sm-4 col-lg-1 m-auto d-flex justify-content-center text-truncate">{$prod.location}</div>
                 <div class="col-12 col-sm-12 col-md-12 col-lg-2 m-auto">
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-12">
-                            <button type="button" class="btn btn-outline-danger w-100 cancelShipping" onclick="goToUrl('/cp/POS/reserve/index.php?cancel={$reservation.id}&prodCancel={$prod.id}')" disabled>
+                            <button type="button" class="btn btn-outline-danger w-100 cancelShipping" onclick="goToUrl('/cp/POS/reserve/index.php?cancelShip={$reservation.id}&prodCancelShip={$prod.id}')" disabled>
                                 <i class="fas fa-frown"></i>
                                 Cancel item
                             </button>
@@ -119,6 +119,117 @@
     })
 
     function setShippingStatus(){
+        fetch("/cp/POS/shipping/getShippingStatus.php?type_idJSON={$reservation.id}")
+            .then(response => response.json())
+            .then((r) => {
+                fetch("/cp/POS/shipping/getShippingStatus.php?idJSON={$reservation.id}")
+                    .then(response => response.json())
+                    .then((d) => {
+                        if (r.hasOwnProperty("id") && r.id === "3") { // Others
+                            if (d.id === "1" || d.id === "2"){
+                                document.getElementById("checkoutShipment").disabled = true;
+                                document.getElementById("markAsShipped").disabled = true;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.disabled = false;
+                                });
+                            } else if (d.id === "7"){
+                                document.getElementById("markAsShipped").disabled = false;
+                                document.getElementById("checkoutShipment").disabled = true;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.parentNode.removeChild(a);
+                                });
+                            } else if (d.id === "5"){
+                                document.getElementById("markAsShipped").disabled = true;
+                                document.getElementById("checkoutShipment").disabled = false;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.parentNode.removeChild(a);
+                                });
+                            } else if (d.id === "6"){
+                                document.getElementById("markAsShipped").disabled = true;
+                                document.getElementById("checkoutShipment").disabled = true;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.parentNode.removeChild(a);
+                                });
+                            } else {
+                                document.getElementById("checkoutShipment").disabled = true;
+                                document.getElementById("markAsShipped").disabled = true;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.disabled = false;
+                                });
+                            }
+                        } else if (r.hasOwnProperty("id") && r.id === "2"){  // Venipak
+                            if (d.id === "1" || d.id === "2"){
+                                document.getElementById("checkoutShipment").disabled = true;
+                                document.getElementById("markAsShipped").disabled = true;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.disabled = false;
+                                });
+                            } else if (d.id === "7"){
+                                document.getElementById("markAsShipped").disabled = false;
+                                document.getElementById("checkoutShipment").disabled = true;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.parentNode.removeChild(a);
+                                });
+                            } else if (d.id === "5"){
+                                document.getElementById("markAsShipped").disabled = true;
+                                document.getElementById("checkoutShipment").disabled = false;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.parentNode.removeChild(a);
+                                });
+                            } else if (d.id === "6"){
+                                document.getElementById("markAsShipped").disabled = true;
+                                document.getElementById("checkoutShipment").disabled = true;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.parentNode.removeChild(a);
+                                });
+                            } else {
+                                document.getElementById("checkoutShipment").disabled = true;
+                                document.getElementById("markAsShipped").disabled = true;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.disabled = false;
+                                });
+                            }
+                        } else if (r.hasOwnProperty("id") && r.id === "1"){ // Smartpost
+                            if (d.id === "1" || d.id === "2"){
+                                document.getElementById("checkoutShipment").disabled = true;
+                                document.getElementById("markAsShipped").disabled = true;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.disabled = false;
+                                });
+                            } else if (d.id === "3" || d.id === "4"){
+                                document.getElementById("markAsShipped").disabled = false;
+                                document.getElementById("checkoutShipment").disabled = true;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.parentNode.removeChild(a);
+                                });
+                            } else if (d.id === "5"){
+                                document.getElementById("markAsShipped").disabled = true;
+                                document.getElementById("checkoutShipment").disabled = false;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.parentNode.removeChild(a);
+                                });
+                            } else if (d.id === "6"){
+                                document.getElementById("markAsShipped").disabled = true;
+                                document.getElementById("checkoutShipment").disabled = true;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.parentNode.removeChild(a);
+                                });
+                            } else {
+                                document.getElementById("checkoutShipment").disabled = true;
+                                document.getElementById("markAsShipped").disabled = true;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.disabled = false;
+                                });
+                            }
+                        } else {
+                            document.getElementById("checkoutShipment").disabled = true;
+                            document.getElementById("markAsShipped").disabled = true;
+                            document.querySelectorAll(".cancelShipping").forEach(a => {
+                                a.disabled = false;
+                            });
+                        }
+                    });
+            });
         fetch("/cp/POS/shipping/getShippingStatus.php?idJSON={$reservation.id}")
             .then(response => response.json())
             .then((d) => {
