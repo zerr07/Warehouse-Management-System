@@ -19,6 +19,23 @@ function get_product_pages($currentPage){
     return $pages;
 }
 
+function get_reservations_pages($currentPage, $type){
+    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT COUNT(*) as count FROM {*reserved*} WHERE id_type='$type'"));
+    $count = $result->fetch_assoc()['count'];
+    $count_pages = ceil($count/_ENGINE['onPage']);
+    $pages = array(array());
+    $first = $currentPage-5;
+    $last = $currentPage+5;
+    $pages['lastPage'] = $count_pages;
+    for ($i = 0; $first<=$last; $first++){
+        if ($first > 0 && $first <= $count_pages){
+            $pages['pages'][$i] = $first;
+            $i++;
+        }
+    }
+    return $pages;
+}
+
 function GETPageLinks($url){
     $parts = parse_url($url);
     parse_str($parts['query'], $query);

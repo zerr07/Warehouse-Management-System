@@ -99,6 +99,35 @@ function getReservedCartsShipmentOnlyChecked($type){
     }
     return array_filter($arr);
 }
+
+function getReservedCarts_range($page, $type){
+    $arr = array(array());
+    $onPage = _ENGINE['onPage'];
+    $start = $page*$onPage;
+    if ($type == 2){
+        $str = " AND (SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)!='6'";
+    }
+    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*reserved*} WHERE id_type='$type' $str ORDER BY date DESC LIMIT $start, $onPage"));
+    while ($row = mysqli_fetch_assoc($q)){
+        $id = $row['id'];
+        $arr[$id] = readReservationResult($row);
+    }
+    return array_filter($arr);
+}
+
+function getReservationsDatalist($type){
+    $arr = array(array());
+    $str = "";
+    if ($type == 2){
+        $str = " AND (SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)!='6'";
+    }
+    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT id, comment FROM {*reserved*} WHERE id_type='$type' $str"));
+    while ($row = mysqli_fetch_assoc($q)){
+        $arr[$row['id']] = $row['id']. " | ".$row['comment'];
+    }
+    return array_filter($arr);
+}
+
 function getReservedCarts($type){
     $arr = array(array());
     $str = "";

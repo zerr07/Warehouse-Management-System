@@ -5,6 +5,7 @@ include($_SERVER["DOCUMENT_ROOT"].'/configs/setup.php');
 include($_SERVER["DOCUMENT_ROOT"].'/controllers/session.php');
 include($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
 include($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/reserve/reserve.php';
+include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/pagination.php');
 
 if (isset($_GET['view'])){
     $arr = getSingleCartReservation($_GET['view']);
@@ -28,6 +29,18 @@ if (isset($_GET['view'])){
     cancelReservationProduct($_GET['cancelShip'], $_GET['prodCancelShip']);
     header("Location: /cp/POS/shipping/");
 }else {
-    $smarty->assign("reservedList", getReservedCarts(1));
+    if (isset($_GET['page'])) {
+        $pages = get_reservations_pages($_GET['page'], 1);
+        $arr = array_filter(getReservedCarts_range($_GET['page']-1, 1));
+        $smarty->assign("current_page", $_GET['page']);
+    } else {
+        $pages = get_reservations_pages(1, 1);
+        $arr = array_filter(getReservedCarts_range(0, 1));
+        $smarty->assign("current_page", 1);
+    }
+    $smarty->assign("reservationsDatalist", getReservationsDatalist(1));
+    $smarty->assign("pageBase" , GETPageLinks("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"));
+    $smarty->assign("pages" , $pages);
+    $smarty->assign("reservedList", $arr);
     $smarty->display('cp/POS/reserve/index.tpl');
 }
