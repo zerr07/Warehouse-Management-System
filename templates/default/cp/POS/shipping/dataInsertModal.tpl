@@ -9,7 +9,12 @@
                     <div class="col-7">
                         <select class="custom-select mr-sm-2" id="carrierSelect" onchange="loadCarrierForm(this.value)">
                             {foreach $shipping_types as $key => $value}
-                                <option value="{$key}">{$value.name}</option>
+                                {if $reservation.shipping_type != "empty"}
+                                    <option value="{$key}" {if $reservation.shipping_type  == $key}selected{else}disabled{/if}>{$value.name}</option>
+                                    {else}
+                                    <option value="{$key}">{$value.name}</option>
+                                {/if}
+
                             {/foreach}
 
                         </select>
@@ -324,15 +329,691 @@
             CODFeedback.innerText = "Please specify phone number!";
             return false;
         }
+        return true;
+    }
+    function checkVenipakFields(){
+        let nameInput       = document.getElementById("VenipakInputName");
+        //let addressInput      = document.getElementById("VenipakInputAddress");
+        //let postcodeInput = document.getElementById("VenipakInputPostcode");
+        //let houseNrInput   = document.getElementById("VenipakInputHouseNr");
+        //let barcodeInput        = document.getElementById("VenipakInputBarcode");
+
+        let nameFeedback        = document.getElementById("VenipakInputNameFeedback");
+        //let addressFeedback       = document.getElementById("VenipakInputAddressFeedback");
+        //let postcodeFeedback  = document.getElementById("VenipakInputPostcodeFeedback");
+        //let houseNrFeedback    = document.getElementById("VenipakInputHouseNrFeedback");
+        //let barcodeFeedback         = document.getElementById("VenipakInputBarcodeFeedback");
+
+
+        nameInput.setAttribute("class", "form-control");
+        nameFeedback.setAttribute("class", "");
+        nameFeedback.innerText = "";
+
+        try {
+            if (nameInput.value === ""){
+                throw "Name is empty";
+            }
+        } catch (err) {
+            nameInput.setAttribute("class", "form-control mt-3 is-invalid");
+            nameFeedback.setAttribute("class", "invalid-feedback");
+            nameFeedback.innerText = "Please specify clients name!";
+            return false;
+        }
 
         return true;
-
     }
     function loadVenipakForm(){
-        $("#dataInsertForm").html("Nothing here yet<pre>•ᴗ•</pre>");
+        let form = document.getElementById("dataInsertForm");
+        form.innerHTML = "";
+        let inputNameForm = document.createElement("input");
+
+        //---------------------------------------------------
+
+        inputNameForm.setAttribute("class", "form-control");
+        inputNameForm.setAttribute("type", "text");
+        inputNameForm.setAttribute("name" , "VenipakInputName");
+        inputNameForm.setAttribute("id" , "VenipakInputName");
+        inputNameForm.setAttribute("placeholder", "Name")
+
+        let labelNameForm = document.createElement("label");
+        labelNameForm.setAttribute("class", "mt-2");
+        labelNameForm.setAttribute("for", "VenipakInputName");
+        labelNameForm.innerText = "Name";
+
+        let checkNameForm = document.createElement("div");
+        checkNameForm.setAttribute("id", "VenipakInputNameFeedback");
+
+        form.appendChild(labelNameForm);
+        form.appendChild(inputNameForm);
+        form.appendChild(checkNameForm);
+
+        //---------------------------------------------------
+
+        let addressBlockDiv = document.createElement("div");
+        addressBlockDiv.setAttribute("class", "row");
+
+        let addressAddressDiv = document.createElement("div");
+        addressAddressDiv.setAttribute("class", "col-8");
+
+        let addressPostcodeDiv = document.createElement("div");
+        addressPostcodeDiv.setAttribute("class", "col-2");
+
+        let addressHouseNrDiv = document.createElement("div");
+        addressHouseNrDiv.setAttribute("class", "col-2");
+
+        addressBlockDiv.appendChild(addressAddressDiv);
+        addressBlockDiv.appendChild(addressPostcodeDiv);
+        addressBlockDiv.appendChild(addressHouseNrDiv);
+
+        form.appendChild(addressBlockDiv);
+
+        //---------------------------------------------------
+
+        let inputAddressForm = document.createElement("input");
+        inputAddressForm.setAttribute("class", "form-control");
+        inputAddressForm.setAttribute("type", "text");
+        inputAddressForm.setAttribute("name" , "VenipakInputAddress");
+        inputAddressForm.setAttribute("id" , "VenipakInputAddress");
+        inputAddressForm.setAttribute("placeholder", "Address")
+
+        let labelAddressForm = document.createElement("label");
+        labelAddressForm.setAttribute("class", "mt-2");
+        labelAddressForm.setAttribute("for", "VenipakInputAddress");
+        labelAddressForm.innerText = "Address";
+
+        let checkAddressForm = document.createElement("div");
+        checkAddressForm.setAttribute("id", "VenipakInputAddressFeedback");
+
+        addressAddressDiv.appendChild(labelAddressForm);
+        addressAddressDiv.appendChild(inputAddressForm);
+        addressAddressDiv.appendChild(checkAddressForm);
+
+        //---------------------------------------------------
+
+        let inputIndexForm = document.createElement("input");
+        inputIndexForm.setAttribute("class", "form-control");
+        inputIndexForm.setAttribute("type", "text");
+        inputIndexForm.setAttribute("name" , "VenipakInputPostcode");
+        inputIndexForm.setAttribute("id" , "VenipakInputPostcode");
+        inputIndexForm.setAttribute("placeholder", "Postcode")
+
+        let labelIndexForm = document.createElement("label");
+        labelIndexForm.setAttribute("class", "mt-2");
+        labelIndexForm.setAttribute("for", "VenipakInputPostcode");
+        labelIndexForm.innerText = "Postcode";
+
+        let checkIndexForm = document.createElement("div");
+        checkIndexForm.setAttribute("id", "VenipakInputPostcodeFeedback");
+
+        addressPostcodeDiv.appendChild(labelIndexForm);
+        addressPostcodeDiv.appendChild(inputIndexForm);
+        addressPostcodeDiv.appendChild(checkIndexForm);
+
+        //---------------------------------------------------
+
+        let inputHouseNrForm = document.createElement("input");
+        inputHouseNrForm.setAttribute("class", "form-control");
+        inputHouseNrForm.setAttribute("type", "text");
+        inputHouseNrForm.setAttribute("name" , "VenipakInputHouseNr");
+        inputHouseNrForm.setAttribute("id" , "VenipakInputHouseNr");
+        inputHouseNrForm.setAttribute("placeholder", "House nr")
+
+        let labelHouseNrForm = document.createElement("label");
+        labelHouseNrForm.setAttribute("class", "mt-2");
+        labelHouseNrForm.setAttribute("for", "VenipakInputHouseNr");
+        labelHouseNrForm.innerText = "House nr";
+
+        let checkHouseNrForm = document.createElement("div");
+        checkHouseNrForm.setAttribute("id", "VenipakInputHouseNrFeedback");
+
+        addressHouseNrDiv.appendChild(labelHouseNrForm);
+        addressHouseNrDiv.appendChild(inputHouseNrForm);
+        addressHouseNrDiv.appendChild(checkHouseNrForm);
+
+        //---------------------------------------------------
+
+        let inputBarcodeForm = document.createElement("input");
+        inputBarcodeForm.setAttribute("class", "form-control");
+        inputBarcodeForm.setAttribute("type", "text");
+        inputBarcodeForm.setAttribute("name" , "VenipakInputBarcode");
+        inputBarcodeForm.setAttribute("id" , "VenipakInputBarcode");
+        inputBarcodeForm.setAttribute("placeholder", "Barcode")
+
+        let labelBarcodeForm = document.createElement("label");
+        labelBarcodeForm.setAttribute("class", "mt-2");
+        labelBarcodeForm.setAttribute("for", "VenipakInputBarcode");
+        labelBarcodeForm.innerText = "Barcode";
+
+        let checkBarcodeForm = document.createElement("div");
+        checkBarcodeForm.setAttribute("id", "VenipakInputBarcodeFeedback");
+
+        form.appendChild(labelBarcodeForm);
+        form.appendChild(inputBarcodeForm);
+        form.appendChild(checkBarcodeForm);
+
+        //---------------------------------------------------
+
+        let inputEmailForm = document.createElement("input");
+        inputEmailForm.setAttribute("class", "form-control");
+        inputEmailForm.setAttribute("type", "text");
+        inputEmailForm.setAttribute("name" , "VenipakInputEmail");
+        inputEmailForm.setAttribute("id" , "VenipakInputEmail");
+        inputEmailForm.setAttribute("placeholder", "Email")
+
+        let labelEmailForm = document.createElement("label");
+        labelEmailForm.setAttribute("class", "mt-2");
+        labelEmailForm.setAttribute("for", "VenipakInputEmail");
+        labelEmailForm.innerText = "Email";
+
+        let checkEmailForm = document.createElement("div");
+        checkEmailForm.setAttribute("id", "VenipakInputEmailFeedback");
+
+        form.appendChild(labelEmailForm);
+        form.appendChild(inputEmailForm);
+        form.appendChild(checkEmailForm);
+
+        //---------------------------------------------------
+
+        let inputPhoneForm = document.createElement("input");
+        inputPhoneForm.setAttribute("class", "form-control");
+        inputPhoneForm.setAttribute("type", "text");
+        inputPhoneForm.setAttribute("name" , "VenipakInputPhone");
+        inputPhoneForm.setAttribute("id" , "VenipakInputPhone");
+        inputPhoneForm.setAttribute("placeholder", "Phone")
+
+        let labelPhoneForm = document.createElement("label");
+        labelPhoneForm.setAttribute("class", "mt-2");
+        labelPhoneForm.setAttribute("for", "VenipakInputPhone");
+        labelPhoneForm.innerText = "Phone";
+
+        let checkPhoneForm = document.createElement("div");
+        checkPhoneForm.setAttribute("id", "VenipakInputPhoneFeedback");
+
+        form.appendChild(labelPhoneForm);
+        form.appendChild(inputPhoneForm);
+        form.appendChild(checkPhoneForm);
+
+        //---------------------------------------------------
+
+        let fileInputDiv = document.createElement("div");
+        fileInputDiv.setAttribute("class", "custom-file mt-3");
+
+        let fileInputLabel = document.createElement("label");
+        fileInputLabel.setAttribute("class", "custom-file-label");
+        fileInputLabel.setAttribute("for", "VenipakFileInput");
+        fileInputLabel.innerText = "Choose file";
+
+        let fileInputForm = document.createElement("input");
+        fileInputForm.setAttribute("type", "file");
+        fileInputForm.setAttribute("class", "custom-file-input");
+        fileInputForm.setAttribute("id", "VenipakFileInput");
+        fileInputForm.setAttribute("accept", "application/pdf, application/vnd.ms-excel");
+
+        fileInputDiv.appendChild(fileInputLabel);
+        fileInputDiv.appendChild(fileInputForm);
+        form.appendChild(fileInputDiv);
+
+        //---------------------------------------------------
+
+        let submitBtn = document.createElement("button");
+        submitBtn.setAttribute("type", "button");
+        submitBtn.setAttribute("class", "btn btn-success mt-3");
+        submitBtn.setAttribute("id", "VenipakSaveData");
+        submitBtn.setAttribute("onclick", "submitVenipak()");
+        submitBtn.innerText = "Save";
+
+        let getPDFBtn = document.createElement("button");
+        getPDFBtn.setAttribute("type", "button");
+        getPDFBtn.setAttribute("class", "btn btn-success ml-3 mt-3");
+        getPDFBtn.setAttribute("id", "VenipakGetPDFBtn");
+        getPDFBtn.setAttribute("onclick", "getPDF(this)");
+        getPDFBtn.innerText = "Get PDF";
+        getPDFBtn.disabled = true;
+
+        form.appendChild(submitBtn);
+        form.appendChild(getPDFBtn);
+        //---------------------------------------------------
+
+        fetch("/cp/POS/shipping/getShippingStatus.php?type_idJSON={$reservation.id}")
+            .then(response => response.json())
+            .then((r) => {
+                if (r.hasOwnProperty("id") && r.id === "2"){
+                    fetch("/cp/POS/shipping/getShippingStatus.php?data_id={$reservation.id}")
+                        .then(response => response.json())
+                        .then((d) => {
+                            console.log(d);
+                            if (d.hasOwnProperty("data")){
+                                document.getElementById("VenipakInputName").value = d.data.name;
+                                document.getElementById("VenipakInputAddress").value = d.data.address;
+                                document.getElementById("VenipakInputPostcode").value = d.data.postcode;
+                                document.getElementById("VenipakInputHouseNr").value = d.data.housenr;
+                                document.getElementById("VenipakInputBarcode").value = d.data.barcode;
+                                document.getElementById("VenipakInputPhone").value = d.data.phone;
+                                document.getElementById("VenipakInputEmail").value = d.data.email;
+
+                            }
+                            if (d.hasOwnProperty("file")){
+                                if (d.file){
+                                    document.getElementById("VenipakGetPDFBtn").setAttribute("data-id", d.file);
+                                    document.getElementById("VenipakGetPDFBtn").disabled = false;
+                                }
+                            }
+
+                        });
+                }
+            });
+    }
+    async function submitVenipak(){
+        if (checkVenipakFields()){
+            let json = await formJSONVenipak();
+            if (document.getElementById("VenipakFileInput").files.length !== 0) {
+                const file = document.querySelector('#VenipakFileInput').files[0];
+                let res = await convertInputFileToBase64(file).catch(e => Error(e));
+                if (res instanceof Error) {
+                    console.log('Error: ', res.message);
+                    return;
+                }
+                console.log(JSON.stringify({
+                    file: res,
+                    saveVenipakFile: "{$reservation.id}"
+                }));
+                const requestOptions = {
+                    method: "POST",
+                    headers:  new Headers({
+                        'Content-Type': 'application/json'
+                    }),
+                    body: JSON.stringify({
+                        file: res,
+                        saveVenipakFile: "{$reservation.id}"
+                    })
+                };
+                fetch("/cp/POS/shipping/getShippingData.php?saveVenipak={$reservation.id}&saveVenipakData="+json).finally(function () {
+                    fetch("/cp/POS/shipping/getShippingData.php", requestOptions)
+                        .finally(function () {
+
+                            setShippingStatus();
+                            loadVenipakForm();
+                        });
+                });
+
+            } else {
+                fetch("/cp/POS/shipping/getShippingData.php?saveVenipak={$reservation.id}&saveVenipakData="+json).finally(function () {
+                    setShippingStatus();
+                    loadVenipakForm();
+                });
+            }
+
+
+        }
+    }
+
+    async function formJSONVenipak() {
+        let NameInput = document.getElementById("VenipakInputName");
+        let AddressInput = document.getElementById("VenipakInputAddress");
+        let PostcodeNrInput = document.getElementById("VenipakInputPostcode");
+        let HouseNrInput = document.getElementById("VenipakInputHouseNr");
+        let BarcodeInput = document.getElementById("VenipakInputBarcode");
+        let EmailInput = document.getElementById("VenipakInputEmail");
+        let PhoneInput = document.getElementById("VenipakInputPhone");
+        let obj = {
+            name: NameInput.value.replace("#", ''),
+            address: AddressInput.value.replace("#", ''),
+            postcode: PostcodeNrInput.value.replace("#", ''),
+            housenr: HouseNrInput.value.replace("#", ''),
+            barcode: BarcodeInput.value.replace("#", ''),
+            phone: PhoneInput.value.replace("#", ''),
+            email: EmailInput.value.replace("#", '')
+        }
+        let json = JSON.stringify(obj);
+        console.log("/cp/POS/shipping/getShippingData.php?saveVenipak={$reservation.id}&saveVenipakData=" + json)
+        return json;
+    }
+
+    function checkDefaultFields(){
+        let nameInput       = document.getElementById("DefaultInputName");
+        //let addressInput      = document.getElementById("DefaultInputAddress");
+        //let postcodeInput = document.getElementById("DefaultInputPostcode");
+        //let houseNrInput   = document.getElementById("DefaultInputHouseNr");
+        //let barcodeInput        = document.getElementById("DefaultInputBarcode");
+
+        let nameFeedback        = document.getElementById("DefaultInputNameFeedback");
+        //let addressFeedback       = document.getElementById("DefaultInputAddressFeedback");
+        //let postcodeFeedback  = document.getElementById("DefaultInputPostcodeFeedback");
+        //let houseNrFeedback    = document.getElementById("DefaultInputHouseNrFeedback");
+        //let barcodeFeedback         = document.getElementById("DefaultInputBarcodeFeedback");
+
+
+        nameInput.setAttribute("class", "form-control");
+        nameFeedback.setAttribute("class", "");
+        nameFeedback.innerText = "";
+
+        try {
+            if (nameInput.value === ""){
+                throw "Name is empty";
+            }
+        } catch (err) {
+            nameInput.setAttribute("class", "form-control mt-3 is-invalid");
+            nameFeedback.setAttribute("class", "invalid-feedback");
+            nameFeedback.innerText = "Please specify clients name!";
+            return false;
+        }
+
+        return true;
     }
     function loadDefaultForm(){
-        $("#dataInsertForm").html("Nothing here yet<pre>╰⋃╯ლ(´ڡ`ლ)</pre>");
+        let form = document.getElementById("dataInsertForm");
+        form.innerHTML = "";
+        let inputNameForm = document.createElement("input");
 
+        //---------------------------------------------------
+
+        inputNameForm.setAttribute("class", "form-control");
+        inputNameForm.setAttribute("type", "text");
+        inputNameForm.setAttribute("name" , "DefaultInputName");
+        inputNameForm.setAttribute("id" , "DefaultInputName");
+        inputNameForm.setAttribute("placeholder", "Name")
+
+        let labelNameForm = document.createElement("label");
+        labelNameForm.setAttribute("class", "mt-2");
+        labelNameForm.setAttribute("for", "DefaultInputName");
+        labelNameForm.innerText = "Name";
+
+        let checkNameForm = document.createElement("div");
+        checkNameForm.setAttribute("id", "DefaultInputNameFeedback");
+
+        form.appendChild(labelNameForm);
+        form.appendChild(inputNameForm);
+        form.appendChild(checkNameForm);
+
+        //---------------------------------------------------
+
+        let addressBlockDiv = document.createElement("div");
+        addressBlockDiv.setAttribute("class", "row");
+
+        let addressAddressDiv = document.createElement("div");
+        addressAddressDiv.setAttribute("class", "col-8");
+
+        let addressPostcodeDiv = document.createElement("div");
+        addressPostcodeDiv.setAttribute("class", "col-2");
+
+        let addressHouseNrDiv = document.createElement("div");
+        addressHouseNrDiv.setAttribute("class", "col-2");
+
+        addressBlockDiv.appendChild(addressAddressDiv);
+        addressBlockDiv.appendChild(addressPostcodeDiv);
+        addressBlockDiv.appendChild(addressHouseNrDiv);
+
+        form.appendChild(addressBlockDiv);
+
+        //---------------------------------------------------
+
+        let inputAddressForm = document.createElement("input");
+        inputAddressForm.setAttribute("class", "form-control");
+        inputAddressForm.setAttribute("type", "text");
+        inputAddressForm.setAttribute("name" , "DefaultInputAddress");
+        inputAddressForm.setAttribute("id" , "DefaultInputAddress");
+        inputAddressForm.setAttribute("placeholder", "Address")
+
+        let labelAddressForm = document.createElement("label");
+        labelAddressForm.setAttribute("class", "mt-2");
+        labelAddressForm.setAttribute("for", "DefaultInputAddress");
+        labelAddressForm.innerText = "Address";
+
+        let checkAddressForm = document.createElement("div");
+        checkAddressForm.setAttribute("id", "DefaultInputAddressFeedback");
+
+        addressAddressDiv.appendChild(labelAddressForm);
+        addressAddressDiv.appendChild(inputAddressForm);
+        addressAddressDiv.appendChild(checkAddressForm);
+
+        //---------------------------------------------------
+
+        let inputIndexForm = document.createElement("input");
+        inputIndexForm.setAttribute("class", "form-control");
+        inputIndexForm.setAttribute("type", "text");
+        inputIndexForm.setAttribute("name" , "DefaultInputPostcode");
+        inputIndexForm.setAttribute("id" , "DefaultInputPostcode");
+        inputIndexForm.setAttribute("placeholder", "Postcode")
+
+        let labelIndexForm = document.createElement("label");
+        labelIndexForm.setAttribute("class", "mt-2");
+        labelIndexForm.setAttribute("for", "DefaultInputPostcode");
+        labelIndexForm.innerText = "Postcode";
+
+        let checkIndexForm = document.createElement("div");
+        checkIndexForm.setAttribute("id", "DefaultInputPostcodeFeedback");
+
+        addressPostcodeDiv.appendChild(labelIndexForm);
+        addressPostcodeDiv.appendChild(inputIndexForm);
+        addressPostcodeDiv.appendChild(checkIndexForm);
+
+        //---------------------------------------------------
+
+        let inputHouseNrForm = document.createElement("input");
+        inputHouseNrForm.setAttribute("class", "form-control");
+        inputHouseNrForm.setAttribute("type", "text");
+        inputHouseNrForm.setAttribute("name" , "DefaultInputHouseNr");
+        inputHouseNrForm.setAttribute("id" , "DefaultInputHouseNr");
+        inputHouseNrForm.setAttribute("placeholder", "House nr")
+
+        let labelHouseNrForm = document.createElement("label");
+        labelHouseNrForm.setAttribute("class", "mt-2");
+        labelHouseNrForm.setAttribute("for", "DefaultInputHouseNr");
+        labelHouseNrForm.innerText = "House nr";
+
+        let checkHouseNrForm = document.createElement("div");
+        checkHouseNrForm.setAttribute("id", "DefaultInputHouseNrFeedback");
+
+        addressHouseNrDiv.appendChild(labelHouseNrForm);
+        addressHouseNrDiv.appendChild(inputHouseNrForm);
+        addressHouseNrDiv.appendChild(checkHouseNrForm);
+
+        //---------------------------------------------------
+
+        let inputBarcodeForm = document.createElement("input");
+        inputBarcodeForm.setAttribute("class", "form-control");
+        inputBarcodeForm.setAttribute("type", "text");
+        inputBarcodeForm.setAttribute("name" , "DefaultInputBarcode");
+        inputBarcodeForm.setAttribute("id" , "DefaultInputBarcode");
+        inputBarcodeForm.setAttribute("placeholder", "Barcode")
+
+        let labelBarcodeForm = document.createElement("label");
+        labelBarcodeForm.setAttribute("class", "mt-2");
+        labelBarcodeForm.setAttribute("for", "DefaultInputBarcode");
+        labelBarcodeForm.innerText = "Barcode";
+
+        let checkBarcodeForm = document.createElement("div");
+        checkBarcodeForm.setAttribute("id", "DefaultInputBarcodeFeedback");
+
+        form.appendChild(labelBarcodeForm);
+        form.appendChild(inputBarcodeForm);
+        form.appendChild(checkBarcodeForm);
+
+        //---------------------------------------------------
+
+        let inputEmailForm = document.createElement("input");
+        inputEmailForm.setAttribute("class", "form-control");
+        inputEmailForm.setAttribute("type", "text");
+        inputEmailForm.setAttribute("name" , "DefaultInputEmail");
+        inputEmailForm.setAttribute("id" , "DefaultInputEmail");
+        inputEmailForm.setAttribute("placeholder", "Email")
+
+        let labelEmailForm = document.createElement("label");
+        labelEmailForm.setAttribute("class", "mt-2");
+        labelEmailForm.setAttribute("for", "DefaultInputEmail");
+        labelEmailForm.innerText = "Email";
+
+        let checkEmailForm = document.createElement("div");
+        checkEmailForm.setAttribute("id", "DefaultInputEmailFeedback");
+
+        form.appendChild(labelEmailForm);
+        form.appendChild(inputEmailForm);
+        form.appendChild(checkEmailForm);
+
+        //---------------------------------------------------
+
+        let inputPhoneForm = document.createElement("input");
+        inputPhoneForm.setAttribute("class", "form-control");
+        inputPhoneForm.setAttribute("type", "text");
+        inputPhoneForm.setAttribute("name" , "DefaultInputPhone");
+        inputPhoneForm.setAttribute("id" , "DefaultInputPhone");
+        inputPhoneForm.setAttribute("placeholder", "Phone")
+
+        let labelPhoneForm = document.createElement("label");
+        labelPhoneForm.setAttribute("class", "mt-2");
+        labelPhoneForm.setAttribute("for", "DefaultInputPhone");
+        labelPhoneForm.innerText = "Phone";
+
+        let checkPhoneForm = document.createElement("div");
+        checkPhoneForm.setAttribute("id", "DefaultInputPhoneFeedback");
+
+        form.appendChild(labelPhoneForm);
+        form.appendChild(inputPhoneForm);
+        form.appendChild(checkPhoneForm);
+
+        //---------------------------------------------------
+
+        let fileInputDiv = document.createElement("div");
+        fileInputDiv.setAttribute("class", "custom-file mt-3");
+
+        let fileInputLabel = document.createElement("label");
+        fileInputLabel.setAttribute("class", "custom-file-label");
+        fileInputLabel.setAttribute("for", "DefaultFileInput");
+        fileInputLabel.innerText = "Choose file";
+
+        let fileInputForm = document.createElement("input");
+        fileInputForm.setAttribute("type", "file");
+        fileInputForm.setAttribute("class", "custom-file-input");
+        fileInputForm.setAttribute("id", "DefaultFileInput");
+        fileInputForm.setAttribute("accept", "application/pdf, application/vnd.ms-excel");
+
+        fileInputDiv.appendChild(fileInputLabel);
+        fileInputDiv.appendChild(fileInputForm);
+        form.appendChild(fileInputDiv);
+
+        //---------------------------------------------------
+
+        let submitBtn = document.createElement("button");
+        submitBtn.setAttribute("type", "button");
+        submitBtn.setAttribute("class", "btn btn-success mt-3");
+        submitBtn.setAttribute("id", "DefaultSaveData");
+        submitBtn.setAttribute("onclick", "submitDefault()");
+        submitBtn.innerText = "Save";
+
+        let getPDFBtn = document.createElement("button");
+        getPDFBtn.setAttribute("type", "button");
+        getPDFBtn.setAttribute("class", "btn btn-success ml-3 mt-3");
+        getPDFBtn.setAttribute("id", "DefaultGetPDFBtn");
+        getPDFBtn.setAttribute("onclick", "getPDF(this)");
+        getPDFBtn.innerText = "Get PDF";
+        getPDFBtn.disabled = true;
+
+        form.appendChild(submitBtn);
+        form.appendChild(getPDFBtn);
+        //---------------------------------------------------
+
+        fetch("/cp/POS/shipping/getShippingStatus.php?type_idJSON={$reservation.id}")
+            .then(response => response.json())
+            .then((r) => {
+                if (r.hasOwnProperty("id") && r.id === "3"){
+                    fetch("/cp/POS/shipping/getShippingStatus.php?data_id={$reservation.id}")
+                        .then(response => response.json())
+                        .then((d) => {
+                            console.log(d);
+                            if (d.hasOwnProperty("data")){
+                                document.getElementById("DefaultInputName").value = d.data.name;
+                                document.getElementById("DefaultInputAddress").value = d.data.address;
+                                document.getElementById("DefaultInputPostcode").value = d.data.postcode;
+                                document.getElementById("DefaultInputHouseNr").value = d.data.housenr;
+                                document.getElementById("DefaultInputBarcode").value = d.data.barcode;
+                                document.getElementById("DefaultInputPhone").value = d.data.phone;
+                                document.getElementById("DefaultInputEmail").value = d.data.email;
+
+                            }
+                            if (d.hasOwnProperty("file")){
+                                if (d.file){
+                                    document.getElementById("DefaultGetPDFBtn").setAttribute("data-id", d.file);
+                                    document.getElementById("DefaultGetPDFBtn").disabled = false;
+                                }
+                            }
+
+                        });
+                }
+            });
+    }
+    async function submitDefault(){
+        if (checkDefaultFields()){
+            let json = await formJSONDefault();
+            if (document.getElementById("DefaultFileInput").files.length !== 0) {
+                const file = document.querySelector('#DefaultFileInput').files[0];
+                let res = await convertInputFileToBase64(file).catch(e => Error(e));
+                if (res instanceof Error) {
+                    console.log('Error: ', res.message);
+                    return;
+                }
+                console.log(JSON.stringify({
+                    file: res,
+                    saveDefaultFile: "{$reservation.id}"
+                }));
+                const requestOptions = {
+                    method: "POST",
+                    headers:  new Headers({
+                        'Content-Type': 'application/json'
+                    }),
+                    body: JSON.stringify({
+                        file: res,
+                        saveDefaultFile: "{$reservation.id}"
+                    })
+                };
+                fetch("/cp/POS/shipping/getShippingData.php?saveDefault={$reservation.id}&saveDefaultData="+json).finally(function () {
+                    fetch("/cp/POS/shipping/getShippingData.php", requestOptions)
+                        .finally(function () {
+                            setShippingStatus();
+                            loadDefaultForm();
+                        });
+                });
+
+            } else {
+                fetch("/cp/POS/shipping/getShippingData.php?saveDefault={$reservation.id}&saveDefaultData="+json).finally(function () {
+                    setShippingStatus();
+                    loadDefaultForm();
+                });
+            }
+
+
+        }
+    }
+
+    async function formJSONDefault() {
+        let NameInput = document.getElementById("DefaultInputName");
+        let AddressInput = document.getElementById("DefaultInputAddress");
+        let PostcodeNrInput = document.getElementById("DefaultInputPostcode");
+        let HouseNrInput = document.getElementById("DefaultInputHouseNr");
+        let BarcodeInput = document.getElementById("DefaultInputBarcode");
+        let EmailInput = document.getElementById("DefaultInputEmail");
+        let PhoneInput = document.getElementById("DefaultInputPhone");
+        let obj = {
+            name: NameInput.value.replace("#", ''),
+            address: AddressInput.value.replace("#", ''),
+            postcode: PostcodeNrInput.value.replace("#", ''),
+            housenr: HouseNrInput.value.replace("#", ''),
+            barcode: BarcodeInput.value.replace("#", ''),
+            phone: PhoneInput.value.replace("#", ''),
+            email: EmailInput.value.replace("#", '')
+        }
+        let json = JSON.stringify(obj);
+        console.log("/cp/POS/shipping/getShippingData.php?saveDefault={$reservation.id}&saveDefaultData=" + json)
+        return json;
+    }
+
+    const convertInputFileToBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+    function getPDF(el){
+        {literal}printJS('/uploads/files/pdf/'+el.getAttribute("data-id")){/literal}
     }
 </script>
