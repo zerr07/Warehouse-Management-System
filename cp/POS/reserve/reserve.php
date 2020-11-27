@@ -14,7 +14,11 @@ function get_location_data($id){
     return $row['name']." | ".$row['location'];
 }
 function reserveCart($note, $cart){
-    $type = $_GET['type'];
+    if (isset($_GET['type'])){
+        $type = $_GET['type'];
+    } else {
+        $type = 1;
+    }
 
     mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*reserved*} (`comment`, `id_type`) 
                                                                                                 VALUES ('$note', '$type')"));
