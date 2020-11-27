@@ -24,7 +24,10 @@ if (isset($_GET['view'])){
 } elseif (isset($_GET['cancel']) && isset($_GET['prodCancel'])){
     cancelReservationProduct($_GET['cancel'], $_GET['prodCancel']);
     header("Location: /cp/POS/reserve/");
-} else {
+} elseif (isset($_GET['cancelShip']) && isset($_GET['prodCancelShip'])){
+    cancelReservationProduct($_GET['cancelShip'], $_GET['prodCancelShip']);
+    header("Location: /cp/POS/shipping/");
+}else {
     $smarty->assign("reservedList", getReservedCarts(1));
     $smarty->display('cp/POS/reserve/index.tpl');
 }
