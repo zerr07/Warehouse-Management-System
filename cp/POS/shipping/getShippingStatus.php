@@ -52,6 +52,9 @@ function getShippingType($id, $type){
         } elseif ($type == "STANDART") {
             return $arr['name'];
         }
+        elseif ($type == "STANDART_ID") {
+            return $arr['id'];
+        }
     }
     if ($type == "JSON"){
         return json_encode(array("status"=>"empty"));
@@ -67,8 +70,9 @@ function getShippingData($id){
     if ($q->num_rows == 0){
         return null;
     } else {
-        $data = json_decode(rawurldecode($q->fetch_assoc()['data']), true);
-        return json_encode(array("data"=>$data));
+        $row = $q->fetch_assoc();
+        $data = json_decode(rawurldecode($row['data']), true);
+        return json_encode(array("data"=>$data, "file"=>$row['data_file']));
     }
 }
 
