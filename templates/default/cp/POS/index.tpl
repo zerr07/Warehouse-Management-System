@@ -13,10 +13,11 @@
                     <input type="text" class="form-control" name="searchTagIDPOS" id="searchtagidPOS" placeholder="Search by ID" autofocus>
                 </div>
                 <div class="col-sm-12 col-md-4 mt-2">
-                    <input type="text" class="form-control" name="searchNamePOS" id="searchnamePOS" placeholder="Search by name">
+                    <input type="text" class="form-control" name="searchNamePOS" id="searchnamePOS" placeholder="Search by name" list="productDataList">
+                    <datalist id="productDataList"></datalist>
                 </div>
                 <div class="col-sm-12 col-md-4 mt-2">
-                    <input type="submit" formaction="/cp/POS/search.php" id='search' name="search" class="btn btn-outline-secondary w-100" value="Search">
+                    <input type="button" formaction="/cp/POS/search.php" id='search' name="search" class="btn btn-outline-secondary w-100" value="Search">
                 </div>
             </div>
             {include file='cp/POS/searchModal.tpl'}
@@ -170,7 +171,19 @@
         sum();
     });
     $(window).on('load', function () {
-        $('[data-toggle="tooltip"]').tooltip()
+        $('[data-toggle="tooltip"]').tooltip();
+        fetch("/controllers/products/get_products.php?getDataList=true")
+        .then(response => response.json())
+        .then((d) => {
+            let datalist = document.getElementById("productDataList");
+            Object.keys(d).forEach(k => {
+                let el = document.createElement("option");
+                el.setAttribute("value", d[k]);
+                el.setAttribute("data-id", k);
+                el.innerText = d[k];
+                datalist.appendChild(el);
+            })
+        })
     });
     $('#modalOTHER').hide();
     const target = document.querySelector('body');
@@ -215,15 +228,26 @@
             document.getElementById('sale').disabled = false;
         }
     });
+    document.getElementById("search").addEventListener('click', function () {
+        let nameSearch   = document.getElementById("searchnamePOS");
+        let nameID = document.querySelector("datalist[id='productDataList'] > option[value='"+nameSearch.value+"']");
+        if (nameID){
+            updateByID(nameID.getAttribute("data-id"));
+        } else {
+            let form = document.getElementById("POScartForm");
+            form.action = "/cp/POS/search.php";
+            form.submit();
+            searchByName(nameSearch.value);
+        }
+        document.getElementById("searchnamePOS").value = "";
+        setTimeout(function(){ displayCart("POScart");sum();}, 1000);
+        return false;
+    });
+
     $(function() {
         $("#searchnamePOS").keypress(function (e) {
             if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
                 $('#search').click();
-                if (($("#exampleModalScrollable").data('bs.modal') || {})._isShown === false){
-                    //$('#exampleModalScrollable').modal('toggle');
-                }
-                //searchByName(document.getElementById("searchname").value);
-
                 return false;
             }
         });

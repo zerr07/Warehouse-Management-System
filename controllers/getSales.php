@@ -89,8 +89,19 @@ if (isset($_GET['page'])) {
     $pages = get_sales_pages(0, $searchQuery);
     $smarty->assign("current_page", 1);
 }
+function getSalesHistoryDatalist(){
+    $arr = array(array());
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, arveNr, ostja FROM {*sales*}"));
+    while ($row = $q->fetch_assoc()){
+        $arr[$row['id']] = $row['arveNr']. " | ".$row['ostja'];
+    }
+    return array_filter($arr);
+}
+
+
 $smarty->assign("pageBase" , GETPageLinks("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"));
 $smarty->assign("pages" , $pages);
 
+$smarty->assign("SalesHistoryDatalist", getSalesHistoryDatalist());
 $smarty->assign("sales", array_filter($arr));
 $smarty->assign("desc", array_filter($desc));

@@ -24,15 +24,14 @@
                 </div>
             </div>
             <div class="row">
-                <form action="/cp/WMS/" class="text-left w-100 form-inline" style="padding-top: 10px;" method="GET">
+                <form action="/cp/WMS/" class="text-left w-100 form-inline" style="padding-top: 10px;" method="GET" id="SearchForm">
                     <div class="col-sm-12 col-md-4 col-lg-3 mt-2">
-                        <input type="text" class="form-control w-100" name="searchTagID" id="form17" placeholder="Search by ID" autofocus>
+                        <input type="text" class="form-control w-100" name="searchTagID" id="searchTagID" placeholder="Search by ID" autofocus>
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-3 mt-2">
-                        <input type="text" class="form-control w-100" name="searchName" id="form17" placeholder="Search by name"
-                                {if isset($searchName) && $searchName != ""}
-                            value="{$searchName}"
-                                {/if}>
+                        <input type="text" class="form-control w-100" name="searchName" id="searchName" placeholder="Search by name" list="productDataList"
+                                {if isset($searchName) && $searchName != ""}value="{$searchName}"{/if}>
+                        <datalist id="productDataList"></datalist>
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-3 text-center mt-2">
                         <label class="d-inline-flex">
@@ -53,7 +52,7 @@
                         </label>
                     </div>
                     <div class="col-md-12 col-lg-3 mt-2 ">
-                        <input type="submit" name="search" class="btn btn-outline-secondary inline-items w-100" value="Search">
+                        <button type="button" name="search" class="btn btn-outline-secondary inline-items w-100" value="Search" id="SearchBtn">Search</button>
                     </div>
                 </form>
             </div>
@@ -117,8 +116,45 @@
             </div>
         </div>
 <script>
+    document.getElementById("SearchBtn").addEventListener("click", function () {
+        let nameSearch = document.getElementById("searchName");
+        let nameID = document.querySelector("datalist[id='productDataList'] > option[value='"+nameSearch.value+"']");
+        if (nameID){
+            window.location.href = "/cp/WMS/view/?view="+nameID.getAttribute("data-id");
+        } else {
+            document.getElementById("SearchForm").submit();
+        }
+    });
+    $(function() {
+        $("#searchName").keypress(function (e) {
+            if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                $('#SearchBtn').click();
+                return false;
+            }
+        });
+    });
+    $(function() {
+        $("#searchTagID").keypress(function (e) {
+            if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                $('#SearchBtn').click();
+                return false;
+            }
+        });
+    });
     window.onload = function (){
         $('.carousel').carousel();
+        fetch("/controllers/products/get_products.php?getDataList=true")
+            .then(response => response.json())
+            .then((d) => {
+                let datalist = document.getElementById("productDataList");
+                Object.keys(d).forEach(k => {
+                    let el = document.createElement("option");
+                    el.setAttribute("value", d[k]);
+                    el.setAttribute("data-id", k);
+                    el.innerText = d[k];
+                    datalist.appendChild(el);
+                })
+            })
     }
     $('input[name=cat]').on('change', function() {
         $(this).closest("form").submit();

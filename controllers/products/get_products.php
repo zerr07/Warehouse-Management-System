@@ -38,6 +38,19 @@ function get_products($shard){
     }
     return null;
 }
+function get_products_dataList($shard){
+    $arr = array(array());
+    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, tag, 
+        (SELECT `name` FROM {*product_name*} WHERE id_product={*products*}.id AND id_lang='3') as `name`
+        FROM {*products*} WHERE id_shard='$shard'"));
+    if($result){
+        while ($row = $result->fetch_assoc()){
+            $arr[$row['id']] = $row['tag']. " | ".html_entity_decode($row['name'], ENT_QUOTES, "UTF-8");;
+        }
+        return array_filter($arr);
+    }
+    return null;
+}
 function get_product($index){
     $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*products*} 
                                                                                     WHERE id='$index'"));
@@ -385,6 +398,9 @@ if (isset($_GET['searchTagID'])) {
 
         //header("Location: /cp/");
     }
+}
+if (isset($_GET['getDataList'])){
+    echo json_encode(get_products_dataList($_COOKIE['id_shard']));
 }
 if (isset($_GET['searchName'])){
     $search = "AND id IN (SELECT id_product FROM {*product_name*} WHERE (id_lang='3' OR id_lang='1')";

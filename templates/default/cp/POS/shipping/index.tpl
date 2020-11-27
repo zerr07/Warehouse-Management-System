@@ -1,8 +1,13 @@
 {include file='header.tpl'}
-<form action="#" method="get">
+<form action="#" method="get" id="searchForm">
     <div class="row mt-4">
         <div class="col-12 col-sm-12 col-md-12 col-lg-8 mt-3 mt-lg-0">
-            <input type="text" class="form-control w-100" name="searchIDorBarcode" id="form17" placeholder="Search by ID or Barcode" autofocus>
+            <input type="text" class="form-control w-100" name="searchIDorBarcode" id="searchIDorBarcode" list="searchIDorBarcodeList" placeholder="Search by ID or Barcode" autofocus>
+            <datalist id="searchIDorBarcodeList">
+                {foreach $ShippingDatalist as $key => $value}
+                    <option value="{$value}" data-id="{$key}">{$value}</option>
+                {/foreach}
+            </datalist>
         </div>
         <div class="col-12 col-sm-12 col-md-12 col-lg-2 mt-3 mt-lg-0">
             {if isset($onlyCheckedOut)}
@@ -13,7 +18,7 @@
             {/if}
         </div>
         <div class="col-12 col-sm-12 col-md-12 col-lg-2 mt-3 mt-lg-0">
-            <input type="submit" class="btn btn-info w-100" value="Search" name="searchShippings">
+            <button type="button" class="btn btn-info w-100" value="Search" name="searchShippings" id="searchShippings">Search</button>
         </div>
         <div class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
             {if !isset($onlyCheckedOut)}
@@ -81,6 +86,15 @@
     {/if}
     <a class="btn btn-primary mt-3" style="display: inline-block; float:right;" href="/cp/POS"><i class="fas fa-undo-alt"></i> Back</a>
 </div>
-</div>
-
+<script>
+    document.getElementById("searchShippings").addEventListener("click", function () {
+        let nameSearch = document.getElementById("searchIDorBarcode");
+        let nameID = document.querySelector("datalist[id='searchIDorBarcodeList'] > option[value='"+nameSearch.value+"']");
+        if (nameID){
+            window.location.href = "/cp/POS/shipping/index.php?view="+nameID.getAttribute("data-id");
+        } else {
+            document.getElementById("searchForm").submit();
+        }
+    });
+</script>
 {include file='footer.tpl'}

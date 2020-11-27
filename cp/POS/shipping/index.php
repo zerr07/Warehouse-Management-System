@@ -41,6 +41,7 @@ if (isset($_GET['view'])){
     foreach ($shipments as $key => $value){
         $shipments[$key]['type'] = getShippingType($key, "STANDART");
     }
+    $smarty->assign("ShippingDatalist", getReservationsDatalist(2));
     $smarty->assign("statusToggled", $_GET['statusSearch']);
     $smarty->assign("typeToggled", $_GET['typeSearch']);
     $smarty->assign("statusList", json_decode(getShippingStatuses(), true));
