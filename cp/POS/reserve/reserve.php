@@ -74,7 +74,6 @@ function getReservedCartsSearch($type){
 
 
     $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*reserved*} WHERE id_type='$type' AND (SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)!='6' $str ORDER BY date DESC"));
-    echo prefixQuery(/** @lang text */ "SELECT * FROM {*reserved*} WHERE id_type='$type' AND (SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)!='6' $str ORDER BY date DESC");
     while ($row = mysqli_fetch_assoc($q)){
         $id = $row['id'];
         $arr[$id] = readReservationResult($row);
@@ -133,10 +132,13 @@ function readReservationResult($row){
         } else {
             $arr['products'][$row_products['id']]['tag'] = get_tag($row_products['id_product']);
             $arr['products'][$row_products['id']]['name'] = get_name($row_products['id_product']);
-            $arr['products'][$row_products['id']]['location'] =  get_location_data($row_products['id_location']);
 
+            if($row_products['id_location'] !== 0 && $row_products['id_location'] !== "0"){
+                $arr['products'][$row_products['id']]['location'] = get_location_data($row_products['id_location']);
+            } else {
+                $arr['products'][$row_products['id']]['location'] = 0;
+            }
         }
-
     }
     return $arr;
 }

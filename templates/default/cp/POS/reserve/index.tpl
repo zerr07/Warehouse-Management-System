@@ -10,10 +10,13 @@
                             </div>
                         </div>
                     {else}
-
-
+                    {include file='cp/POS/reserve/mergeToolModal.tpl'}
+                        <div class="row mt-4">
+                            <div class="col-12 col-sm-12 col-md-3 offset-md-9">
+                                <button type="button" class="btn btn-secondary w-100" data-toggle="modal" data-target="#mergeToolModal">Merge tool</button>
+                            </div>
+                        </div>
                                 {foreach $reservedList as $item}
-
                                     <div class="row mt-3 border border-secondary p-1">
                                         <div class="col-2 col-sm-2    m-auto   col-md-2     col-lg-2   col-xl-1">{$item.id}</div>
                                         <div class="col-10 col-sm-10  m-auto   col-md-6     col-lg-6   col-xl-4 text-truncate">{$item.comment}</div>
