@@ -34,7 +34,7 @@
       |      /                                          \           |
       |_____/                                            \__________|
 </pre>*}
-        <img src="/templates/default/assets/b9802e0595f0874b536a860008a9cd2b.jpg" style="max-height: 300px; width: auto">
+        <img src="/templates/default/assets/r7ZVjxkm_Jo.jpg" style="max-height: 300px; width: auto">
     </div>
 </div>
 <script>
@@ -42,13 +42,13 @@
         document.getElementById("customToast").style.display = "none";
         let updName = "upd1";
         let upd = getCookie(updName);
-        if (upd === "true" || upd === ""){   // change true/false for new push notification
+        if (upd === "false" || upd === ""){   // change true/false for new push notification
             setTimeout(function () {
                 document.getElementById("customToast").style.display = "";
 
                 $('.toast').toast('show');
             }, 1000);
         }
-        setCookie(updName, "false", 365);      // change true/false for new push notification
+        setCookie(updName, "true", 365);      // change true/false for new push notification
     });
 </script>
