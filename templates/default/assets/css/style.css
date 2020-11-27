@@ -496,3 +496,7 @@ div.preview > ol {
     background-color: blanchedalmond;
     border-radius: 25px;
 }
+.highlight{
+    background: radial-gradient(circle, rgb(243 252 3 / 33%) 0%, rgb(0 255 255 / 0%) 100%);
+    border-radius: 250px;
+}
