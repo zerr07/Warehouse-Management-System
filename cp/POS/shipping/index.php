@@ -16,7 +16,9 @@ if (isset($_GET['view'])){
     }
     $smarty->assign("sum", $sum);
     $smarty->assign("shipping_types", json_decode(getShippingTypes(), true));
+    $arr['shipping_type'] = getShippingType($arr['id'], "STANDART_ID");
     $smarty->assign("reservation", $arr);
+
     $smarty->display('cp/POS/shipping/view.tpl');
 } elseif (isset($_GET['cancelFull'])){
     cancelReservationFull($_GET['cancelFull']);

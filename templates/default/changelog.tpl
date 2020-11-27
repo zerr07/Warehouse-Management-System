@@ -2,6 +2,37 @@
 
             <div class="accordion text-left mt-4" id="accordion">
 
+                <div class="card">
+                    <div class="card-header" id="heading090">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse090" aria-expanded="false" aria-controls="collapse090">
+                                Version 0.9.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse090" class="collapse" aria-labelledby="heading090" data-parent="#accordion">
+                        <div class="card-body">
+                            Reservations merge tool implemented.<br/>
+                            Shortcuts added to header.<br/>
+                            Added highlight on more that 1 pcs in shipping list and fixed layout.<br/>
+                            Added redirection on reservation -> shipping conversion.<br/>
+                            Functions to process files and other carriers added.<br/>
+                            Fixed redirection on item cancellation on shipment page.<br/>
+                            {literal}
+                            <pre>
+{\__/}
+( • . •)u want this toilet paper
+/>🧻
+{\__/}
+( • - •) noo!! it's mine
+🧻<\
+                            </pre>
+                            {/literal}
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="card">
                     <div class="card-header" id="heading081">
