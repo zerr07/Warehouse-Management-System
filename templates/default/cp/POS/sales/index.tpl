@@ -18,11 +18,19 @@
                     <form action="#" class="text-left" method="GET">
                         <select class="custom-select" id="modeSelect" name="mode" onchange="this.form.submit()"
                                 style="height: 42px;">
-                            <option value="All" {if $modeSearch=='All'}selected{/if}>All</option>
-                            <option value="Bigshop" {if $modeSearch=='Bigshop'}selected{/if}>Shop</option>
-                            <option value="Osta" {if $modeSearch=='Osta'}selected{/if}>Osta</option>
-                            <option value="Minuvalik" {if $modeSearch=='Minuvalik'}selected{/if}>Minuvalik</option>
-                            <option value="Shoppa" {if $modeSearch=='Shoppa'}selected{/if}>Shoppa</option>
+                            {if isset($modeSearch)}
+                                <option value="All" {if $modeSearch=='All'}selected{/if}>All</option>
+                                <option value="Bigshop" {if $modeSearch=='Bigshop'}selected{/if}>Shop</option>
+                                <option value="Osta" {if $modeSearch=='Osta'}selected{/if}>Osta</option>
+                                <option value="Minuvalik" {if $modeSearch=='Minuvalik'}selected{/if}>Minuvalik</option>
+                                <option value="Shoppa" {if $modeSearch=='Shoppa'}selected{/if}>Shoppa</option>
+                            {else}
+                                <option value="All" selected>All</option>
+                                <option value="Bigshop">Shop</option>
+                                <option value="Osta">Osta</option>
+                                <option value="Minuvalik">Minuvalik</option>
+                                <option value="Shoppa">Shoppa</option>
+                            {/if}
                         </select>
                     </form>
                 </div>

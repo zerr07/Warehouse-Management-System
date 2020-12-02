@@ -35,19 +35,19 @@
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-3 text-center mt-2">
                         <label class="d-inline-flex">
-                            <input type="radio" class="only" name="only" value="Full" {if $onlyFilter == "Full"}checked{/if}>
+                            <input type="radio" class="only" name="only" value="Full" {if isset($onlyFilter) && $onlyFilter == "Full"}checked{/if}>
                             <img width="32px" height="32px" src="/templates/default/assets/icons/p-GREEN.svg" data-toggle="tooltip" data-placement="top" title="Only green">
                         </label>
                         <label class="d-inline-flex">
-                            <input type="radio" class="only" name="only" value="Partly" {if $onlyFilter == "Partly"}checked{/if}>
+                            <input type="radio" class="only" name="only" value="Partly" {if isset($onlyFilter) && $onlyFilter == "Partly"}checked{/if}>
                             <img width="32px" height="32px" src="/templates/default/assets/icons/p-YELLOW.svg" data-toggle="tooltip" data-placement="top" title="Only yellow">
                         </label>
                         <label class="d-inline-flex">
-                            <input type="radio" class="only" name="only" value="No" {if $onlyFilter == "No"}checked{/if}>
+                            <input type="radio" class="only" name="only" value="No" {if isset($onlyFilter) && $onlyFilter == "No"}checked{/if}>
                             <img width="32px" height="32px" src="/templates/default/assets/icons/p-RED.svg" data-toggle="tooltip" data-placement="top" title="Only red">
                         </label>
                         <label class="d-inline-flex">
-                            <input type="radio" class="only" name="only" value="NoFilter" {if $onlyFilter == "NoFilter" || $onlyfilter === ""}checked{/if}>
+                            <input type="radio" class="only" name="only" value="NoFilter" {if isset($onlyFilter) && ($onlyFilter == "NoFilter" || $onlyfilter === "")}checked{/if}>
                             <img width="32px" height="32px" src="/templates/default/assets/icons/p-WHITE.svg" data-toggle="tooltip" data-placement="top" title="No filter">
                         </label>
                     </div>
@@ -85,9 +85,10 @@
                                                     </h5>
                                                     <a style="text-overflow: ellipsis; " href="/cp/WMS/view/?view={$item.id}">{$item.tag}</a>
 
-                                                    <p class="card-text m-0">Shop price: {if $item.platforms.$SHOP.price == ""}Not set{/if}{$item.platforms.$SHOP.price}</p>
-                                                    <p class="card-text m-0">Quantity: {if $item.quantity == ""}Not set{/if}{$item.quantity}</p>
-                                                    <p class="card-text m-0">Locations: {if $item.locations|replace:" ":"" == ""}Not set{/if}{$item.locations}</p>
+                                                    <p class="card-text m-0">Shop price:
+                                                        {if !isset($item.platforms.$SHOP.price) || $item.platforms.$SHOP.price == ""}Not set{else}{$item.platforms.$SHOP.price}{/if}</p>
+                                                    <p class="card-text m-0">Quantity: {if $item.quantity == ""}Not set{else}{$item.quantity}{/if}</p>
+                                                    <p class="card-text m-0">Locations: {if $item.locations|replace:" ":"" == ""}Not set{else}{$item.locations}{/if}</p>
 
 
 

@@ -23,7 +23,10 @@ if (isset($_GET['page'])) {
 $smarty->assign("pageBase" , GETPageLinks("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"));
 $smarty->assign("pages" , $pages);
 $smarty->assign('products', $arr);
-$smarty->assign('onlyFilter', $_GET['only']);
+if (isset($_GET['only'])){
+    $smarty->assign('onlyFilter', $_GET['only']);
+}
+
 
 $smarty->assign('cat_tree', array_filter(get_tree()));
 if (isset($_GET['searchName'])) {

@@ -153,7 +153,7 @@
                                                         <input class="form-check-input" type="checkbox" value="Yes"
                                                                id="export{$platform.id}"
                                                                name="export[{$platform.id}]"
-                                                                {if $item.platforms.$PLid.export == True}
+                                                                {if isset($item.platforms.$PLid.export) && $item.platforms.$PLid.export == True}
                                                         checked
                                                                 {/if}>
                                                         <label class="form-check-label" for="export{$platform.id}">
@@ -164,11 +164,11 @@
                                                 <div class="col-6 order-2 mt-2 col-sm-6 col-md-6 col-lg-3 mt-lg-0">
                                                     <input type="text" class="form-control"
                                                            name="platformURL[{$platform.id}]" placeholder="URL"
-                                                           value="{$item.platforms.$PLid.URL}" id="form17">
+                                                           value="{if isset($item.platforms.$PLid.URL)}{$item.platforms.$PLid.URL}{/if}" id="form17">
                                                 </div>
                                                 <div class="col-6 mt-2 col-sm-6 col-md-6 order-3 order-md-12 order-lg-3 col-lg-2 mt-lg-0">
                                                     <input type="number" step="0.01"  class="form-control" onchange="applyPrices()"
-                                                           name="platformPrice[{$platform.id}]" value="{$item.platforms.$PLid.price}"
+                                                           name="platformPrice[{$platform.id}]" value="{if isset($item.platforms.$PLid.price)}{$item.platforms.$PLid.price}{/if}"
                                                            id="platform{$platform.id}" placeholder="Price €">
                                                 </div>
                                                 <div class="col-6 order-4 mt-2 col-sm-6 col-md-3 col-lg-2 mt-lg-0">
@@ -176,7 +176,7 @@
                                                         <input class="form-check-input" onclick="applyPrices()" type="checkbox" value="Yes"
                                                                id="platformCustom{$platform.id}"
                                                                name="platformCustom[{$platform.id}]"
-                                                                {if $item.platforms.$PLid.custom == True}
+                                                                {if isset($item.platforms.$PLid.custom) && $item.platforms.$PLid.custom == True}
                                                         checked
                                                                 {/if}>
                                                         <label class="form-check-label" for="platformCustom{$platform.id}">
@@ -204,19 +204,19 @@
                                     </ul>
                                     <div class="tab-content mt-2">
                                         <div class="tab-pane fade active show ml-20" id="tabRUS" role="tabpanel">
-                                            <textarea name="RUS" id="ruText">{$item.descriptions.ru}</textarea>
+                                            <textarea name="RUS" id="ruText">{if isset($item.descriptions.ru)}{$item.descriptions.ru}{/if}</textarea>
                                         </div>
                                         <div class="tab-pane fade ml-20" id="tabEST" role="tabpanel">
-                                            <textarea name="EST" id="etText">{$item.descriptions.et}</textarea>
+                                            <textarea name="EST" id="etText">{if isset($item.descriptions.et)}{$item.descriptions.et}{/if}</textarea>
                                         </div>
                                         <div class="tab-pane fade ml-20" id="tabPL" role="tabpanel">
-                                            <textarea name="PL" id="plText">{$item.descriptions.pl}</textarea>
+                                            <textarea name="PL" id="plText">{if isset($item.descriptions.pl)}{$item.descriptions.pl}{/if}</textarea>
                                         </div>
                                         <div class="tab-pane fade ml-20" id="tabENG" role="tabpanel">
-                                            <textarea name="ENG" id="enText">{$item.descriptions.en}</textarea>
+                                            <textarea name="ENG" id="enText">{if isset($item.descriptions.en)}{$item.descriptions.en}{/if}</textarea>
                                         </div>
                                         <div class="tab-pane fade ml-20" id="tabLV" role="tabpanel">
-                                            <textarea name="LV" id="lvText">{$item.descriptions.lv}</textarea>
+                                            <textarea name="LV" id="lvText">{if isset($item.descriptions.lv)}{$item.descriptions.lv}{/if}</textarea>
                                         </div>
                                     </div>
                                 </div>

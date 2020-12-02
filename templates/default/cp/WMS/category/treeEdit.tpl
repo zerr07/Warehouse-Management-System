@@ -3,7 +3,9 @@
     {foreach $data as $key => $value}
         {if $item.parent == $key}
             <script>
-                $('#collapse{$value.parent}').show()
+                $(window).on("load", function () {
+                    $('#collapse{$value.parent}').collapse('toggle');
+                });
             </script>
             <input class='form-check-input' type='radio' name='cat' id='cat{$key}' value='{$key}' checked>
         {else}

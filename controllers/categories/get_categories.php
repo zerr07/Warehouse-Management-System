@@ -17,7 +17,7 @@ function get_tree(){
             {*products*} WHERE id_category='$id'"));
             $count = $q->fetch_assoc()['product_count'];
             $temp[$id] = array("id"=> $id, "enabled"=>$row['enabled'], "name"=>$name, "parent"=>$row['parent'], "child"=>array(), "count"=>$count);
-            $temp[$id]['child'] = get_sub_cat($id);
+            $temp[$id]['child'] = array_filter(get_sub_cat($id));
         }
         return $temp;
     }
@@ -25,6 +25,7 @@ function get_tree(){
 }
 function get_sub_cat($index) {
     global $langID;
+    $temp = array(array());
     $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*categories*} WHERE `parent`='$index'"));
     if($result){
         while ($row = $result->fetch_assoc()){
@@ -34,7 +35,7 @@ function get_sub_cat($index) {
             {*products*} WHERE id_category='$id'"));
             $count = $q->fetch_assoc()['product_count'];
             $temp[$id] = array("id"=> $id, "enabled"=>$row['enabled'], "name"=>$name, "parent"=>$row['parent'], "child"=>array(), "count"=>$count);
-            $temp[$id]['child'] = get_sub_cat($id);
+            $temp[$id]['child'] = array_filter(get_sub_cat($id));
         }
         return $temp;
     }

@@ -38,11 +38,13 @@ function get_reservations_pages($currentPage, $type){
 
 function GETPageLinks($url){
     $parts = parse_url($url);
-    parse_str($parts['query'], $query);
     $link = "?";
-    foreach ($query as $key => $value){
-        if ($key != "page") {
-            $link .=  $key . "=" . $value . "&";
+    if (isset($parts['query'])){
+        parse_str($parts['query'], $query);
+        foreach ($query as $key => $value){
+            if ($key != "page") {
+                $link .=  $key . "=" . $value . "&";
+            }
         }
     }
     return $link;

@@ -19,19 +19,29 @@ function getCart(){
     $id = $_COOKIE['user_id'];
     $result = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT {*cart*} FROM users WHERE id='$id'"));
     while ($row = mysqli_fetch_assoc($result)){
-
+        $_SESSION['cartTotal'] = 0;
+        if (isset($_SESSION['cart'])){
+            $cart = rawurlencode(json_encode($_SESSION['cart']));
+            if ($cart != $row['cart']){
+                $_SESSION['cart'] = json_decode(rawurldecode($row['cart']),true);
+            }
+        } else {
+            $_SESSION['cart'] = json_decode(rawurldecode($row['cart']),true);
+        }
         $cart = rawurlencode(json_encode($_SESSION['cart']));
         if ($cart != $row['cart']){
             $_SESSION['cart'] = json_decode(rawurldecode($row['cart']),true);
         }
         if (isset($_SESSION['cart'])){
             foreach ($_SESSION['cart'] as $k => $v)
+                $_SESSION['cartTotal'] += $v['quantity']*$v['basePrice'];
                 if (empty($v['loc']['locations'])){
                     $_SESSION['cart'][$k]['loc'] = get_locations($k);
                     $_SESSION['cart'][$k]['loc']['selected'] =
                         get_single_location_with_type($_COOKIE['default_location_type'], $_SESSION['cart'][$k]['loc']['locationList']);
                 }
         }
+
         }
 
     updateQuantity();

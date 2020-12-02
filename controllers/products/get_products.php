@@ -6,12 +6,15 @@ include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/get_platforms.php'
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/applyRule.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/get_location_types.php');
 function array_sort_by_column(&$arr, $col, $dir = SORT_ASC) {
-    $sort_col = array();
-    foreach ($arr as $key=> $row) {
-        $sort_col[$key] = $row[$col];
+    if (sizeof($arr) !== 0){
+        $sort_col = array();
+        foreach ($arr as $key=> $row) {
+            $sort_col[$key] = $row[$col];
+        }
+
+        array_multisort($sort_col, $dir, $arr);
     }
 
-    array_multisort($sort_col, $dir, $arr);
 }
 
 function get_product_range($page, $status, $shard){
@@ -224,8 +227,9 @@ function get_images($index){
     while ($row = mysqli_fetch_assoc($q)){
         $arr[$row['id']] = $row;
     }
+    $arr = array_filter($arr);
     array_sort_by_column($arr, 'position');
-    return array_filter($arr);
+    return $arr;
 }
 function get_main_image($index){
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT image
@@ -246,8 +250,9 @@ function get_images_live($index){
     while ($row = mysqli_fetch_assoc($q)){
         $arr[$row['id']] = $row;
     }
+    $arr = array_filter($arr);
     array_sort_by_column($arr, 'position');
-    return array_filter($arr);
+    return $arr;
 }
 function get_main_image_live($index){
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT image
@@ -401,6 +406,9 @@ if (isset($_GET['searchTagID'])) {
 }
 if (isset($_GET['getDataList'])){
     echo json_encode(get_products_dataList($_COOKIE['id_shard']));
+}
+if (isset($_GET['getSingleProduct'])){
+    echo json_encode(get_product($_GET['getSingleProduct']));
 }
 if (isset($_GET['searchName'])){
     $search = "AND id IN (SELECT id_product FROM {*product_name*} WHERE (id_lang='3' OR id_lang='1')";

@@ -33,7 +33,7 @@
             {include file='cp/WMS/category/linkModal.tpl'}
             {function name=cat_tree margin=1}
                 {foreach $data as $key => $value}
-                    {if is_null($value.child)}
+                    {if is_null($value.child) || sizeof($value.child) === 0}
 
 
                         <div class="row mt-3 border border-secondary p-1">
@@ -111,7 +111,6 @@
             let div;
             let id = el.id.replace("catInfo", "");
             let nameId = $("#catName"+id);
-            console.log(nameId)
             if(nameId.length && nameId[0].innerHTML !== undefined){
                 let name = nameId[0].innerHTML
                 let btn1 = document.createElement("button");

@@ -51,11 +51,13 @@
             )</p>
         <div class="collapse" id="collapseReservations">
             <div class="card card-body">
-                {foreach $item.reservations.reserved_list as $key => $value}
-                    <a href="/cp/POS/reserve/index.php?view={$value.id_reserved}">
-                        {$value.id_reserved} - {$value.comment} - {$value.quantity} pcs.
-                    </a>
-                {/foreach}
+                {if isset($item.reservations.reserved_list)}
+                    {foreach $item.reservations.reserved_list as $key => $value}
+                        <a href="/cp/POS/reserve/index.php?view={$value.id_reserved}">
+                            {$value.id_reserved} - {$value.comment} - {$value.quantity} pcs.
+                        </a>
+                    {/foreach}
+                {/if}
             </div>
         </div>
     </div>
@@ -179,7 +181,7 @@
                             {foreach $platforms as $key => $value}
                                 <div class="row mt-3 border border-secondary p-2">
                                     <div class="col-4 col-lg-3 m-auto">
-                                        {if ($item.platforms.$key.export=== "1")}
+                                        {if isset($item.platforms.$key.export) && ($item.platforms.$key.export=== "1")}
                                             <i class="fas fa-file-export" style="color: green; font-size: 24px"></i>
                                         {else}
                                             <i class="fas fa-file-export" style="color: red; font-size: 24px"></i>
@@ -189,15 +191,27 @@
                                         {$value.name}
                                     </div>
                                     <div class="col-4 col-lg-2 m-auto">
-                                        {$item.platforms.$key.price} €
+                                        {if isset($item.platforms.$key.price)}
+                                            {$item.platforms.$key.price} €
+                                        {/if}
+
                                     </div>
                                     <div class="col-12 col-lg-5 pt-2 pt-lg-0">
                                         <div class="btn-group btn-group-toggle d-flex" data-toggle="buttons">
 
-                                            <a class="btn btn-primary tooltip_copy {if !isset($item.platforms.$key.URL)}disabled{/if}"
-                                               id='{$item.platforms.$key.id}link' onclick="copyURL('#{$item.platforms.$key.id}');return false;" href="#" data-toggle="{$item.platforms.$key.id}" title="Copied!">
+
+                                                {if isset($item.platforms.$key.id) && isset($item.platforms.$key.URL)}
+                                                <a class="btn btn-primary tooltip_copy"
+                                                    id='{$item.platforms.$key.id}link' onclick="copyURL('#{$item.platforms.$key.id}');return false;" data-toggle="{$item.platforms.$key.id}" href="#"  title="Copied!">
                                                 <i class="fas fa-copy" ></i>
                                                 <p id='{$item.platforms.$key.id}' hidden>{$item.platforms.$key.URL}</p>
+                                                {else}
+                                                    <a class="btn btn-primary tooltip_copy disabled"
+                                                        href="#">
+                                                        <i class="fas fa-copy" ></i>
+                                                {/if}
+
+
                                             </a>
                                             <a class="btn btn-outline-primary {if !isset($item.platforms.$key.URL)}disabled{/if}"
                                                href="{$item.platforms.$key.URL}" target="_blank">
@@ -253,19 +267,29 @@
             <div class="col-9">
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade active show tabTXT" id="tabRUS" role="tabpanel">
-                        {$item.descriptions.ru}
+                        {if isset($item.descriptions.ru)}
+                            {$item.descriptions.ru}
+                        {/if}
                     </div>
                     <div class="tab-pane fade tabTXT" id="tabEST" role="tabpanel">
-                        {$item.descriptions.et}
+                        {if isset($item.descriptions.et)}
+                            {$item.descriptions.et}
+                        {/if}
                     </div>
                     <div class="tab-pane fade tabTXT" id="tabPL" role="tabpanel">
-                        {$item.descriptions.pl}
+                        {if isset($item.descriptions.pl)}
+                            {$item.descriptions.pl}
+                        {/if}
                     </div>
                     <div class="tab-pane fade tabTXT" id="tabENG" role="tabpanel">
-                        {$item.descriptions.en}
+                        {if isset($item.descriptions.en)}
+                            {$item.descriptions.en}
+                        {/if}
                     </div>
                     <div class="tab-pane fade tabTXT" id="tabLV" role="tabpanel">
-                        {$item.descriptions.lv}
+                        {if isset($item.descriptions.lv)}
+                            {$item.descriptions.lv}
+                        {/if}
                     </div>
                 </div>
             </div>
@@ -283,19 +307,19 @@
             <div class="col-12">
                 <div class="tab-content mt-2 mb-5">
                     <div class="tab-pane fade active show tabTXT" id="tabRUS" role="tabpanel">
-                        {$item.descriptions.ru}
+                        {if isset($item.descriptions.ru)}{$item.descriptions.ru}{/if}
                     </div>
                     <div class="tab-pane fade tabTXT" id="tabEST" role="tabpanel">
-                        {$item.descriptions.et}
+                        {if isset($item.descriptions.et)}{$item.descriptions.et}{/if}
                     </div>
                     <div class="tab-pane fade tabTXT" id="tabPL" role="tabpanel">
-                        {$item.descriptions.pl}
+                        {if isset($item.descriptions.pl)}{$item.descriptions.pl}{/if}
                     </div>
                     <div class="tab-pane fade tabTXT" id="tabENG" role="tabpanel">
-                        {$item.descriptions.en}
+                        {if isset($item.descriptions.en)}{$item.descriptions.en}{/if}
                     </div>
                     <div class="tab-pane fade tabTXT" id="tabLV" role="tabpanel">
-                        {$item.descriptions.lv}
+                        {if isset($item.descriptions.lv)}{$item.descriptions.lv}{/if}
                     </div>
                 </div>
             </div>

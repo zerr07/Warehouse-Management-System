@@ -23,20 +23,22 @@
     {foreach $data as $key => $value}
         {if $item.id_category == $key}
             <script>
-            $('#collapse{$value.parent}').show()
+                $(window).on("load", function () {
+                    $('#collapse{$value.parent}').collapse('toggle');
+                });
             </script>
             <input class='form-check-input' type='radio' name='cat' id='cat{$key}' value='{$key}' checked>
         {else}
             <input class='form-check-input' type='radio' name='cat' id='cat{$key}' value='{$key}' >
         {/if}
-        {if is_null($value.child)}
+        {if is_null($value.child) || sizeof($value.child) === 0}
             <label class='form-check-label' for='exampleRadios1'>
                 {$value.name}<span class="badge badge-secondary ml-2 mr-2">{$value.count}</span>
             </label><br>
         {else}
             <label class='form-check-label' data-toggle='collapse' data-target="#collapse{$key}" aria-expanded='false' aria-controls='collapseExample' for='exampleRadios1'>
                 {$value.name}<span class="badge badge-secondary ml-2 mr-2">{$value.count}</span>+</label><br>
-            <div  class='collapse collapseDiv' id='collapse{$key}' style="margin: 0 0 0 {$margin*20}px">
+            <div  class='collapse collapseDiv' id='collapse{$key}' style="margin: 0 0 0 {$margin*20}px;">
                 {if !is_null($value.child)}
                     {cat_treeEdit data=$value.child margin=$margin+1}
                 {/if}
