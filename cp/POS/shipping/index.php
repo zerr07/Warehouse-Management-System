@@ -30,8 +30,9 @@ if (isset($_GET['view'])){
     if (isset($_GET['onlyCheckedOut'])) {
         $smarty->assign("onlyCheckedOut", "true");
         $shipments = getReservedCartsShipmentOnlyChecked(2);
-    } elseif (isset($_GET['searchShippings'])){
-         $shipments = getReservedCartsSearch(2);
+    } elseif (isset($_GET['searchIDorBarcode'])){
+        $smarty->assign("searchIDorBarcode", $_GET['searchIDorBarcode']);
+        $shipments = getReservedCartsSearch(2);
      } else {
         $shipments = getReservedCarts(2);
     }
@@ -42,8 +43,12 @@ if (isset($_GET['view'])){
         $shipments[$key]['type'] = getShippingType($key, "STANDART");
     }
     $smarty->assign("ShippingDatalist", getReservationsDatalist(2));
-    $smarty->assign("statusToggled", $_GET['statusSearch']);
-    $smarty->assign("typeToggled", $_GET['typeSearch']);
+    if (isset($_GET['statusSearch'])){
+        $smarty->assign("statusToggled", $_GET['statusSearch']);
+    }
+    if (isset($_GET['typeSearch'])){
+        $smarty->assign("typeToggled", $_GET['typeSearch']);
+    }
     $smarty->assign("statusList", json_decode(getShippingStatuses(), true));
     $smarty->assign("typeList", json_decode(getShippingTypes(), true));
     $smarty->assign("reservedList", $shipments);

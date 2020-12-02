@@ -2,7 +2,7 @@
 <form action="#" method="get" id="searchForm">
     <div class="row mt-4">
         <div class="col-12 col-sm-12 col-md-12 col-lg-8 mt-3 mt-lg-0">
-            <input type="text" class="form-control w-100" name="searchIDorBarcode" id="searchIDorBarcode" list="searchIDorBarcodeList" placeholder="Search by ID or Barcode" autofocus>
+            <input type="text" class="form-control w-100" name="searchIDorBarcode" id="searchIDorBarcode" list="searchIDorBarcodeList" placeholder="Search by ID or Barcode" {if isset($searchIDorBarcode)}value="{$searchIDorBarcode}" {/if} autofocus>
             <datalist id="searchIDorBarcodeList">
                 {foreach $ShippingDatalist as $key => $value}
                     <option value="{$value}" data-id="{$key}">{$value}</option>
