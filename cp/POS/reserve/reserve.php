@@ -73,7 +73,7 @@ function getReservedCartsSearch($type){
     }
     if (isset($_GET['searchIDorBarcode']) && $_GET['searchIDorBarcode'] != ""){
         $s = $_GET['searchIDorBarcode'];
-        $str .= "AND ((SELECT barcode FROM {*shipment_data*} WHERE id_shipment={*reserved*}.id)='$s' OR {*reserved*}.id='$s')";
+        $str .= "AND ((SELECT barcode FROM {*shipment_data*} WHERE id_shipment={*reserved*}.id) LIKE '%$s%' OR {*reserved*}.id LIKE '%$s%' OR {*reserved*}.comment LIKE '%$s%')";
     }
 
 
@@ -104,6 +104,7 @@ function getReservedCarts_range($page, $type){
     $arr = array(array());
     $onPage = _ENGINE['onPage'];
     $start = $page*$onPage;
+    $str = "";
     if ($type == 2){
         $str = " AND (SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)!='6'";
     }
