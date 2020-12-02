@@ -20,8 +20,8 @@
     </div>
 </div>
 <datalist id="reservations">
-    {foreach $reservedList as $item}
-        <option value="{$item.id} | {$item.comment}" data-id="{$item.id}">{$item.id} | {$item.comment}</option>
+    {foreach $reservationsDatalist as $key => $value}
+        <option value="{$key} | {$value}" data-id="{$key}">{$key} | {$value}</option>
     {/foreach}
 </datalist>
 
