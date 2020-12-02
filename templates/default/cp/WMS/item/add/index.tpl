@@ -257,7 +257,7 @@
                                 <select class="custom-select" name="loc_type_new[]">
                                     {foreach $location_types as $loc_typ}
                                         <option value="{$loc_typ.id}"
-                                                {if $loc_typ.id==$loc.id_type} selected{/if}>
+                                                {if $loc_typ.id==$default_location_type} selected{/if}>
                                             {$loc_typ.name}
                                         </option>
                                     {/foreach}
@@ -318,28 +318,27 @@
     init_image_uploader("");
     init_image_uploader("_live");
 </script>
-
 <script>
     function addExtraLoc() {
-        let input = "<div class=\"row mt-3 border border-secondary p-2\">\n" +
-            "<div class=\"col-12 col-md-4\"\">\n" +
-            "<input type=\"text\" class=\"form-control w-100 d-flex\"\n" +
-            "name=\"itemQuantityNew[]\" id=\"form17\"  placeholder=\"Quanitity\">\n" +
+        let input = "<div class=\"row mt-3 border border-secondary p-2\">" +
+            "<div class=\"col-12 col-md-4\"\">" +
+            "<input type=\"text\" class=\"form-control w-100 d-flex\"" +
+            "name=\"itemQuantityNew[]\" id=\"form17\"  placeholder=\"Quanitity\">" +
             "</div>\n" +
-            "<div class=\"col-12 col-md-5\"\">\n" +
-            "<input type=\"text\" class=\"form-control w-100 d-flex\"\n" +
-            "name=\"itemLocationNew[]\" id=\"form17\" placeholder=\"Location\">\n" +
-            "</div>\n" +
-            "<div class=\"col-12 col-md-3\">\n" +
-            "<select class=\"custom-select\" name=\"loc_type_new[]\">\n" +
-            "{foreach $location_types as $loc_typ}\n" +
-            "<option value=\"{$loc_typ.id}\"\n" +
-            "{if $loc_typ.id==$loc.id_type} selected{/if}>\n" +
-            "{$loc_typ.name}\n" +
-            "</option>\n" +
-            "{/foreach}\n" +
-            "</select>\n" +
-            "</div>\n" +
+            "<div class=\"col-12 col-md-5\"\">" +
+            "<input type=\"text\" class=\"form-control w-100 d-flex\"" +
+            "name=\"itemLocationNew[]\" id=\"form17\" placeholder=\"Location\">" +
+            "</div>" +
+            "<div class=\"col-12 col-md-3\">" +
+            "<select class=\"custom-select\" name=\"loc_type_new[]\">" +
+            "{foreach $location_types as $loc_typ}" +
+            "<option value=\"{$loc_typ.id}\"" +
+            "{if $loc_typ.id==$default_location_type} selected{/if}>" +
+            "{$loc_typ.name}" +
+            "</option>" +
+            "{/foreach}" +
+            "</select>" +
+            "</div>" +
             "</div>";
         $("#listWarehouse").append(input);
     }
