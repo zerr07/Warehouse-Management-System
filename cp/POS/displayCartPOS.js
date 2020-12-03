@@ -19,7 +19,7 @@ function displayCart(index) {
         let key = result[k][0].id;
         let tag = "";
         let imgURL = "";
-        if (cart[key]['IMG'] === null || cart[key]['IMG'] === ""){
+        if (!(cart[key]['IMG']) || cart[key]['IMG'] === ""){
             imgURL = "https://static.pingendo.com/img-placeholder-1.svg";
         } else{
             imgURL = "/uploads/images/products/"+cart[key]['IMG'];
