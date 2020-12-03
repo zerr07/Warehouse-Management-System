@@ -3,6 +3,35 @@
             <div class="accordion text-left mt-4" id="accordion">
 
                 <div class="card">
+                    <div class="card-header" id="heading0110">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse0110" aria-expanded="false" aria-controls="collapse0110">
+                                Version 0.11.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse0110" class="collapse" aria-labelledby="heading0110" data-parent="#accordion">
+                        <div class="card-body">
+                            FB descriptions added<br/>
+                            Added time shift for FB auctions<br/>
+                            Search extended to look for approximate id or comment<br/>
+                            Reservation editor implemented.<br/>
+                            Added list functionality to FB control panel.<br/>
+                            Fixed reservations list<br/>
+                            Location call fixed<br/>
+                            Buffertoode fix.<br />
+                            Fixed buffertoode appearance on shipment/reservation submit while it did not exist in cart.
+                            {literal}
+                                <pre>
+ヽ(。_°)ノ    </pre>
+                            {/literal}
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
                     <div class="card-header" id="heading0100">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
