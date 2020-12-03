@@ -19,6 +19,13 @@
     <div class="col-12 col-sm-12 col-md-6 mt-2">
         <input class="form-control w-100" type="datetime-local" id="TillTime"><div class="" id="TillTimeFeedback"></div>
     </div>
+    <div class="col-12 col-sm-12 mt-2">
+        <select class="custom-select" onchange="setList(this)" id="list_select">
+            {foreach $FB_list as $key => $value}
+                <option value="{$key}">{$value}</option>
+            {/foreach}
+        </select>
+    </div>
     <div class="col-12 col-sm-12 col-md-6 mt-2">
 
         <div class="form-row">
@@ -91,15 +98,21 @@
     let input = document.getElementById("OutputProductInput");
     let output = [];
     $(window).on('load', (function (){
+        let list = document.getElementById("list_select").value;
         getProductsToDataList();
-        getOutputProduct();
+        getOutputProduct(list);
         document.getElementById("FromTime").value = moment().add(35, "Minutes").format("YYYY-MM-DD[T]HH:mm:ss");
         document.getElementById("TillTime").value = moment().add(1, "Days").format("YYYY-MM-DD[T]18:00:00");
     }));
+    function setList(el){
+        getOutputProduct(el.value);
+    }
     $("#addToPosting").on("click", function (){
-        insertOutputProduct();
+        let list = document.getElementById("list_select").value;
+        insertOutputProduct(list);
     })
     $("#postToPage").on("click", function (){
+        let list = document.getElementById("list_select").value;
 
         let FromTime = document.getElementById("FromTime");
         let TillTime = document.getElementById("TillTime");
@@ -137,7 +150,7 @@
             return ;
         }
         document.getElementById("postToPage").disabled = true;
-        batchPost();
+        batchPost(list);
     })
 
     function getUserByComment(){
@@ -180,7 +193,7 @@
     document.addEventListener('FB_a_insert_used', function (e) {
         input.setAttribute("class", "form-control is-invalid");
         feedback.setAttribute("class", "invalid-feedback");
-        feedback.innerText = "Specified product is already in the list!";
+        feedback.innerText = "Specified product is already in one of the lists!";
     }, false);
 </script>
 {include file='footer.tpl'}

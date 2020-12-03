@@ -18,7 +18,7 @@ function getProductsToDataList(){
             });
         });
 }
-function insertOutputProduct(){
+function insertOutputProduct(list){
     let feedback = document.getElementById("OutputProductFeedback");
     let input = document.getElementById("OutputProductInput");
 
@@ -42,7 +42,7 @@ function insertOutputProduct(){
     document.getElementById("OutputProductInput").value = "";
 
     if (v !== ""){
-        fetch("/api/FB/outputProducts.php?username=aztrade&password=Zajev123&insert="+v)
+        fetch("/api/FB/outputProducts.php?username=aztrade&password=Zajev123&insert="+v+"&id="+list)
             .then(response => response.json())
             .then((d) => {
                 if (d.resp === "keyExists"){
@@ -52,7 +52,9 @@ function insertOutputProduct(){
                 }
             })
             .finally(function () {
-                getOutputProduct();
+                let list = document.getElementById("list_select").value;
+
+                getOutputProduct(list);
             });
     } else {
         document.dispatchEvent(eventInsertEmpty);
@@ -62,14 +64,16 @@ function insertOutputProduct(){
 function deleteOutputProduct(tag){
     fetch("/api/FB/outputProducts.php?username=aztrade&password=Zajev123&delete=" + tag)
         .finally(function () {
-            getOutputProduct();
+            let list = document.getElementById("list_select").value;
+
+            getOutputProduct(list);
         });
 }
 
-function getOutputProduct(){
+function getOutputProduct(list_id){
     document.getElementById("OutputProducts").innerHTML = "";
 
-    fetch("/api/FB/outputProducts.php?username=aztrade&password=Zajev123&get")
+    fetch("/api/FB/outputProducts.php?username=aztrade&password=Zajev123&get="+list_id)
         .then(response => response.json())
         .then((d) => {
             console.log(d.tags);
@@ -127,9 +131,9 @@ function setPhotoProgress(v){
     document.getElementById("PhotoProgress").setAttribute("style", "width: "+v+"%");
 }
 var count, incrementor;
-function batchPost(){
+function batchPost(list){
     let v = document.getElementById("AlbumId").value;
-    fetch("/api/FB/outputProducts.php?username=aztrade&password=Zajev123&get")
+    fetch("/api/FB/outputProducts.php?username=aztrade&password=Zajev123&get="+list)
         .then(response => response.json())
         .then(async (d) => {
             count = 0;
