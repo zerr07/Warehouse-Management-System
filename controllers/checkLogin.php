@@ -8,9 +8,9 @@ if (! (isset($_COOKIE['Authenticated']))){
     $actual_link = "$_SERVER[REQUEST_URI]";
     $allowed = array("/", "/cp/FB/auctions/?logout", "/cp/FB/auctions/");
     if ($_COOKIE['user_id'] == "9"){
-        if (!in_array($actual_link, $allowed)){
+        //if (!in_array($actual_link, $allowed)){
             echo "This endpoint is not allowed for this user. <a href='/cp/FB/auctions/'>Go here</a>";
             exit("");
-        }
+        //}
     }
 }
