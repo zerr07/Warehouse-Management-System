@@ -6,8 +6,13 @@ if (!defined('PRODUCTS_INCLUDED')){
 
 function updateCart(){
     if($_SESSION['cart'] != "\"null\"" || $_SESSION['cart'] != "\"[]\""){
-
-        $cart = rawurlencode(json_encode($_SESSION['cart']));
+        foreach ($_SESSION['cart'] as $key => $value){
+            if ($_SESSION['cart'][$key]['Available'] == null){
+                unset ($_SESSION['cart'][$key]);
+                echo "There is an error with the cart variable. Please clear cart otherwise POS functions result is not guarantied.";
+            }
+        }
+        $cart = rawurlencode(json_encode(array_filter($_SESSION['cart'])));
         $id = $_COOKIE['user_id'];
         updateQuantity();
         mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "UPDATE {*users*} SET cart='$cart' WHERE id='$id'"));
@@ -21,7 +26,7 @@ function getCart(){
     while ($row = mysqli_fetch_assoc($result)){
         $_SESSION['cartTotal'] = 0;
         if (isset($_SESSION['cart'])){
-            $cart = rawurlencode(json_encode($_SESSION['cart']));
+            $cart = rawurlencode(json_encode(array_filter($_SESSION['cart'])));
             if ($cart != $row['cart']){
                 $_SESSION['cart'] = json_decode(rawurldecode($row['cart']),true);
             }
@@ -43,8 +48,14 @@ function getCart(){
         }
 
         }
-
     updateQuantity();
+    $_SESSION['cart'] = array_filter($_SESSION['cart']);
+    foreach ($_SESSION['cart'] as $key => $value){
+        if ($value['Available'] == null || empty($value)){
+            unset ($_SESSION['cart'][$key]);
+            echo "There is an error with the cart variable. Please clear cart otherwise POS functions result is not guarantied.";
+        }
+    }
 }
 
 function updateQuantity(){
@@ -55,5 +66,4 @@ function updateQuantity(){
             }
         }
     }
-
 }
