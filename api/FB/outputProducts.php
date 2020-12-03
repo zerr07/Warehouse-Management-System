@@ -31,7 +31,7 @@ function getOutputProducts(){
         if (is_null($image)){
             $image = get_main_image($row['id']);
         }
-        array_push($arr, array("tag"=>$row['tag'], "quantity"=>get_quantity_sum($row['id']), "image"=>$image));
+        array_push($arr, array("tag"=>$row['tag'], "quantity"=>get_quantity_sum($row['id']), "image"=>$image, "desc"=>get_FB_desc($row['id'])));
     }
     $arr = array("tags"=>$arr);
     return json_encode($arr);

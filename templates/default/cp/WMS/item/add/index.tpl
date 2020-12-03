@@ -19,6 +19,7 @@
                         <li class="nav-item"> <a href="" class="nav-link active show" data-toggle="tab" data-target="#tabdata">Data<span style="color: red;">*</span></a> </li>
                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabcat">Category<span style="color: red;">*</span></a> </li>
                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabwar">Warehouse<span style="color: red;">*</span></a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabFB">Facebook data</a> </li>
                     </ul>
                     <div class="tab-content mt-2">
                         <div class="tab-pane fade active show" id="tabdata" role="tabpanel">
@@ -297,6 +298,11 @@
                         </div>
                     {/foreach}
                 </div>
+                <div class="tab-pane fade ml-20 mb-3" id="tabFB" role="tabpanel">
+                    <a href="https://fbicons.net/" target="_blank">For list of emojis go here. (an integrated panel to be implemented)</a>
+
+                    <textarea name="FB" id="FBText"></textarea>
+                </div>
             </div>
     </div>
 
@@ -375,7 +381,7 @@
         loadEditor('ruText', 'ru');
         loadEditor('etText', 'et');
         loadEditor('enText', 'en');
-
+        loadEditor('FBText', 'et');
     });
 </script>
 {include file='footer.tpl'}

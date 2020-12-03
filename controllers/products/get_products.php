@@ -121,6 +121,7 @@ function read_result_single($row){
     $arr['platforms'] = get_platform_data($id);
     $arr['reservations'] = get_reserve_info($id);
     $arr['descriptions'] = get_desc($id);
+    $arr['FB_description'] = get_FB_desc($id);
     $arr['images'] = get_images($id);
     $arr['mainImage'] = get_main_image($id);
     $arr['images_live'] = get_images_live($id);
@@ -219,7 +220,17 @@ function get_desc($index){
     }
     return $arr;
 }
-
+function get_FB_desc($index){
+    $arr = "";
+    if (file_exists($_SERVER["DOCUMENT_ROOT"].'/translations/products/'.$index.'.json')){
+        $desc = json_decode( file_get_contents(
+            $_SERVER["DOCUMENT_ROOT"].'/translations/products/'.$index.'.json'), true);
+        if (array_key_exists("FB", $desc['product'])){
+            $arr = html_entity_decode($desc['product']["FB"]['description']);
+        }
+    }
+    return $arr;
+}
 function get_images($index){
     $arr = array(array());
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, image, `position` 

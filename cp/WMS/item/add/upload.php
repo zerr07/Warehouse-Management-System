@@ -156,12 +156,14 @@ $ruTXT = "\xEF\xBB\xBF".$_POST['RUS'];
 $enTXT = "\xEF\xBB\xBF".$_POST['ENG'];
 $etTXT = "\xEF\xBB\xBF".$_POST['EST'];
 $lvTXT = "\xEF\xBB\xBF".$_POST['LV'];
+$FBTXT = "\xEF\xBB\xBF".$_POST['FB'];
 $product = array("product" => array(
     'pl' => array("description" => htmlentities($plTXT, ENT_QUOTES)),
     'ru' => array("description" => htmlentities($ruTXT, ENT_QUOTES)),
     'en' => array("description" => htmlentities($enTXT, ENT_QUOTES)),
     'et' => array("description" => htmlentities($etTXT, ENT_QUOTES)),
-    'lv' => array("description" => htmlentities($lvTXT, ENT_QUOTES))
+    'lv' => array("description" => htmlentities($lvTXT, ENT_QUOTES)),
+    'FB' => array("description" => htmlentities($FBTXT, ENT_QUOTES))
 ));
 $json = json_encode($product);
 file_put_contents($_SERVER['DOCUMENT_ROOT']."/translations/products/$last.json", $json);
