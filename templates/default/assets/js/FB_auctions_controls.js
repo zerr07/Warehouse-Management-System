@@ -4,8 +4,8 @@ let eventInsertEmpty = document.createEvent('Event');
 eventInsertEmpty.initEvent('FB_a_insert_empty', true, true);
 let eventInsertUsed = document.createEvent('Event');
 eventInsertUsed.initEvent('FB_a_insert_used', true, true);
-let domain = "http://95.217.217.222:8080";
-//let domain = "http://localhost:8080";
+//let domain = "http://95.217.217.222:8080";
+let domain = "http://localhost:8080";
 function getProductsToDataList(){
 
     fetch("/api/FB/getProductsJson.php?username=aztrade&password=Zajev123")
@@ -19,7 +19,26 @@ function getProductsToDataList(){
         });
 }
 function insertOutputProduct(){
+    let feedback = document.getElementById("OutputProductFeedback");
+    let input = document.getElementById("OutputProductInput");
+
+    input.setAttribute("class", "form-control");
+    feedback.setAttribute("class", "");
+    feedback.innerText = "";
+
     let v = document.getElementById("OutputProductInput").value;
+    let nameSearch = document.getElementById("OutputProductInput");
+    let nameID = document.querySelector("datalist[id='tags'] > option[value='"+nameSearch.value+"']");
+    if (nameID){
+        input.setAttribute("class", "form-control is-valid");
+        feedback.setAttribute("class", "valid-feedback");
+        feedback.innerText = "Success!";
+    } else {
+        input.setAttribute("class", "form-control is-invalid");
+        feedback.setAttribute("class", "invalid-feedback");
+        feedback.innerText = "Invalid tag!";
+        return;
+    }
     document.getElementById("OutputProductInput").value = "";
 
     if (v !== ""){
@@ -78,13 +97,24 @@ function getOutputProduct(){
                 document.getElementById("OutputProducts").appendChild(div);
                 div.innerHTML +=
                     "<div class='col-4'> " +
-                    "<button type='button' class='btn btn-link' onclick='loadAuctionCharts(\""+element.tag+"\")' disabled><i class='fas fa-ad'></i> View auction charts</button>" +
+                    "<button type='button' class='btn btn-link' onclick='loadAuctionCharts(\""+element.tag+"\")'><i class='fas fa-ad'></i> View auction charts</button>" +
                     "<div id='auction_charts'></div>" +
                     "</div>"+
-                    "<div class='col-2'> " +
-                    "<button type='button' class='btn btn-link' onclick='deleteOutputProduct(\""+element.tag+"\")'><i class='fas fa-trash'></i> Delete</button>" +
-                    "</div>"
+                    "<div class='col-1 mt-auto mb-auto' id='warning"+element.tag+"'> " +
+                    "</div>" +
+                    "<div class='col-1'> " +
+                    "<button type='button' class='btn btn-link' onclick='deleteOutputProduct(\""+element.tag+"\")'><i class='fas fa-trash'></i></button>" +
+                    "</div>";
+                if (element.desc === ""){
+                    document.getElementById("warning"+element.tag).innerHTML = "<i class='fas fa-exclamation' data-toggle='tooltip' data-placement='top' style='color: #ff0000' title='Empty description'></i>";
+                }
             });
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+                document.querySelectorAll("svg[data-toggle='tooltip'] > title").forEach(el=>{
+                    el.parentNode.removeChild(el);
+                });
+            })
         });
 }
 
@@ -107,10 +137,95 @@ function batchPost(){
             setScheduleProgress(count);
 
             incrementor = 100/d.tags.length;
-            for (const element of d.tags){
-                count += incrementor;
-                await postPhotoToFB(v, element.image, element.tag+" Auction");
+            let SubmittedStartDate      = moment(document.getElementById("FromTime").value, "YYYY-MM-DD[T]HH:mm:ss");
+            let SubmittedEndDate        = moment(document.getElementById("TillTime").value, "YYYY-MM-DD[T]HH:mm:ss");
+            console.log(SubmittedStartDate);
+            console.log(SubmittedEndDate);
+            let AucCount                = d.tags.length;
+            let FromTime                = 6;    // Hour of day
+            let TillTime                = 24;   // Hour of day
+            let MinTimePeriod           = 15;   // Minutes
+            let ActualStartDate;
+            let ActualEndDate;
+
+            let CurrDate            = moment();
+            let TempDate            = moment(SubmittedStartDate     , "YYYY-MM-DD HH:mm:ss");
+            SubmittedStartDate      = moment(SubmittedStartDate     , "YYYY-MM-DD HH:mm:ss");
+            SubmittedEndDate        = moment(SubmittedEndDate       , "YYYY-MM-DD HH:mm:ss");
+            console.log("End and start difference:" , SubmittedEndDate.diff(SubmittedStartDate, "minutes"), "minutes");
+            // A difference between start date and end date should be not more that 1 hour
+            // A difference between start date and current date should be more that 30 minutes
+            // Time between posts should be more than 10 minutes
+            // If all above conditions apply then start posting at specified time.
+            // If time is between 06:00:00 and 24:00:00 (example)
+            let LowerBoundMonth = parseInt(SubmittedStartDate.month())+1;
+            let UpperBoundMonth = parseInt(SubmittedEndDate.month())+1;
+            console.log(SubmittedStartDate.year()+"-"+LowerBoundMonth+"-"+SubmittedStartDate.date()+" "+"00:00:00");
+
+            let FirstBoundCheckLower    = moment(SubmittedStartDate.year()+"-"+LowerBoundMonth+"-"+SubmittedStartDate.date()+" "+"00:00:00", "YYYY-MM-DD HH:mm:ss").add(-1, "second");
+            let FirstBoundCheckUpper    = moment(SubmittedStartDate.year()+"-"+LowerBoundMonth+"-"+SubmittedStartDate.date()+" "+FromTime+":00:00", "YYYY-MM-DD HH:mm:ss");
+            let SecondBoundCheckLower   = moment(SubmittedEndDate.year()+"-"+UpperBoundMonth+"-"+SubmittedEndDate.date()+" "+TillTime+":00:00", "YYYY-MM-DD HH:mm:ss");
+            let SecondBoundCheckUpper   = moment(SubmittedEndDate.year()+"-"+UpperBoundMonth+"-"+SubmittedEndDate.date()+" "+"24:00:00", "YYYY-MM-DD HH:mm:ss");
+            console.log("End and start difference:" , FirstBoundCheckLower.diff(SubmittedStartDate, "minutes"), "minutes");
+
+            if (SubmittedStartDate.isBetween(FirstBoundCheckLower,FirstBoundCheckUpper)){
+                ActualStartDate = moment(SubmittedStartDate.year()+"-"+LowerBoundMonth+"-"+SubmittedStartDate.date()+" "+FromTime+":00:00", "YYYY-MM-DD HH:mm:ss");
+            } else {
+                ActualStartDate = SubmittedStartDate;
             }
+
+            if (SubmittedEndDate.isBetween(SecondBoundCheckLower,SecondBoundCheckUpper)){
+                ActualEndDate = moment(SubmittedEndDate.year()+"-"+LowerBoundMonth+"-"+SubmittedEndDate.date()+" "+TillTime+":00:00", "YYYY-MM-DD HH:mm:ss");
+            } else {
+                ActualEndDate = SubmittedEndDate;
+            }
+            let DaysDiff = ActualEndDate.diff(ActualStartDate, "days");
+            let hours = (TillTime-ActualStartDate.hour())+(ActualEndDate.hour()-FromTime);
+            if (DaysDiff >= 2){
+                for(let i = 2; i <= DaysDiff; i++){
+                    hours += TillTime - FromTime
+                }
+            }
+
+            if(ActualStartDate.diff(CurrDate, "minutes") >= 30 && ActualEndDate.diff(ActualStartDate, "minutes") >= 60){
+                ActualEndDate = ActualEndDate.add(-60, "minutes");
+                let TimeBetween = hours*60/AucCount;
+                console.log("Time between:" , TimeBetween , "minutes");
+                if (TimeBetween >= MinTimePeriod){
+                    for (const element of d.tags){
+                        TempDate = TempDate.add(TimeBetween, "minutes");
+                        if (TempDate.isBetween(
+                            moment(TempDate.year()+"-"+(parseInt(TempDate.month())+1)+"-"+TempDate.date()+" 00:00:00", "YYYY-MM-DD HH:mm:ss"),
+                            moment(TempDate.year()+"-"+(parseInt(TempDate.month())+1)+"-"+TempDate.date()+" "+FromTime+":00:00", "YYYY-MM-DD HH:mm:ss")
+                        )){
+                            TempDate.hour(FromTime);
+                            TempDate.minute("00");
+                            TempDate.second("00");
+                        }
+                        if (TempDate.isBetween(
+                            moment(TempDate.year()+"-"+(parseInt(TempDate.month())+1)+"-"+TempDate.date()+" "+TillTime+":00:00", "YYYY-MM-DD HH:mm:ss"),
+                            moment(TempDate.year()+"-"+(parseInt(TempDate.month())+1)+"-"+TempDate.date()+" 24:00:00", "YYYY-MM-DD HH:mm:ss")
+                        )){
+                            TempDate.add(1, "Days");
+                            TempDate.hour(FromTime);
+                            TempDate.minute("00");
+                            TempDate.second("00");
+                        }
+                        count += incrementor;
+                        console.log(TempDate.format("YYYY-MM-DD HH:mm:ss"))
+                        console.log(element)
+                        await postPhotoToFB(v, element.image, element.desc, TempDate.format("YYYY-MM-DD HH:mm:ss"), SubmittedEndDate.format("YYYY-MM-DD HH:mm:ss"));
+
+                    }
+                } else {
+                    console.log("Too little time specified for this amount of auctions.")
+                }
+            } else {
+                console.log("Time period invalid.");
+            }
+            ActualEndDate = ActualEndDate.add(60, "minutes");
+
+            console.log("End and start difference:" , ActualStartDate.diff(ActualEndDate, "minutes"), "minutes");
         })
         .finally(function () {
             document.getElementById("postToPage").disabled = false;
@@ -119,7 +234,7 @@ function batchPost(){
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-async function postPhotoToFB(AlbumID, PhotoURL, Caption){
+async function postPhotoToFB(AlbumID, PhotoURL, Caption, pubTime, EndTime){
     const requestOptions = {
         method: "POST",
         headers:  new Headers({
@@ -128,7 +243,9 @@ async function postPhotoToFB(AlbumID, PhotoURL, Caption){
         body: JSON.stringify({
             AlbumID: AlbumID,
             ImgUrl: "http://cp.azdev.eu/uploads/images/products/"+PhotoURL,
-            Caption: Caption
+            Caption: Caption,
+            FinishTime: pubTime,
+            EndTime: EndTime
         })
     };
     return fetch(domain+"/postPhotoToAlbum", requestOptions)
@@ -136,10 +253,10 @@ async function postPhotoToFB(AlbumID, PhotoURL, Caption){
         .then(async (d) => {
             setPhotoProgress(count);
             console.log("Posted...maybe...see response");
-            await schedulePost(d.id, Caption, AlbumID)
+            await schedulePost(d.id, Caption, AlbumID, pubTime)
         });
 }
-async function schedulePost(PhotoID, Message, AlbumID){
+async function schedulePost(PhotoID, Message, AlbumID, PubTime){
     const requestOptions = {
         method: "POST",
         headers:  new Headers({
@@ -149,6 +266,7 @@ async function schedulePost(PhotoID, Message, AlbumID){
             Message: Message,
             PhotoID: PhotoID,
             AlbumID: AlbumID,
+            PubTime: PubTime,
             Offset: 0
 
         })

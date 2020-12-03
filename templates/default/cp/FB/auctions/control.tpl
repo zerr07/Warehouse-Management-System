@@ -14,6 +14,12 @@
         </div>
     </div>
     <div class="col-12 col-sm-12 col-md-6 mt-2">
+        <input class="form-control w-100" type="datetime-local" id="FromTime"><div class="" id="FromTimeFeedback"></div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-6 mt-2">
+        <input class="form-control w-100" type="datetime-local" id="TillTime"><div class="" id="TillTimeFeedback"></div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-6 mt-2">
 
         <div class="form-row">
             <div class="col" id="OutputProductForm">
@@ -31,6 +37,7 @@
         <div class="form-row">
             <div class="col">
                 <input type="text" class="form-control w-100" aria-describedby="AlbumId" id="AlbumId" placeholder="Album ID">
+                <div class="" id="AlbumIdFeedback"></div>
             </div>
             <div class="col">
                 <button type="button" class="btn btn-info w-100" id="postToPage">Post to page</button>
@@ -78,7 +85,7 @@
 <link href="/templates/default/assets/css/c3.min.css?t=16102020T165344" rel="stylesheet" />
 
 <script src="/templates/default/assets/js/moment.js"></script>
-<script src="/templates/default/assets/js/FB_auctions_controls.js?d=20201120T122437"></script>
+<script src="/templates/default/assets/js/FB_auctions_controls.js?d=20201203T102437"></script>
 <script>
     let feedback = document.getElementById("OutputProductFeedback");
     let input = document.getElementById("OutputProductInput");
@@ -86,11 +93,49 @@
     $(window).on('load', (function (){
         getProductsToDataList();
         getOutputProduct();
+        document.getElementById("FromTime").value = moment().add(35, "Minutes").format("YYYY-MM-DD[T]HH:mm:ss");
+        document.getElementById("TillTime").value = moment().add(1, "Days").format("YYYY-MM-DD[T]18:00:00");
     }));
     $("#addToPosting").on("click", function (){
         insertOutputProduct();
     })
     $("#postToPage").on("click", function (){
+
+        let FromTime = document.getElementById("FromTime");
+        let TillTime = document.getElementById("TillTime");
+        let AlbumIdInput = document.getElementById("AlbumId");
+        let FromTimeFeedback = document.getElementById("FromTimeFeedback");
+        let TillTimeFeedback = document.getElementById("TillTimeFeedback");
+        let AlbumIdFeedback = document.getElementById("AlbumIdFeedback");
+
+        FromTime.setAttribute("class", "form-control");
+        FromTimeFeedback.setAttribute("class", "");
+        FromTimeFeedback.innerText = "";
+        TillTime.setAttribute("class", "form-control");
+        TillTimeFeedback.setAttribute("class", "");
+        TillTimeFeedback.innerText = "";
+        AlbumIdInput.setAttribute("class", "form-control");
+        AlbumIdFeedback.setAttribute("class", "");
+        AlbumIdFeedback.innerText = "";
+
+        if (moment(FromTime.value, "YYYY-MM-DD[T]HH:mm:ss").diff(moment(), "Minutes") <= 30){
+            FromTime.setAttribute("class", "form-control is-invalid");
+            FromTimeFeedback.setAttribute("class", "invalid-feedback");
+            FromTimeFeedback.innerText = "Start time must be no less than 30 minutes from now.";
+            return ;
+        }
+        if (moment(TillTime.value, "YYYY-MM-DD[T]HH:mm:ss").diff(moment(), "Minutes") <= 60){
+            TillTime.setAttribute("class", "form-control is-invalid");
+            TillTimeFeedback.setAttribute("class", "invalid-feedback");
+            TillTimeFeedback.innerText = "End time must be no less than 60 minutes from now.";
+            return ;
+        }
+        if (AlbumIdInput.value === ""){
+            AlbumIdInput.setAttribute("class", "form-control is-invalid");
+            AlbumIdFeedback.setAttribute("class", "invalid-feedback");
+            AlbumIdFeedback.innerText = "Empty album id";
+            return ;
+        }
         document.getElementById("postToPage").disabled = true;
         batchPost();
     })
