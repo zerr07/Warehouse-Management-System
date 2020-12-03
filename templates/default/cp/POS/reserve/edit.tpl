@@ -1,93 +1,94 @@
 {include file='header.tpl'}
 <script src="/templates/default/assets/js/moment.js"></script>
-
-<div class="row mt-3">
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-12 col-sm-12 col-md-9 col-lg-10">
-                <div class="row">
-                    <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">ID: </div>
-                    <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-5">{$reservation.id}</div>
-                </div>
-                <div class="row">
-                    <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">Date: </div>
-                    <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-5">{$reservation.date}</div>
-                </div>
-                <div class="row">
-                    <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">Type: </div>
-                    <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-5">{$reservation.type_name}</div>
-                </div>
-                <div class="row">
-                    <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">Comment: </div>
-                    <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-5">
-                        <input type="text" maxlength="240" name="comment" value="{$reservation.comment}" class="form-control">
-                        <small>Max length: 240 characters</small>
+<form action="/cp/POS/reserve/update.php" method="POST">
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-9 col-lg-10">
+                    <div class="row">
+                        <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">ID: </div>
+                        <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-5">{$reservation.id}</div>
+                        <input type="text" name="id" value="{$reservation.id}" hidden>
                     </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">Date: </div>
+                        <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-5">{$reservation.date}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">Type: </div>
+                        <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-5">{$reservation.type_name}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">Comment: </div>
+                        <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-5">
+                            <input type="text" maxlength="240" name="comment" value="{$reservation.comment}" class="form-control">
+                            <small>Max length: 240 characters</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {foreach $reservation.products as $prod}
+                <div class="row mt-3 border border-secondary p-1">
+                    <input type="text" name="id" value="{$reservation.id}" hidden>
+
+                    {if $prod.tag == "Buffertoode"}
+                        <div class="col-2 col-sm-2 col-lg-1 m-auto"><a style="color: white;text-overflow: ellipsis; ">{$prod.tag}</a>    </div>
+                        <div class="col-8 col-sm-8 col-lg-3 m-auto text-truncate"><a style="color: white;text-overflow: ellipsis; ">{$prod.name}</a>   </div>
+                    {else}
+                        <div class="col-2 col-sm-2 col-lg-1 m-auto"><a style="color: white;text-overflow: ellipsis; ">{$prod.tag}</a>       </div>
+                        <div class="col-8 col-sm-8 col-lg-3 m-auto text-truncate"><a style="color: white;text-overflow: ellipsis; ">{$prod.name.et}</a>   </div>
+                    {/if}
+                    <div class="col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center">
+                        <input type="number" step="1" class="form-control" name="quantity[{$prod.id}]" value="{$prod.quantity}">
+                    </div>
+                    <div class="col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center text-truncate">
+                        <input type="number" step="0.01" class="form-control" name="price[{$prod.id}]" value="{$prod.price}">
+                    </div>
+                    <div class="col-4 col-sm-4 col-lg-3 m-auto d-flex justify-content-center text-truncate" title="{$prod.location}">Loc: {$prod.location}</div>
+                    <div class="col-1 m-auto d-flex justify-content-center">
+                        <button type="button" class="btn btn-link" style="color: #cd6464" onclick="deleteRow(this)"><i class='fas fa-trash'></i></button>
+                    </div>
+
+                </div>
+            {/foreach}{debug}
+            <div class="row mt-5">
+                <div class="col-12" id="extra">
+
+                </div>
+            </div>
+            <div class="row mt-3">
+
+                <div class="col-2 d-flex justify-content-start mt-3">
+                    <button type="submit" class="btn btn-secondary">
+                        <i class="far fa-save"></i> Save
+                    </button>
+                </div>
+                <div class="col-8 mt-3">
+                    <div class="row">
+                        <div class="col-4">
+                            <input type="text" class="form-control" id="searchName" placeholder="Search by name" list="productDataList">
+                            <div class="" id="searchNameFeedback"></div>
+                            <datalist id="productDataList"></datalist>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" id="addExtraItem" class="btn btn-info w-100">Add extra</button>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" onclick="addExtraBuffer()" class="btn btn-info w-100">Add buffer</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2 d-flex justify-content-end mt-3">
+
+                    <a class="btn btn-primary" href="/cp/POS/reserve/index.php?view={$reservation.id}">
+                        <i class="fas fa-undo-alt"></i> Back
+                    </a>
                 </div>
             </div>
         </div>
-
-        {foreach $reservation.products as $prod}
-            <div class="row mt-3 border border-secondary p-1">
-
-                {if $prod.tag == "Buffertoode"}
-                    <div class="col-2 col-sm-2 col-lg-1 m-auto"><a style="color: white;text-overflow: ellipsis; ">{$prod.tag}</a>    </div>
-                    <div class="col-8 col-sm-8 col-lg-3 m-auto text-truncate"><a style="color: white;text-overflow: ellipsis; ">{$prod.name}</a>   </div>
-                {else}
-                    <div class="col-2 col-sm-2 col-lg-1 m-auto"><a style="color: white;text-overflow: ellipsis; ">{$prod.tag}</a>       </div>
-                    <div class="col-8 col-sm-8 col-lg-3 m-auto text-truncate"><a style="color: white;text-overflow: ellipsis; ">{$prod.name.et}</a>   </div>
-                {/if}
-                <div class="col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center">
-                    <input type="number" step="1" class="form-control" name="quantity[{$reservation.id}]" value="{$prod.quantity}">
-                </div>
-                <div class="col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center text-truncate">
-                    <input type="number" step="0.01" class="form-control" name="price[{$reservation.id}]" value="{$prod.price}">
-                </div>
-                <div class="col-4 col-sm-4 col-lg-3 m-auto d-flex justify-content-center text-truncate" title="{$prod.location}">Loc: {$prod.location}</div>
-                <div class="col-1 m-auto d-flex justify-content-center">
-                    <button type="button" class="btn btn-link" style="color: #cd6464" onclick="deleteRow(this)"><i class='fas fa-trash'></i></button>
-                </div>
-
-            </div>
-        {/foreach}
-        <div class="row mt-5">
-            <div class="col-12" id="extra">
-
-            </div>
-        </div>
-        <div class="row mt-3">
-
-            <div class="col-2 d-flex justify-content-start mt-3">
-                <a class="btn btn-secondary" href="/cp/POS/reserve/update.php">
-                    <i class="far fa-save"></i> Save
-                </a>
-            </div>
-            <div class="col-8 mt-3">
-                <div class="row">
-                    <div class="col-4">
-                        <input type="text" class="form-control" id="searchName" placeholder="Search by name" list="productDataList">
-                        <div class="" id="searchNameFeedback"></div>
-                        <datalist id="productDataList"></datalist>
-                    </div>
-                    <div class="col-4">
-                        <button type="button" id="addExtraItem" class="btn btn-info w-100">Add extra</button>
-                    </div>
-                    <div class="col-4">
-                        <button type="button" onclick="addExtraBuffer()" class="btn btn-info w-100">Add buffer</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-2 d-flex justify-content-end mt-3">
-
-                <a class="btn btn-primary" href="/cp/POS/reserve/index.php?view={$reservation.id}">
-                    <i class="fas fa-undo-alt"></i> Back
-                </a>
-            </div>
-        </div>
-
-
     </div>
-</div>
+</form>
 <script>
     document.getElementById("addExtraItem").addEventListener("click", function () {
         document.getElementById("searchName").setAttribute("class", "form-control");
@@ -130,11 +131,11 @@
 
         let quantityBox = document.createElement("div");
         quantityBox.setAttribute("class", "col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center");
-        quantityBox.appendChild(createQuantityInput("1", "quantityNewBuffer", "buffer"));
+        quantityBox.appendChild(createQuantityInput("1", "quantityNewBuffer", "buffer", ""));
 
         let priceBox = document.createElement("div");
         priceBox.setAttribute("class", "col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center text-truncate");
-        priceBox.appendChild(createPriceInput("0.00", "priceNewBuffer"));
+        priceBox.appendChild(createPriceInput("0.00", "priceNewBuffer", ""));
 
         let locationBox = document.createElement("div");
         locationBox.setAttribute("class", "col-4 col-sm-4 col-lg-3 m-auto d-flex justify-content-center text-truncate");
@@ -181,11 +182,11 @@
 
         let quantityBox = document.createElement("div");
         quantityBox.setAttribute("class", "col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center");
-        quantityBox.appendChild(createQuantityInput("1", "quantityNew", "default"));
+        quantityBox.appendChild(createQuantityInput("1", "quantityNew", "default", resp.id));
 
         let priceBox = document.createElement("div");
         priceBox.setAttribute("class", "col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center text-truncate");
-        priceBox.appendChild(createPriceInput(resp.platforms[1].price, "priceNew"));
+        priceBox.appendChild(createPriceInput(resp.platforms[1].price, "priceNew", resp.id));
 
         let locationBox = document.createElement("div");
         locationBox.setAttribute("class", "col-4 col-sm-4 col-lg-3 m-auto d-flex justify-content-center text-truncate");
@@ -196,7 +197,7 @@
 
         let loc = "";
         if (resp.locationList !== null || resp.locations !== "") {
-            loc += "<select class='custom-select' name='loc_select[]'>";
+            loc += "<select class='custom-select' name='loc_select["+resp.id+"]'>";
             for (let place in resp.locationList) {
                 loc += "<option value='" + place + "'>";
                 loc += resp.locationList[place]['type_name'].toString() + " : "
@@ -219,12 +220,12 @@
 
     }
 
-    function createQuantityInput(value, name , type){
+    function createQuantityInput(value, name , type, id){
         let quantityBoxInput = document.createElement("input");
         quantityBoxInput.setAttribute("type", "number");
         quantityBoxInput.setAttribute("step", "1");
         quantityBoxInput.setAttribute("class", "form-control");
-        quantityBoxInput.setAttribute("name", name+"[]");
+        quantityBoxInput.setAttribute("name", name+"["+id+"]");
         quantityBoxInput.setAttribute("onchange", "UpdatePrice(this, '"+value+"', '"+type+"');")
         quantityBoxInput.setAttribute("value", value);
         return quantityBoxInput;
@@ -245,12 +246,12 @@
         selectorP.value = ppp*parseFloat(selectorQ.value);
     }
 
-    function createPriceInput(value, name){
+    function createPriceInput(value, name, id){
         let priceBoxInput = document.createElement("input");
         priceBoxInput.setAttribute("type", "number");
         priceBoxInput.setAttribute("step", "0.01");
         priceBoxInput.setAttribute("class", "form-control");
-        priceBoxInput.setAttribute("name", name+"[]");
+        priceBoxInput.setAttribute("name", name+"["+id+"]");
         priceBoxInput.setAttribute("value", value);
         return priceBoxInput;
     }

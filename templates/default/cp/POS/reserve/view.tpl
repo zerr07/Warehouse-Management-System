@@ -47,8 +47,11 @@
                     {/if}
                     <div class="col-4 col-sm-4 col-lg-1 m-auto d-flex justify-content-center">{$prod.quantity} pcs</div>
                     <div class="col-4 col-sm-4 col-lg-1 m-auto d-flex justify-content-center text-truncate">{$prod.price} €</div>
-                    <div class="col-4 col-sm-4 col-lg-1 m-auto d-flex justify-content-center text-truncate" title="{$prod.location}">Loc: {$prod.location}</div>
-
+                    {if $prod.tag == "Buffertoode"}
+                        <div class="col-4 col-sm-4 col-lg-1 m-auto d-flex justify-content-center"></div>
+                    {else}
+                        <div class="col-4 col-sm-4 col-lg-1 m-auto d-flex justify-content-center text-truncate" title="{$prod.location}">Loc: {$prod.location}</div>
+                    {/if}
                     <div class="col-12 col-sm-12 col-md-12 col-lg-4 m-auto">
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-6">
@@ -104,11 +107,9 @@
             </div>
 
             <div class="col-2 d-flex justify-content-end mt-3">
-                {*
-                <a class="btn btn-secondary" href="/cp/POS/reserve/edit.php?edit={$reservation.id}">
+                <a class="btn btn-secondary mr-2" href="/cp/POS/reserve/edit.php?edit={$reservation.id}">
                     <i class="fas fa-edit"></i> Edit
                 </a>
-                *}
                 <a class="btn btn-primary" href="/cp/POS/reserve">
                     <i class="fas fa-undo-alt"></i> Back
                 </a>
