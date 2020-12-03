@@ -5,14 +5,14 @@ if (!defined('PRODUCTS_INCLUDED')){
 }
 
 function updateCart(){
-    if($_SESSION['cart'] != "\"null\"" || $_SESSION['cart'] != "\"[]\"" || $_SESSION['cart'] != null){
+    if($_SESSION['cart'] != "\"null\"" || $_SESSION['cart'] != "\"[]\"" || $_SESSION['cart'] != NULL || !empty($_SESSION['cart'])){
         foreach ($_SESSION['cart'] as $key => $value){
             if ($_SESSION['cart'][$key]['Available'] == null){
                 unset ($_SESSION['cart'][$key]);
                 echo "There is an error with the cart variable. Please clear cart otherwise POS functions result is not guarantied.";
             }
         }
-        $cart = rawurlencode(json_encode(array_filter($_SESSION['cart'])));
+        $cart = rawurlencode(json_encode($_SESSION['cart']));
         $id = $_COOKIE['user_id'];
         updateQuantity();
         mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "UPDATE {*users*} SET cart='$cart' WHERE id='$id'"));
