@@ -5,7 +5,7 @@ if (!defined('PRODUCTS_INCLUDED')){
 }
 
 function updateCart(){
-    if($_SESSION['cart'] != "\"null\"" || $_SESSION['cart'] != "\"[]\""){
+    if($_SESSION['cart'] != "\"null\"" || $_SESSION['cart'] != "\"[]\"" || $_SESSION['cart'] != null){
         foreach ($_SESSION['cart'] as $key => $value){
             if ($_SESSION['cart'][$key]['Available'] == null){
                 unset ($_SESSION['cart'][$key]);
