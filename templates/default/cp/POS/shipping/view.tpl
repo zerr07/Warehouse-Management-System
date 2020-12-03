@@ -61,7 +61,11 @@
                 {/if}
                 <div class="col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center"><span class="{if $prod.quantity > 1}highlight{/if}">{$prod.quantity} pcs</span></div>
                 <div class="col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center">{$prod.price} €</div>
-                <div class="col-4 col-sm-4 col-lg-1 m-auto d-flex justify-content-center text-truncate">{$prod.location}</div>
+                {if $prod.tag == "Buffertoode"}
+                    <div class="col-4 col-sm-4 col-lg-1 m-auto d-flex justify-content-center"></div>
+                {else}
+                    <div class="col-4 col-sm-4 col-lg-1 m-auto d-flex justify-content-center text-truncate">{$prod.location}</div>
+                {/if}
                 <div class="col-12 col-sm-12 col-md-12 col-lg-2 m-auto">
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-12">
