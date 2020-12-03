@@ -37,7 +37,7 @@ function getCart(){
         if ($cart != $row['cart']){
             $_SESSION['cart'] = json_decode(rawurldecode($row['cart']),true);
         }
-        if (isset($_SESSION['cart'])){
+        if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])){
             foreach ($_SESSION['cart'] as $k => $v)
                 $_SESSION['cartTotal'] += $v['quantity']*$v['basePrice'];
                 if (empty($v['loc']['locations'])){
@@ -49,13 +49,16 @@ function getCart(){
 
         }
     updateQuantity();
-    $_SESSION['cart'] = array_filter($_SESSION['cart']);
-    foreach ($_SESSION['cart'] as $key => $value){
-        if ($value['Available'] == null || empty($value)){
-            unset ($_SESSION['cart'][$key]);
-            echo "There is an error with the cart variable. Please clear cart otherwise POS functions result is not guarantied.";
+    if (is_array($_SESSION['cart'])){
+        $_SESSION['cart'] = array_filter($_SESSION['cart']);
+        foreach ($_SESSION['cart'] as $key => $value){
+            if ($value['Available'] == null || empty($value)){
+                unset ($_SESSION['cart'][$key]);
+                echo "There is an error with the cart variable. Please clear cart otherwise POS functions result is not guarantied.";
+            }
         }
     }
+
 }
 
 function updateQuantity(){
