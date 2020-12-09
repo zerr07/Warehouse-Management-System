@@ -229,7 +229,9 @@ if (isset($_POST['req'])){
         $_SESSION['cart'] = array();
         $_SESSION['cartTotal'] = 0.00;
         updateCart();
-        echo "Reserve success";
+        $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT MAX(id) as id FROM {*reserved*}"));
+
+        exit(json_encode(array("id"=>mysqli_fetch_assoc($q)['id'])));
     }
 }
 if (isset($_GET['getReservationItemsJSON'])){

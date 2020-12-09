@@ -141,24 +141,32 @@
         if (data.note === null) {
             return; //prompt cancelled
         }
+
+
         $.ajax({
             type     : "POST",
             cache    : false,
             url      :"/cp/POS/update.php",
             data     : $("#POScartForm").serialize(),
             success: function (result) {
-                $.ajax({
-                    type     : "POST",
-                    cache    : false,
-                    url      :"/cp/POS/reserve/reserve.php?type="+type,
-                    data: {req: JSON.stringify(data)},
-                    success: function(result){
-                        location.reload();
-                    },
-                    error: function (req, res){
-                        alert("Error!");
-                    }
-                });
+                const requestOptions = {
+                    method: "POST",
+                    headers:  new Headers({
+                        'Content-Type': 'application/json'
+                    }),
+                    body: JSON.stringify({
+                        req: JSON.stringify(data)
+                    })
+                };
+                fetch("/cp/POS/reserve/reserve.php?type="+type, requestOptions)
+                    .then(response => response.json())
+                    .then(async (d) => {
+                        if (type === "1"){
+                            location.reload();
+                        } else if (type === "2"){
+                            window.location.href = "/cp/POS/shipping/index.php?view="+d.id;
+                        }
+                    });
             }
         });
 

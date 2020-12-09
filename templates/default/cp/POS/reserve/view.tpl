@@ -162,7 +162,7 @@
         fetch("/cp/POS/shipping/convert.php?id="+id)
             .then(response => response.json())
             .then((d) => {
-                window.location.href = "/cp/POS/shipping";
+                window.location.href = "/cp/POS/shipping/index.php?view={$reservation.id}";
             });
     }
     function confirmProcess(id, price, basePrice, quantity, id_reservation, id_location) {
