@@ -33,6 +33,8 @@
                                 <div class="col-10 col-sm-10  m-auto   col-md-6     col-lg-6   col-xl-4 text-truncate">{$item.comment}</div>
                                 <div class="col-12 col-sm-12  m-auto   col-md-4     col-lg-4   col-xl-3">{$item.date}</div>
                                 <div class="col-12 col-sm-12  m-auto   col-md-12    col-lg-12  col-xl-4 d-flex justify-content-center">
+                                    <button type="button" class="btn btn-link" style="color: gray; opacity: 0.1" onclick="setWarning('{$item.id}')"><i class="fas fa-exclamation-triangle"></i></button>
+
                                     <a class="btn btn-outline-primary w-100" href="/cp/POS/reserve/index.php?view={$item.id}" >
                                         <i class="fas fa-link"></i>
                                         View
@@ -53,7 +55,27 @@
                     <a class="btn btn-primary" style="display: inline-block; float:right;" href="/cp/POS"><i class="fas fa-undo-alt"></i> Back</a>
                 </div>
             </div>
+<script src="/templates/default/assets/js/warning.js?d=20201203T102437"></script>
 <script>
+    window.addEventListener("load", function () {
+        const requestParams = {
+            method: "POST",
+            headers: new Headers({
+                "Content-Type": "application/json"
+            }),
+            body: JSON.stringify({
+                get: "",
+            })
+        };
+        fetch("/cp/POS/reserve/addWarning.php", requestParams)
+            .then(response => response.json())
+            .then((d) => {
+
+                Object.keys(d).forEach(el => {
+                    enableWarning(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]"), d[el].comment, d[el].user)
+                });
+            });
+    });
     function goToReservation(){
         let reservationsSearch   = document.getElementById("reservationsSearch");
         reservationsSearch.setAttribute("class", "form-control");

@@ -60,13 +60,14 @@
 
         {foreach $reservedList as $item}
 
-            <div class="row mt-3 border border-secondary p-1">
+            <div class="row mt-3 border border-secondary p-1" id="{$item.id}">
                 <div class="col-2 col-sm-2    m-auto   col-md-2     col-lg-2   col-xl-1">{$item.id}</div>
                 <div class="col-10 col-sm-10  m-auto   col-md-6     col-lg-3   col-xl-3 text-truncate">{$item.comment}</div>
                 <div class="col-12 col-sm-12  m-auto   col-md-4     col-lg-3   col-xl-2">{$item.date}</div>
                 <div class="col-12 col-sm-12  m-auto   col-md-12    col-lg-2   col-xl-1 text-truncate" title="{$item.status}">{$item.status}</div>
                 <div class="col-12 col-sm-12  m-auto   col-md-12    col-lg-2   col-xl-1 text-truncate" title="{$item.type}">{$item.type}</div>
                 <div class="col-12 col-sm-12  m-auto   col-md-12    col-lg-12  col-xl-4 d-flex justify-content-center">
+                    <button type="button" class="btn btn-link" style="color: gray; opacity: 0.1" onclick="setWarning('{$item.id}')"><i class="fas fa-exclamation-triangle"></i></button>
                     <a class="btn btn-outline-primary w-100" href="/cp/POS/shipping/index.php?view={$item.id}" >
                         <i class="fas fa-link"></i>
                         View
@@ -86,7 +87,29 @@
     {/if}
     <a class="btn btn-primary mt-3" style="display: inline-block; float:right;" href="/cp/POS"><i class="fas fa-undo-alt"></i> Back</a>
 </div>
+<script src="/templates/default/assets/js/warning.js?d=20201203T102437"></script>
+
 <script>
+
+    window.addEventListener("load", function () {
+        const requestParams = {
+            method: "POST",
+            headers: new Headers({
+                "Content-Type": "application/json"
+            }),
+            body: JSON.stringify({
+                get: "",
+            })
+        };
+        fetch("/cp/POS/reserve/addWarning.php", requestParams)
+        .then(response => response.json())
+        .then((d) => {
+
+            Object.keys(d).forEach(el => {
+                enableWarning(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]"), d[el].comment, d[el].user)
+            });
+        });
+    });
     document.getElementById("searchShippings").addEventListener("click", function () {
         let nameSearch = document.getElementById("searchIDorBarcode");
         let nameID = document.querySelector("datalist[id='searchIDorBarcodeList'] > option[value='"+nameSearch.value+"']");

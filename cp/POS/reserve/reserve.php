@@ -163,6 +163,7 @@ function readReservationResult($row){
         if (!is_numeric($row_products['id_product'])){
             $arr['products'][$row_products['id']]['tag'] = "Buffertoode";
             $arr['products'][$row_products['id']]['name'] = $row_products['id_product'];
+            $arr['products'][$row_products['id']]['location'] = 0;
         } else {
             $arr['products'][$row_products['id']]['tag'] = get_tag($row_products['id_product']);
             $arr['products'][$row_products['id']]['name'] = get_name($row_products['id_product']);

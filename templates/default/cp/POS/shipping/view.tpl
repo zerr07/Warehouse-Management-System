@@ -11,6 +11,10 @@
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-12 col-lg-6">
                     <div class="row">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-link p-0" style="color: gray; opacity: 0.1;" onclick="setWarning('{$reservation.id}')"><i class="fas fa-exclamation-triangle" style=" width: 64px; height: 64px"></i></button>
+                        </div>
+
                         <div class="col-4 col-sm-6 col-md-6 col-lg-3">ID: </div>
                         <div class="col-8 col-sm-6 col-md-6 col-lg-9">{$reservation.id}</div>
 
@@ -117,9 +121,28 @@
 <div id="inputs">
 </div>
 <script src="/templates/default/assets/js/cart.js?t=16102020T165728"></script>
+<script src="/templates/default/assets/js/warning.js?d=20201203T102437"></script>
+
 <script>
     $(window).on("load", function () {
         setShippingStatus();
+        const requestParams = {
+            method: "POST",
+            headers: new Headers({
+                "Content-Type": "application/json"
+            }),
+            body: JSON.stringify({
+                getSingle: "{$reservation.id}",
+            })
+        };
+        fetch("/cp/POS/reserve/addWarning.php", requestParams)
+            .then(response => response.json())
+            .then((d) => {
+
+                Object.keys(d).forEach(el => {
+                    enableWarning(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]"), d[el].comment, d[el].user)
+                });
+            });
     })
 
     function setShippingStatus(){
