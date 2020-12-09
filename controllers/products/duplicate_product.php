@@ -44,6 +44,10 @@ if (isset($_GET['id'])){
         SELECT '$last', id_platform, URL, price, `custom`, '0' FROM {*product_platforms*} WHERE id_item=$id"));
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*supplier_data*} (id_item, URL, price, priceVAT, supplierName) 
         SELECT '$last', URL, price, priceVAT, supplierName FROM {*supplier_data*} WHERE id_item=$id"));
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*carrier_details*} (id_carrier, id_product, enabled) 
+        SELECT id_carrier ,'$last', enabled FROM {*carrier_details*} WHERE id_product=$id"));
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*carrier_custom*} (id_carrier, id_product, price) 
+        SELECT id_carrier ,'$last', price FROM {*carrier_custom*} WHERE id_product=$id"));
     $file = $_SERVER['DOCUMENT_ROOT']."/translations/products/$id.json";
     $newfile = $_SERVER['DOCUMENT_ROOT']."/translations/products/$last.json";
     if (!copy($file, $newfile)) {
