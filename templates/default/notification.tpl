@@ -1,7 +1,7 @@
 <div role="alert" id="customToast" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false" style="max-width: 400px !important;">
     <div class="toast-header">
         <strong class="mr-auto">WMS</strong>
-        <small id="publishedTime">3<sup>rd</sup> of December 2020</small>
+        <small id="publishedTime">9<sup>th</sup> of December 2020</small>
         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" style="color: black;">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -34,7 +34,7 @@
       |      /                                          \           |
       |_____/                                            \__________|
 </pre>*}
-        <img src="/templates/default/assets/X87xXqcj-SI.jpg" style="max-height: 300px; width: auto">
+        <img src="/templates/default/assets/funny-meme-about-2020-never-ending-dec-31-2020-1159-dec-31-2020-1160.jpg" style="max-height: 300px; width: auto">
     </div>
 </div>
 <script>

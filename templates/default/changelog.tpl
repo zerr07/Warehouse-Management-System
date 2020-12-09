@@ -2,6 +2,62 @@
 
             <div class="accordion text-left mt-4" id="accordion">
 
+
+                <div class="card">
+                    <div class="card-header" id="heading0120">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse0120" aria-expanded="false" aria-controls="collapse0120">
+                                Version 0.12.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse0120" class="collapse" aria-labelledby="heading0120" data-parent="#accordion">
+                        <div class="card-body">
+                            Get linked categories function added<br/>
+                            Reservation products are now sorted by locations<br/>
+                            Product duplicate function now duplicates carrier data<br />
+                            Function to get product list from supplied array of their ids added.<br />
+                            XML generator added.<br />
+                            FB auctions control panel extended<br />
+                            Fixed invoice default date<br />
+                            Shipping redirect added.<br />
+                            {literal}
+                                <pre>
+                                    Throwing the nice guy who put the table back (╯°Д°）╯︵/(.□ . \)
+                                </pre>
+                            {/literal}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" id="heading0111">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse0111" aria-expanded="false" aria-controls="collapse0111">
+                                Version 0.11.1
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse0111" class="collapse" aria-labelledby="heading0111" data-parent="#accordion">
+                        <div class="card-body">
+                            Cart hotfix<br/>
+                            Reservation editor fix<br/>
+
+                            {literal}
+                                <pre>
+                                    ┻┳|
+                                    ┳┻| _
+                                    ┻┳| •.•)
+                                    ┳┻|⊂ﾉ
+                                    ┻┳|
+                                </pre>
+                            {/literal}
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card">
                     <div class="card-header" id="heading0110">
                         <h2 class="mb-0">
@@ -24,7 +80,8 @@
                             Fixed buffertoode appearance on shipment/reservation submit while it did not exist in cart.
                             {literal}
                                 <pre>
-ヽ(。_°)ノ    </pre>
+ฅ^•ﻌ•^ฅ
+                                </pre>
                             {/literal}
                         </div>
                     </div>

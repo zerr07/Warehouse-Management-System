@@ -285,6 +285,7 @@
         }
 
         try {
+            phoneInput.value = phoneInput.value.replace(" ", "");
             if (phoneInput.value === ""){
                 throw "Phone is empty";
             }

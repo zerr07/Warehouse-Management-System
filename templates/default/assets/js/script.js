@@ -96,7 +96,7 @@ function scrollFunction() {
     }
 }
 
-$(window).on('load', function () {
+window.addEventListener('DOMContentLoaded', function() {
     if (getCookie("user_id") !== ""){
         if (getCookie("darkTheme") === "true"){
             toggleTheme("dark-mode/main.css");
@@ -109,9 +109,9 @@ $(window).on('load', function () {
             document.getElementById("defaultTheme").selected = true;
         }
     }
-
     turnOffPreloader();
-});
+}, true);
+
 function isCSSLinkLoaded(link) {
     return Boolean(link.sheet);
 }

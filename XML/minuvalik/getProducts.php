@@ -54,6 +54,9 @@ if (mysqli_num_rows($check) == 0){
             $xml->endElement();
 
             $xml->startElement('QNT');
+            if($arr['quantity'] <= 0){
+                $arr['quantity'] = 0;
+            }
             $xml->text($arr['quantity']);
             $xml->endElement();
 
