@@ -7,7 +7,7 @@ eventInsertUsed.initEvent('FB_a_insert_used', true, true);
 //let domain = "http://95.217.217.222:8080";
 let domain = "http://localhost:8080";
 function getProductsToDataList(){
-
+    disableAlert();
     fetch("/api/FB/getProductsJson.php?username=aztrade&password=Zajev123")
         .then(response => response.json())
         .then((d) => {
@@ -19,6 +19,7 @@ function getProductsToDataList(){
         });
 }
 function insertOutputProduct(list){
+    disableAlert();
     let feedback = document.getElementById("OutputProductFeedback");
     let input = document.getElementById("OutputProductInput");
 
@@ -62,6 +63,7 @@ function insertOutputProduct(list){
 }
 
 function deleteOutputProduct(tag){
+    disableAlert();
     fetch("/api/FB/outputProducts.php?username=aztrade&password=Zajev123&delete=" + tag)
         .finally(function () {
             let list = document.getElementById("list_select").value;
@@ -71,6 +73,7 @@ function deleteOutputProduct(tag){
 }
 
 function getOutputProduct(list_id){
+    disableAlert();
     document.getElementById("OutputProducts").innerHTML = "";
 
     fetch("/api/FB/outputProducts.php?username=aztrade&password=Zajev123&get="+list_id)
@@ -132,6 +135,7 @@ function setPhotoProgress(v){
 }
 var count, incrementor;
 function batchPost(list){
+    disableAlert();
     let v = document.getElementById("AlbumId").value;
     fetch("/api/FB/outputProducts.php?username=aztrade&password=Zajev123&get="+list)
         .then(response => response.json())
@@ -216,9 +220,7 @@ function batchPost(list){
                             TempDate.second("00");
                         }
                         count += incrementor;
-                        console.log(TempDate.format("YYYY-MM-DD HH:mm:ss"))
-                        console.log(element)
-                        await postPhotoToFB(v, element.image, element.desc, TempDate.format("YYYY-MM-DD HH:mm:ss"), SubmittedEndDate.format("YYYY-MM-DD HH:mm:ss"));
+                        await postPhotoToFB(element.tag, v, element.image, element.desc, TempDate.format("YYYY-MM-DD HH:mm:ss"), SubmittedEndDate.format("YYYY-MM-DD HH:mm:ss"));
 
                     }
                 } else {
@@ -238,26 +240,54 @@ function batchPost(list){
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-async function postPhotoToFB(AlbumID, PhotoURL, Caption, pubTime, EndTime){
-    const requestOptions = {
-        method: "POST",
-        headers:  new Headers({
-            'Content-Type': 'application/json'
-        }),
-        body: JSON.stringify({
-            AlbumID: AlbumID,
-            ImgUrl: "http://cp.azdev.eu/uploads/images/products/"+PhotoURL,
-            Caption: Caption,
-            FinishTime: pubTime,
-            EndTime: EndTime
-        })
-    };
-    return fetch(domain+"/postPhotoToAlbum", requestOptions)
-        .then(response => response.json())
-        .then(async (d) => {
-            setPhotoProgress(count);
-            console.log("Posted...maybe...see response");
-            await schedulePost(d.id, Caption, AlbumID, pubTime)
+function process(){
+    disableAlert();
+    return fetch(domain+"/processQuery")
+}
+function forceRemove(){
+    disableAlert();
+    return fetch(domain+"/forceRemoveRequests");
+}
+async function postPhotoToFB(Tag, AlbumID, PhotoURL, Caption, pubTime, EndTime){
+    let ReservaionID;
+    let item = {
+        "note": "FB - not set",
+        "products":{[Tag]: {"quantity": 1}}
+    }
+    fetch("/api/reserve.php?username=aztrade&password=Zajev123&data="+JSON.stringify(item))
+        .then(resposne => resposne.text())
+        .then((d) => {
+            console.log(d);
+            ReservaionID = d.replace("Reservation ID: ", "");
+            console.log(ReservaionID);
+            const requestOptions = {
+                method: "POST",
+                headers:  new Headers({
+                    'Content-Type': 'application/json'
+                }),
+                body: JSON.stringify({
+                    ReservationID: ReservaionID,
+                    AlbumID: AlbumID,
+                    ImgUrl: "http://cp.azdev.eu/uploads/images/products/"+PhotoURL,
+                    Caption: Caption,
+                    FinishTime: pubTime,
+                    EndTime: EndTime
+                })
+            };
+            return fetch(domain+"/postPhotoToAlbum", requestOptions)
+                .then(response => response.json())
+                .then(async (d) => {
+
+                    if (d.hasOwnProperty("status")){
+                        if (d.status.toString() === "quotaExceeded"){
+                            setAlert("Quota exceeded, please try again later.");
+                        } else if (d.status.toString() === "quotaExceededAddedToQueue"){
+                            setAlert("Quota exceeded, the task has been added to queue.");
+                        }
+                    }
+                    setPhotoProgress(count);
+                    await schedulePost(d.id, Caption, AlbumID, pubTime)
+                });
         });
 }
 async function schedulePost(PhotoID, Message, AlbumID, PubTime){
@@ -279,15 +309,33 @@ async function schedulePost(PhotoID, Message, AlbumID, PubTime){
     return fetch(domain+"/publishPostScheduled", requestOptions)
         .then(response => response.json())
         .then((d) => {
+
             setScheduleProgress(count);
-            console.log("Scheduled...again maybe lol...check!")
+            if (d.hasOwnProperty("status")){
+                if (d.status.toString() === "quotaExceeded"){
+                    setAlert("Quota exceeded, please try again later.");
+                } else if (d.status.toString() === "quotaExceededAddedToQueue"){
+                    setAlert("Quota exceeded, the task has been added to queue.");
+                }
+            }
             console.log(d);
         });
 }
+
 function getAlbumsFB(){
+    disableAlert();
     fetch(domain+"/getAlbums")
         .then(response => response.json())
         .then((d) => {
+            if (d.hasOwnProperty("status")){
+                if (d.status.toString() === "quotaExceeded"){
+                    setAlert("Quota exceeded, please try again later.");
+                    return ;
+                } else if (d.status.toString() === "quotaExceededAddedToQueue"){
+                    setAlert("Quota exceeded, the task has been added to queue.");
+                    return ;
+                }
+            }
             document.getElementById("info-box").innerHTML = "";
             for (let i in d.data){
                 document.getElementById("info-box").innerHTML += ""+
@@ -304,6 +352,7 @@ function getAlbumsFB(){
 }
 
 function setCronFB(){
+    disableAlert();
     fetch(domain+"/setCron")
         .then(response => response.json())
         .then((d) => {
@@ -311,6 +360,7 @@ function setCronFB(){
         });
 }
 function getCronFB(){
+    disableAlert();
     fetch(domain+"/getCron")
         .then(response => response.json())
         .then((d) => {
@@ -338,6 +388,7 @@ function getCronFB(){
         });
 }
 function getCommentDetails(CommentID){
+    disableAlert();
     const requestOptions = {
         method: "POST",
         headers:  new Headers({
@@ -351,6 +402,15 @@ function getCommentDetails(CommentID){
     return fetch(domain+"/getWonUserIDFromCommentID", requestOptions)
         .then(response => response.json())
         .then((d) => {
+            if (d.hasOwnProperty("status")){
+                if (d.status.toString() === "quotaExceeded"){
+                    setAlert("Quota exceeded, please try again later.");
+                    return ;
+                } else if (d.status.toString() === "quotaExceededAddedToQueue"){
+                    setAlert("Quota exceeded, the task has been added to queue.");
+                    return ;
+                }
+            }
             if (!d.hasOwnProperty("error")){
                 alert(d.from.name + " | " + d.from.id);
             } else {
@@ -360,6 +420,7 @@ function getCommentDetails(CommentID){
 }
 
 async function getServerStatus() {
+    disableAlert();
     try {
         await getServerStatusFetch();
         document.getElementById("info-box").innerHTML = "Status: UP";
@@ -369,5 +430,17 @@ async function getServerStatus() {
 
 }
 async function getServerStatusFetch() {
+    disableAlert();
     return fetch(domain+"/getServerStatus");
+}
+
+function disableAlert(){
+    document.getElementById("alertBox").innerHTML = "";
+}
+function setAlert(message){
+    let alert = document.createElement("div");
+    alert.setAttribute("class", "alert alert-warning");
+    alert.setAttribute("role", "alert");
+    alert.innerText = message;
+    document.getElementById("alertBox").appendChild(alert);
 }

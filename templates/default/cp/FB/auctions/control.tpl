@@ -1,6 +1,7 @@
 {include file='header.tpl'}
 
 <div class="row mt-3">
+    <div class="col-12 mt-2" id="alertBox"></div>
     <div class="col-12 mt-2">
         Photos uploaded
         <div class="progress">
@@ -79,6 +80,9 @@
         <button onclick="getFinishedAuctions()" class="btn btn-info d-block w-100 mt-2">Get finished auctions</button>
         <button onclick="getUserByComment()" class="btn btn-info d-block w-100 mt-2">Get user ID by comment ID</button>
         <button onclick="getServerStatus()" class="btn btn-info d-block w-100 mt-2">Get server status</button>
+        <button onclick="process()" class="btn btn-info d-block w-100 mt-2">Force process requests</button>
+        <button onclick="forceRemove()" class="btn btn-info d-block w-100 mt-2">Force remove requests</button>
+
     </div>
     <div class="col-12 col-sm-12 col-md-9">
         <div id="info-box">
