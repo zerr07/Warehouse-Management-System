@@ -41,6 +41,23 @@ function get_products($shard){
     }
     return null;
 }
+function get_products_from_array($shard, $id_array){
+    $str = "";
+    $i = 0;
+    foreach ($id_array as $a){
+        if ($i == 0){
+            $str = "id='" . $a . "'";
+        } else {
+            $str .= " OR id='" . $a . "'";
+        }
+        $i++;
+    }
+    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*products*} WHERE id_shard='$shard' AND $str"));
+    if($result){
+        return array_filter(read_result_multiple($result));
+    }
+    return null;
+}
 function get_products_dataList($shard){
     $arr = array(array());
     $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, tag, 
@@ -416,6 +433,9 @@ if (isset($_GET['searchTagID'])) {
     }
 }
 if (isset($_GET['getDataList'])){
+    echo json_encode(get_products_dataList($_COOKIE['id_shard']));
+}
+if (isset($_GET['getProductsFromArray'])){
     echo json_encode(get_products_dataList($_COOKIE['id_shard']));
 }
 if (isset($_GET['getSingleProduct'])){
