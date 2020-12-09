@@ -174,6 +174,9 @@ function readReservationResult($row){
             }
         }
     }
+    usort($arr['products'] , function($a, $b) {
+        return $a['location'] <=> $b['location'];
+    });
     return $arr;
 }
 
