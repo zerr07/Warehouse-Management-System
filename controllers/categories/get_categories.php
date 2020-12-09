@@ -92,6 +92,11 @@ function get_category($index){
     return null;
 }
 
+function getLinked($id, $id_platform){
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT id_category_platform FROM {*category_platform*} WHERE id_platform='$id_platform' AND id_category='$id' LIMIT 1"));
+    return $q->fetch_assoc()['id_category_platform'];
+}
+
 function getEmptyCategoies(){
     $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *, 
     (SELECT `name` FROM {*category_name*} WHERE {*categories*}.id={*category_name*}.id_category AND {*category_name*}.id_lang='3' LIMIT 1) as `name`
