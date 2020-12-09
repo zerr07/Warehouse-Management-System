@@ -29,7 +29,7 @@
             </div>
 
             {foreach $reservation.products as $prod}
-                <div class="row mt-3 border border-secondary p-1">
+                <div class="row mt-3 border border-secondary p-1" id="row{$prod.id}">
                     <input type="text" name="id" value="{$reservation.id}" hidden>
 
                     {if $prod.tag == "Buffertoode"}
@@ -40,7 +40,7 @@
                         <div class="col-8 col-sm-8 col-lg-3 m-auto text-truncate"><a style="color: white;text-overflow: ellipsis; ">{$prod.name.et}</a>   </div>
                     {/if}
                     <div class="col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center">
-                        <input type="number" step="1" class="form-control" name="quantity[{$prod.id}]" value="{$prod.quantity}">
+                        <input type="number" step="1" class="form-control" onchange="UpdatePrice(this, '{$prod.quantity}' , 'exist')" name="quantity[{$prod.id}]" value="{$prod.quantity}">
                     </div>
                     <div class="col-4 col-sm-4 col-lg-2 m-auto d-flex justify-content-center text-truncate">
                         <input type="number" step="0.01" class="form-control" name="price[{$prod.id}]" value="{$prod.price}">
@@ -238,10 +238,16 @@
         if (type === "buffer"){
             selectorQ = document.querySelector("div[id='"+rowID+"'] > div > input[name='quantityNewBuffer[]']");
             selectorP = document.querySelector("div[id='"+rowID+"'] > div > input[name='priceNewBuffer[]']");
+        } else if(type === "exist"){
+            selectorQ = document.querySelector("div[id='"+rowID+"'] > div > input[name^='quantity']");
+            selectorP = document.querySelector("div[id='"+rowID+"'] > div > input[name^='price']");
+            selectorQ.setAttribute("onchange", "UpdatePrice(this, "+el.value+" , 'exist')");
         } else {
-            selectorQ = document.querySelector("div[id='"+rowID+"'] > div > input[name='quantityNew[]']");
-            selectorP = document.querySelector("div[id='"+rowID+"'] > div > input[name='priceNew[]']");
+            selectorQ = document.querySelector("div[id='"+rowID+"'] > div > input[name^='quantityNew']");
+            selectorP = document.querySelector("div[id='"+rowID+"'] > div > input[name^='priceNew']");
+            selectorQ.setAttribute("onchange", "UpdatePrice(this, "+el.value+" , 'default')");
         }
+        console.log("div[id='"+rowID+"'] > div > input[name='priceNew[]");
         let ppp = parseFloat(selectorP.value)/parseFloat(val);
         selectorP.value = ppp*parseFloat(selectorQ.value);
     }
