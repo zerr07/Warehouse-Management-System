@@ -189,12 +189,12 @@
 </div>
 
 <script>
-    window.onload = function () {
+
+    window.addEventListener("load", function (){
         let dateInput = document.getElementById("invoiceDueDate");
         let d = new Date();
-        dateInput.value = d.getFullYear()+"-"+('0' + (d.getMonth()+1)).slice(-2)+"-"+d.getDate();
-
-    }
+        dateInput.value = d.getFullYear()+"-"+('0' + (d.getMonth()+1)).slice(-2)+"-"+('0' + (d.getDate())).slice(-2);
+    });
     function up(c) {
         let dateInput = document.getElementById("invoiceDueDate");
         for (let i = 0;i<c;i++){
