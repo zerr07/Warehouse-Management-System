@@ -93,6 +93,11 @@
                 </div>
             {/foreach}
         <div class="row mt-3">
+            <div class="col">
+                Total: {$sum}
+            </div>
+        </div>
+        <div class="row mt-3">
 
             <div class="col-10 d-flex justify-content-start">
                 <div class="row w-100">
