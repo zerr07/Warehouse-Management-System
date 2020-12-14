@@ -64,7 +64,7 @@
                 "Content-Type": "application/json"
             }),
             body: JSON.stringify({
-                get: "",
+                get: "1",
             })
         };
         fetch("/cp/POS/reserve/addWarning.php", requestParams)
@@ -72,6 +72,7 @@
             .then((d) => {
 
                 Object.keys(d).forEach(el => {
+                    console.log("button[onclick=\"setWarning('"+el+"')\"]");
                     enableWarning(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]"), d[el].comment, d[el].user)
                 });
             });

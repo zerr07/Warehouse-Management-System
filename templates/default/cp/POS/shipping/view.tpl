@@ -2,6 +2,8 @@
 <script src="/templates/default/assets/js/print.min.js"></script>
 <link rel="stylesheet" href="/templates/default/assets/css/print.min.css">
 {include file='cp/POS/reserve/invoice.tpl'}
+{include file='cp/POS/reserve/invoicePDF.tpl'}
+
 <div class="row mt-3">
     <div class="col-md-12" >
         {include file='cp/POS/reserve/reserveConfirmModal.tpl'}
@@ -35,22 +37,32 @@
 
                     </div>
                 </div>
-                <div class="col-12 col-sm-12 col-md-12 col-lg-2">
-                    <button type="button" class="btn btn-success w-100 h-100" id="markAsShipped" onclick="markAsShipped()" disabled>
-                        Mark as shipped
-                    </button>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6 mt-2">
+                    <div class="row h-100">
+                        <div class="col-12 col-sm-12 col-md-6 mt-2">
+                            <button type="button" class="btn btn-success w-100 h-100" id="markAsShipped" onclick="markAsShipped()" disabled>
+                                Mark as shipped
+                            </button>
+                        </div>
+
+                        <div class="col-12 col-sm-12 col-md-6 mt-2">
+                            <button type="button" class="btn btn-secondary w-100 h-100" data-toggle="modal" data-target="#dataInsertModal">
+                                Manage shipping data
+                            </button>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-end mt-2">
+                            <button type="button" class="btn btn-info w-100 h-100" data-toggle="modal" data-target="#invoiceModalPDF">
+                                Get invoice PDF
+                            </button>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-end mt-2">
+                            <button type="button" class="btn btn-info w-100 h-100" data-toggle="modal" data-target="#invoiceModal">
+                                Print invoice
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="col-12 col-sm-12 col-md-12 col-lg-2">
-                    <button type="button" class="btn btn-secondary w-100 h-100" data-toggle="modal" data-target="#dataInsertModal">
-                        Manage shipping data
-                    </button>
-                </div>
-                <div class="col-12 col-sm-12 col-md-12 col-lg-2 d-flex justify-content-end">
-                    <button type="button" class="btn btn-info w-100 h-100" data-toggle="modal" data-target="#invoiceModal">
-                        Print invoice
-                    </button>
-                </div>
             </div>
         </div>
 
@@ -124,6 +136,15 @@
 <script src="/templates/default/assets/js/warning.js?d=20201203T102437"></script>
 
 <script>
+    let product_arr = [
+        {foreach $reservation.products as $prod}
+        {if $prod.tag == "Buffertoode"}
+            ["{$prod.tag}", "{$prod.name}", "tk", "{$prod.quantity}", "{$prod.basePrice}"],
+            {else}
+            ["{$prod.tag}", "{$prod.name.et}", "tk", "{$prod.quantity}", "{$prod.basePrice}"],
+        {/if}
+        {/foreach}
+    ]
     $(window).on("load", function () {
         setShippingStatus();
         const requestParams = {

@@ -9,9 +9,10 @@ function addWarning($id, $comment){
 function removeWarning($id){
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "DELETE FROM {*reservation_warning*} WHERE id_reservation='$id'"));
 }
-function getWarning(){
+function getWarning($type){
     $arr = array();
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT *, (SELECT username FROM {*users*} WHERE id={*reservation_warning*}.id_user) as `user` FROM {*reservation_warning*}"));
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT *, (SELECT username FROM {*users*} WHERE id={*reservation_warning*}.id_user) as `user` FROM {*reservation_warning*} WHERE 
+    (SELECT id FROM {*reserved*} WHERE id_type='$type' AND id={*reservation_warning*}.id_reservation)=id_reservation"));
     while ($row = $q->fetch_assoc()){
         $arr[$row['id_reservation']] = $row;
     }
@@ -34,7 +35,7 @@ if (isset($post->add) && isset($post->id) && isset($post->comment)){
     addWarning($post->id, $post->comment);
 }
 if (isset($post->get)){
-    echo json_encode(getWarning());
+    echo json_encode(getWarning($post->get));
 }
 if (isset($post->getSingle)){
     echo json_encode(getSingleWarning($post->getSingle));

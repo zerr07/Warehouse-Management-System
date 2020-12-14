@@ -98,7 +98,7 @@
                 "Content-Type": "application/json"
             }),
             body: JSON.stringify({
-                get: "",
+                get: "2",
             })
         };
         fetch("/cp/POS/reserve/addWarning.php", requestParams)

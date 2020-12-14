@@ -1,36 +1,51 @@
 {include file='header.tpl'}
 <script src="/templates/default/assets/js/print.min.js"></script>
 <link rel="stylesheet" href="/templates/default/assets/css/print.min.css">
+
 {include file='cp/POS/reserve/invoice.tpl'}
+{include file='cp/POS/reserve/invoicePDF.tpl'}
 <div class="row mt-3">
     <div class="col-md-12" >
         {include file='cp/POS/reserve/reserveConfirmModal.tpl'}
         <div class="col-12">
             <div class="row">
-                <div class="col-12 col-sm-12 col-md-9 col-lg-10">
+                <div class="col-12 col-sm-12 col-lg-8">
                     <div class="row">
                         <div class="col-12">
                             <button type="button" class="btn btn-link p-0" style="color: gray; opacity: 0.1;" onclick="setWarning('{$reservation.id}')"><i class="fas fa-exclamation-triangle" style=" width: 64px; height: 64px"></i></button>
                         </div>
 
-                        <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">ID: </div>
-                        <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-11">{$reservation.id}</div>
 
-                        <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">Date: </div>
-                        <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-11">{$reservation.date}</div>
+                        <div class="col-4 col-sm-6 col-md-6 col-lg-3">ID: </div>
+                        <div class="col-8 col-sm-6 col-md-6 col-lg-9">{$reservation.id}</div>
 
-                        <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">Type: </div>
-                        <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-11">{$reservation.type_name}</div>
+                        <div class="col-4 col-sm-6 col-md-6 col-lg-3">Date: </div>
+                        <div class="col-8 col-sm-6 col-md-6 col-lg-9">{$reservation.date}</div>
 
-                        <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-1">Comment: </div>
-                        <div class="col-8 col-sm-9 col-md-9 col-lg-10 col-xl-11">{$reservation.comment}</div>
+                        <div class="col-4 col-sm-6 col-md-6 col-lg-3">Type: </div>
+                        <div class="col-8 col-sm-6 col-md-6 col-lg-9">{$reservation.type_name}</div>
+
+                        <div class="col-4 col-sm-6 col-md-6 col-lg-3">Comment: </div>
+                        <div class="col-8 col-sm-6 col-md-6 col-lg-9">{$reservation.comment}</div>
+
                     </div>
                 </div>
-                <div class="col-12 col-sm-12 col-md-3 col-lg-2 d-flex justify-content-end">
-                    <button type="button" class="btn btn-info w-100 h-100" data-toggle="modal" data-target="#invoiceModal">
-                        Print invoice
-                    </button>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-4 mt-2">
+                    <div class="row h-100">
+                        <div class="col-12 col-sm-12 col-lg-6 d-flex justify-content-end mt-2">
+                            <button type="button" class="btn btn-info w-100 h-100" data-toggle="modal" data-target="#invoiceModalPDF">
+                                Get invoice PDF
+                            </button>
+                        </div>
+                        <div class="col-12 col-sm-12  col-lg-6 d-flex justify-content-end mt-2">
+                            <button type="button" class="btn btn-info w-100 h-100" data-toggle="modal" data-target="#invoiceModal">
+                                Print invoice
+                            </button>
+                        </div>
+                    </div>
                 </div>
+
+
             </div>
         </div>
 
@@ -129,6 +144,15 @@
 <script src="/templates/default/assets/js/warning.js?d=20201203T102437"></script>
 
 <script>
+    let product_arr = [
+        {foreach $reservation.products as $prod}
+            {if $prod.tag == "Buffertoode"}
+                    ["{$prod.tag}", "{$prod.name}", "tk", "{$prod.quantity}", "{$prod.basePrice}"],
+            {else}
+                    ["{$prod.tag}", "{$prod.name.et}", "tk", "{$prod.quantity}", "{$prod.basePrice}"],
+            {/if}
+        {/foreach}
+    ]
     window.addEventListener("load", function () {
         const requestParams = {
             method: "POST",
