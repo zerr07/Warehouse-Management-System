@@ -146,7 +146,7 @@
 <div id="inputs">
 </div>
 <script src="/templates/default/assets/js/cart.js?t=16102020T165728"></script>
-<script src="/templates/default/assets/js/warning.js?d=20201203T102437"></script>
+<script src="/templates/default/assets/js/warning.js?d=20201214T162632"></script>
 
 <script>
     let product_arr = [

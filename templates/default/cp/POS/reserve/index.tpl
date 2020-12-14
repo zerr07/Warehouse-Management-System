@@ -55,7 +55,7 @@
                     <a class="btn btn-primary" style="display: inline-block; float:right;" href="/cp/POS"><i class="fas fa-undo-alt"></i> Back</a>
                 </div>
             </div>
-<script src="/templates/default/assets/js/warning.js?d=20201203T102437"></script>
+<script src="/templates/default/assets/js/warning.js?d=20201214T162620"></script>
 <script>
     window.addEventListener("load", function () {
         const requestParams = {

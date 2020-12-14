@@ -87,7 +87,7 @@
     {/if}
     <a class="btn btn-primary mt-3" style="display: inline-block; float:right;" href="/cp/POS"><i class="fas fa-undo-alt"></i> Back</a>
 </div>
-<script src="/templates/default/assets/js/warning.js?d=20201203T102437"></script>
+<script src="/templates/default/assets/js/warning.js?d=20201214T162640"></script>
 
 <script>
 

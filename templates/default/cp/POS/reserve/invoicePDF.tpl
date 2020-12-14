@@ -60,7 +60,7 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 {literal}
                     <button type="button" class="btn btn-info"  onclick="savePDF()">
-                        Print invoice
+                        Download invoice
                     </button>
                 {/literal}
                 <div id="elementH"></div>
@@ -129,7 +129,7 @@
 
     }
     function up(c) {
-        let dateInput = document.getElementById("invoiceDueDate");
+        let dateInput = document.getElementById("invoiceDueDatePDF");
         for (let i = 0;i<c;i++){
             dateInput.stepUp();
         }
@@ -145,7 +145,7 @@
     }
     window.addEventListener("load", function (){
 
-        let dateInput = document.getElementById("invoiceDueDate");
+        let dateInput = document.getElementById("invoiceDueDatePDF");
         let d = new Date();
         dateInput.value = d.getFullYear()+"-"+('0' + (d.getMonth()+1)).slice(-2)+"-"+('0' + (d.getDate())).slice(-2);
     });
