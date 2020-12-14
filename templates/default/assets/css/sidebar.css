@@ -55,7 +55,7 @@ body.in{
 
 .sidebar_item {
     padding: 8px 8px 8px 32px;
-    font-size: 25px;
+    font-size: 22px;
     color: #818181;
     display: block;
     transition: 0.3s;
@@ -66,8 +66,8 @@ body.in{
     color: #f1f1f1;text-decoration: none;
 }
 .sidebar_dropdown_item{
-    font-size: 18px;
-    width: 270px;
+    font-size: 16px;
+    width: 290px;
     word-wrap: break-word;
     display: block;
     white-space: initial;

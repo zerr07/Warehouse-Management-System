@@ -1,6 +1,6 @@
 
 function openNav() {
-    document.getElementById("sidebar_menu").style.width = "300px";
+    document.getElementById("sidebar_menu").style.width = "330px";
     document.getElementById("sidebar_menu").style.height = "100vh";
     document.getElementById("sidebar_menu").style.marginLeft = "0";
     $("#sidebar_menu").addClass('in');
@@ -9,7 +9,7 @@ function openNav() {
 function closeNav() {
     document.getElementById("sidebar_menu").style.width = "0";
     document.getElementById("sidebar_menu").style.height = "0";
-    document.getElementById("sidebar_menu").style.marginLeft = "-300px";
+    document.getElementById("sidebar_menu").style.marginLeft = "-330px";
     $("#sidebar_menu").removeClass('in');
     $("body").removeClass('in');
 }
