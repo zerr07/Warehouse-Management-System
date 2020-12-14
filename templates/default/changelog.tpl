@@ -2,6 +2,31 @@
 
             <div class="accordion text-left mt-4" id="accordion">
 
+                <div class="card">
+                    <div class="card-header" id="heading0130">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse0130" aria-expanded="false" aria-controls="collapse0130">
+                                Version 0.13.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse0130" class="collapse" aria-labelledby="heading0130" data-parent="#accordion">
+                        <div class="card-body">
+                            Shipment/reservation warning button added<br />
+                            Shortcut to download invoice as PDF added.<br />
+                            Invoice generator update (now built from PDF rather than from HTML).<br />
+                            Warning notifications added.<br />
+                            Fixed reservation creation call.<br />
+                            {literal}
+                                <pre>
+                                    I hate Facebook! (╯°□°)╯︵ ʞooqǝɔɐℲ
+                                </pre>
+                            {/literal}
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="card">
                     <div class="card-header" id="heading0120">
