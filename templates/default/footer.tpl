@@ -55,7 +55,7 @@
 
 
 <script src="/templates/default/assets/js/smooth-scroll.js?t=16102020T165557"></script>
-<script src="/templates/default/assets/js/sidebar.js?t=16102020T165553"></script>
+<script src="/templates/default/assets/js/sidebar.js?t=20201209T124521"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
