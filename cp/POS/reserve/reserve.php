@@ -222,9 +222,10 @@ function cancelReservationProduct($id, $id_prod_res){
         }
     }
 }
+$post=json_decode(file_get_contents("php://input"));
 
-if (isset($_POST['req'])){
-    $request = json_decode($_POST['req']);
+if (isset($post->req)){
+    $request = json_decode($post->req);
     if ($request->reserve == "true") {
         reserveCart($request->note, $_SESSION['cart']);
         $_SESSION['cart'] = array();
