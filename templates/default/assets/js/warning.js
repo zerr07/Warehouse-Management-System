@@ -31,19 +31,21 @@ function setWarning(id){
     let btn = document.querySelector("button[onclick=\"setWarning('"+id+"')\"]")
     if (btn.style.color === "gray" && btn.style.opacity === "0.1"){
         let comment = prompt("Warning message:");
-        const requestParams = {
-            method: "POST",
-            headers: new Headers({
-                "Content-Type": "application/json"
-            }),
-            body: JSON.stringify({
-                add: "",
-                id: id,
-                comment: comment
-            })
-        };
-        fetch("/cp/POS/reserve/addWarning.php", requestParams);
-        enableWarning(btn, comment, getCookie("Authenticated"));
+        if (comment){
+            const requestParams = {
+                method: "POST",
+                headers: new Headers({
+                    "Content-Type": "application/json"
+                }),
+                body: JSON.stringify({
+                    add: "",
+                    id: id,
+                    comment: comment
+                })
+            };
+            fetch("/cp/POS/reserve/addWarning.php", requestParams);
+            enableWarning(btn, comment, getCookie("Authenticated"));
+        }
     } else if (btn.style.color === "red"){
         let conf = confirm("Are you sure you want to delete warning?");
         if (conf){
