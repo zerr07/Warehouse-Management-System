@@ -1,10 +1,9 @@
 
-<!-- Modal -->
-<div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModalLabel" aria-hidden="true">
+<div class="modal fade" id="invoiceModalPDF" tabindex="-1" role="dialog" aria-labelledby="invoiceModalLabelPDF" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="invoiceModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="invoiceModalLabelPDF">Modal title</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -14,10 +13,10 @@
                     <div class="text-left">
                         <div class="row">
                             <div class="col-3">
-                                <label for="invoiceDueDate">Due date</label>
+                                <label for="invoiceDueDatePDF">Due date</label>
                             </div>
                             <div class="col-9">
-                                <input type="date" id="invoiceDueDate">
+                                <input type="date" id="invoiceDueDatePDF">
                                 <button type="button" onclick="document.getElementById('invoiceDueDate').stepUp();">Up</button>
                                 <button type="button" onclick="document.getElementById('invoiceDueDate').stepDown();">Down</button>
                                 <button type="button" onclick="up(10);">+10</button>
@@ -25,10 +24,10 @@
                         </div>
                         <div class="row">
                             <div class="col-3">
-                                <label for="invoiceOsjta">Customer</label>
+                                <label for="invoiceOsjtaPDF">Customer</label>
                             </div>
                             <div class="col-9">
-                                <input type="text" id="invoiceOstja" value="Eraisik">
+                                <input type="text" id="invoiceOstjaPDF" value="Eraisik">
                             </div>
                         </div>
                         <div class="row">
@@ -37,16 +36,16 @@
                             </div>
                             <div class="col-9">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="bankInvoice" value="Pank">
-                                    <label class="form-check-label" for="bankInvoice">Bank</label>
+                                    <input class="form-check-input" type="checkbox" id="bankInvoicePDF" value="Pank">
+                                    <label class="form-check-label" for="bankInvoicePDF">Bank</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="cashInvoice" value="Sularaha">
-                                    <label class="form-check-label" for="cashInvoice">Cash</label>
+                                    <input class="form-check-input" type="checkbox" id="cashInvoicePDF" value="Sularaha">
+                                    <label class="form-check-label" for="cashInvoicePDF">Cash</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="cardInvoice" value="Kaart">
-                                    <label class="form-check-label" for="cardInvoice">Card</label>
+                                    <input class="form-check-input" type="checkbox" id="cardInvoicePDF" value="Kaart">
+                                    <label class="form-check-label" for="cardInvoicePDF">Card</label>
                                 </div>
                             </div>
                         </div>
@@ -55,13 +54,16 @@
 
                 </form>
             </div>
+
             <div class="modal-footer">
+
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 {literal}
-                    <button type="button" class="btn btn-info"  onclick="printPDF()">
+                    <button type="button" class="btn btn-info"  onclick="savePDF()">
                         Print invoice
                     </button>
                 {/literal}
+                <div id="elementH"></div>
 
             </div>
         </div>
@@ -69,12 +71,13 @@
 </div>
 
 <script>
-    function printPDF() {
-        let d = (document.getElementById("invoiceDueDate").value).split("-")
+
+    function savePDF() {
+        let d = (document.getElementById("invoiceDueDatePDF").value).split("-");
         let due = d[2] + "/" + d[1] + "/" + d[0];
-        let bankInvoice = document.getElementById("bankInvoice");
-        let cardInvoice = document.getElementById("cardInvoice");
-        let cashInvoice = document.getElementById("cashInvoice");
+        let bankInvoice = document.getElementById("bankInvoicePDF");
+        let cardInvoice = document.getElementById("cardInvoicePDF");
+        let cashInvoice = document.getElementById("cashInvoicePDF");
         let invoicePayment = "";
         if (cashInvoice.checked || cardInvoice.checked || bankInvoice.checked) {
             let c = 0;
@@ -108,7 +111,7 @@
             body: JSON.stringify({
                 Data: product_arr,
                 InvoiceNum: {$reservation.id},
-                Client: document.getElementById("invoiceOstja").value,
+                Client: document.getElementById("invoiceOstjaPDF").value,
                 PaymentMethod: invoicePayment,
                 DueDate: due,
                 Sum: {$sum|string_format:"%.2f"},
@@ -120,22 +123,31 @@
         fetch("/cp/POS/GeneratePDFInvoice.php?base64", requestOptions)
             .then(response => response.text())
             .then((d) => {
-                {literal}
-                printJS({printable: d, type: 'pdf', base64: true});
-                {/literal}
+                downloadPDF(d)
 
             });
 
     }
-    window.addEventListener("load", function (){
-        let dateInput = document.getElementById("invoiceDueDate");
-        let d = new Date();
-        dateInput.value = d.getFullYear()+"-"+('0' + (d.getMonth()+1)).slice(-2)+"-"+('0' + (d.getDate())).slice(-2);
-    });
     function up(c) {
         let dateInput = document.getElementById("invoiceDueDate");
         for (let i = 0;i<c;i++){
             dateInput.stepUp();
         }
     }
+    function downloadPDF(pdf) {
+        const linkSource = `data:application/pdf;base64,`+pdf;
+        const downloadLink = document.createElement("a");
+        const fileName = "{$reservation.id}_invoice.pdf";
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+    window.addEventListener("load", function (){
+
+        let dateInput = document.getElementById("invoiceDueDate");
+        let d = new Date();
+        dateInput.value = d.getFullYear()+"-"+('0' + (d.getMonth()+1)).slice(-2)+"-"+('0' + (d.getDate())).slice(-2);
+    });
+
 </script>
