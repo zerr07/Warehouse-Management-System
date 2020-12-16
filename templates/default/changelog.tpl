@@ -3,6 +3,38 @@
             <div class="accordion text-left mt-4" id="accordion">
 
                 <div class="card">
+                    <div class="card-header" id="heading0140">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse0140" aria-expanded="false" aria-controls="collapse0140">
+                                Version 0.14.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse0140" class="collapse" aria-labelledby="heading0140" data-parent="#accordion">
+                        <div class="card-body">
+                            Page titles added<br />
+                            Pickup from store option added<br />
+                            Changed redirection on category add/edit.<br />
+                            Favicon added.<br />
+                            Added get quota call to FB control panel.<br />
+                            Warning null notification fixed<br />
+
+                            {literal}
+                                <pre>
+                                    <￣｀ヽ　　　　　　　／￣＞this is the Lenny
+                                    　ゝ、　＼　／<>ヽ,ノ　/´owl they are almost
+                                    　　ゝ、　`( ( ͡° ͜ʖ ͡°)　／extinct.
+                                    　　　　　>　　,ノ
+                                    　　　　　∠_,/
+                                </pre>
+                            {/literal}
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
                     <div class="card-header" id="heading0130">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
