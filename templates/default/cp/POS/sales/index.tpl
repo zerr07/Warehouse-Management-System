@@ -98,6 +98,7 @@
         }
     }
     window.onload = function (){
+        setPageTitle("Sales history");
         let select = $("select#modeSelect");
         var val = select.children("option:selected").val();
         if (val == 'All'){

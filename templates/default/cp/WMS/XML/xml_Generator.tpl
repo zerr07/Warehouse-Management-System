@@ -99,6 +99,7 @@
     }
 
     window.addEventListener("load", function (){
+        setPageTitle("XML Generator");
         fetch("/controllers/products/get_products.php?getDataList=true")
             .then(response => response.json())
             .then((d) => {

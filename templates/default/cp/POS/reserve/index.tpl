@@ -58,6 +58,7 @@
 <script src="/templates/default/assets/js/warning.js?d=20201214T162620"></script>
 <script>
     window.addEventListener("load", function () {
+        setPageTitle("Reservation list");
         const requestParams = {
             method: "POST",
             headers: new Headers({

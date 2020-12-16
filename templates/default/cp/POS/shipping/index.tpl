@@ -36,10 +36,13 @@
         <div class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
             {if !isset($onlyCheckedOut)}
                 {foreach $typeList as $type}
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" name="typeSearch[{$type.id}]" value="{$type.id}" class="custom-control-input" id="customSwitchType{$type.id}" {if isset($typeToggled)}{if {$type.id}|in_array:$typeToggled}checked{/if}{/if}>
-                        <label class="custom-control-label" for="customSwitchType{$type.id}">{$type.name}</label>
-                    </div>
+                    {if $type.id != 4}
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" name="typeSearch[{$type.id}]" value="{$type.id}" class="custom-control-input" id="customSwitchType{$type.id}" {if isset($typeToggled)}{if {$type.id}|in_array:$typeToggled}checked{/if}{/if}>
+                            <label class="custom-control-label" for="customSwitchType{$type.id}">{$type.name}</label>
+                        </div>
+                    {/if}
+
                 {/foreach}
             {/if}
         </div>
@@ -92,6 +95,7 @@
 <script>
 
     window.addEventListener("load", function () {
+        setPageTitle("Shippling list");
         const requestParams = {
             method: "POST",
             headers: new Headers({

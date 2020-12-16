@@ -375,6 +375,7 @@
         $("#listURL").append(input);
     }
     $(window).on('load', function(){
+        setPageTitle("Create product");
         applyPrices();
         loadEditor('lvText', 'lv');
         loadEditor('plText', 'pl');

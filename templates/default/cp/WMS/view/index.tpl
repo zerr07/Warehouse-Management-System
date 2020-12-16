@@ -397,9 +397,9 @@
     $('input[type=radio]').on('change', function() {
         $(this).closest("form").submit();
     });
-    $(".tooltip_copy").tooltip({
-        trigger: 'click'
-    });
+    window.addEventListener("load", function () {
+        setPageTitle("{$item.tag}");
+    })
     function copyURL(element) {
         var el = $(element+"link");
         el.tooltip();
@@ -412,6 +412,10 @@
         document.execCommand("copy");
         $temp.remove();
     }
+    $(".tooltip_copy").tooltip({
+        trigger: 'click'
+    });
+
 
     
 </script>

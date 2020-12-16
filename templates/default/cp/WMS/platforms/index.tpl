@@ -40,5 +40,9 @@
         </div>
     </div>
 </div>
-
+<script>
+    window.addEventListener("load", function () {
+        setPageTitle("Platform list");
+    })
+</script>
 {include file='footer.tpl'}

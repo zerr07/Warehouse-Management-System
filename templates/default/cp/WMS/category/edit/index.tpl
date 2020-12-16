@@ -4,8 +4,9 @@
 
 <div class="row mt-3">
     <div class="col-md-12">
-        <h1>Create new category</h1>
+        <h1>Edit category {$item.id}</h1>
         <form class="text-left" method="POST" action="upload.php" enctype="multipart/form-data">
+            <input type="text" name="idEdit" value="{$item.id}" hidden>
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-6">
                     <label for="catNameET">Kategooria nimi<span style="color: red;">*</span> </label>
@@ -37,4 +38,10 @@
         </form>
     </div>
 </div>
+{debug}
+<script>
+    window.addEventListener("load", function () {
+        setPageTitle("Edit category {$item.id}");
+    })
+</script>
 {include file='footer.tpl'}

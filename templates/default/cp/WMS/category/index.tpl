@@ -107,6 +107,7 @@
 <script>
 
     $(window).on("load", function (){
+        setPageTitle("Category list");
         Array.prototype.forEach.call($(".catInfo"), function(el) {
             let div;
             let id = el.id.replace("catInfo", "");

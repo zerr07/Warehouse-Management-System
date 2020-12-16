@@ -110,6 +110,7 @@
         }
     });
     window.addEventListener("load", function () {
+        setPageTitle("Edit reservation {$reservation.id}");
         fetch("/controllers/products/get_products.php?getDataList=true")
             .then(response => response.json())
             .then((d) => {

@@ -103,6 +103,7 @@
     let input = document.getElementById("OutputProductInput");
     let output = [];
     $(window).on('load', (function (){
+        setPageTitle("FB control panel");
         let list = document.getElementById("list_select").value;
         getProductsToDataList();
         getOutputProduct(list);

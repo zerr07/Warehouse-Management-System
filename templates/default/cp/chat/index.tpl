@@ -37,6 +37,7 @@
     var from = 0;
     var scroll = false;
     $(window).on("load", function (){
+        setPageTitle("Chat");
         $(function () {
             $('form').submit(function(e) {
                 e.preventDefault(); // prevents page reloading

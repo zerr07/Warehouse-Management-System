@@ -143,6 +143,7 @@
         });
     });
     window.onload = function (){
+        setPageTitle("Home");
         $('.carousel').carousel();
         fetch("/controllers/products/get_products.php?getDataList=true")
             .then(response => response.json())

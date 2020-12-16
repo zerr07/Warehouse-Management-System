@@ -179,6 +179,7 @@
         sum();
     });
     $(window).on('load', function () {
+        setPageTitle("POS");
         $('[data-toggle="tooltip"]').tooltip();
         fetch("/controllers/products/get_products.php?getDataList=true")
         .then(response => response.json())

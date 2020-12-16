@@ -101,6 +101,9 @@
             }
         });
     });
+    window.addEventListener("load", function () {
+        setPageTitle("Shards");
+    });
 </script>
 
 

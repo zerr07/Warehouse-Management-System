@@ -150,3 +150,6 @@ function goToUrl(url){
     console.log("Redirecting to : " + url);
     window.location.href = url;
 }
+function setPageTitle(prepend){
+    document.getElementById("PageTitle").innerText = prepend + " - " + document.getElementById("PageTitle").innerText;
+}

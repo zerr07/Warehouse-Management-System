@@ -8,15 +8,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- PAGE settings -->
-  <title>WMS v{$system.version} - Control Panel</title>
+  <title id="PageTitle">WMS v{$system.version}</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
+  <link rel="apple-touch-icon" sizes="180x180" href="/templates/default/assets/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/templates/default/assets/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/templates/default/assets/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/templates/default/assets/favicon/site.webmanifest">
   <!-- CSS dependencies -->
+
   <link rel="stylesheet" href="/templates/default/assets/css/default/bootstrap.min.css?t=16102020T165624" id="main-stylesheet">
   <link rel="stylesheet" href="/templates/default/assets/css/style.css?t=20201126T155740">
   <link href="/templates/default/assets/css/sidebar.css?t=20201209T124458" rel="stylesheet">
   <script src="/templates/default/assets/js/jquery.min.js?t=16102020T165620"></script>
-  <script src="/templates/default/assets/js/script.js?t=20201209T122709"></script>
+  <script src="/templates/default/assets/js/script.js?t=20201216T141628"></script>
   <script>
     if('ontouchstart' in window){
       document.write('<script type="text/javascript" src="/templates/default/assets/js/swipe_menu.js?t=16102020T165616""><\/script>');

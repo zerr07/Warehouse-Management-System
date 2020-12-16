@@ -159,6 +159,7 @@
         {/foreach}
     ]
     window.addEventListener("load", function () {
+        setPageTitle("Reservation: {$reservation.id}");
         const requestParams = {
             method: "POST",
             headers: new Headers({

@@ -29,5 +29,9 @@
         </div>
     </div>
 </main>
-
+<script>
+    window.addEventListener("load", function (){
+        setPageTitle("Osta tree");
+    })
+</script>
 {include file='footer.tpl'}

@@ -28,5 +28,9 @@
         </form>
     </div>
 </div>
-
+<script>
+    window.addEventListener("load", function () {
+        setPageTitle("Create category");
+    });
+</script>
 {include file='footer.tpl'}

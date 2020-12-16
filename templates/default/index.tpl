@@ -25,5 +25,9 @@
         </div>
     </div>
 </main>
-
+<script>
+    window.addEventListener("load", function (){
+        setPageTitle("Login");
+    })
+</script>
 {include file='footer.tpl'}

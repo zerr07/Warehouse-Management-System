@@ -6,6 +6,11 @@
 <div class="row mt-3">
     <div class="col-md-12">
         {foreach $sales as $item}
+            <script>
+                window.addEventListener("load", function (){
+                    setPageTitle("Edit reservation {$reservation.id}");
+                });
+            </script>
             <div class="row">
                 <div class="col-6" style="display: inline-flex;">
                     <p>
@@ -89,4 +94,5 @@
         {/foreach}
     </div>
 </div>
+
 {include file='footer.tpl'}

@@ -569,5 +569,9 @@
 
 
             </div>
-
+<script>
+    window.addEventListener("load", function () {
+        setPageTitle("Changelog");
+    });
+</script>
 {include file='footer.tpl'}

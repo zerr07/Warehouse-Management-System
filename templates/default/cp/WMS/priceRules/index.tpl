@@ -43,5 +43,9 @@
         </form>
     </div>
 </div>
-
+<script>
+    window.addEventListener("load", function () {
+        setPageTitle("Price rules");
+    });
+</script>
 {include file='footer.tpl'}

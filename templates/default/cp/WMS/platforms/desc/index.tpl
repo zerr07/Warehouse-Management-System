@@ -45,6 +45,7 @@
 <script>
 
     $(window).on('load', function(){
+        setPageTitle("Edit platform {$platform_name}");
         loadEditor('lvText', 'lv');
         loadEditor('plText', 'pl');
         loadEditor('ruText', 'ru');

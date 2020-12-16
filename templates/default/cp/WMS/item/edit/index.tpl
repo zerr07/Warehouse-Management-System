@@ -354,6 +354,7 @@
         {/foreach}
     ];
     $(window).on('load', function(){
+        setPageTitle("Edit {$item.tag}");
         ImageUploader_displayImagePreview("");
         ImageUploader_displayImagePreview("_live");
     });
