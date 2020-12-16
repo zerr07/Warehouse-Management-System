@@ -72,7 +72,7 @@ $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO  {*category
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO  {*category_name*} (id_category, id_lang, `name`) 
                                                                             VALUES ('$last', '3', '$catNameET')"));
 
-header("Location: /cp/WMS/");
+header("Location: /cp/WMS/category/");
 
 
 

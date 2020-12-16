@@ -50,4 +50,4 @@ $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*ps_categ
         (id_category, id_shop, id_lang, `name`, link_rewrite) VALUES ('$id', '1', '2', '$catNameET', '$urlET')"));
 $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*ps_category_lang*} 
         (id_category, id_shop, id_lang, `name`, link_rewrite) VALUES ('$id', '1', '3', '$catNameRU', '$urlRU')"));
-header("Location: /cp/WMS/");
+header("Location: /cp/WMS/category/");
