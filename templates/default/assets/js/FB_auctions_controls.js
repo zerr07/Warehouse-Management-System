@@ -4,8 +4,8 @@ let eventInsertEmpty = document.createEvent('Event');
 eventInsertEmpty.initEvent('FB_a_insert_empty', true, true);
 let eventInsertUsed = document.createEvent('Event');
 eventInsertUsed.initEvent('FB_a_insert_used', true, true);
-//let domain = "http://95.217.217.222:8080";
-let domain = "http://localhost:8080";
+let domain = "http://95.217.217.222:8080";
+//let domain = "http://localhost:8080";
 function getProductsToDataList(){
     disableAlert();
     fetch("/api/FB/getProductsJson.php?username=aztrade&password=Zajev123")
@@ -82,6 +82,10 @@ function getOutputProduct(list_id){
             console.log(d.tags);
 
             d.tags.forEach(element => {
+                let a1 = document.createElement("a");
+                a1.setAttribute("href", "/cp/WMS/view/?view="+element.id);
+                let a2 = document.createElement("a");
+                a2.setAttribute("href", "/cp/WMS/view/?view="+element.id);
                 let div = document.createElement("div");
                 div.setAttribute("class", "row border border-secondary p-2");
                 let img_div = document.createElement("div");
@@ -95,10 +99,12 @@ function getOutputProduct(list_id){
                 e.setAttribute("class", "col-2 mt-auto mb-auto");
                 let e1 = document.createElement("div");
                 e1.setAttribute("class", "col-2 mt-auto mb-auto");
-                e.innerText = element.tag;
+                a2.innerText = element.tag;
                 e1.innerText = "Available : " + element.quantity;
-                img_div.appendChild(img);
+                a1.appendChild(img);
+                img_div.appendChild(a1);
                 div.appendChild(img_div);
+                e.appendChild(a2);
                 div.appendChild(e);
                 div.appendChild(e1);
                 document.getElementById("OutputProducts").appendChild(div);
@@ -357,6 +363,20 @@ function setCronFB(){
         .then(response => response.json())
         .then((d) => {
             console.log(d);
+        });
+}
+function getQuota(){
+    disableAlert();
+    fetch(domain+"/getQuota")
+        .then(response => response.json())
+        .then((d) => {
+            if (d.hasOwnProperty("status")){
+                if (d.status === "quotaNull"){
+                    setAlert("Quota is null.")
+                }
+            } else if (d.hasOwnProperty("result")){
+                document.getElementById("info-box").innerHTML = "Quota: " + d.result;
+            }
         });
 }
 function getCronFB(){

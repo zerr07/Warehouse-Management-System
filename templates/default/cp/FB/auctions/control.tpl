@@ -82,6 +82,7 @@
         <button onclick="getServerStatus()" class="btn btn-info d-block w-100 mt-2">Get server status</button>
         <button onclick="process()" class="btn btn-info d-block w-100 mt-2">Force process requests</button>
         <button onclick="forceRemove()" class="btn btn-info d-block w-100 mt-2">Force remove requests</button>
+        <button onclick="getQuota()" class="btn btn-info d-block w-100 mt-2">Get quota</button>
 
     </div>
     <div class="col-12 col-sm-12 col-md-9">
@@ -96,7 +97,7 @@
 <link href="/templates/default/assets/css/c3.min.css?t=16102020T165344" rel="stylesheet" />
 
 <script src="/templates/default/assets/js/moment.js"></script>
-<script src="/templates/default/assets/js/FB_auctions_controls.js?d=20201203T102437"></script>
+<script src="/templates/default/assets/js/FB_auctions_controls.js?d=20201214T170216"></script>
 <script>
     let feedback = document.getElementById("OutputProductFeedback");
     let input = document.getElementById("OutputProductInput");
