@@ -9,12 +9,13 @@
                     <div class="col-7">
                         <select class="custom-select mr-sm-2" id="carrierSelect" onchange="loadCarrierForm(this.value)">
                             {foreach $shipping_types as $key => $value}
-                                {if $reservation.shipping_type != "empty"}
-                                    <option value="{$key}" {if $reservation.shipping_type  == $key}selected{else}disabled{/if}>{$value.name}</option>
+                                {if $key != 4}
+                                    {if $reservation.shipping_type != "empty"}
+                                        <option value="{$key}" {if $reservation.shipping_type  == $key}selected{else}disabled{/if}>{$value.name}</option>
                                     {else}
-                                    <option value="{$key}">{$value.name}</option>
+                                        <option value="{$key}">{$value.name}</option>
+                                    {/if}
                                 {/if}
-
                             {/foreach}
 
                         </select>

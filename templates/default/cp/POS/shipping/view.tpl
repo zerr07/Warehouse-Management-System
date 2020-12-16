@@ -39,6 +39,12 @@
                 </div>
                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 mt-2">
                     <div class="row h-100">
+                        <div class="col-12 col-sm-12 col-md-12 mt-2">
+                            <button type="button" class="btn btn-success w-100 h-100" id="markAsPickup" onclick="markAsPickup()" disabled>
+                                Mark as "Pickup at store"
+                            </button>
+                        </div>
+
                         <div class="col-12 col-sm-12 col-md-6 mt-2">
                             <button type="button" class="btn btn-success w-100 h-100" id="markAsShipped" onclick="markAsShipped()" disabled>
                                 Mark as shipped
@@ -146,6 +152,7 @@
         {/foreach}
     ]
     $(window).on("load", function () {
+        setPageTitle("Shipment: {$reservation.id}");
         setShippingStatus();
         const requestParams = {
             method: "POST",
@@ -269,7 +276,15 @@
                                     a.disabled = false;
                                 });
                             }
+                        } else if (r.hasOwnProperty("id") && r.id === "4"){
+                            document.getElementById("markAsPickup").disabled = true;
+                            document.getElementById("checkoutShipment").disabled = false;
+                            document.getElementById("markAsShipped").disabled = true;
+                            document.querySelectorAll(".cancelShipping").forEach(a => {
+                                a.parentNode.removeChild(a);
+                            });
                         } else {
+                            document.getElementById("markAsPickup").disabled = false;
                             document.getElementById("checkoutShipment").disabled = true;
                             document.getElementById("markAsShipped").disabled = true;
                             document.querySelectorAll(".cancelShipping").forEach(a => {
@@ -311,28 +326,33 @@
                 fetch("/cp/POS/shipping/getShippingStatus.php?type_idJSON={$reservation.id}")
                     .then(response => response.json())
                     .then((r) => {
-                        document.getElementById("shippingType").innerText = d.name + "(" + r.name + ")";
+                        if (r.id === "4"){
+                            document.getElementById("shippingType").innerText = d.name;
+                        } else {
+                            document.getElementById("shippingType").innerText = d.name + "(" + r.name + ")";
+                        }
+
                     });
             });
     }
     $('#modalOTHER').hide();
     $("select#modeSelect").change(function(){
         var val = $(this).children("option:selected").val();
-        if (val == 'Bigshop'){
+        if (val === 'Bigshop'){
             $(this).css("background", "#009ac0");
             $(this).css("border-color", "#009ac0");
             $(this).css("color", "white");
             $('#modalSHOP').show();
             $('#modalOTHER').hide();
             document.getElementById('sale').disabled = true;
-        } else if (val == "Osta") {
+        } else if (val === "Osta") {
             $(this).css("background", "orange");
             $(this).css("border-color", "orange");
             $(this).css("color", "black");
             $('#modalSHOP').hide();
             $('#modalOTHER').show();
             document.getElementById('sale').disabled = false;
-        } else if (val == "Minuvalik") {
+        } else if (val === "Minuvalik") {
             $(this).css("background", "greenyellow");
             $(this).css("border-color", "greenyellow");
             $(this).css("color", "black");
@@ -340,7 +360,7 @@
             $('#modalOTHER').show();
             document.getElementById('sale').disabled = false;
 
-        } else if (val == "Shoppa") {
+        } else if (val === "Shoppa") {
             $(this).css("background", "coral");
             $(this).css("border-color", "coral");
             $(this).css("color", "black");
@@ -385,7 +405,11 @@
         fetch("/cp/POS/shipping/getShippingData.php?setSmartpostPosted={$reservation.id}").finally(function (){
             setShippingStatus();
         });
-
+    }
+    function markAsPickup(){
+        fetch("/cp/POS/shipping/getShippingData.php?setPickup={$reservation.id}").finally(function (){
+            setShippingStatus();
+        });
     }
     function isNumeric(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
