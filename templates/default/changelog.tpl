@@ -2,6 +2,35 @@
 
             <div class="accordion text-left mt-4" id="accordion">
 
+
+
+                <div class="card">
+                    <div class="card-header" id="heading0150">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse0150" aria-expanded="false" aria-controls="collapse0150">
+                                Version 0.15.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse0150" class="collapse" aria-labelledby="heading0150" data-parent="#accordion">
+                        <div class="card-body">
+                            Prestashop synchronization is now API based.<br />
+                            XML generator product parent tag output fixed.<br />
+                            {literal}
+                                <pre>
+                                    ⡏⠉⠉⠉⠉⠉⠉⠋⠉⠉⠉⠉⠉⠉⠋⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠙⠉⠉⠉⠹
+                                    ⡇⢸⣿⡟⠛⢿⣷⠀⢸⣿⡟⠛⢿⣷⡄⢸⣿⡇⠀⢸⣿⡇⢸⣿⡇⠀⢸⣿⡇⠀
+                                    ⡇⢸⣿⣧⣤⣾⠿⠀⢸⣿⣇⣀⣸⡿⠃⢸⣿⡇⠀⢸⣿⡇⢸⣿⣇⣀⣸⣿⡇⠀
+                                    ⡇⢸⣿⡏⠉⢹⣿⡆⢸⣿⡟⠛⢻⣷⡄⢸⣿⡇⠀⢸⣿⡇⢸⣿⡏⠉⢹⣿⡇⠀
+                                    ⡇⢸⣿⣧⣤⣼⡿⠃⢸⣿⡇⠀⢸⣿⡇⠸⣿⣧⣤⣼⡿⠁⢸⣿⡇⠀⢸⣿⡇⠀
+                                    ⣇⣀⣀⣀⣀⣀⣀⣄⣀⣀⣀⣀⣀⣀⣀⣠⣀⡈⠉⣁⣀⣄⣀⣀⣀⣠⣀⣀⣀⣰
+                                </pre>
+                            {/literal}
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card">
                     <div class="card-header" id="heading0140">
                         <h2 class="mb-0">
