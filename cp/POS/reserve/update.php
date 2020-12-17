@@ -1,5 +1,6 @@
 <?php
 include_once($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
+include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/prestashop/Products.php');
 
 if (isset($_POST['id'])){
     $id = $_POST['id'];
@@ -21,6 +22,7 @@ if (isset($_POST['id'])){
                 $row_q = $q->fetch_assoc();
                 $quantity = $row_q['quantity']+$oldQuantity-$value;
                 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "UPDATE {*product_locations*} SET quantity='$quantity' WHERE id='$id_location'"));
+                PR_PUT_Product($id_product);
             } else {
                 $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT * FROM {*product_locations*} WHERE id_product='$id_location' LIMIT 1"));
                 $row_q = $q->fetch_assoc();
@@ -49,6 +51,7 @@ if (isset($_POST['id'])){
             $row_q = $q->fetch_assoc();
             $quantity = $row_q['quantity']-$value;
             $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "UPDATE {*product_locations*} SET quantity='$quantity' WHERE id='$loc'"));
+            PR_PUT_Product($key);
 
             $price = $_POST['priceNew'][$key];
             $basePrice = round($price/$value, 2);

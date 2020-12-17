@@ -1,5 +1,6 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"] . '/configs/config.php');
+include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/prestashop/Products.php');
 
 if (!defined('PRODUCTS_INCLUDED')){
     include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
@@ -19,4 +20,5 @@ function update_quantity($index, $id_loc, $mode, $quantity){ //mode can me eithe
 
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_locations*}
         SET quantity='$new_quantity' WHERE id='$id_loc'"));
+    PR_PUT_Product($index);
 }

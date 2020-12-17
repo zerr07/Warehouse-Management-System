@@ -1,12 +1,14 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
+include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/prestashop/Products.php');
+
 function get_extension($file) {
     $array = explode(".", $file);
     $extension = end($array);
     return $extension ? $extension : false;
 }
 if (isset($_GET['id'])){
-    $id = $_GET['id']; //id of product to dublicate
+    $id = $_GET['id']; //id of product to duplicate
     if (isset($_COOKIE['id_shard'])){
         $shard = $_COOKIE['id_shard'];
     } else {
@@ -77,4 +79,5 @@ if (isset($_GET['id'])){
             $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images_live*} SET image='$newfilename' WHERE image='$oldfilename' AND id_item='$last'"));
         }
     }
+    PR_POST_Product($last);
 }

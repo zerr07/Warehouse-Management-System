@@ -13,6 +13,8 @@ function writeFile($file, $txt, $UploadFolder){
     fclose($WriteFile);
 }
 include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
+include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/prestashop/Products.php');
+
 session_start();
 
 if (isset($_COOKIE['id_shard'])){
@@ -256,5 +258,6 @@ if (!empty($images)) {
     }
     deleteImages($existImages, $last, "_live");
 }
+PR_POST_Product($last);
 header("Location: /cp/WMS/");
 ?>

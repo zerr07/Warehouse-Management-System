@@ -6,6 +6,8 @@ $fp = fopen($_SERVER["DOCUMENT_ROOT"]."/dump/".$date->getTimestamp().'.log', 'a'
 fwrite($fp, $req_dump);
 fclose($fp);
 include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
+include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/prestashop/Products.php');
+
 function writeFile($file, $txt, $UploadFolder){
     $WriteFile = fopen($UploadFolder.$file, "wb");
     fwrite($WriteFile,$txt);
@@ -255,6 +257,8 @@ if (!empty($images)) {
         AND position='0'"));
     //deleteImages($existImages, $last, "_live");
 }
+PR_POST_Product($last);
+
 
 header("Location: /cp/WMS/");
 
