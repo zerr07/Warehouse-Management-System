@@ -38,7 +38,6 @@
         </form>
     </div>
 </div>
-{debug}
 <script>
     window.addEventListener("load", function () {
         setPageTitle("Edit category {$item.id}");

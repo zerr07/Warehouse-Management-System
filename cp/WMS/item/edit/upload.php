@@ -257,7 +257,7 @@ if (!empty($images)) {
         AND position='0'"));
     //deleteImages($existImages, $last, "_live");
 }
-PR_POST_Product($last);
+PR_PUT_Product($last);
 
 
 header("Location: /cp/WMS/");

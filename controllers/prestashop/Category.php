@@ -18,24 +18,18 @@ function PR_GET_Category($id){
     $url = "https://$api_key@$domain/api/categories?output_format=JSON&display=full&filter[id]=$id";
     return CallGETAPI($url);
 }
-function translit($str) {
-    $rus = array('А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я', 'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я');
-    $lat = array('A', 'B', 'V', 'G', 'D', 'E', 'E', 'Gh', 'Z', 'I', 'Y', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'F', 'H', 'C', 'Ch', 'Sh', 'Sch', 'Y', 'Y', 'Y', 'E', 'Yu', 'Ya', 'a', 'b', 'v', 'g', 'd', 'e', 'e', 'gh', 'z', 'i', 'y', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'f', 'h', 'c', 'ch', 'sh', 'sch', 'y', 'y', 'y', 'e', 'yu', 'ya');
-    return str_replace($rus, $lat, $str);
-}
-function PR_POST_Category($urlET, $urlRU){
+
+function PR_POST_Category($parent, $catNameET, $catNameRU, $enabled, $urlET, $urlRU){
     global $domain, $api_key;
     $url = "https://$api_key@$domain/api/categories?output_format=JSON&display=full";
-    $data = get_category(15);
-    echo '<pre>'; print_r($data); echo '</pre>';
     $xml = '
     <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
     <category>
-        <id_parent>'.$data['parent'].'</id_parent>
-        <active>'.$data['enabled'].'</active>
+        <id_parent>'.$parent.'</id_parent>
+        <active>'.$enabled.'</active>
         <name>
-          <language id="2"><![CDATA['.$data['name']['et'].']]></language>
-          <language id="3"><![CDATA['.$data['name']['ru'].']]></language>
+          <language id="2"><![CDATA['.$catNameET.']]></language>
+          <language id="3"><![CDATA['.$catNameRU.']]></language>
         </name>
         <link_rewrite>
           <language id="2"><![CDATA['.$urlET.']]></language>
@@ -49,7 +43,7 @@ function PR_POST_Category($urlET, $urlRU){
 function PR_PUT_Category($id, $urlET, $urlRU){
     global $domain, $api_key;
     $url = "https://$api_key@$domain/api/categories?output_format=JSON&display=full";
-    $data = get_category(15);
+    $data = get_category($id);
     $xml = '
     <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
     <category>
@@ -67,7 +61,30 @@ function PR_PUT_Category($id, $urlET, $urlRU){
     </category>
 </prestashop>
     ';
-    return CallPOSTAPI($url, $xml)['categories'][0]['id'];
+    return CallPUTAPI($url, $xml)['categories'][0]['id'];
+}
+function PR_PUT_Category_parent_only($id, $parent){
+    global $domain, $api_key;
+    $data1 = PR_GET_Category($id);
+    $url = "https://$api_key@$domain/api/categories?output_format=JSON&display=full";
+    $xml = '
+    <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
+    <category>
+        <id>'.$id.'</id>
+        <id_parent>'.$parent.'</id_parent>
+        <active>'.$data1['active'].'</active>
+        <name>
+          <language id="2"><![CDATA['.$data1['categories']['name'][0]['value'].']]></language>
+          <language id="3"><![CDATA['.$data1['categories']['name'][1]['value'].']]></language>
+        </name>
+        <link_rewrite>
+          <language id="2"><![CDATA['.$data1['categories']['link_rewrite'][0]['value'].']]></language>
+          <language id="3"><![CDATA['.$data1['categories']['link_rewrite'][1]['value'].']]></language>
+        </link_rewrite>
+    </category>
+</prestashop>
+    ';
+    return CallPUTAPI($url, $xml)['categories'][0]['id'];
 }
 
 //PR_POST_Category("1232132132131231", "31241353252523");

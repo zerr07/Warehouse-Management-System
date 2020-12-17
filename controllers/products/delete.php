@@ -1,9 +1,12 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
+include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/prestashop/Products.php');
+
 if (isset($_GET['delete'])){
     $id = $_GET['delete'];
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*products*} WHERE id='$id'"));
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_name*} WHERE id_product='$id'"));
+    PR_DELETE_Product($id);
 } else if (isset($_GET['deleteSMTcategory'])){
     $id = $_GET['deleteSMTcategory'];
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*categories*} WHERE id='$id'"));

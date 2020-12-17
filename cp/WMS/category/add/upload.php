@@ -25,7 +25,7 @@ $urlET = preg_replace("/[^a-zA-Z]/", "", $urlET);
 $urlRU = preg_replace("/[^a-zA-Z]/", "", $urlRU);
 $date = date("Y-m-d H:i:s");
 $enabled = 1;
-$last = PR_POST_Category($urlET, $urlRU);
+$last = PR_POST_Category($parent, $catNameET, $catNameRU, $enabled, $urlET, $urlRU);
 
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO  {*categories*} (id, `parent`, enabled) 
                                                                                            VALUES ('$last','$parent', '$enabled')"));
@@ -36,7 +36,6 @@ $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO  {*category
                                                                             VALUES ('$last', '3', '$catNameET')"));
 
 
-PR_POST_Category($urlET, $urlRU);
 header("Location: /cp/WMS/category/");
 
 
