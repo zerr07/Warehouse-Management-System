@@ -31,9 +31,7 @@ function processXMLTree($profile, $parent, $products, $platform){
         foreach ($profile as $key => $value){
             $tag = parseTagName($key);
             if ($key == 'ParentTag'){
-                $xml->startElement(parseTagName($key));
-                processXMLProduct($value, $products, $platform);
-                $xml->endElement();
+                processXMLProduct($tag, $value, $products, $platform);
             } else if ($tag != "" && $tag != null){
                 $xml->startElement(parseTagName($key));
                 processXMLTree($value, $parent, $products, $platform);
@@ -43,9 +41,10 @@ function processXMLTree($profile, $parent, $products, $platform){
     }
 }
 
-function processXMLProduct($profile, $products, $platform){
+function processXMLProduct($parentTag, $profile, $products, $platform){
     global $xml;
     foreach ($products as $val){
+        $xml->startElement($parentTag);
         foreach ($profile as $key => $value){
             $tag = parseTagName($key);
             if ($tag != "" && $tag != null){
@@ -61,6 +60,7 @@ function processXMLProduct($profile, $products, $platform){
                 processElement($key, $platform, $val);
             }
         }
+        $xml->endElement();
     }
 
 }
@@ -73,7 +73,7 @@ function processElement($key, $platform, $product){
                 $xml->startElement("IMAGES");
                 foreach ($product['images'] as $value){
                     $xml->startElement("IMAGE");
-                    $xml->text($value['image']);
+                    $xml->text("http://cp.azdev.eu/uploads/images/products/".$value['image']);
                     $xml->endElement();
                 }
                 $xml->endElement();
