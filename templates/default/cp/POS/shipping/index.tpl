@@ -3,11 +3,8 @@
     <div class="row mt-4">
         <div class="col-12 col-sm-12 col-md-12 col-lg-8 mt-3 mt-lg-0">
             <input type="text" class="form-control w-100" name="searchIDorBarcode" id="searchIDorBarcode" list="searchIDorBarcodeList" placeholder="Search by ID or Barcode" {if isset($searchIDorBarcode)}value="{$searchIDorBarcode}" {/if} autofocus>
-            <datalist id="searchIDorBarcodeList">
-                {foreach $ShippingDatalist as $key => $value}
-                    <option value="{$value}" data-id="{$key}">{$value}</option>
-                {/foreach}
-            </datalist>
+            <template id="searchIDorBarcodeListTemplate"></template>
+            <datalist id="searchIDorBarcodeList"></datalist>
         </div>
         <div class="col-12 col-sm-12 col-md-12 col-lg-2 mt-3 mt-lg-0">
             {if isset($onlyCheckedOut)}
@@ -36,12 +33,10 @@
         <div class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
             {if !isset($onlyCheckedOut)}
                 {foreach $typeList as $type}
-                    {if $type.id != 4}
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" name="typeSearch[{$type.id}]" value="{$type.id}" class="custom-control-input" id="customSwitchType{$type.id}" {if isset($typeToggled)}{if {$type.id}|in_array:$typeToggled}checked{/if}{/if}>
-                            <label class="custom-control-label" for="customSwitchType{$type.id}">{$type.name}</label>
-                        </div>
-                    {/if}
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" name="typeSearch[{$type.id}]" value="{$type.id}" class="custom-control-input" id="customSwitchType{$type.id}" {if isset($typeToggled)}{if {$type.id}|in_array:$typeToggled}checked{/if}{/if}>
+                        <label class="custom-control-label" for="customSwitchType{$type.id}">{$type.name}</label>
+                    </div>
 
                 {/foreach}
             {/if}
@@ -96,6 +91,24 @@
 
     window.addEventListener("load", function () {
         setPageTitle("Shippling list");
+
+        fetch("/cp/POS/reserve/reserve.php?getReservationDataList=2")
+            .then(response => response.json())
+            .then((d) => {
+                let datalist = document.getElementById("searchIDorBarcodeListTemplate");
+                Object.keys(d).forEach(k => {
+                    let el = document.createElement("option");
+                    el.setAttribute("value", d[k]);
+                    el.setAttribute("data-id", k);
+                    el.innerText = d[k];
+                    datalist.appendChild(el);
+                })
+            }).finally(function () {
+            LimitDataList(document.getElementById("searchIDorBarcode"),
+                document.getElementById("searchIDorBarcodeList"),
+                document.getElementById("searchIDorBarcodeListTemplate"), 5);
+        });
+
         const requestParams = {
             method: "POST",
             headers: new Headers({

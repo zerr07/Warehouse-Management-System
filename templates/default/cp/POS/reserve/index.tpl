@@ -14,11 +14,8 @@
                         <div class="row mt-4">
                             <div class="col-10 col-sm-10 col-md-3">
                                 <input type="text" class="form-control" id="reservationsSearch" list="reservationsSearchList" placeholder="Reservation comment or ID"><div class='' id='reservationsSearchFeedback'></div>
-                                <datalist id="reservationsSearchList">
-                                    {foreach $reservationsDatalist as $key => $value}
-                                        <option value="{$value}" data-id="{$key}">{$value}</option>
-                                    {/foreach}
-                                </datalist>
+                                <template id="reservationsSearchListTemplate"></template>
+                                <datalist id="reservationsSearchList"></datalist>
                             </div>
                             <div class="col-2">
                                 <button type="button" class="btn btn-primary" onclick="goToReservation()">Go to</button>
@@ -59,6 +56,24 @@
 <script>
     window.addEventListener("load", function () {
         setPageTitle("Reservation list");
+
+        fetch("/cp/POS/reserve/reserve.php?getReservationDataList=1")
+            .then(response => response.json())
+            .then((d) => {
+                let datalist = document.getElementById("reservationsSearchListTemplate");
+                Object.keys(d).forEach(k => {
+                    let el = document.createElement("option");
+                    el.setAttribute("value", d[k]);
+                    el.setAttribute("data-id", k);
+                    el.innerText = d[k];
+                    datalist.appendChild(el);
+                })
+            }).finally(function () {
+            LimitDataList(document.getElementById("reservationsSearch"),
+                document.getElementById("reservationsSearchList"),
+                document.getElementById("reservationsSearchListTemplate"), 5);
+        });
+
         const requestParams = {
             method: "POST",
             headers: new Headers({

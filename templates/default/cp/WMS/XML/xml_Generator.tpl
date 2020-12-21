@@ -9,11 +9,8 @@
     </div>
     <div class="col-sm-8 col-md-4 mt-2">
         <input type="text" class="form-control w-100" name="searchName" id="searchName" placeholder="Search by name" list="productDataList"><div class='' id='searchNameFeedback'></div>
-        <datalist id="productDataList">
-            {foreach $items as $item}
-                <option value="{$item.tag} | {$item.name.et}" data-id="{$item.id}">{$item.tag} | {$item.name.et}</option>
-            {/foreach}
-        </datalist>
+        <template id="productDataListTemplate"></template>
+        <datalist id="productDataList"></datalist>
     </div>
     <div class="col-sm-2 col-md-2 mt-2">
         <button type="button" name="search" class="btn btn-info inline-items w-100" value="Search" id="SearchBtn">Add</button>
@@ -103,7 +100,7 @@
         fetch("/controllers/products/get_products.php?getDataList=true")
             .then(response => response.json())
             .then((d) => {
-                let datalist = document.getElementById("productDataList");
+                let datalist = document.getElementById("productDataListTemplate");
                 Object.keys(d).forEach(k => {
                     let el = document.createElement("option");
                     el.setAttribute("value", d[k]);
@@ -111,7 +108,11 @@
                     el.innerText = d[k];
                     datalist.appendChild(el);
                 })
-            });
+            }).finally(function () {
+            LimitDataList(document.getElementById("searchName"),
+                document.getElementById("productDataList"),
+                document.getElementById("productDataListTemplate"), 5);
+        });
         DrawList();
     });
     document.getElementById("SearchBtn").addEventListener("click", function () {

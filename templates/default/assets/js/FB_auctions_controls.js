@@ -13,10 +13,15 @@ function getProductsToDataList(){
         .then((d) => {
             d.tags.forEach(element => {
                 var e = document.createElement("option");
+                e.innerText = element;
                 e.value = element;
-                document.getElementById("tags").appendChild(e);
+                document.getElementById("tagsTemplate").appendChild(e);
             });
-        });
+        }).finally(function () {
+        LimitDataList(document.getElementById("OutputProductInput"),
+            document.getElementById("tags"),
+            document.getElementById("tagsTemplate"), 5);
+    });
 }
 function insertOutputProduct(list){
     disableAlert();
@@ -143,7 +148,7 @@ var count, incrementor;
 function batchPost(list){
     disableAlert();
     let v = document.getElementById("AlbumId").value;
-    fetch("/api/FB/outputProducts.php?username=aztrade&password=Zajev123&get="+list)
+    fetch("/api/FB/outputProducts.php?username=aztrade&password=Zajev123&getOnlyPos="+list)
         .then(response => response.json())
         .then(async (d) => {
             count = 0;

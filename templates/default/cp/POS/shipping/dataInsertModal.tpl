@@ -9,12 +9,10 @@
                     <div class="col-7">
                         <select class="custom-select mr-sm-2" id="carrierSelect" onchange="loadCarrierForm(this.value)">
                             {foreach $shipping_types as $key => $value}
-                                {if $key != 4}
-                                    {if $reservation.shipping_type != "empty"}
-                                        <option value="{$key}" {if $reservation.shipping_type  == $key}selected{else}disabled{/if}>{$value.name}</option>
-                                    {else}
-                                        <option value="{$key}">{$value.name}</option>
-                                    {/if}
+                                {if $reservation.shipping_type != "empty"}
+                                    <option value="{$key}" {if $reservation.shipping_type  == $key}selected{else}disabled{/if}>{$value.name}</option>
+                                {else}
+                                    <option value="{$key}">{$value.name}</option>
                                 {/if}
                             {/foreach}
 
@@ -48,12 +46,15 @@
             loadSmartpostForm();
         } else if (val === "2"){
             loadVenipakForm();
+        } else if (val === "4"){
+            loadPickupForm();
         } else {
             loadDefaultForm();
         }
     }
 
     function loadSmartpostForm(){
+        let res_id = {$reservation.id};
 
         let name        = "<label class='mt-2' for='SmartPostNameInput'>Name</label><input type='text' class='form-control' name='SmartPost_name' placeholder='Name' id='SmartPostNameInput'><div class='' id='SmartPostNameFeedback'></div>";
         let phone       = "<label class='mt-2' for='SmartPostPhoneInput'>Phone number</label><input type='text' class='form-control' name='SmartPost_phone' placeholder='Phone number' id='SmartPostPhoneInput'><div class='' id='SmartPostPhoneFeedback'></div>";
@@ -89,12 +90,11 @@
         let submit_btn = "<button type='button' class='btn btn-success mt-3' id='SmartpostSaveData' onclick='submitSmartpost()' disabled>Save</button>"
         let submit_get_bar_btn = "<button type='button' class='btn btn-success mt-3 ml-3' id='SmartpostSaveDataAndGetBar' onclick='SmartpostGetBar()' disabled>Save and get barcode</button>"
         let submit_label_btn = "<button type='button' class='btn btn-success mt-3 ml-3' id='getSmartpostLabelBtn' onclick='getSmartpostLabel();' disabled>Generate label</button>"
-        let submit_label_and_mark_btn = "<button type='button' class='btn btn-success mt-3 ml-3' id='getSmartpostLabelAndMarkShipped' onclick='getSmartpostLabel();markAsShipped();loadSmartpostForm();' disabled>" +
+        let submit_label_and_mark_btn = "<button type='button' class='btn btn-success mt-3 ml-3' id='getSmartpostLabelAndMarkShipped' onclick='getSmartpostLabel();submitSmartpost();' disabled>" +
             "Generate label and mark as posted" +
             "</button>"
 
         $("#dataInsertForm").html(name + phone + email + deliveryNr + parcel_term + parcel_term_list +lunasumma+cashOnDelivery+defDelivery+ comment + submit_btn + submit_get_bar_btn + submit_label_btn + submit_label_and_mark_btn);
-
         let term_list = document.getElementById("Smartpost_term");
         fetch("/cp/POS/shipping/getShippingData.php?getSmartpost")
         .then(response => response.json())
@@ -217,9 +217,23 @@
     function submitSmartpost(){
         if (checkSmartpostFields()){
             let json = formJSONSmartpost();
-            fetch("/cp/POS/shipping/getShippingData.php?saveSmartPost={$reservation.id}&saveSmartPostData="+json).finally(function () {
+            fetch("/cp/POS/shipping/getShippingData.php?saveSmartPost={$reservation.id}&saveSmartPostData="+json)
+                .then(() => {
+                    fetch("/cp/POS/shipping/submitShippingClientsData.php?getFromID={$reservation.id}")
+                        .then(response => response.json())
+                        .then(d=>{
+                            if (d.hasOwnProperty("data")){
+                                fetch("/cp/POS/sale.php?reservation=true&shipment=true&cash="+d.cash+"&card="+d.card+"&ostja="+d.ostja+"&tellimuseNr="+d.tellimuseNr+"&mode="+d.mode+"&id_cart="+d.id_reservation+"&shipmentID="+d.shipmentID);
+                            } else {
+                                console.log("ERROR NO DATA {$reservation.id}");
+                            }
+                        });
+
+                })
+                .finally(function () {
                 setShippingStatus();
                 loadSmartpostForm();
+                window.location.href = "/cp/POS/shipping";
             });
 
         }
@@ -1017,5 +1031,97 @@
 
     function getPDF(el){
         {literal}printJS('/uploads/files/pdf/'+el.getAttribute("data-id")){/literal}
+    }
+    function loadPickupForm(){
+        let form = document.getElementById("dataInsertForm");
+        form.innerHTML = "";
+
+        //---------------------------------------------------
+
+        let inputPhoneForm = document.createElement("input");
+        inputPhoneForm.setAttribute("class", "form-control");
+        inputPhoneForm.setAttribute("type", "text");
+        inputPhoneForm.setAttribute("name" , "PickupInputPhone");
+        inputPhoneForm.setAttribute("id" , "PickupInputPhone");
+        inputPhoneForm.setAttribute("placeholder", "Phone")
+
+        let labelPhoneForm = document.createElement("label");
+        labelPhoneForm.setAttribute("class", "mt-2");
+        labelPhoneForm.setAttribute("for", "PickupInputPhone");
+        labelPhoneForm.innerText = "Phone";
+
+        let checkPhoneForm = document.createElement("div");
+        checkPhoneForm.setAttribute("id", "PickupInputPhoneFeedback");
+
+        form.appendChild(labelPhoneForm);
+        form.appendChild(inputPhoneForm);
+        form.appendChild(checkPhoneForm);
+
+        //---------------------------------------------------
+
+        let submitBtn = document.createElement("button");
+        submitBtn.setAttribute("type", "button");
+        submitBtn.setAttribute("class", "btn btn-success mt-3");
+        submitBtn.setAttribute("id", "PickupSaveData");
+        submitBtn.setAttribute("onclick", "submitPickup()");
+        submitBtn.innerText = "Save";
+
+        form.appendChild(submitBtn);
+        //---------------------------------------------------
+
+        fetch("/cp/POS/shipping/getShippingStatus.php?type_idJSON={$reservation.id}")
+            .then(response => response.json())
+            .then((r) => {
+                if (r.hasOwnProperty("id") && r.id === "4"){
+                    fetch("/cp/POS/shipping/getShippingStatus.php?data_id={$reservation.id}")
+                        .then(response => response.json())
+                        .then((d) => {
+                            console.log(d);
+                            if (d.hasOwnProperty("data")){
+                                document.getElementById("PickupInputPhone").value = d.data.phone;
+                            }
+                        });
+                }
+            });
+    }
+    function checkPickupFields(){
+        let phoneInput       = document.getElementById("PickupInputPhone");
+
+        let phoneFeedback        = document.getElementById("PickupInputPhoneFeedback");
+
+        phoneInput.setAttribute("class", "form-control");
+        phoneFeedback.setAttribute("class", "");
+        phoneFeedback.innerText = "";
+
+        try {
+            if (phoneInput.value === ""){
+                throw "Phone is empty";
+            }
+        } catch (err) {
+            phoneInput.setAttribute("class", "form-control mt-3 is-invalid");
+            phoneFeedback.setAttribute("class", "invalid-feedback");
+            phoneFeedback.innerText = "Please specify clients phone!";
+            return false;
+        }
+
+        return true;
+    }
+    async function formJSONPickup() {
+        let PhoneInput = document.getElementById("PickupInputPhone");
+        let obj = {
+            phone: PhoneInput.value.replace("#", '')
+        }
+        let json = JSON.stringify(obj);
+        console.log("/cp/POS/shipping/getShippingData.php?savePickup={$reservation.id}&savePickupData=" + json)
+        return json;
+    }
+    async function submitPickup(){
+        if (checkPickupFields()){
+            let json = await formJSONPickup();
+            fetch("/cp/POS/shipping/getShippingData.php?savePickup={$reservation.id}&savePickupData="+json).finally(function () {
+                setShippingStatus();
+                loadPickupForm();
+            });
+        }
     }
 </script>

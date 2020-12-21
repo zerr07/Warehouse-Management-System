@@ -31,6 +31,7 @@
                     <div class="col-sm-12 col-md-4 col-lg-3 mt-2">
                         <input type="text" class="form-control w-100" name="searchName" id="searchName" placeholder="Search by name" list="productDataList"
                                 {if isset($searchName) && $searchName != ""}value="{$searchName}"{/if}>
+                        <template id="productDataListTemplate"></template>
                         <datalist id="productDataList"></datalist>
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-3 text-center mt-2">
@@ -148,7 +149,7 @@
         fetch("/controllers/products/get_products.php?getDataList=true")
             .then(response => response.json())
             .then((d) => {
-                let datalist = document.getElementById("productDataList");
+                let datalist = document.getElementById("productDataListTemplate");
                 Object.keys(d).forEach(k => {
                     let el = document.createElement("option");
                     el.setAttribute("value", d[k]);
@@ -156,7 +157,11 @@
                     el.innerText = d[k];
                     datalist.appendChild(el);
                 })
-            })
+            }).finally(function () {
+            LimitDataList(document.getElementById("searchName"),
+                document.getElementById("productDataList"),
+                document.getElementById("productDataListTemplate"), 5);
+        });
     }
     $('input[name=cat]').on('change', function() {
         $(this).closest("form").submit();

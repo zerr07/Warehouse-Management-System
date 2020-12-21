@@ -33,6 +33,7 @@
             <div class="col" id="OutputProductForm">
                 <input type="text" class="form-control w-100" aria-describedby="Product tag" list="tags" id="OutputProductInput" placeholder="Product tag">
                 <div class="" id="OutputProductFeedback"></div>
+                <template id="tagsTemplate"></template>
                 <datalist id="tags"></datalist>
             </div>
             <div class="col">
@@ -97,7 +98,7 @@
 <link href="/templates/default/assets/css/c3.min.css?t=16102020T165344" rel="stylesheet" />
 
 <script src="/templates/default/assets/js/moment.js"></script>
-<script src="/templates/default/assets/js/FB_auctions_controls.js?d=20201214T170216"></script>
+<script src="/templates/default/assets/js/FB_auctions_controls.js?d=20201218T125921"></script>
 <script>
     let feedback = document.getElementById("OutputProductFeedback");
     let input = document.getElementById("OutputProductInput");

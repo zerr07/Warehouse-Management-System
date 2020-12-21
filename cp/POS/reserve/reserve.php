@@ -241,4 +241,7 @@ if (isset($_GET['getReservationItemsJSON'])){
     echo json_encode($reservation);
 }
 
+if (isset($_GET['getReservationDataList'])){
+    echo json_encode(getReservationsDatalist($_GET['getReservationDataList']));
+}
 

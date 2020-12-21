@@ -10,6 +10,7 @@
                             </div>
                             <div class="col-sm-12 col-md-4 mt-2">
                                 <input type="text" class="form-control" name="searchNamePOS" id="searchname" placeholder="Search by name" list="productDataList">
+                                <template id="productDataListTemplate"></template>
                                 <datalist id="productDataList"></datalist>
                             </div>
                             <div class="col-sm-12 col-md-4 mt-2">
@@ -38,7 +39,7 @@
         fetch("/controllers/products/get_products.php?getDataList=true")
             .then(response => response.json())
             .then((d) => {
-                let datalist = document.getElementById("productDataList");
+                let datalist = document.getElementById("productDataListTemplate");
                 Object.keys(d).forEach(k => {
                     let el = document.createElement("option");
                     el.setAttribute("value", d[k]);
@@ -46,7 +47,11 @@
                     el.innerText = d[k];
                     datalist.appendChild(el);
                 })
-            })
+            }).finally(function () {
+            LimitDataList(document.getElementById("searchname"),
+                document.getElementById("productDataList"),
+                document.getElementById("productDataListTemplate"), 5);
+        });
     });
     document.getElementById("search").addEventListener('click', function () {
         let nameSearch   = document.getElementById("searchname");

@@ -38,7 +38,6 @@ if (isset($_GET['view'])){
         $arr = array_filter(getReservedCarts_range(0, 1));
         $smarty->assign("current_page", 1);
     }
-    $smarty->assign("reservationsDatalist", getReservationsDatalist(1));
     $smarty->assign("pageBase" , GETPageLinks("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"));
     $smarty->assign("pages" , $pages);
     $smarty->assign("reservedList", $arr);

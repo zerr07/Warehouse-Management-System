@@ -153,3 +153,19 @@ function goToUrl(url){
 function setPageTitle(prepend){
     document.getElementById("PageTitle").innerText = prepend + " - " + document.getElementById("PageTitle").innerText;
 }
+
+function LimitDataList(Input, DataList, Content, Limit){
+    Input.addEventListener("keyup", function handler(event) {
+        while (DataList.children.length){
+            DataList.removeChild(DataList.firstChild);
+        }
+        let InputVal = new RegExp(Input.value.trim(), 'i');
+        let set = Array.prototype.reduce.call(Content.cloneNode(true).children, function searchFilter(frag, item, i) {
+            if (InputVal.test(item.textContent) && frag.children.length < Limit){
+                frag.appendChild(item);
+            }
+            return frag;
+        }, document.createDocumentFragment());
+        DataList.appendChild(set);
+    })
+}

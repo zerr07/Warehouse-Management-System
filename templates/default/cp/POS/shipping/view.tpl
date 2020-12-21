@@ -39,20 +39,23 @@
                 </div>
                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 mt-2">
                     <div class="row h-100">
-                        <div class="col-12 col-sm-12 col-md-12 mt-2">
-                            <button type="button" class="btn btn-success w-100 h-100" id="markAsPickup" onclick="markAsPickup()" disabled>
-                                Mark as "Pickup at store"
-                            </button>
-                        </div>
+                        {if $reservation.shipping_type  == "4"}
+                            <div class="col-12 col-sm-12 col-md-12 mt-2">
+                                <button type="button" class="btn btn-success w-100 h-100" id="markAsPickup" onclick="markAsPickup()" disabled>
+                                    Mark as "Ready for pickup"
+                                </button>
+                            </div>
+                        {/if}
+
 
                         <div class="col-12 col-sm-12 col-md-6 mt-2">
-                            <button type="button" class="btn btn-success w-100 h-100" id="markAsShipped" onclick="markAsShipped()" disabled>
+                            <button type="button" class="btn btn-success w-100 h-100" id="markAsShipped" onclick="markAsShipped();confirmAll('{$reservation.id}')" disabled>
                                 Mark as shipped
                             </button>
                         </div>
 
                         <div class="col-12 col-sm-12 col-md-6 mt-2">
-                            <button type="button" class="btn btn-secondary w-100 h-100" data-toggle="modal" data-target="#dataInsertModal">
+                            <button type="button" class="btn btn-secondary w-100 h-100" id="dataInsert" data-toggle="modal" data-target="#dataInsertModal" disabled>
                                 Manage shipping data
                             </button>
                         </div>
@@ -108,10 +111,10 @@
 
             <div class="col-10 d-flex justify-content-start">
                 <div class="row w-100">
-                    <div class="col-12 col-sm-12 col-lg-3 mt-3">
+                    <div class="col-12 col-sm-12 col-lg-6 mt-3">
                         <button type="button" class="btn btn-success w-100 h-100" id="checkoutShipment"
                                 onclick="confirmAll('{$reservation.id}')" disabled>
-                            <i class="far fa-check-square"></i> Checkout
+                            <i class="far fa-check-square"></i> Set payment/platform data
                         </button>
                     </div>
                     <div class="col-12 col-md-12 col-lg-3 mt-3">
@@ -154,6 +157,7 @@
     $(window).on("load", function () {
         setPageTitle("Shipment: {$reservation.id}");
         setShippingStatus();
+        getShippingClientData();
         const requestParams = {
             method: "POST",
             headers: new Headers({
@@ -172,7 +176,20 @@
                 });
             });
     })
-
+    function getShippingClientData(){
+        fetch("/cp/POS/shipping/submitShippingClientsData.php?getFromID={$reservation.id}")
+        .then(response => response.json())
+        .then(d=>{
+            console.log(d);
+           if (d.hasOwnProperty("data")){
+               document.getElementById("checkoutShipment").disabled = true;
+               document.getElementById("dataInsert").disabled = false;
+           } else {
+               document.getElementById("checkoutShipment").disabled = false;
+               document.getElementById("dataInsert").disabled = true;
+           }
+        });
+    }
     function setShippingStatus(){
         fetch("/cp/POS/shipping/getShippingStatus.php?type_idJSON={$reservation.id}")
             .then(response => response.json())
@@ -182,31 +199,26 @@
                     .then((d) => {
                         if (r.hasOwnProperty("id") && r.id === "3") { // Others
                             if (d.id === "1" || d.id === "2"){
-                                document.getElementById("checkoutShipment").disabled = true;
                                 document.getElementById("markAsShipped").disabled = true;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.disabled = false;
                                 });
                             } else if (d.id === "7"){
                                 document.getElementById("markAsShipped").disabled = false;
-                                document.getElementById("checkoutShipment").disabled = true;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.parentNode.removeChild(a);
                                 });
                             } else if (d.id === "5"){
                                 document.getElementById("markAsShipped").disabled = true;
-                                document.getElementById("checkoutShipment").disabled = false;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.parentNode.removeChild(a);
                                 });
                             } else if (d.id === "6"){
                                 document.getElementById("markAsShipped").disabled = true;
-                                document.getElementById("checkoutShipment").disabled = true;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.parentNode.removeChild(a);
                                 });
                             } else {
-                                document.getElementById("checkoutShipment").disabled = true;
                                 document.getElementById("markAsShipped").disabled = true;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.disabled = false;
@@ -214,31 +226,26 @@
                             }
                         } else if (r.hasOwnProperty("id") && r.id === "2"){  // Venipak
                             if (d.id === "1" || d.id === "2"){
-                                document.getElementById("checkoutShipment").disabled = true;
                                 document.getElementById("markAsShipped").disabled = true;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.disabled = false;
                                 });
                             } else if (d.id === "7"){
                                 document.getElementById("markAsShipped").disabled = false;
-                                document.getElementById("checkoutShipment").disabled = true;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.parentNode.removeChild(a);
                                 });
                             } else if (d.id === "5"){
                                 document.getElementById("markAsShipped").disabled = true;
-                                document.getElementById("checkoutShipment").disabled = false;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.parentNode.removeChild(a);
                                 });
                             } else if (d.id === "6"){
                                 document.getElementById("markAsShipped").disabled = true;
-                                document.getElementById("checkoutShipment").disabled = true;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.parentNode.removeChild(a);
                                 });
                             } else {
-                                document.getElementById("checkoutShipment").disabled = true;
                                 document.getElementById("markAsShipped").disabled = true;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.disabled = false;
@@ -246,46 +253,48 @@
                             }
                         } else if (r.hasOwnProperty("id") && r.id === "1"){ // Smartpost
                             if (d.id === "1" || d.id === "2"){
-                                document.getElementById("checkoutShipment").disabled = true;
                                 document.getElementById("markAsShipped").disabled = true;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.disabled = false;
                                 });
                             } else if (d.id === "3" || d.id === "4"){
                                 document.getElementById("markAsShipped").disabled = false;
-                                document.getElementById("checkoutShipment").disabled = true;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.parentNode.removeChild(a);
                                 });
                             } else if (d.id === "5"){
                                 document.getElementById("markAsShipped").disabled = true;
-                                document.getElementById("checkoutShipment").disabled = false;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.parentNode.removeChild(a);
                                 });
                             } else if (d.id === "6"){
                                 document.getElementById("markAsShipped").disabled = true;
-                                document.getElementById("checkoutShipment").disabled = true;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.parentNode.removeChild(a);
                                 });
                             } else {
-                                document.getElementById("checkoutShipment").disabled = true;
                                 document.getElementById("markAsShipped").disabled = true;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.disabled = false;
                                 });
                             }
                         } else if (r.hasOwnProperty("id") && r.id === "4"){
-                            document.getElementById("markAsPickup").disabled = true;
-                            document.getElementById("checkoutShipment").disabled = false;
-                            document.getElementById("markAsShipped").disabled = true;
-                            document.querySelectorAll(".cancelShipping").forEach(a => {
-                                a.parentNode.removeChild(a);
-                            });
+                            if (d.id === "8"){
+                                document.getElementById("markAsPickup").disabled = false;
+                                document.getElementById("markAsShipped").disabled = true;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.parentNode.removeChild(a);
+                                });
+                            } else if (d.id === "9"){
+                                document.getElementById("markAsPickup").disabled = true;
+                                document.getElementById("markAsShipped").disabled = true;
+                                document.querySelectorAll(".cancelShipping").forEach(a => {
+                                    a.parentNode.removeChild(a);
+                                });
+                            }
+
                         } else {
                             document.getElementById("markAsPickup").disabled = false;
-                            document.getElementById("checkoutShipment").disabled = true;
                             document.getElementById("markAsShipped").disabled = true;
                             document.querySelectorAll(".cancelShipping").forEach(a => {
                                 a.disabled = false;
@@ -298,26 +307,22 @@
             .then((d) => {
                 console.log(d)
                 if (d.id === "1" || d.id === "2"){
-                    document.getElementById("checkoutShipment").disabled = true;
                     document.getElementById("markAsShipped").disabled = true;
                     document.querySelectorAll(".cancelShipping").forEach(a => {
                         a.disabled = false;
                     });
                 } else if (d.id === "3" || d.id === "4"){
                     document.getElementById("markAsShipped").disabled = false;
-                    document.getElementById("checkoutShipment").disabled = true;
                     document.querySelectorAll(".cancelShipping").forEach(a => {
                         a.parentNode.removeChild(a);
                     });
                 } else if (d.id === "5"){
                     document.getElementById("markAsShipped").disabled = true;
-                    document.getElementById("checkoutShipment").disabled = false;
                     document.querySelectorAll(".cancelShipping").forEach(a => {
                         a.parentNode.removeChild(a);
                     });
                 } else if (d.id === "6"){
                     document.getElementById("markAsShipped").disabled = true;
-                    document.getElementById("checkoutShipment").disabled = true;
                     document.querySelectorAll(".cancelShipping").forEach(a => {
                         a.parentNode.removeChild(a);
                     });
@@ -398,7 +403,8 @@
         let tellimuseNr = $("#tellimuseNr").val();
         let shipmentID = "{$reservation.id}";
         let mode = $("#modeSelect option:selected").val();
-        window.location.href = "/cp/POS/sale.php?reservation=true&shipment=true&cash="+cash+"&card="+card+"&ostja="+ostja+"&tellimuseNr="+tellimuseNr+"&mode="+mode+"&id_cart="+id_reservation+"&shipmentID="+shipmentID;
+        fetch("/cp/POS/shipping/submitShippingClientsData.php?cash="+cash+"&card="+card+"&ostja="+ostja+"&tellimuseNr="+tellimuseNr+"&mode="+mode+"&id_cart="+id_reservation+"&shipmentID="+shipmentID)
+        location.reload();
     }
 
     function markAsShipped(){
@@ -407,10 +413,11 @@
         });
     }
     function markAsPickup(){
-        fetch("/cp/POS/shipping/getShippingData.php?setPickup={$reservation.id}").finally(function (){
+        fetch("/cp/POS/shipping/getShippingData.php?setPickupReady={$reservation.id}").finally(function (){
             setShippingStatus();
         });
     }
+
     function isNumeric(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
