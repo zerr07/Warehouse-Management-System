@@ -48,11 +48,21 @@
                         {/if}
 
 
-                        <div class="col-12 col-sm-12 col-md-6 mt-2">
-                            <button type="button" class="btn btn-success w-100 h-100" id="markAsShipped" onclick="markAsShipped();confirmAll('{$reservation.id}')" disabled>
-                                Mark as shipped
-                            </button>
-                        </div>
+                        {if $reservation.shipping_type  == "4"}
+                            <div class="col-12 col-sm-12 col-md-6 mt-2">
+                                <button type="button" class="btn btn-success w-100 h-100" id="markAsShipped" onclick="markAsShipped();" disabled>
+                                    Checkout
+                                </button>
+                            </div>
+                            {else}
+                            <div class="col-12 col-sm-12 col-md-6 mt-2">
+                                <button type="button" class="btn btn-success w-100 h-100" id="markAsShipped" onclick="markAsShipped();" disabled>
+                                    Mark as shipped
+                                </button>
+                            </div>
+                        {/if}
+
+
 
                         <div class="col-12 col-sm-12 col-md-6 mt-2">
                             <button type="button" class="btn btn-secondary w-100 h-100" id="dataInsert" data-toggle="modal" data-target="#dataInsertModal" disabled>
@@ -215,6 +225,8 @@
                                 });
                             } else if (d.id === "6"){
                                 document.getElementById("markAsShipped").disabled = true;
+                                document.getElementById("dataInsert").disabled = true;
+
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.parentNode.removeChild(a);
                                 });
@@ -241,6 +253,7 @@
                                     a.parentNode.removeChild(a);
                                 });
                             } else if (d.id === "6"){
+                                document.getElementById("dataInsert").disabled = true;
                                 document.getElementById("markAsShipped").disabled = true;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.parentNode.removeChild(a);
@@ -268,6 +281,7 @@
                                     a.parentNode.removeChild(a);
                                 });
                             } else if (d.id === "6"){
+                                document.getElementById("dataInsert").disabled = true;
                                 document.getElementById("markAsShipped").disabled = true;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.parentNode.removeChild(a);
@@ -286,15 +300,15 @@
                                     a.parentNode.removeChild(a);
                                 });
                             } else if (d.id === "9"){
+                                document.getElementById("dataInsert").disabled = true;
                                 document.getElementById("markAsPickup").disabled = true;
-                                document.getElementById("markAsShipped").disabled = true;
+                                document.getElementById("markAsShipped").disabled = false;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.parentNode.removeChild(a);
                                 });
                             }
 
                         } else {
-                            document.getElementById("markAsPickup").disabled = false;
                             document.getElementById("markAsShipped").disabled = true;
                             document.querySelectorAll(".cancelShipping").forEach(a => {
                                 a.disabled = false;
@@ -322,6 +336,7 @@
                         a.parentNode.removeChild(a);
                     });
                 } else if (d.id === "6"){
+                    document.getElementById("dataInsert").disabled = true;
                     document.getElementById("markAsShipped").disabled = true;
                     document.querySelectorAll(".cancelShipping").forEach(a => {
                         a.parentNode.removeChild(a);
@@ -410,6 +425,9 @@
     function markAsShipped(){
         fetch("/cp/POS/shipping/getShippingData.php?setSmartpostPosted={$reservation.id}").finally(function (){
             setShippingStatus();
+            fetch("/cp/POS/shipping/getShippingData.php?setStatus=6&setStatusID={$reservation.id}").finally(function () {
+                performSale();
+            })
         });
     }
     function markAsPickup(){

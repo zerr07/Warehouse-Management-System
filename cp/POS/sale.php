@@ -35,8 +35,13 @@ if (isset($_GET['reservation'])){
 
             }
             $cartItems = $cartItemsTemp;
-        } elseif ($_GET['id_cart']){
-            $reservation = getSingleCartReservation($_GET['id_cart']);
+        } elseif ($_GET['id_cart'] || isset($_GET['shipmentID'])){
+            if (isset($_GET['shipmentID'])){
+                $cartID = $_GET['shipmentID'];
+            } else {
+                $cartID = $_GET['id_cart'];
+            }
+            $reservation = getSingleCartReservation($cartID);
             $cartItems = $reservation['products'];
             foreach ($cartItems as $key => $value){
                 $sum += $cartItems[$key]['quantity']*$cartItems[$key]['basePrice'];

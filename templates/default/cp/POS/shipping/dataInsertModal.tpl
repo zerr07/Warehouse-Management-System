@@ -214,26 +214,29 @@
         console.log("/cp/POS/shipping/getShippingData.php?saveSmartPost={$reservation.id}&saveSmartPostData="+json)
         return json;
     }
+    function performSale(){
+        fetch("/cp/POS/shipping/submitShippingClientsData.php?getFromID={$reservation.id}")
+            .then(response => response.json())
+            .then(d=>{
+                if (d.hasOwnProperty("data")){
+                    fetch("/cp/POS/sale.php?reservation=true&shipment=true&cash="+d.data.cash+"&card="+d.data.card+"&ostja="+d.data.ostja+"&tellimuseNr="+d.data.tellimuseNr+"&mode="+d.data.mode+"&id_cart="+d.data.id_reservation+"&shipmentID="+d.data.shipmentID);
+                    window.location.href = "/cp/POS/shipping";
+                } else {
+                    console.log("ERROR NO DATA {$reservation.id}");
+                }
+            });
+    }
+
     function submitSmartpost(){
         if (checkSmartpostFields()){
             let json = formJSONSmartpost();
             fetch("/cp/POS/shipping/getShippingData.php?saveSmartPost={$reservation.id}&saveSmartPostData="+json)
                 .then(() => {
-                    fetch("/cp/POS/shipping/submitShippingClientsData.php?getFromID={$reservation.id}")
-                        .then(response => response.json())
-                        .then(d=>{
-                            if (d.hasOwnProperty("data")){
-                                fetch("/cp/POS/sale.php?reservation=true&shipment=true&cash="+d.cash+"&card="+d.card+"&ostja="+d.ostja+"&tellimuseNr="+d.tellimuseNr+"&mode="+d.mode+"&id_cart="+d.id_reservation+"&shipmentID="+d.shipmentID);
-                            } else {
-                                console.log("ERROR NO DATA {$reservation.id}");
-                            }
-                        });
-
+                    performSale();
                 })
                 .finally(function () {
                 setShippingStatus();
                 loadSmartpostForm();
-                window.location.href = "/cp/POS/shipping";
             });
 
         }
@@ -1121,6 +1124,7 @@
             fetch("/cp/POS/shipping/getShippingData.php?savePickup={$reservation.id}&savePickupData="+json).finally(function () {
                 setShippingStatus();
                 loadPickupForm();
+                Location.reload();
             });
         }
     }

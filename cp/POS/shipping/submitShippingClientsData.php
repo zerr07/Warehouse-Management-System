@@ -9,13 +9,14 @@ if (isset($_GET['cash']) &&
     isset($_GET['mode']) &&
     isset($_GET['id_cart']) &&
     isset($_GET['shipmentID'])){
-    $data = array("cash" => $_GET['cash'],
-        "card" => $_GET['card'],
-        "ostja" => $_GET['ostja'],
-        "tellimuseNr" => $_GET['tellimuseNr'],
-        "mode" => $_GET['mode'],
-        "id_cart" => $_GET['id_cart'],
-        "shipmentID" => $_GET['shipmentID'],
+    $data = array(
+        "data"=>array( "cash" => $_GET['cash'],
+            "card" => $_GET['card'],
+            "ostja" => $_GET['ostja'],
+            "tellimuseNr" => $_GET['tellimuseNr'],
+            "mode" => $_GET['mode'],
+            "id_cart" => $_GET['id_cart'],
+            "shipmentID" => $_GET['shipmentID'])
         );
     $id = $_GET['shipmentID'];
     $data = rawurlencode(json_encode($data));
