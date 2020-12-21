@@ -23,8 +23,7 @@ if (mysqli_num_rows($check) == 0) {
     exit("Username or password is incorrect");
 } elseif (password_verify($pass, $res['password'])) {
     /* User verified */
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"SELECT tag FROM products 
-        WHERE (SELECT SUM(quantity) FROM product_locations WHERE id_item=products.id)>0"));
+U    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"SELECT tag FROM products"));
     $arr = array();
     while ($row = $q->fetch_assoc()){
         array_push($arr, $row['tag']);

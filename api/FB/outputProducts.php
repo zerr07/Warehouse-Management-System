@@ -23,8 +23,15 @@ function insertOutputProduct($tag, $id){
         return json_encode(array("resp"=>"success"));
     }
 }
-function getOutputProducts($id){
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"SELECT *, (SELECT id FROM {*products*} WHERE tag={*FB_output*}.tag) as id FROM {*FB_output*} WHERE id_list='$id'"));
+function getOutputProducts($id, $mode){
+    if ($mode == "onlyPos"){
+         $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"SELECT *, (SELECT id FROM {*products*} WHERE tag={*FB_output*}.tag) as id
+     FROM {*FB_output*} WHERE id_list='$id' AND (SELECT SUM(quantity) FROM product_locations WHERE id_item=(SELECT id FROM products WHERE tag=FB_output.tag))>0"));
+    } else {
+         $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"SELECT *, (SELECT id FROM {*products*} WHERE tag={*FB_output*}.tag) as id
+     FROM {*FB_output*} WHERE id_list='$id'"));
+    }
+   
     $arr = array();
     while ($row = $q->fetch_assoc()){
         $image = get_main_image_live($row['id']);
@@ -52,7 +59,10 @@ if (isset($_GET['insert']) && isset($_GET['id'])){
     echo insertOutputProduct($_GET['insert'], $_GET['id']);
 }
 if (isset($_GET['get'])){
-    echo getOutputProducts($_GET['get']);
+    echo getOutputProducts($_GET['get'], "default");
+}
+if (isset($_GET['getOnlyPos'])){
+    echo getOutputProducts($_GET['getOnlyPos'], "onlyPos");
 }
 if (isset($_GET['getAuctions'])){
     echo getFinishedAuctions();
