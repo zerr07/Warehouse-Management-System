@@ -19,11 +19,9 @@
         </div>
     </div>
 </div>
-<datalist id="reservations">
-    {foreach $reservationsDatalist as $key => $value}
-        <option value="{$key} | {$value}" data-id="{$key}">{$key} | {$value}</option>
-    {/foreach}
-</datalist>
+
+<template id="reservationsListTemplate"></template>
+<datalist id="reservationsList"></datalist>
 
 <script>
     window.addEventListener("load", function (){
@@ -50,7 +48,7 @@
         el.setAttribute("type", "text");
         el.setAttribute("class", "form-control");
         el.setAttribute("name", "mergeToolItem[]");
-        el.setAttribute("list", "reservations");
+        el.setAttribute("list", "reservationsList");
         el.setAttribute("id", "mergeToolInput"+c)
         let el_feedback = document.createElement("div");
         el_feedback.setAttribute("id", "mergeToolInput"+c+"Feedback");
@@ -61,7 +59,11 @@
         row.appendChild(div2);
         document.getElementById("mergeToolModalBody").appendChild(row);
         applyListenersMergeTool();
+        LimitDataList(document.getElementById("mergeToolInput"+c),
+            document.getElementById("reservationsList"),
+            document.getElementById("reservationsListTemplate"), 5);
         c += 1;
+
     }
 
     document.getElementById("addExtraMergeTool").addEventListener("click", function () {
@@ -77,19 +79,33 @@
             el.innerText = "";
         });
         let errors = false;
+        let errors1 = false;
+
         document.querySelectorAll("input[type='text'][id^='mergeToolInput']").forEach(el => {
             try {
-                let val = document.querySelector("datalist > option[value='"+el.value+"']").getAttribute("data-id");
+                let val = document.querySelector("datalist#reservationsList > option[value='"+el.value+"']").getAttribute("data-id");
                 el.setAttribute("class", "form-control  is-valid");
             } catch (err) {
                 console.log("SETTING FALSE");
+                errors = true;
+            }
+            try {
+                let val = document.querySelector("template#reservationsListTemplate > option[value='"+el.value+"']").getAttribute("data-id");
+                el.setAttribute("class", "form-control  is-valid");
+            } catch (err) {
+                console.log("SETTING FALSE1");
+                errors1 = true;
+            }
+            if (errors && errors1){
                 el.setAttribute("class", "form-control mt-2 is-invalid");
                 document.getElementById(el.id + "Feedback").setAttribute("class", "invalid-feedback");
                 document.getElementById(el.id + "Feedback").innerText = "Error finding this reservation check input!";
-                errors = true;
+                return false;
+            } else {
+                el.setAttribute("class", "form-control  is-valid");
+                return true;
             }
         });
-        return !errors;
     }
 
     document.getElementById("submitMergeTool").addEventListener("click", function () {
@@ -97,7 +113,12 @@
         if (checkMergeToolFields() !== false) {
             let arr = [];
             document.querySelectorAll("input[type='text'][id^='mergeToolInput']").forEach(el => {
-                arr.push(document.querySelector("datalist > option[value='"+el.value+"']").getAttribute("data-id"))
+                if (document.querySelector("datalist#reservationsList > option[value='"+el.value+"']")){
+                    arr.push(document.querySelector("datalist#reservationsList > option[value='"+el.value+"']").getAttribute("data-id"))
+                } else {
+                    arr.push(document.querySelector("template#reservationsListTemplate > option[value='"+el.value+"']").getAttribute("data-id"))
+                }
+
             });
             console.log("/cp/POS/reserve/merge.php?mergeList="+JSON.stringify(arr));
             fetch("/cp/POS/reserve/merge.php?mergeList="+JSON.stringify(arr))
@@ -108,13 +129,25 @@
     });
 
     function applyListenersMergeTool(){
-        document.querySelectorAll("input[name='mergeToolItem[]'][list='reservations']").forEach(el => {
+        document.querySelectorAll("input[name='mergeToolItem[]'][list='reservationsList']").forEach(el => {
             el.addEventListener("input", function () {
-                document.querySelectorAll("datalist#reservations > option").forEach(opt => {
+                document.querySelectorAll("datalist#reservationsList > option").forEach(opt => {
                     opt.disabled = false;
                 });
-                document.querySelectorAll("input[name='mergeToolItem[]'][list='reservations']").forEach(child => {
-                    let element = document.querySelector("datalist#reservations > option[value='"+child.value+"']");
+                document.querySelectorAll("input[name='mergeToolItem[]'][list='reservationsList']").forEach(child => {
+                    let element = document.querySelector("datalist#reservationsList > option[value='"+child.value+"']");
+                    if (element){
+                        if (child.value !== ""){
+                            element.disabled = true;
+                        }
+                    }
+
+                });
+                document.querySelectorAll("template#reservationsListTemplate > option").forEach(opt => {
+                    opt.disabled = false;
+                });
+                document.querySelectorAll("input[name='mergeToolItem[]'][list='reservationsList']").forEach(child => {
+                    let element = document.querySelector("template#reservationsListTemplate > option[value='"+child.value+"']");
                     if (element){
                         if (child.value !== ""){
                             element.disabled = true;

@@ -61,12 +61,15 @@
             .then(response => response.json())
             .then((d) => {
                 let datalist = document.getElementById("reservationsSearchListTemplate");
+                let datalist1 = document.getElementById("reservationsListTemplate");
+
                 Object.keys(d).forEach(k => {
                     let el = document.createElement("option");
                     el.setAttribute("value", d[k]);
                     el.setAttribute("data-id", k);
                     el.innerText = d[k];
                     datalist.appendChild(el);
+                    datalist1.appendChild(el);
                 })
             }).finally(function () {
             LimitDataList(document.getElementById("reservationsSearch"),

@@ -145,7 +145,9 @@ foreach ($cartItems as $value){
     }
     if (isset($_GET['id_cart'])) {
         $itemID = $value['id_product'];
-    } elseif (isset($_GET['cart'])){
+    } elseif (isset($_GET['cart'])) {
+        $itemID = $value['id'];
+    } elseif (isset($_GET['shipmentID'])){
         $itemID = $value['id'];
     } else {
         $itemID = $value['id'];
