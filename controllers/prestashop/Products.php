@@ -92,7 +92,10 @@ function PR_POST_Product($id){
     global $domain, $api_key;
     $data = get_product($id);
     $PriceTaxExcluded = round($data['platforms'][2]['price']/1.2, 5);
-
+    $active = 0;
+    if (isset($data['platforms'][2]['export'])){
+        $active = $data['platforms'][2]['export'];
+    }
     $xml = '
 <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
   <product>
@@ -106,7 +109,7 @@ function PR_POST_Product($id){
     </description>
     <price>'.$PriceTaxExcluded.'</price>
     <reference>'.$data['tag'].'</reference>
-    <active>1</active>
+    <active>'.$active.'</active>
     <pack_stock_type>3</pack_stock_type>
     <state>1</state>
     <indexed>1</indexed>
@@ -142,7 +145,10 @@ function PR_PUT_Product($id_product){
     $data = get_product($id_product);
     $id = PR_GET_Product_By_Tag($data['tag'])['products'][0]['id'];
     $PriceTaxExcluded = round($data['platforms'][2]['price']/1.2, 5);
-
+    $active = 0;
+    if (isset($data['platforms'][2]['export'])){
+        $active = $data['platforms'][2]['export'];
+    }
     $xml = '
 <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
   <product>
@@ -157,7 +163,7 @@ function PR_PUT_Product($id_product){
     </description>
     <price>'.$PriceTaxExcluded.'</price>
     <reference>'.$data['tag'].'</reference>
-    <active>1</active>
+    <active>'.$active.'</active>
     <pack_stock_type>3</pack_stock_type>
     <state>1</state>
     <indexed>1</indexed>

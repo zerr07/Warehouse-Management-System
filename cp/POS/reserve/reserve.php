@@ -11,7 +11,12 @@ include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/session.php');
 function get_location_data($id){
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT location, (SELECT `name` FROM {*location_type*} WHERE id={*product_locations*}.id_type) as `name` FROM {*product_locations*} WHERE id='$id'"));
     $row = $q->fetch_assoc();
-    return $row['name']." | ".$row['location'];
+    if (isset($row['name']) && isset($row['location'])){
+        return $row['name']." | ".$row['location'];
+
+    } else {
+        return "Check location";
+    }
 }
 function reserveCart($note, $cart){
     if (isset($_GET['type'])){

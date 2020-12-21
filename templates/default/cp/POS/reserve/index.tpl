@@ -68,8 +68,12 @@
                     el.setAttribute("value", d[k]);
                     el.setAttribute("data-id", k);
                     el.innerText = d[k];
+                    let el1 = document.createElement("option");
+                    el1.setAttribute("value", d[k]);
+                    el1.setAttribute("data-id", k);
+                    el1.innerText = d[k];
                     datalist.appendChild(el);
-                    datalist1.appendChild(el);
+                    datalist1.appendChild(el1);
                 })
             }).finally(function () {
             LimitDataList(document.getElementById("reservationsSearch"),
