@@ -18,9 +18,12 @@ function CallGETAPI($url){
         )
     ));
     $result = curl_exec($curl);
-    if(!$result){die("Connection Failure");}
     curl_close($curl);
-    return json_decode($result, true);
+    if($result) {
+        return json_decode($result, true);
+    } else {
+        return null;
+    }
 }
 function CallPOSTAPI($url, $data){
     $curl = curl_init();
@@ -36,9 +39,12 @@ function CallPOSTAPI($url, $data){
         CURLOPT_POSTFIELDS => $data
         ));
     $result = curl_exec($curl);
-    if(!$result){die("Connection Failure");}
     curl_close($curl);
-    return json_decode($result, true);
+    if($result) {
+        return json_decode($result, true);
+    } else {
+        return null;
+    }
 }
 
 function CallPUTAPI($url, $data){
@@ -59,9 +65,12 @@ function CallPUTAPI($url, $data){
         )
     ));
     $result = curl_exec($curl);
-    if(!$result){die("Connection Failure");}
     curl_close($curl);
-    return json_decode($result, true);
+    if($result) {
+        return json_decode($result, true);
+    } else {
+        return null;
+    }
 }
 
 function CallDELETEAPI($url){

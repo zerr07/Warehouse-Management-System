@@ -6,6 +6,8 @@ include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/prestashop/API.php');
 if (!defined('PRODUCTS_INCLUDED')){
     include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
 }
+include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/generateURL.php');
+
 $api_key = _DB_EXPORT['auth_key'];
 $domain = _DB_EXPORT['domain'];
 
@@ -15,7 +17,11 @@ function PR_GET_Products(){
     $url = "https://$api_key@$domain/api/products?output_format=JSON";
     return CallGETAPI($url);
 }
-
+function PR_GET_ProductsSyncData(){
+    global $domain, $api_key;
+    $url = "https://$api_key@$domain/api/products?output_format=JSON&display=[id,reference,active]";
+    return CallGETAPI($url);
+}
 function PR_GET_Product_By_Tag($tag){
     global $domain, $api_key;
     $url = "https://$api_key@$domain/api/products?output_format=JSON&filter[reference]=$tag";
@@ -63,9 +69,14 @@ function PR_PUT_Product_Stock_Available($id, $quantity){
 function PR_GET_Product_Images($id){
     global $domain, $api_key;
     $url = "https://$api_key@$domain/api/images/products/$id?output_format=JSON";
-    $data = CallGETAPI($url)[""];
-    unset($data[0]);
-    return $data;
+    $res = CallGETAPI($url);
+    if (!is_null($res)){
+        $data = CallGETAPI($url)[""];
+        unset($data[0]);
+        return $data;
+    } else {
+        return null;
+    }
 }
 
 function PR_DELETE_Product_Image($id, $id_image){
@@ -80,7 +91,12 @@ function PR_DELETE_Product($id_prod){
     $url = "https://$api_key@$domain/api/products/$id?output_format=JSON";
     CallDELETEAPI($url);
 }
-
+function PR_DELETE_Product_By_Tag($tag){
+    global $domain, $api_key;
+    $id = PR_GET_Product_By_Tag($tag)['products'][0]['id'];
+    $url = "https://$api_key@$domain/api/products/$id?output_format=JSON";
+    CallDELETEAPI($url);
+}
 function PR_POST_Product_Image($id, $image){
     global $domain, $api_key;
     $data = array('image'=> new CURLFILE($image));
@@ -107,9 +123,16 @@ function PR_POST_Product($id){
       <language id="2"><![CDATA['.trim($data['descriptions']['et']).']]></language>
       <language id="3"><![CDATA['.trim($data['descriptions']['ru']).']]></language>
     </description>
+    <link_rewrite>
+      <language id="2"><![CDATA['.get_ET_URL(trim($data['name']['et'])).']]></language>
+      <language id="3"><![CDATA['.get_ET_URL(trim($data['name']['ru'])).']]></language>
+    </link_rewrite>
+    <available_for_order>'.$active.'</available_for_order>
+    
     <price>'.$PriceTaxExcluded.'</price>
     <reference>'.$data['tag'].'</reference>
     <active>'.$active.'</active>
+    <show_price>1</show_price>
     <pack_stock_type>3</pack_stock_type>
     <state>1</state>
     <indexed>1</indexed>
@@ -161,9 +184,15 @@ function PR_PUT_Product($id_product){
       <language id="2"><![CDATA['.trim($data['descriptions']['et']).']]></language>
       <language id="3"><![CDATA['.trim($data['descriptions']['ru']).']]></language>
     </description>
+    <link_rewrite>
+      <language id="2"><![CDATA['.get_ET_URL(trim($data['name']['et'])).']]></language>
+      <language id="3"><![CDATA['.get_ET_URL(trim($data['name']['ru'])).']]></language>
+    </link_rewrite>
+    <available_for_order>'.$active.'</available_for_order>
     <price>'.$PriceTaxExcluded.'</price>
     <reference>'.$data['tag'].'</reference>
     <active>'.$active.'</active>
+    <show_price>1</show_price>
     <pack_stock_type>3</pack_stock_type>
     <state>1</state>
     <indexed>1</indexed>
@@ -183,9 +212,12 @@ function PR_PUT_Product($id_product){
     if (isset($res['product'])){
         $id = $res['product']['id'];
         $images = PR_GET_Product_Images($id);
-        foreach ($images as $val){
-            PR_DELETE_Product_Image($id, $val['id']);
+        if (!is_null($images)){
+            foreach ($images as $val){
+                PR_DELETE_Product_Image($id, $val['id']);
+            }
         }
+
         $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "DELETE FROM {*ps_product_carrier*} WHERE id_product='$id'"));
         foreach ($data['carrier'] as $val){
             $carr_ref = $val['shop_id'];
@@ -197,7 +229,62 @@ function PR_PUT_Product($id_product){
         PR_PUT_Product_Stock_Available($id, $data['quantity']);
     }
 }
-
+function PR_PUT_Product_Without_IMG($id_product){
+    global $domain, $api_key;
+    $data = get_product($id_product);
+    $id = PR_GET_Product_By_Tag($data['tag'])['products'][0]['id'];
+    $PriceTaxExcluded = round($data['platforms'][2]['price']/1.2, 5);
+    $active = 0;
+    if (isset($data['platforms'][2]['export'])){
+        $active = $data['platforms'][2]['export'];
+    }
+    $xml = '
+<prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
+  <product>
+    <id>'.$id.'</id>
+    <name>
+        <language id="2"><![CDATA['.trim($data['name']['et']).']]></language>
+        <language id="3"><![CDATA['.trim($data['name']['ru']).']]></language>
+    </name>
+    <description>
+      <language id="2"><![CDATA['.trim($data['descriptions']['et']).']]></language>
+      <language id="3"><![CDATA['.trim($data['descriptions']['ru']).']]></language>
+    </description>
+    <link_rewrite>
+      <language id="2"><![CDATA['.get_ET_URL(trim($data['name']['et'])).']]></language>
+      <language id="3"><![CDATA['.get_ET_URL(trim($data['name']['ru'])).']]></language>
+    </link_rewrite>
+    <available_for_order>'.$active.'</available_for_order>
+    <price>'.$PriceTaxExcluded.'</price>
+    <reference>'.$data['tag'].'</reference>
+    <active>'.$active.'</active>
+    <show_price>1</show_price>
+    <pack_stock_type>3</pack_stock_type>
+    <state>1</state>
+    <indexed>1</indexed>
+    <id_category_default>'.$data['id_category'].'</id_category_default>
+    <id_tax_rules_group>1</id_tax_rules_group>
+    <associations>
+      <categories>
+        <category>
+          <id>'.$data['id_category'].'</id>
+        </category>
+      </categories>
+     </associations>
+  </product>
+</prestashop>';
+    $url = "https://$api_key@$domain/api/products?output_format=JSON";
+    $res = CallPUTAPI($url, $xml);
+    if (isset($res['product'])){
+        $id = $res['product']['id'];
+        $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "DELETE FROM {*ps_product_carrier*} WHERE id_product='$id'"));
+        foreach ($data['carrier'] as $val){
+            $carr_ref = $val['shop_id'];
+            $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "INSERT INTO {*ps_product_carrier*} (id_product, id_carrier_reference, id_shop) VALUES ('$id', '$carr_ref', '1')"));
+        }
+        PR_PUT_Product_Stock_Available($id, $data['quantity']);
+    }
+}
 
 function PR_PUT_Product_category_only($id_product, $category){
     global $domain, $api_key;
