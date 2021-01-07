@@ -1,4 +1,4 @@
-# Warehouse Management System Api documentation
+# Warehouse Management System API documentation
 
 #### Product reservation
 <p>
@@ -166,7 +166,7 @@ Example JSON data:
   </tr>
  </table>
  
- #### Confirm a reservation
+#### Confirm a reservation
 <p>
 Base URL: {Domain}/api/reservationConfirm.php
 </p>
@@ -244,3 +244,14 @@ Example JSON data (Confirm selected products):
     <td>No</td>
   </tr>
  </table>
+ 
+ #### Edit reservation comment
+<p>
+Base URL: {Domain}/api/editReservation.php
+</p>
+<pre>
+Query:  username  (Cp username, String)                 *
+        password  (Cp password, String)                 *
+        comment   (New reservation comment, String)     *
+        id        (Reservation ID, Integer)             *
+</pre>
