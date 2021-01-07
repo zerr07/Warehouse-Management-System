@@ -200,15 +200,16 @@
             }
         });
         let commentInput    = document.getElementById("SmartPostCommentInput");
+
         let obj = {
-            name: nameInput.value.replace("#", ''),
-            phone: phoneInput.value.replace("#", ''),
-            deliveryNr: deliveryNrInput.value.replace("#", ''),
-            terminal: terminalID.replace("#", ''),
-            checked: checked.replace("#", ''),
-            email: emailInput.value.replace("#", ''),
-            comment: commentInput.value.replace("#", ''),
-            COD_Sum: COD_SUMInput.value.replace("#", '')
+            name: nameInput.value.replaceAll("#", ''),
+            phone: phoneInput.value.replaceAll("#", ''),
+            deliveryNr: deliveryNrInput.value.replaceAll("#", ''),
+            terminal: terminalID.replaceAll("#", ''),
+            checked: checked.replaceAll("#", ''),
+            email: emailInput.value.replaceAll("#", ''),
+            comment: commentInput.value.replaceAll("#", ''),
+            COD_Sum: COD_SUMInput.value.replaceAll("#", '')
         }
         let json = JSON.stringify(obj);
         console.log("/cp/POS/shipping/getShippingData.php?saveSmartPost={$reservation.id}&saveSmartPostData="+json)
@@ -231,9 +232,6 @@
         if (checkSmartpostFields()){
             let json = formJSONSmartpost();
             fetch("/cp/POS/shipping/getShippingData.php?saveSmartPost={$reservation.id}&saveSmartPostData="+json)
-                .then(() => {
-                    performSale();
-                })
                 .finally(function () {
                 setShippingStatus();
                 loadSmartpostForm();
