@@ -65,7 +65,17 @@ function get_products_dataList($shard){
         FROM {*products*} WHERE id_shard='$shard'"));
     if($result){
         while ($row = $result->fetch_assoc()){
-            $arr[$row['id']] = $row['tag']. " | ".html_entity_decode($row['name'], ENT_QUOTES, "UTF-8");;
+            $id = $row['id'];
+            //$sku = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT `SKU` FROM {*supplier_data*} WHERE id_item='$id'"));
+            $prod = $row['tag']. " | ".html_entity_decode($row['name'], ENT_QUOTES, "UTF-8");
+            /*if ($sku){
+                while ($rowSKU = $sku->fetch_assoc()){
+                    if (!is_null($rowSKU['SKU'])){
+                        $prod .= " | ".html_entity_decode($rowSKU['SKU'], ENT_QUOTES, "UTF-8");
+                    }
+                }
+            }*/
+            $arr[$id] = $prod;
         }
         return array_filter($arr);
     }
@@ -449,6 +459,8 @@ if (isset($_GET['searchName'])){
         $search .= " AND `name` LIKE '%".$str."%'";
     }
     $search.=")";
+    $searchString = implode(" ", $searchString);
+    $search .= " OR id IN (SELECT id_item FROM {*supplier_data*} WHERE SKU LIKE '%$searchString%')";
     $searchSearch = $search;
 }
 if (isset($_GET['cat'])){

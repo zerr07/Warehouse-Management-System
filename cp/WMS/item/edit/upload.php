@@ -48,10 +48,15 @@ if (isset($_POST['itemSupplierName'])) {
         $url = $_POST['itemURL'][$i];
         $price = $_POST['itemPrice'][$i];
         $priceVAT = $_POST['itemPriceVAT'][$i];
+        if (isset($_POST['itemSKU'][$i])){
+            $suppSKU = htmlentities($_POST['itemSKU'][$i], ENT_QUOTES, 'UTF-8');
+        } else {
+            $suppSKU = "";
+        }
         if ($url != "" || $name != "" || $price != "" || $priceVAT != "") {
             $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*supplier_data*}
-                                                    (id_item, URL, price, priceVAT, supplierName)
-                                                    VALUES ('$last', '$url', '$price', '$priceVAT', '$name')"));
+                                                    (id_item, URL, price, priceVAT, supplierName, SKU)
+                                                    VALUES ('$last', '$url', '$price', '$priceVAT', '$name', '$suppSKU')"));
         }
     }
 }

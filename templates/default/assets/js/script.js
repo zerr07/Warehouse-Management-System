@@ -159,7 +159,7 @@ function LimitDataList(Input, DataList, Content, Limit){
         while (DataList.children.length){
             DataList.removeChild(DataList.firstChild);
         }
-        let InputVal = new RegExp(Input.value.trim(), 'i');
+        let InputVal = new RegExp(Input.value.trim(), 'gi');
         let set = Array.prototype.reduce.call(Content.cloneNode(true).children, function searchFilter(frag, item, i) {
             if (InputVal.test(item.textContent) && frag.children.length < Limit){
                 frag.appendChild(item);

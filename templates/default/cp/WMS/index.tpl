@@ -29,7 +29,7 @@
                         <input type="text" class="form-control w-100" name="searchTagID" id="searchTagID" placeholder="Search by ID" autofocus>
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-3 mt-2">
-                        <input type="text" class="form-control w-100" name="searchName" id="searchName" placeholder="Search by name" list="productDataList"
+                        <input type="text" class="form-control w-100" name="searchName" id="searchName" placeholder="Search by name or SKU" list="productDataList"
                                 {if isset($searchName) && $searchName != ""}value="{$searchName}"{/if}>
                         <template id="productDataListTemplate"></template>
                         <datalist id="productDataList"></datalist>
@@ -152,9 +152,9 @@
                 let datalist = document.getElementById("productDataListTemplate");
                 Object.keys(d).forEach(k => {
                     let el = document.createElement("option");
-                    el.setAttribute("value", d[k]);
+                    el.setAttribute("value", d[k].trim());
                     el.setAttribute("data-id", k);
-                    el.innerText = d[k];
+                    el.innerText = d[k].trim();
                     datalist.appendChild(el);
                 })
             }).finally(function () {

@@ -109,17 +109,23 @@
                                             <input type="text" class="form-control" id="itemURL" name="itemURL[]"
                                                    placeholder="Item url">
                                         </div>
-                                        <div class="col-sm-12 col-md-3">
+                                        <div class="col-sm-12 col-md-2">
                                             <label for="itemPriceVAT">Supplier price zł</label>
                                             <input type="number" step="0.01" class="form-control"
                                                    name="itemPrice[]" id="itemPrice"
                                                    placeholder="Item price">
                                         </div>
-                                        <div class="col-sm-12 col-md-3">
+                                        <div class="col-sm-12 col-md-2">
                                             <label for="itemPrice">Supplier price €</label>
                                             <input type="number" step="0.01" class="form-control"
                                                    name="itemPriceVAT[]" id="itemPriceVAT"
                                                    placeholder="Item price">
+                                        </div>
+                                        <div class="col-sm-12 col-md-2">
+                                            <label for="itemSKU">Supplier SKU</label>
+                                            <input type="text" class="form-control"
+                                                   name="itemSKU[]" id="itemSKU"
+                                                   placeholder="Supplier SKU">
                                         </div>
                                     </div>
                                 </div>
@@ -361,16 +367,22 @@
             "    <input type=\"text\" class=\"form-control\" name=\"itemURL[]\"\n" +
             "           placeholder=\"Item url\">\n" +
             "</div>\n" +
-            "<div class=\"col-sm-12 col-md-3\">\n" +
+            "<div class=\"col-sm-12 col-md-2\">\n" +
             "    <input type=\"number\" step=\"0.01\" class=\"form-control\"\n" +
             "           name=\"itemPriceVAT[]\"\n" +
             "           placeholder=\"Item price\">\n" +
             "</div>\n" +
-            "<div class=\"col-sm-12 col-md-3\">\n" +
+            "<div class=\"col-sm-12 col-md-2\">\n" +
             "    <input type=\"number\" step=\"0.01\" class=\"form-control\"\n" +
             "           name=\"itemPrice[]\"\n" +
             "           placeholder=\"Item price\">\n" +
             "</div>\n" +
+            "<div class=\"col-sm-12 col-md-2\">" +
+            "    <label for=\"itemSKU\">Supplier SKU</label>" +
+            "    <input type=\"text\" class=\"form-control\"" +
+            "        name=\"itemSKU[]\" id=\"itemSKU\"" +
+            "        placeholder=\"Supplier SKU\">" +
+            "</div>" +
             "</div>";
         $("#listURL").append(input);
     }

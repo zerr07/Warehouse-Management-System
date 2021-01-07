@@ -104,27 +104,33 @@
                                         <div class="row mt-3 border border-secondary p-2">
                                             <input type="text" name="itemSupplierID[]" value="{$supp.id}" hidden>
                                             <div class="col-sm-12 col-md-3">
-                                                <label for="itemSupplierName">Supplier Name</label>
-                                                <input type="text" class="form-control" id="itemSupplierName"
-                                                       name="itemSupplierName[]" value="{$supp.supplierName}"
+                                                <label for="itemSupplierName{$supp.id}">Supplier Name</label>
+                                                <input type="text" class="form-control" id="itemSupplierName{$supp.id}"
+                                                       name="itemSupplierName[]" value="{if isset($supp.supplierName)}{$supp.supplierName}{/if}"
                                                        placeholder="Supplier Name">
                                             </div>
                                             <div class="col-sm-12 col-md-3">
-                                                <label for="itemURL">Supplier URL</label>
-                                                <input type="text" class="form-control" id="itemURL" name="itemURL[]"
-                                                       value="{$supp.URL}" placeholder="Item url">
+                                                <label for="itemUR{$supp.id}L">Supplier URL</label>
+                                                <input type="text" class="form-control" id="itemURL{$supp.id}" name="itemURL[]"
+                                                       value="{if isset($supp.URL)}{$supp.URL}{/if}" placeholder="Supplier URL">
                                             </div>
-                                            <div class="col-sm-12 col-md-3">
-                                                <label for="itemPriceVAT">Supplier price zł</label>
+                                            <div class="col-sm-12 col-md-2">
+                                                <label for="itemPriceVAT{$supp.id}">Supplier price zł</label>
                                                 <input type="number" step="0.01" class="form-control"
-                                                       name="itemPrice[]" id="itemPrice" value="{$supp.price}"
-                                                       placeholder="Item price">
+                                                       name="itemPrice[]" id="itemPrice{$supp.id}" value="{if isset($supp.price)}{$supp.price}{/if}"
+                                                       placeholder="Supplier price zł">
                                             </div>
-                                            <div class="col-sm-12 col-md-3">
-                                                <label for="itemPrice">Supplier price €</label>
+                                            <div class="col-sm-12 col-md-2">
+                                                <label for="itemPrice{$supp.id}">Supplier price €</label>
                                                 <input type="number" step="0.01" class="form-control"
-                                                       name="itemPriceVAT[]" id="itemPriceVAT" value="{$supp.priceVAT}"
-                                                       placeholder="Item price">
+                                                       name="itemPriceVAT[]" id="itemPriceVAT{$supp.id}" value="{if isset($supp.priceVAT)}{$supp.priceVAT}{/if}"
+                                                       placeholder="Supplier price €">
+                                            </div>
+                                            <div class="col-sm-12 col-md-2">
+                                                <label for="itemSKU{$supp.id}">Supplier SKU</label>
+                                                <input type="text" class="form-control"
+                                                       name="itemSKU[]" id="itemSKU{$supp.id}" value="{if isset($supp.SKU)}{$supp.SKU}{/if}"
+                                                       placeholder="Supplier SKU">
                                             </div>
                                         </div>
                                     {/foreach}
@@ -397,16 +403,22 @@
                 "    <input type=\"text\" class=\"form-control\" name=\"itemURL[]\"\n" +
                 "           placeholder=\"Item url\">\n" +
                 "</div>\n" +
-                "<div class=\"col-sm-12 col-md-3\">\n" +
+                "<div class=\"col-sm-12 col-md-2\">\n" +
                 "    <input type=\"number\" step=\"0.01\" class=\"form-control\"\n" +
                 "           name=\"itemPrice[]\"\n" +
                 "           placeholder=\"Item price\">\n" +
                 "</div>\n" +
-                "<div class=\"col-sm-12 col-md-3\">\n" +
+                "<div class=\"col-sm-12 col-md-2\">\n" +
                 "    <input type=\"number\" step=\"0.01\" class=\"form-control\"\n" +
                 "           name=\"itemPriceVAT[]\"\n" +
                 "           placeholder=\"Item price\">\n" +
                 "</div>\n" +
+            "<div class=\"col-sm-12 col-md-2\">" +
+            "    <label for=\"itemSKU\">Supplier SKU</label>" +
+            "    <input type=\"text\" class=\"form-control\"" +
+            "        name=\"itemSKU[]\" id=\"itemSKU\"" +
+            "        placeholder=\"Supplier SKU\">" +
+            "</div>" +
             "</div>";
         $("#listURL").append(input);
     }
