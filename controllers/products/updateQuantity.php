@@ -20,5 +20,5 @@ function update_quantity($index, $id_loc, $mode, $quantity){ //mode can me eithe
 
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_locations*}
         SET quantity='$new_quantity' WHERE id='$id_loc'"));
-    PR_PUT_Product($index);
+    PR_PUT_Product_Without_IMG($index);
 }

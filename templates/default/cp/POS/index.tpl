@@ -57,6 +57,7 @@
                             <option value="Osta">Osta</option>
                             <option value="Minuvalik">Minuvalik</option>
                             <option value="Shoppa">Shoppa</option>
+                            <option value="FB">FB</option>
                         </select>
                         <div class="row">
                             <div class="col-3 col-sm-3 col-md-3 col-lg-6 col-xl-4">
@@ -159,6 +160,7 @@
                         req: JSON.stringify(data)
                     })
                 };
+                console.log(JSON.stringify(data))
                 fetch("/cp/POS/reserve/reserve.php?type="+type, requestOptions)
                     .then(response => response.json())
                     .then(async (d) => {
@@ -233,7 +235,15 @@
             $('#modalOTHER').show();
             document.getElementById('sale').disabled = false;
 
-        } else if (val == "Shoppa") {
+        } else if (val == "FB") {
+            $(this).css("background", "#0188fb");
+            $(this).css("border-color", "#0188fb");
+            $(this).css("color", "black");
+            $('#modalSHOP').hide();
+            $('#modalOTHER').show();
+            document.getElementById('sale').disabled = false;
+        }
+        else if (val == "Shoppa") {
             $(this).css("background", "coral");
             $(this).css("border-color", "coral");
             $(this).css("color", "black");

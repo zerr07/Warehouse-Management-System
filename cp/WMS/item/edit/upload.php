@@ -199,8 +199,6 @@ if (!empty($images)) {
         array_push($existImages, '/uploads/images/products/' . $filename);
         mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*product_images*}
                                             (id_item, image, `position`) VALUES ('$last','$filename','$counter')"));
-        echo prefixQuery(/** @lang text */ "INSERT INTO {*product_images*}
-                                            (id_item, image, `position`) VALUES ('$last','$filename','$counter')");
         $counter++;
     }
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_images*} WHERE id_item='$last'
@@ -260,6 +258,7 @@ if (!empty($images)) {
 PR_PUT_Product($last);
 
 
+//exit("Redirect temporarily disabled");
 header("Location: /cp/WMS/");
 
 ?>

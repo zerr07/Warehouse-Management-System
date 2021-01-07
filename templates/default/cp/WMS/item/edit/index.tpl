@@ -335,7 +335,7 @@
 </div>
 <script src="/templates/default/assets/js/DragDropTouch.js?t=16102020T165458"></script>
 <script src="/templates/default/assets/js/editor.js?t=16102020T165459"></script>
-<script src="/templates/default/assets/js/priceCalc.js?t=16102020T165500"></script>
+<script src="/templates/default/assets/js/priceCalc.js?t=20210104T143914"></script>
 <script src="/cp/WMS/item/edit/editEAN.js?t=16102020T165502"></script>
 
 <link rel="stylesheet" href="/templates/default/assets/css/image-uploader.css?t=16102020T165503">
@@ -417,7 +417,7 @@
         loadEditor('ruText', 'ru');
         loadEditor('etText', 'et');
         loadEditor('enText', 'en');
-        loadEditor('FBText', 'et');
+        loadEditor('FBText', 'et', 0);
     });
 </script>
 {include file='footer.tpl'}

@@ -37,7 +37,7 @@ if (mysqli_num_rows($check) == 0) {
         $cart = $cart + formCart($key, $value);
     }
 
-    reserveCart($data['note'], array_filter($cart));
+    reserveCartWithoutUpdate($data['note'], array_filter($cart));
     $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT MAX(id) as id FROM {*reserved*}"));
     exit("Reservation ID: " . mysqli_fetch_assoc($q)['id']);
 } else {

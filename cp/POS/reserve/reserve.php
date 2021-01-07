@@ -1,5 +1,7 @@
 
 <?php
+ini_set("display_errors", "on");
+error_reporting(E_ALL ^ E_NOTICE);
 include_once($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 if (!defined('PRODUCTS_INCLUDED')){
     include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
@@ -59,6 +61,45 @@ function reserveCart($note, $cart){
     updateCart();
 }
 
+function reserveCartWithoutUpdate($note, $cart){
+    if (isset($_GET['type'])){
+        $type = $_GET['type'];
+    } else {
+        $type = 1;
+    }
+
+    mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*reserved*} (`comment`, `id_type`) 
+                                                                                                VALUES ('$note', '$type')"));
+    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT MAX(id) as id FROM {*reserved*}"));
+    while($row = mysqli_fetch_assoc($q)){
+        $id = $row['id'];
+        if ($type == "2" || $type == 2){
+            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"INSERT INTO {*shipment_status*} (id_status, id_shipment) VALUES ('1', '$id')"));
+        }
+        foreach ($cart as $key => $value){
+
+            $quantity = $value['quantity'];
+            $price = $value['price'];
+            $basePrice = $value['basePrice'];
+            $id_loc = "";
+            if (isset($value['loc']['selected'])){
+                $id_loc = $value['loc']['selected'];
+            } elseif (isset($value['id_location'])){
+                $id_loc = $value['id_location'];
+            }
+            if($value['tag'] != "Buffertoode") {
+                update_quantity($key, $id_loc, "-", $quantity);
+            } else {
+                $key = $value['name'];
+            }
+
+            mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
+                "INSERT INTO {*reserved_products*} (id_reserved, id_product, price, quantity, basePrice, id_location
+                                        ) VALUES ('$id', '$key', '$price', '$quantity', '$basePrice', '$id_loc')"));
+
+        }
+    }
+}
 function getReservedCartsSearch($type){
     $arr = array(array());
     $qr1 = array();
@@ -180,9 +221,12 @@ function readReservationResult($row){
             }
         }
     }
-    usort($arr['products'] , function($a, $b) {
-        return $a['location'] <=> $b['location'];
-    });
+    if (!is_null($arr['products'])){
+        usort($arr['products'] , function($a, $b) {
+            return $a['location'] <=> $b['location'];
+        });
+    }
+
     return $arr;
 }
 
@@ -232,6 +276,7 @@ $post=json_decode(file_get_contents("php://input"));
 if (isset($post->req)){
     $request = json_decode($post->req);
     if ($request->reserve == "true") {
+
         reserveCart($request->note, $_SESSION['cart']);
         $_SESSION['cart'] = array();
         $_SESSION['cartTotal'] = 0.00;

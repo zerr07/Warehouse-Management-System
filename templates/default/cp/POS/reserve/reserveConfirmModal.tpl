@@ -10,6 +10,7 @@
                     <option value="Osta">Osta</option>
                     <option value="Minuvalik">Minuvalik</option>
                     <option value="Shoppa">Shoppa</option>
+                    <option value="FB">FB</option>
                 </select>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

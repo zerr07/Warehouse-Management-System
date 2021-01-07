@@ -41,6 +41,14 @@ if (mysqli_num_rows($check) == 0) {
         $id = $_POST['id'];
     }
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "UPDATE {*reserved*} SET `comment`='$comment' WHERE id='$id'"));
+    if (isset($_GET['price'])){
+        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT id FROM {*reserved_products*} WHERE id_reservation='$id'"));
+        if ($q->num_rows == 1){
+            $id_prod = $q->fetch_assoc()['id'];
+            $price = $_GET['price'];
+            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "UPDATE {*reserved_products*} SET `price`='$price' WHERE id_reservation='$id'"));
+        }
+    }
     exit();
 } else {
     exit("Username or password is incorrect");

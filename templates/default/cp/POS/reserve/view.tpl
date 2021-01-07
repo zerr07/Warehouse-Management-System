@@ -210,6 +210,13 @@
             $('#modalSHOP').hide();
             $('#modalOTHER').show();
             document.getElementById('sale').disabled = false;
+        } else if (val == "FB") {
+            $(this).css("background", "#0188fb");
+            $(this).css("border-color", "#0188fb");
+            $(this).css("color", "black");
+            $('#modalSHOP').hide();
+            $('#modalOTHER').show();
+            document.getElementById('sale').disabled = false;
         }
     });
     function convertToShippling(id){
