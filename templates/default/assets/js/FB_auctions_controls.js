@@ -51,11 +51,11 @@ function insertOutputProduct(list){
         fetch("/api/FB/outputProducts.php?username=aztrade&password=Zajev123&insert="+v+"&id="+list)
             .then(response => response.json())
             .then((d) => {
-                if (d.resp === "keyExists"){
+                /*if (d.resp === "keyExists"){
                     document.dispatchEvent(eventInsertUsed);
-                } else {
+                } else {*/
                     document.dispatchEvent(eventInsertSuccess);
-                }
+                //}
             })
             .finally(function () {
                 let list = document.getElementById("list_select").value;
@@ -156,8 +156,8 @@ function batchPost(list){
             setScheduleProgress(count);
 
             incrementor = 100/d.tags.length;
-            let SubmittedStartDate      = moment(document.getElementById("FromTime").value, "YYYY-MM-DD[T]HH:mm:ss");
-            let SubmittedEndDate        = moment(document.getElementById("TillTime").value, "YYYY-MM-DD[T]HH:mm:ss");
+            let SubmittedStartDate      = moment(document.getElementById("FromTime").value, "YYYY-MM-DD[T]HH:mm:ss").add(1, 'h');
+            let SubmittedEndDate        = moment(document.getElementById("TillTime").value, "YYYY-MM-DD[T]HH:mm:ss").add(1, 'h');
             console.log(SubmittedStartDate);
             console.log(SubmittedEndDate);
             let AucCount                = d.tags.length;
@@ -231,7 +231,8 @@ function batchPost(list){
                             TempDate.second("00");
                         }
                         count += incrementor;
-                        await postPhotoToFB(element.tag, v, element.image, element.desc, TempDate.format("YYYY-MM-DD HH:mm:ss"), SubmittedEndDate.format("YYYY-MM-DD HH:mm:ss"));
+                        console.log(element);
+                        await postPhotoToFB(element.tag, v, element.image, element.desc, TempDate.format("YYYY-MM-DD HH:mm:ss"), SubmittedEndDate.format("YYYY-MM-DD HH:mm:ss"), element.images);
 
                     }
                 } else {
@@ -259,18 +260,26 @@ function forceRemove(){
     disableAlert();
     return fetch(domain+"/forceRemoveRequests");
 }
-async function postPhotoToFB(Tag, AlbumID, PhotoURL, Caption, pubTime, EndTime){
+async function postPhotoToFB(Tag, AlbumID, PhotoURL, Caption, pubTime, EndTime, Images){
     let ReservaionID;
     let item = {
         "note": "FB - not set",
         "products":{[Tag]: {"quantity": 1}}
     }
+    let date = moment(EndTime, "YYYY-MM-DD hh:mm:ss");
     fetch("/api/reserve.php?username=aztrade&password=Zajev123&data="+JSON.stringify(item))
         .then(resposne => resposne.text())
         .then((d) => {
             console.log(d);
             ReservaionID = d.replace("Reservation ID: ", "");
             console.log(ReservaionID);
+            let PhotoCapt = Caption + "<div>Alghind:1€<div>" +
+                "Esimene pakkumine peab olema samm kõrgem alghinnast !<div>" +
+                "Pakkumise samm: vähemalt 1€<div>" +
+                "OKSJONI LÕPP "+date.format('DD.MM.YYYY')+" KL "+date.add(1, 'h').format('HH:mm')+" JA ON PIKENEVA LÕPUGA 10 MINUTIT!<div>" +
+                "NB! Lugege lisainfot oksjoni albumi pealkirjast</div></div></div></div></div>";
+
+            console.log("PhotoCapt: ", PhotoCapt);
             const requestOptions = {
                 method: "POST",
                 headers:  new Headers({
@@ -280,7 +289,7 @@ async function postPhotoToFB(Tag, AlbumID, PhotoURL, Caption, pubTime, EndTime){
                     ReservationID: ReservaionID,
                     AlbumID: AlbumID,
                     ImgUrl: "http://cp.azdev.eu/uploads/images/products/"+PhotoURL,
-                    Caption: Caption,
+                    Caption: PhotoCapt,
                     FinishTime: pubTime,
                     EndTime: EndTime
                 })
@@ -297,9 +306,51 @@ async function postPhotoToFB(Tag, AlbumID, PhotoURL, Caption, pubTime, EndTime){
                         }
                     }
                     setPhotoProgress(count);
-                    await schedulePost(d.id, Caption, AlbumID, pubTime)
+
+                    await schedulePost(d.id, Caption, AlbumID, pubTime);
+                    if (Images.length !== 0){
+                        await PostImagesComment(d.id, Images, PhotoURL)
+                    }
                 });
         });
+}
+async function PostImagesComment(PhotoID, Images, PhotoURL){
+    let max = 2;
+    for (let s = 0; s < Images.length; s++){
+        console.log(s, "<=", max);
+        console.log(s, "<=", Images.length);
+        console.log(Images[s].image, "!==", PhotoURL);
+        if (s < max){
+            if (Images[s].image !== PhotoURL){
+                const requestOptions = {
+                    method: "POST",
+                    headers:  new Headers({
+                        'Content-Type': 'application/json'
+                    }),
+                    body: JSON.stringify({
+                        PostID: PhotoID,
+                        PhotoID: "http://cp.azdev.eu/uploads/images/products/"+Images[s].image
+                    })
+                };
+                console.log("PhotoID: http://cp.azdev.eu/uploads/images/products/",Images[s].image);
+                fetch(domain+"/postCommentPhoto", requestOptions)
+                    .then(response => response.json())
+                    .then((d) => {
+                        if (d.hasOwnProperty("status")){
+                            if (d.status.toString() === "quotaExceeded"){
+                                setAlert("Quota exceeded, please try again later.");
+                            } else if (d.status.toString() === "quotaExceededAddedToQueue"){
+                                setAlert("Quota exceeded, the task has been added to queue.");
+                            }
+                        }
+                        console.log(d);
+                    });
+            } else {
+                max++;
+            }
+        }
+    }
+    setScheduleProgress(count);
 }
 async function schedulePost(PhotoID, Message, AlbumID, PubTime){
     const requestOptions = {
@@ -321,7 +372,6 @@ async function schedulePost(PhotoID, Message, AlbumID, PubTime){
         .then(response => response.json())
         .then((d) => {
 
-            setScheduleProgress(count);
             if (d.hasOwnProperty("status")){
                 if (d.status.toString() === "quotaExceeded"){
                     setAlert("Quota exceeded, please try again later.");
@@ -332,7 +382,6 @@ async function schedulePost(PhotoID, Message, AlbumID, PubTime){
             console.log(d);
         });
 }
-
 function getAlbumsFB(){
     disableAlert();
     fetch(domain+"/getAlbums")

@@ -98,7 +98,7 @@
 <link href="/templates/default/assets/css/c3.min.css?t=16102020T165344" rel="stylesheet" />
 
 <script src="/templates/default/assets/js/moment.js"></script>
-<script src="/templates/default/assets/js/FB_auctions_controls.js?d=20201218T125921"></script>
+<script src="/templates/default/assets/js/FB_auctions_controls.js?d=20201228T131546"></script>
 <script>
     let feedback = document.getElementById("OutputProductFeedback");
     let input = document.getElementById("OutputProductInput");

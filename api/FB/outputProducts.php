@@ -16,30 +16,34 @@ if ($pass == null || $user == null){
 }
 function insertOutputProduct($tag, $id){
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"SELECT * FROM {*FB_output*} WHERE tag='$tag'"));
-    if ($q->num_rows != 0){
+s    /*if ($q->num_rows != 0){
         return json_encode(array("resp"=>"keyExists"));
-    } else {
+    } else {*/
         $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"INSERT INTO {*FB_output*} (tag, id_list) VALUES ('$tag', '$id')"));
         return json_encode(array("resp"=>"success"));
-    }
+    //}
 }
 function getOutputProducts($id, $mode){
     if ($mode == "onlyPos"){
-         $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"SELECT *, (SELECT id FROM {*products*} WHERE tag={*FB_output*}.tag) as id
+         $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"SELECT *, (SELECT id FROM {*products*} WHERE tag={*FB_output*}.tag) as idProd
      FROM {*FB_output*} WHERE id_list='$id' AND (SELECT SUM(quantity) FROM product_locations WHERE id_item=(SELECT id FROM products WHERE tag=FB_output.tag))>0"));
     } else {
-         $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"SELECT *, (SELECT id FROM {*products*} WHERE tag={*FB_output*}.tag) as id
+         $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"SELECT *, (SELECT id FROM {*products*} WHERE tag={*FB_output*}.tag) as idProd
      FROM {*FB_output*} WHERE id_list='$id'"));
     }
    
     $arr = array();
     while ($row = $q->fetch_assoc()){
-        $image = get_main_image_live($row['id']);
+        $image = get_main_image_live($row['idProd']);
         if (is_null($image)){
-            $image = get_main_image($row['id']);
+            $image = get_main_image($row['idProd']);
         }
-        array_push($arr, array("id"=>$row['id'] ,"tag"=>$row['tag'], "quantity"=>get_quantity_sum($row['id']), "image"=>$image, "desc"=>get_FB_desc($row['id'])));
+        $images = get_images_live($row['idProd']);
+        array_push($arr, array("idInList"=>$row['id'] , "id"=>$row['idProd'] ,"tag"=>$row['tag'], "quantity"=>get_quantity_sum($row['idProd']), "image"=>$image,"images"=>$images, "desc"=>get_FB_desc($row['idProd'])));
     }
+    usort($arr, function($a, $b) {
+        return $b['idInList'] <=> $a['idInList'];
+    });
     $arr = array("tags"=>$arr);
     return json_encode($arr);
 }
