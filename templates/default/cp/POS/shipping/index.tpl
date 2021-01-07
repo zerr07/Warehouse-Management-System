@@ -123,7 +123,9 @@
         .then((d) => {
 
             Object.keys(d).forEach(el => {
-                enableWarning(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]"), d[el].comment, d[el].user)
+                if(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]")){
+                    enableWarning(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]"), d[el].comment, d[el].user)
+                }
             });
         });
     });
