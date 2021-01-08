@@ -69,9 +69,55 @@
 
             <hr style="border-color: #4c4c4c;">
             <span class="sidebar_item mt-3">Logged as {$user}</span>
+            <a class="sidebar_item" href="/cp/WMS/HourLogger.php" role="button">
+                <i class="fas fa-user-clock"></i> Hour logger
+            </a>
+            {*<a class="sidebar_item" href="javascript:void(0);" onclick="generateAccessToken()" role="button" style="font-size: 18px">
+                <i class="fas fa-id-card"></i> Generate new access token
+            </a>
+            <div class="row m-auto">
+                <div class="col-10 p-0">
+                    <input type="text" class="form-control" id="access_token" value="{if !is_null($access_token)}{$access_token}{/if}" placeholder="Empty">
+                </div>
+                <div class="col-2 p-0">
+                    <button class="btn btn-outline-info w-100" {if is_null($access_token)}disabled{/if} onclick="copyAccessToken()"><i class="far fa-copy"></i></button>
+                </div>
+            </div>*}
+
+
             <a class="sidebar_item" href="?logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
 
         </div>
     </div>
 
 </div>
+<script>
+    function generateAccessToken(){
+        fetch("/controllers/generateAccessToken.php").then(response=>response.json()).then((d)=>{
+            if (d.hasOwnProperty('token')){
+                setCookie("access_token", d.token)
+                document.getElementById("access_token").value = d.token;
+            } else if (d.hasOwnProperty("error")){
+                alert("Error has occurred while generating access token.");
+                console.log(d.error);
+            } else {
+                alert("Unknown error.");
+            }
+
+        });
+    }
+    function copyAccessToken(){
+        var copyTextarea = document.querySelector('#access_token');
+        copyTextarea.focus();
+        copyTextarea.select();
+        try {
+            let successful = document.execCommand('copy');
+            let msg = successful ? 'successful' : 'unsuccessful';
+            console.log('Copying text command was ' + msg);
+        } catch (err) {
+            console.log('Oops, unable to copy');
+        }
+    }
+
+</script>
+{debug}
