@@ -49,7 +49,6 @@
 
 <script src="/templates/default/assets/js/fontawesome-all.js?t=16102020T165606"></script>
 
-<script src="/templates/default/assets/js/cookie.js?t=16102020T165605"></script>
 <script src="/templates/default/assets/js/popper.js?t=16102020T165603"></script>
 <script src="/templates/default/assets/js/bootstrap.min.js?t=16102020T165600"></script>
 

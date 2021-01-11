@@ -5,6 +5,32 @@ var preloaderProgress;
 var loaderProgress;
 var loaderTextProgress;
 var loaderProgressBar;
+function getHourLoggerSession(){
+    return fetch("/controllers/HourLogger/HourLoggerController.php?getHourLogger").then(responce => responce.json())
+}
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 $(window).on("load", function (){
     preloaderProgress = $('#loaderAreaProgress');
     loaderProgress = preloaderProgress.find('.loaderProgress');
@@ -13,6 +39,7 @@ $(window).on("load", function (){
     preloader = $('#loaderArea');
     loader = preloader.find('.loader');
     loaderText = preloader.find('.preloader-text');
+    getHourLoggerSession().then(r => console.log(r));
 });
 function setPreloaderProgress(percent){
     $(loaderProgressBar[0]).css("width", percent+"%");
@@ -169,3 +196,4 @@ function LimitDataList(Input, DataList, Content, Limit){
         DataList.appendChild(set);
     })
 }
+
