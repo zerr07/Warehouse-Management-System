@@ -43,14 +43,14 @@ $(window).on("load", function (){
         if (r) {
             if (r.hasOwnProperty("error")) {
                 document.getElementById("HourLoggerStatus").setAttribute("src", "/templates/default/assets/icons/wall-clock-o.svg");
-                document.getElementById("HourLoggerStatus").setAttribute("title", "Error: "+r.error);
+                document.getElementById("HourLoggerStatus").setAttribute("data-original-title", "Error: "+r.error);
             } else {
                 document.getElementById("HourLoggerStatus").setAttribute("src", "/templates/default/assets/icons/wall-clock-g.svg");
-                document.getElementById("HourLoggerStatus").setAttribute("title", "Shift started at: "+r.date_check_in);
+                document.getElementById("HourLoggerStatus").setAttribute("data-original-title", "Shift started at: "+r.date_check_in);
             }
         } else {
             document.getElementById("HourLoggerStatus").setAttribute("src", "/templates/default/assets/icons/wall-clock-r.svg");
-            document.getElementById("HourLoggerStatus").setAttribute("title", "Shift not started");
+            document.getElementById("HourLoggerStatus").setAttribute("data-original-title", "Shift not started");
         }
     }).finally(()=>{
         $("#HourLoggerStatus").tooltip();
