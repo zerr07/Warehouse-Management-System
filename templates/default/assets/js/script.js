@@ -39,7 +39,22 @@ $(window).on("load", function (){
     preloader = $('#loaderArea');
     loader = preloader.find('.loader');
     loaderText = preloader.find('.preloader-text');
-    getHourLoggerSession().then(r => console.log(r));
+    getHourLoggerSession().then(r => {
+        if (r) {
+            if (r.hasOwnProperty("error")) {
+                document.getElementById("HourLoggerStatus").setAttribute("src", "/templates/default/assets/icons/wall-clock-o.svg");
+                document.getElementById("HourLoggerStatus").setAttribute("title", "Error: "+r.error);
+            } else {
+                document.getElementById("HourLoggerStatus").setAttribute("src", "/templates/default/assets/icons/wall-clock-g.svg");
+                document.getElementById("HourLoggerStatus").setAttribute("title", "Shift started at: "+r.date_check_in);
+            }
+        } else {
+            document.getElementById("HourLoggerStatus").setAttribute("src", "/templates/default/assets/icons/wall-clock-r.svg");
+            document.getElementById("HourLoggerStatus").setAttribute("title", "Shift not started");
+        }
+    }).finally(()=>{
+        $("#HourLoggerStatus").tooltip();
+    });
 });
 function setPreloaderProgress(percent){
     $(loaderProgressBar[0]).css("width", percent+"%");

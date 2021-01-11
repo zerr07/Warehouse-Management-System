@@ -21,21 +21,22 @@ if  (isset($_COOKIE['Authenticated']) && $_COOKIE['Authenticated'] != ""){
         $smarty->assign("cartTotal", $_SESSION['cartTotal']);
 
         $smarty->assign("shards", getShards());
+        if (!isset($_COOKIE['access_token'])){
+            $userId = $_COOKIE['user_id'];
+            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT access_token FROM {*users*} WHERE id='$userId'"));
+            if ($q){
+                $tok = $q->fetch_assoc()['access_token'];
+                if (!is_null($tok)){
+                    setcookie("access_token", $tok, time() + (86400 * 30), "/"); // 86400 = 1 day
+                    //header("Refresh:0");
+                } else {
+                    $smarty->assign("access_token", $tok);
+                }
+            }
+        } else {
+            $smarty->assign("access_token", $_COOKIE['access_token']);
+        }
     }
 
-    if (!isset($_COOKIE['access_token'])){
-        $userId = $_COOKIE['user_id'];
-        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT access_token FROM {*users*} WHERE id='$userId'"));
-        if ($q){
-            $tok = $q->fetch_assoc()['access_token'];
-            if (!is_null($tok)){
-                setcookie("access_token", $tok, time() + (86400 * 30), "/"); // 86400 = 1 day
-                //header("Refresh:0");
-            } else {
-                $smarty->assign("access_token", $tok);
-            }
-        }
-    } else {
-        $smarty->assign("access_token", $_COOKIE['access_token']);
-    }
+
 }

@@ -61,12 +61,17 @@
     {if isset($user)}
       <span class="ml-2" id="sidebar_close_btn" style="cursor: pointer;top: 1rem;" onclick="openNav()"><i class="fas fa-bars"></i></span>
     {/if}
-    <div class="col-auto">{include file="logo.tpl"}</div>
+    <div class="col-auto  mr-auto mr-sm-auto mr-md-0">{include file="logo.tpl"}</div>
     {if isset($user)}
-    <div class="col-auto">
-      <a href="/cp/POS/" class="d-none d-sm-none d-md-inline-flex d-lg-inline-flex d-xl-inline-flex">POS</a>
-      <a href="/cp/POS/shipping/" class="d-none d-sm-none d-md-inline-flex d-lg-inline-flex d-xl-inline-flex ml-3">Shipments</a>
-    </div>
+      <div class="col-auto mr-auto d-none d-sm-none d-md-inline-flex d-lg-inline-flex d-xl-inline-flex">
+        <a href="/cp/POS/">POS</a>
+        <a href="/cp/POS/shipping/" class=" ml-3">Shipments</a>
+      </div>
+      <div class="col-auto">
+        <a href="/cp/WMS/HourLogger.php">
+          <img id="HourLoggerStatus" style="width: 24px" src="/templates/default/assets/icons/wall-clock-r.svg" data-toggle="tooltip" data-placement="bottom" title="Shift not started">
+        </a>
+      </div>
     {/if}
   </div>
   <hr style="top: 50px;
