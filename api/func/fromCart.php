@@ -35,5 +35,23 @@ function formCartProcess($arr, $value){
             $cart[$arr['id']]['basePrice'] =  $arr['platforms'][1]['price'];
         }
     }
+    $cart[$arr['id']]['id_location'] = "";
+    if (empty($arr['locationList'])){
+        $cart[$arr['id']]['id_location'] = 0;
+    } else {
+        foreach ($arr['locationList'] as $key => $value){
+            if ($value['id_type'] == 2){
+                $cart[$arr['id']]['id_location'] = $key;
+            }
+        }
+        if ($cart[$arr['id']]['id_location'] == 0 || $cart[$arr['id']]['id_location'] == ""){
+            foreach ($arr['locationList'] as $key => $value){
+                $cart[$arr['id']]['id_location'] = $key;
+                break;
+            }
+        }
+    }
+
+
     return $cart;
 }
