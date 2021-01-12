@@ -2,6 +2,46 @@
 
             <div class="accordion text-left mt-4" id="accordion">
 
+                <div class="card">
+                    <div class="card-header" id="heading0170">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse0170" aria-expanded="false" aria-controls="collapse0170">
+                                Version 0.17.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse0170" class="collapse" aria-labelledby="heading0170" data-parent="#accordion">
+                        <div class="card-body">
+                            New api for reservations implemented.<br />
+                            Routing base controller implemented.<br />
+                            Token checker implemented.<br />
+                            User profile implemented.<br />
+                            Access token generator.<br />
+                            Hour logger implemented<br />
+                            <hr>
+                            Fixed locations bug on api reservation request<br />
+                            {literal}
+                                <pre>
+▄▄░░▄██▄░░░
+░░░░░▐▀█▀▌░░░░▀█▄░░░
+░░░░░▐█▄█▌░░░░░░▀█▄░░
+░░░░░░▀▄▀░░░▄▄▄▄▄▀▀░░
+░░░░▄▄▄██▀▀▀▀░░░░░░░
+░░░█▀▄▄▄█░▀▀░░
+░░░▌░▄▄▄▐▌▀▀▀░░ This is Bob
+▄░▐░░░▄▄░█░▀▀ ░░
+▀█▌░░░▄░▀█▀░▀ ░░
+░░░░░░░▄▄▐▌▄▄░░░
+░░░░░░░▀███▀█░▄░░
+░░░░░░▐▌▀▄▀▄▀▐▄░░
+░░░░░░▐▀░░░░░░▐▌░░
+░░░░░░█░░░░░░░░█
+                                </pre>
+                            {/literal}
+                        </div>
+                    </div>
+                </div>
 
                 <div class="card">
                     <div class="card-header" id="heading0160">
