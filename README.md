@@ -258,4 +258,4 @@ will not be deleted unless the product deleted was not the last one in it.
 
 <b>!!!WARNING!!!</b><br>
 <b>The documentation below is deprecated. It still can be used but will be removed on the project release.</b>
-LINK TO OLD DOCS
+[Old documentation](old-docs.md)

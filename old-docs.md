@@ -1,5 +1,6 @@
 # Warehouse Management System API documentation
 <b>The documentation below is deprecated. It still can be used but will be removed on the project release.</b>
+[New documentation](README.md)
 #### Product reservation
 <p>
 Creates a new reservation.<br>
