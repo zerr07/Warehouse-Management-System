@@ -462,6 +462,166 @@ will not be canceled unless the product canceled was not the last one in it.
 | 501 | Could not get product in reservation by its tag for `Value`. |
 | 502 | No Sale id supplied. |
 
+
+#### Shipments
+
+| Method | Allowed |
+| :----: | :-----: | 
+| GET | Yes |
+| POST | Yes |
+| PUT | No |
+| DELETE | Yes |
+
+<b>GET</b> - Returns a list of shipments and its comments
+Path : {Your_Domain}/api/shipments
+
+Returns:
+
+<pre>
+{
+    "5823": {
+        "comment": "Example shipment 3"
+    },
+    "5822": {
+        "comment": "Example shipment 2"
+    },
+    "5821": {
+        "comment": "Example shipment 1"
+    },
+    ...
+}
+</pre>
+If you want to add reservations to the list you need to supply a key "display" with value "both" into your query.
+Example request body:
+<pre>
+Path: {Your_Domain}/api/shipments?display=both
+
+{
+    "5836": {
+        "comment": "Example reservation 2",
+        "id_type": "1"
+    },
+    "5835": {
+        "comment": "Example reservation 1",
+        "id_type": "1"
+    },
+    "5834": {
+        "comment": "Example shipment 1",
+        "id_type": "2"
+    },
+    ...
+}
+</pre>
+
+You can also supply "id" which value represents shipment ID. The request will return shipment data.
+
+Example response: 
+<pre>
+{
+    "id": "5069",
+    "comment": "M #99999-99999",
+    "date": "2020-11-26 12:24:22",
+    "id_type": "2",
+    "type_name": "Shipment",
+    "products": [
+        {
+            "id": "6732",
+            "id_reserved": "5069",
+            "id_product": "958",
+            "quantity": "6",
+            "price": "8.34",
+            "basePrice": "1.39",
+            "id_location": "8171",
+            "tag": "AZ901",
+            "name": {
+                "et": "Example er product name",
+                "ru": "Example ru product name"
+            },
+            "location": "Ladu | F34"
+        }
+    ],
+    "shipping_data": {
+        "data": {
+            "name": "Ülle Sildever",
+            "phone": " 372 999999",
+            "deliveryNr": "99999-99999",
+            "terminal": "124",
+            "checked": "defDelivery",
+            "email": "",
+            "comment": "",
+            "COD_Sum": "",
+            "barcode": "99999999999999",
+            "reference": "99999-99999"
+        },
+        "barcode": "4216100028820985",
+        "data_file": null
+    }
+}
+</pre>
+
+**POST** - Converts reservation into shipment
+
+Path: {Your_Domain}/api/shipments
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| id | Integer | A reservation id | Yes |
+
+
+
+Example request body:
+<pre>
+{
+	"id": "5841"
+}
+</pre>
+
+**Errors**
+
+| Code | Message |
+| :---: | :---- | 
+| 800 | Reservation id not found. |
+
+**DELETE** - Cancels shipment
+
+Path: {Your_Domain}/api/shipments
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| id | Integer | A shipment id | Yes |
+| products | Array | An array of products where each key represents a product tag or its id from shipment (Not product id itself) | No |
+
+Example request body:
+<pre>
+This will cancel shipment with id 5844.
+{
+    "id": "5844"
+}
+
+This will cancel only product with its shipment id of 7711 from shipment with id 5828. The shipment itself
+will not be deleted unless the product deleted was not the last one in it.
+{
+    "id": "5828",
+    "products": ["7711"]
+}
+
+This will cancel only product with tag AZ041 from shipment with id 5828. The shipment itself
+will not be deleted unless the product deleted was not the last one in it.
+{
+    "id": "5828",
+    "products": ["AZ041"]
+}
+</pre>
+
+**Errors**
+
+| Code | Message |
+| :---: | :---- | 
+| 900 | No shipment id supplied. |
+| 901 | Could not get product in shipment by its tag for `$value`. |
+| 902 | There is on or multiple products with this tag for `$value`. Please contact administrator. |
+| 903 | Shipment status does not allow cancellation. |
+
 <b>!!!WARNING!!!</b><br>
 <b>The documentation below is deprecated. It still can be used but will be removed on the project release.</b>
 [Old documentation](old-docs.md)

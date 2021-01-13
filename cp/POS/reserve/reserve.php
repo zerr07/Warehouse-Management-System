@@ -192,11 +192,13 @@ function getReservedCarts($type='unset', $api=false){
 }
 
 function getSingleCartReservation($id){
-    $arr = array();
     $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT *, 
     (SELECT `name` FROM {*reservation_types*} WHERE id={*reserved*}.id_type) as type_name FROM {*reserved*} WHERE id='$id'"));
-    while ($row = mysqli_fetch_assoc($q)){
-        $arr = readReservationResult($row);
+    $row = $q->fetch_assoc();
+    $arr = readReservationResult($row);
+    if ($row['id_type'] == 2){
+        include_once $_SERVER['DOCUMENT_ROOT'] . "/cp/POS/shipping/getShippingData.php";
+        $arr['shipping_data'] = getData_full($id);
     }
     return $arr;
 }
