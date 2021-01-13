@@ -275,12 +275,24 @@ function cancelReservationProduct($id, $id_prod_res){
 }
 function editReservation($id, $data){
     $oldData = getSingleCartReservation($id);
-    foreach ($data as $value){
-        if (isset($value['tag'])){
+    if (empty($data)){
+        exit(json_encode(array("error"=>"No products found in the array.", "code"=>"203")));
+    }
+    foreach ($data as $key => $value){
+        if (is_numeric($key)){
+            foreach ($oldData['products'] as $val){
+                if ($val['id'] == $key){
+                    if (isset($value['quantity'])){
+                        editReservationProduct($value, $val);
+                    } else {
+                        exit(json_encode(array("error"=>"No quantity field supplied.", "code"=>"200")));
+                    }
+                }
+            }
+        } else {
             $found = false;
             foreach ($oldData['products'] as $val){
-                if ($val['tag'] == $value['tag']){
-                    $value['id'] = $val['id'];
+                if ($val['tag'] == $key){
                     if (isset($value['quantity'])){
                         editReservationProduct($value, $val);
                         $found = true;
@@ -291,18 +303,8 @@ function editReservation($id, $data){
             }
             if (!$found){
                 include_once($_SERVER['DOCUMENT_ROOT'] . "/api/func/fromCart.php");
-                $cart = formCart($value['tag'], array_filter($value));
+                $cart = formCart($key, array_filter($value));
                 addCartToReservation($id, array_filter($cart));
-            }
-        } else if (isset($value['id'])){
-            foreach ($oldData['products'] as $val){
-                if ($val['id'] == $value['id']){
-                    if (isset($value['quantity'])){
-                        editReservationProduct($value, $val);
-                    } else {
-                        exit(json_encode(array("error"=>"No quantity field supplied.", "code"=>"200")));
-                    }
-                }
             }
         }
     }
@@ -310,7 +312,7 @@ function editReservation($id, $data){
 }
 
 function editReservationProduct($value, $oldValues){
-    $id = $value['id'];
+    $id = $oldValues['id'];
     $quantity = $value['quantity'];
     if (isset($value['price']) && isset($value['basePrice'])){
         $price = round($value['price'], 2);
@@ -329,10 +331,7 @@ function editReservationProduct($value, $oldValues){
     if (!is_numeric($price) || !is_numeric($basePrice)){
         exit(json_encode(array("error"=>"Price or Base price is not number.", "code"=>"201")));
     }
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "UPDATE {*reserved_products*} SET `price`='$price', basePrice='$basePrice', quantity='$quantity' WHERE id='$id'"));
-    if (!$q){
-        echo "SQL error $id";
-    }
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "UPDATE {*reserved_products*} SET `price`='$price', basePrice='$basePrice', quantity='$quantity' WHERE id='$id'"));
     updateProductPriceInReservationEdit($oldValues, $quantity);
 }
 
@@ -340,17 +339,20 @@ function updateProductPriceInReservationEdit($value, $newQuantity){
     $id_location = $value['id_location'];
     $id_product = $value['id_product'];
     if ($id_product != "Buffertoode"){
-        if ($value['id_location'] !== 0 || $value['id_location'] !== null){
+
+        if ($value['id_location'] == 0 || is_null($value['id_location'])){
+            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT * FROM {*product_locations*} WHERE id_item='$id_product' LIMIT 1"));
+            $row_q = $q->fetch_assoc();
+            $quantity = $row_q['quantity']+$value['quantity']-$newQuantity;
+            $new_loc_id = $row_q['id'];
+
+            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "UPDATE {*product_locations*} SET quantity='$quantity' WHERE id='$new_loc_id'"));
+        } else {
             $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT * FROM {*product_locations*} WHERE id='$id_location'"));
             $row_q = $q->fetch_assoc();
             $quantity = $row_q['quantity']+$value['quantity']-$newQuantity;
             $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "UPDATE {*product_locations*} SET quantity='$quantity' WHERE id='$id_location'"));
-        } else {
-            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT * FROM {*product_locations*} WHERE id_product='$id_product' LIMIT 1"));
-            $row_q = $q->fetch_assoc();
-            $quantity = $row_q['quantity']+$value['quantity']-$newQuantity;
-            $new_loc_id = $row_q['id'];
-            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "UPDATE {*product_locations*} SET quantity='$quantity' WHERE id='$new_loc_id'"));
+
         }
         //PR_PUT_Product($id_product);
     }

@@ -185,26 +185,26 @@ Path: {Your_Domain}/api/reservations
 | :--- | :--- | :--- | :--- |
 | id | Integer | A reservation id | Yes |
 | comment | String | A reservation comment | No |
-| products | Array | An array of products where each element represents product | No (Why?) |
+| products* | Array | An array of products where each element represents product. Key may be the Id of product instance from reservation (Not product id itself) or product tag | No |
 | quantity | Integer | Product quantity | Yes |
 | price | Float/Double with 2 decimal places | Overall product price (price per piece*quantity) | No |
 | basePrice | Float/Double with 2 decimal places | Price per piece | No |
-| tag | String | Product tag | Yes* |
-| id | Integer | Id of product instance from reservation (Not product id itself) | Yes* |
 
-\* - You should use one of these keys, if you use "tag" then you will be able to add and update product in 
+\* - If you use "tag" as a key then you will be able to add and update product in 
 reservation, if you use "id" then you will only be able to update.
+
+Quantity key is mandatory if products key is specified.
 
 Example request:
 <pre>
 {
     "id": 5828,
     "comment": "Updated comment",
-    "products": [
-        {"tag": "AZ041", "quantity": 12},
-        {"tag": "AZ020", "quantity": 1},
-        {"id": 7711, "quantity": 3, "basePrice": 1}
-    ]
+    "products": {
+        "AZ041": {"quantity": 12},
+        "AZ020": {"quantity": 1},
+        "7711": {"quantity": 3, "basePrice": 1}
+    } 
 }
 </pre>
 
@@ -215,6 +215,7 @@ Example request:
 | 200 | No quantity field supplied. |
 | 201 | Price or Base price is not number. |
 | 202 | Unable to change comment, SQL error. |
+| 203 | No products found in the array. |
 
 **DELETE** - Cancels reservation
 
