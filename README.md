@@ -256,6 +256,51 @@ will not be deleted unless the product deleted was not the last one in it.
 | 301 | Could not get product in reservation by its tag for `$value`. |
 | 302 | There is on or multiple products with this tag for `$value`. Please contact administrator. |
 
+#### Confirm reservation
+
+| Method | Allowed |
+| :----: | :-----: | 
+| GET | No |
+| POST | Yes |
+| PUT | No |
+| DELETE | No |
+
+**POST** - Confirms a reservation
+
+Path: {Your_Domain}/api/reservations/confirm
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| card | Integer (1 or 0) | If 1 - 100% of payment will be registered as card payment otherwise cash | Yes |
+| mode | String | Supported values "Bigshop", "Minuvalik", "Shoppa", "Osta" | Yes |
+| client | String | Will only be applied if mode value is equal to "Bigshop", if empty "Eraisik" will be inserted | No |
+| shipmentNr | String | External shipment number | No |
+| id | Integer | Reservation id | Yes |
+| products | Array | Array where each element is a product tag | No |
+<p>
+    Specifying "products" is only required when you want to confirm only certain products from the
+    reservation. 
+</p>
+
+Example request body:
+<pre>
+{
+  "card": 1,
+  "mode": "Bigshop",
+  "client": "Clients name",
+  "shipmentNr": "123",
+  "id": 5842,
+  "products": ["AZ020", "AZ041"]
+}
+</pre>
+
+**Errors**
+
+| Code | Message |
+| :---: | :---- | 
+| 700 | Reservation id not supplied. |
+| 701 | Error processing reservation with id: `id`. Check your request. |
+
 
 #### Sales
 
@@ -354,8 +399,8 @@ Example request body:
 {
   "card": 1,
   "mode": "Bigshop",
-  "ostja": "Clients name",
-  "tellimuseNr": "123",
+  "client": "Clients name",
+  "shipmentNr": "123",
   "products":{
     "AZ020": {
       "quantity": 2,
@@ -369,6 +414,14 @@ Example request body:
   }
 }
 </pre>
+
+**Errors**
+
+| Code | Message |
+| :---: | :---- | 
+| 600 | No mode key found. |
+| 601 | No card key found. |
+
 
 **DELETE** - Cancels sale
 

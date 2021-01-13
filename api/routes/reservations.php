@@ -111,19 +111,79 @@ Route::add("/api/reservations", function () {
         exit(json_encode(array("error" => "Unknown error", "code"=>"100")));
     }
 }, "DELETE");
+Route::add("/api/reservations/confirm", function () {
+    header("HTTP/1.0 405 Method Not Allowed");
+    exit();
+}, "GET");
+Route::add("/api/reservations/confirm", function () {
+    $check = json_decode(checkToken(), true);
+    if (isset($check['user_id'])) {
+        include_once($_SERVER['DOCUMENT_ROOT'] . "/cp/POS/reserve/reserve.php");
+        include_once($_SERVER['DOCUMENT_ROOT'] . "/api/func/fromCart.php");
 
-Route::add("/api/editReservation.php", function () {
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/api/editReservation.php";
-});
-Route::add("/api/performSale.php", function () {
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/api/performSale.php";
-});
-Route::add("/api/remove_reservation.php", function () {
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/api/remove_reservation.php";
-});
-Route::add("/api/reservationConfirm.php", function () {
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/api/reservationConfirm.php";
-});
-Route::add("/api/reserve.php", function () {
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/api/reserve.php";
-});
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (!array_key_exists('id', $data)){
+            exit(json_encode(array("error" => "Reservation id not supplied.", "code"=>"700")));
+        }
+        if (!array_key_exists('products', $data)){
+            $id = $data['id'];
+            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*reserved_products*} WHERE id_reserved='$id'"));
+        } else {
+            $id = $data['id'];
+            $search = "";
+            $c = 0;
+            foreach ($data['products'] as $value){
+                if ($c == 0){
+                    $search .= "id_product='".get_product_id_by_tag($value)."'";
+                } else {
+                    $search .= " OR id_product='".get_product_id_by_tag($value)."'";
+                }
+                $c++;
+            }
+            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*reserved_products*} WHERE id_reserved='$id' AND ($search)"));
+        }
+        if ($q->num_rows != 0){
+            // Formatting cart
+            include_once($_SERVER["DOCUMENT_ROOT"] . '/cp/POS/reserve/reserve.php');
+
+            $cart = array();
+            while ($row = $q->fetch_assoc()){
+                $cart[$row['id_product']] = array(
+                    "quantity" => $row['quantity'],
+                    "price" => $row['price'],
+                    "basePrice" => $row['basePrice']
+                );
+                cancelReservationProduct($data['id'], $row['id']);
+            }
+
+            $cart = array_filter($cart);
+            include_once ($_SERVER['DOCUMENT_ROOT']."/api/func/sale.php");
+            if (isset($_COOKIE['default_location_type'])){
+                $def_loc = $_COOKIE['default_location_type'];
+            } else {
+                $def_loc = 1;
+            }
+            performSale($data, $cart,$def_loc);
+            exit(json_encode(array("success" => "Reservation confirmed.")));
+
+        } else {
+            exit(json_encode(array("error" => "Error processing reservation with id: ".$id.". Check your request.", "code"=>"701")));
+        }
+
+
+
+    } else if (isset($check['error'])) {
+        exit(json_encode($check));
+    } else {
+        exit(json_encode(array("error" => "Unknown error", "code"=>"100")));
+    }
+}, "POST");
+Route::add("/api/reservations/confirm", function () {
+    header("HTTP/1.0 405 Method Not Allowed");
+    exit();
+}, "PUT");
+Route::add("/api/reservations/confirm", function () {
+    header("HTTP/1.0 405 Method Not Allowed");
+    exit();
+}, "DELETE");

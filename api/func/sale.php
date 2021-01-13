@@ -20,24 +20,33 @@ function performSale($data, $cart, $id_type)
             $cash = $sum;
         }
     } else {
-        exit("No card key found.");
+        exit(json_encode(array("error"=>"No card key found.", "code"=>"601")));
     }
 
     include_once ($_SERVER["DOCUMENT_ROOT"]) . '/cp/POS/orderMode.php';
     if (!array_key_exists("mode", $data)) {
-        exit("No mode key found.");
+        exit(json_encode(array("error"=>"No mode key found.", "code"=>"600")));
     } else {
         $mode = $data['mode'];
     }
     if (!array_key_exists("ostja", $data)) {
-        $ostja = "";
+        if (!array_key_exists("client", $data)) {
+            $ostja = "";
+        } else {
+            $ostja = $data['client'];
+        }
     } else {
         $ostja = $data['ostja'];
     }
     $ostja = orderMode($mode, $ostja);
 
     if (!array_key_exists("tellimuseNr", $data)) {
-        $telli = "";
+        if (!array_key_exists("shipmentNr", $data)) {
+            $telli = "";
+        } else {
+            $telli = $data['shipmentNr'];
+        }
+
     } else {
         $telli = $data['tellimuseNr'];
     }
