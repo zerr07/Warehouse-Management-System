@@ -354,7 +354,7 @@ function updateProductPriceInReservationEdit($value, $newQuantity){
             $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "UPDATE {*product_locations*} SET quantity='$quantity' WHERE id='$id_location'"));
 
         }
-        //PR_PUT_Product($id_product);
+        PR_PUT_Product($id_product);
     }
 
 }
