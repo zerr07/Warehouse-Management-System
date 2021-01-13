@@ -16,7 +16,7 @@ Route::add("/api/reservations", function () {
     } else if (isset($check['error'])) {
         exit(json_encode($check));
     } else {
-        exit(json_encode(array("error" => "Unknown error", '100')));
+        exit(json_encode(array("error" => "Unknown error", "code"=>"100")));
     }
 }, "GET");
 
@@ -38,7 +38,7 @@ Route::add("/api/reservations", function () {
     } else if (isset($check['error'])) {
         exit(json_encode($check));
     } else {
-        exit(json_encode(array("error" => "Unknown error", '100')));
+        exit(json_encode(array("error" => "Unknown error", "code"=>"100")));
     }
 }, "POST");
 
@@ -63,7 +63,7 @@ Route::add("/api/reservations", function () {
     } else if (isset($check['error'])) {
         exit(json_encode($check));
     } else {
-        exit(json_encode(array("error" => "Unknown error", '100')));
+        exit(json_encode(array("error" => "Unknown error", "code"=>"100")));
     }
 }, "PUT");
 
@@ -88,12 +88,12 @@ Route::add("/api/reservations", function () {
                                                                     {*reserved_products*} WHERE id_reserved='$id' AND id_product='$id_prod'"));
                         if ($q) {
                             if ($q->num_rows != 1) {
-                                exit(json_encode(array("error" => "There is on or multiple products with this tag for $value. Please contact administrator.", '302')));
+                                exit(json_encode(array("error" => "There is on or multiple products with this tag for $value. Please contact administrator.", "code"=>"302")));
                             } else {
                                 cancelReservationProduct($id, $q->fetch_assoc()['id']);
                             }
                         } else {
-                            exit(json_encode(array("error" => "Could not get product in reservation by its tag for $value.", '301')));
+                            exit(json_encode(array("error" => "Could not get product in reservation by its tag for $value.", "code"=>"301")));
                         }
                     }
                 }
@@ -103,12 +103,12 @@ Route::add("/api/reservations", function () {
                 exit(json_encode(array("success" => "Reservation cancelled.")));
             }
         } else {
-            exit(json_encode(array("error" => "No reservation id supplied.", '300')));
+            exit(json_encode(array("error" => "No reservation id supplied.", "code"=>"300")));
         }
     } else if (isset($check['error'])) {
         exit(json_encode($check));
     } else {
-        exit(json_encode(array("error" => "Unknown error", '100')));
+        exit(json_encode(array("error" => "Unknown error", "code"=>"100")));
     }
 }, "DELETE");
 

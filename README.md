@@ -159,7 +159,7 @@ Path: {Your_Domain}/api/reservations
   If basePrice is not supplied it will be either calculated from supplied price or retrieve from DB (first platfrom sell price)
 </p>
 
-Example:
+Example request body:
 <pre>
 {
   "note": "Example reservation",
@@ -195,7 +195,7 @@ reservation, if you use "id" then you will only be able to update.
 
 Quantity key is mandatory if products key is specified.
 
-Example request:
+Example request body:
 <pre>
 {
     "id": 5828,
@@ -226,7 +226,7 @@ Path: {Your_Domain}/api/reservations
 | id | Integer | A reservation id | Yes |
 | products | Array | An array of products where each key represents a product tag or its id from reservation (Not product id itself) | No |
 
-Example request:
+Example request body:
 <pre>
 This will cancel reservation with id 5844.
 {
@@ -253,9 +253,161 @@ will not be deleted unless the product deleted was not the last one in it.
 | Code | Message |
 | :---: | :---- | 
 | 300 | No reservation id supplied. |
-| 301 | Could not get product in reservation by its tag. |
-| 302 | There is on or multiple products with this tag. Please contact administrator. |
+| 301 | Could not get product in reservation by its tag for `$value`. |
+| 302 | There is on or multiple products with this tag for `$value`. Please contact administrator. |
 
+
+#### Sales
+
+| Method | Allowed |
+| :----: | :-----: | 
+| GET | Yes |
+| POST | Yes |
+| PUT | No |
+| DELETE | Yes |
+
+**GET** - Displays list of performed sales with all relevant data
+
+Path : {Your_Domain}/api/sale
+
+Returns:
+
+<pre>
+{
+    "8152": {
+        "id": "8152",
+        "cartSum": "0",
+        "card": "0.00",
+        "cash": "0.00",
+        "arveNr": "14476986072",
+        "ostja": "Eraisik",
+        "sum": "0.00"
+    },
+    "8151": {
+        "id": "8151",
+        "cartSum": "0",
+        "card": "0.00",
+        "cash": "0.00",
+        "arveNr": "14476905900",
+        "ostja": "Eraisik",
+        "sum": "0.00"
+    },
+</pre>
+
+You can supply "id" key which value represents sale ID or "invoice" key which value represents "arveNr" keys value.
+The request will return full sale data.
+
+Example response: 
+<pre>
+{
+    "id": "8146",
+    "cartSum": "19.99",
+    "card": "19.99",
+    "cash": "0.00",
+    "arveNr": "14467595841",
+    "saleDate": "2020-12-09 13:44:09",
+    "ostja": "Osta",
+    "modeSet": "Osta",
+    "tellimuseNr": "147688405",
+    "shipment_id": null,
+    "sum": "19.99",
+    "tagastusFull": "",
+    "products": {
+        "11596": {
+            "id": "11596",
+            "id_sale": "8146",
+            "id_item": "1666",
+            "price": "19.99",
+            "quantity": "1",
+            "basePrice": "19.99",
+            "id_location": "8443",
+            "status": "Müük"
+        }
+    }
+}
+</pre>
+
+**Errors**
+
+| Code | Message |
+| :---: | :---- | 
+| 400 | No sale with this id. |
+
+**POST** - Perform sale
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| card | Integer (1 or 0) | If 1 - 100% of payment will be registered as card payment otherwise cash | Yes |
+| mode | String | Supported values "Bigshop", "Minuvalik", "Shoppa", "Osta" | Yes |
+| client | String | Will only be applied if mode value is equal to "Bigshop", if empty "Eraisik" will be inserted | No |
+| shipmentNr | String | External shipment number | No |
+| quantity | Integer | Product quantity | Yes |
+| price | Float/Double with 2 decimal places | Overall product price (price per piece*quantity) | No |
+| basePrice | Float/Double with 2 decimal places | Product Price per piece | No |
+<p>
+  If price is not supplied it will be either calculated from supplied basePrice or from first platfrom sell price.<br>
+  If basePrice is not supplied it will be either calculated from supplied price or retrieve from DB (first platfrom sell price)
+</p>
+
+Example request body:
+<pre>
+{
+  "card": 1,
+  "mode": "Bigshop",
+  "ostja": "Clients name",
+  "tellimuseNr": "123",
+  "products":{
+    "AZ020": {
+      "quantity": 2,
+      "price": 5.98,
+      "basePrice": 2.99
+    },
+    "AZ041": {
+      "quantity": 1,
+      "price": 5.98
+    }
+  }
+}
+</pre>
+
+**DELETE** - Cancels sale
+
+Path: {Your_Domain}/api/sale
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| id | Integer | A sale id | Yes |
+| products | Array | An array of products where each key represents a product tag or its id from sale (Not product id itself) | No |
+
+Example request body:
+<pre>
+This will cancel sale with id 8155.
+{
+    "id": "8155"
+}
+
+This will cancel only product with its sale id of 11607 from reservation with id 8155. The reservation itself
+will not be canceled unless the product canceled was not the last one in it.
+{
+    "id": "8155",
+    "products": ["11607"]
+}
+
+This will cancel only product with tag AZ041 from sale with id 8155. The sale itself
+will not be canceled unless the product canceled was not the last one in it.
+{
+    "id": "8155",
+    "products": ["AZ041"]
+}
+</pre>
+
+**Errors**
+
+| Code | Message |
+| :---: | :---- | 
+| 500 | There is on or multiple products with this tag for `Value`. Please contact administrator. |
+| 501 | Could not get product in reservation by its tag for `Value`. |
+| 502 | No Sale id supplied. |
 
 <b>!!!WARNING!!!</b><br>
 <b>The documentation below is deprecated. It still can be used but will be removed on the project release.</b>

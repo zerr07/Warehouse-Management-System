@@ -6,7 +6,29 @@ include($_SERVER["DOCUMENT_ROOT"].'/configs/setup.php');
 include($_SERVER["DOCUMENT_ROOT"].'/controllers/session.php');
 include($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
 include($_SERVER["DOCUMENT_ROOT"]).'/controllers/getSales.php';
-$desc = array_filter($desc);
+include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/pagination.php');
+$searchQuery = "";
+
+if (isset($_POST['searchArve'])){
+    $arve = $_POST['searchArve'];
+    $searchQuery = "WHERE arveNr LIKE '%$arve%'";
+}
+
+if (isset($_GET['view'])){
+    $view = $_GET['view'];
+    $searchQuery = "WHERE id='$view'";
+}
+
+$onPage = _ENGINE['onPage'];
+if (isset($_GET['page'])){
+    $start = ($_GET['page']-1)*$onPage;
+} else {
+    $start = 0*$onPage;
+}
+
+$sales = get_sales($searchQuery, $start, $onPage);
+$arr = array_filter($sales['arr']);
+$desc = array_filter($sales['desc']);
 ?>
 <html>
 <head>
