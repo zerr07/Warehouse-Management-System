@@ -9,6 +9,9 @@ include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/pagination.php');
 
 if (isset($_GET['view'])){
     $arr = getSingleCartReservation($_GET['view']);
+    if ($arr['id_type'] == 2){
+        header("Location: /cp/POS/shipping/index.php?view=".$arr['id']);
+    }
     $sum = 0;
     foreach ($arr['products'] as $val){
         $sum+= $val['price'];
