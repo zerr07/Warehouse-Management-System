@@ -146,7 +146,7 @@
 <div id="inputs">
 </div>
 <script src="/templates/default/assets/js/cart.js?t=16102020T165728"></script>
-<script src="/templates/default/assets/js/warning.js?d=20201214T162632"></script>
+<script src="/templates/default/assets/js/warning.js?d=20210114T155443"></script>
 
 <script>
     let product_arr = [
@@ -169,12 +169,12 @@
                 getSingle: "{$reservation.id}",
             })
         };
-        fetch("/cp/POS/reserve/addWarning.php", requestParams)
+        fetch("/cp/POS/reserve/notifications.php", requestParams)
             .then(response => response.json())
             .then((d) => {
 
                 Object.keys(d).forEach(el => {
-                    enableWarning(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]"), d[el].comment, d[el].user)
+                    enableWarning(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]"), d[el].comment, d[el].user, "red")
                 });
             });
     })

@@ -66,6 +66,8 @@
                 <div class="col-12 col-sm-12  m-auto   col-md-12    col-lg-2   col-xl-1 text-truncate" title="{$item.type}">{$item.type}</div>
                 <div class="col-12 col-sm-12  m-auto   col-md-12    col-lg-12  col-xl-4 d-flex justify-content-center">
                     <button type="button" class="btn btn-link" style="color: gray; opacity: 0.1" onclick="setWarning('{$item.id}')"><i class="fas fa-exclamation-triangle"></i></button>
+                    <button type="button" class="btn btn-link" style="color: gray; opacity: 0.1;" onclick="setPaid('{$item.id}')"><i class="fas fa-wallet"></i></button>
+
                     <a class="btn btn-outline-primary w-100" href="/cp/POS/shipping/index.php?view={$item.id}" >
                         <i class="fas fa-link"></i>
                         View
@@ -85,7 +87,7 @@
     {/if}
     <a class="btn btn-primary mt-3" style="display: inline-block; float:right;" href="/cp/POS"><i class="fas fa-undo-alt"></i> Back</a>
 </div>
-<script src="/templates/default/assets/js/warning.js?d=20201214T162640"></script>
+<script src="/templates/default/assets/js/warning.js?d=20210114T155449"></script>
 
 <script>
 
@@ -118,16 +120,35 @@
                 get: "2",
             })
         };
-        fetch("/cp/POS/reserve/addWarning.php", requestParams)
+        const requestParams1 = {
+            method: "POST",
+            headers: new Headers({
+                "Content-Type": "application/json"
+            }),
+            body: JSON.stringify({
+                get_paid: "2",
+            })
+        };
+        fetch("/cp/POS/reserve/notifications.php", requestParams1)
         .then(response => response.json())
         .then((d) => {
 
             Object.keys(d).forEach(el => {
-                if(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]")){
-                    enableWarning(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]"), d[el].comment, d[el].user)
+                if(document.querySelector("button[onclick=\"setPaid('"+el+"')\"]")){
+                    enableWarning(document.querySelector("button[onclick=\"setPaid('"+el+"')\"]"), d[el].comment, d[el].user, "green")
                 }
             });
         });
+        fetch("/cp/POS/reserve/notifications.php", requestParams)
+            .then(response => response.json())
+            .then((d) => {
+
+                Object.keys(d).forEach(el => {
+                    if(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]")){
+                        enableWarning(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]"), d[el].comment, d[el].user, "red")
+                    }
+                });
+            });
     });
     document.getElementById("searchShippings").addEventListener("click", function () {
         let nameSearch = document.getElementById("searchIDorBarcode");

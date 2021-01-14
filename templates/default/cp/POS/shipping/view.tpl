@@ -15,6 +15,7 @@
                     <div class="row">
                         <div class="col-12">
                             <button type="button" class="btn btn-link p-0" style="color: gray; opacity: 0.1;" onclick="setWarning('{$reservation.id}')"><i class="fas fa-exclamation-triangle" style=" width: 64px; height: 64px"></i></button>
+                            <button type="button" class="btn btn-link p-0" style="color: gray; opacity: 0.1;" onclick="setPaid('{$reservation.id}')"><i class="fas fa-wallet" style=" width: 64px; height: 64px"></i></button>
                         </div>
 
                         <div class="col-4 col-sm-6 col-md-6 col-lg-3">ID: </div>
@@ -40,6 +41,7 @@
                 <div class="col-12 col-sm-12 col-md-12 col-lg-6 mt-2">
                     <div class="row h-100">
                         {if $reservation.shipping_type  == "4"}
+
                             <div class="col-12 col-sm-12 col-md-12 mt-2">
                                 <button type="button" class="btn btn-success w-100 h-100" id="markAsPickup" onclick="markAsPickup()" disabled>
                                     Mark as "Ready for pickup"
@@ -77,6 +79,11 @@
                         <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-end mt-2">
                             <button type="button" class="btn btn-info w-100 h-100" data-toggle="modal" data-target="#invoiceModal">
                                 Print invoice
+                            </button>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 mt-2">
+                            <button type="button" class="btn btn-success w-100 h-100" id="markAsPaid" onclick="setPaid('{$reservation.id}')">
+                                Toggle "Paid"
                             </button>
                         </div>
                     </div>
@@ -152,7 +159,7 @@
 <div id="inputs">
 </div>
 <script src="/templates/default/assets/js/cart.js?t=16102020T165728"></script>
-<script src="/templates/default/assets/js/warning.js?d=20201214T162646"></script>
+<script src="/templates/default/assets/js/warning.js?d=20210114T155501"></script>
 
 <script>
     let product_arr = [
@@ -177,12 +184,29 @@
                 getSingle: "{$reservation.id}",
             })
         };
-        fetch("/cp/POS/reserve/addWarning.php", requestParams)
+        const requestParams1 = {
+            method: "POST",
+            headers: new Headers({
+                "Content-Type": "application/json"
+            }),
+            body: JSON.stringify({
+                getSingle_paid: "{$reservation.id}",
+            })
+        };
+        fetch("/cp/POS/reserve/notifications.php", requestParams)
             .then(response => response.json())
             .then((d) => {
 
                 Object.keys(d).forEach(el => {
-                    enableWarning(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]"), d[el].comment, d[el].user)
+                    enableWarning(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]"), d[el].comment, d[el].user, "red")
+                });
+            });
+        fetch("/cp/POS/reserve/notifications.php", requestParams1)
+            .then(response => response.json())
+            .then((d) => {
+
+                Object.keys(d).forEach(el => {
+                    enableWarning(document.querySelector("button[onclick=\"setPaid('"+el+"')\"]"), d[el].comment, d[el].user, "green")
                 });
             });
     })
@@ -288,6 +312,7 @@
                                 });
                             } else {
                                 document.getElementById("markAsShipped").disabled = true;
+
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.disabled = false;
                                 });
@@ -295,6 +320,7 @@
                         } else if (r.hasOwnProperty("id") && r.id === "4"){
                             if (d.id === "8"){
                                 document.getElementById("markAsPickup").disabled = false;
+
                                 document.getElementById("markAsShipped").disabled = true;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.parentNode.removeChild(a);
@@ -302,6 +328,7 @@
                             } else if (d.id === "9"){
                                 document.getElementById("dataInsert").disabled = true;
                                 document.getElementById("markAsPickup").disabled = true;
+
                                 document.getElementById("markAsShipped").disabled = false;
                                 document.querySelectorAll(".cancelShipping").forEach(a => {
                                     a.parentNode.removeChild(a);
@@ -310,6 +337,7 @@
 
                         } else {
                             document.getElementById("markAsShipped").disabled = true;
+
                             document.querySelectorAll(".cancelShipping").forEach(a => {
                                 a.disabled = false;
                             });
@@ -442,7 +470,11 @@
             setShippingStatus();
         });
     }
-
+    function markAsPaid(){
+        fetch("/cp/POS/shipping/getShippingData.php?id={$reservation.id}&setPaid=1").finally(function (){
+            setShippingStatus();
+        });
+    }
     function isNumeric(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }

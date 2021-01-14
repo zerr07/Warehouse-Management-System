@@ -52,7 +52,7 @@
                     <a class="btn btn-primary" style="display: inline-block; float:right;" href="/cp/POS"><i class="fas fa-undo-alt"></i> Back</a>
                 </div>
             </div>
-<script src="/templates/default/assets/js/warning.js?d=20201214T162620"></script>
+<script src="/templates/default/assets/js/warning.js?d=20210114T155439"></script>
 <script>
     window.addEventListener("load", function () {
         setPageTitle("Reservation list");
@@ -90,13 +90,13 @@
                 get: "1",
             })
         };
-        fetch("/cp/POS/reserve/addWarning.php", requestParams)
+        fetch("/cp/POS/reserve/notifications.php", requestParams)
             .then(response => response.json())
             .then((d) => {
 
                 Object.keys(d).forEach(el => {
                     console.log("button[onclick=\"setWarning('"+el+"')\"]");
-                    enableWarning(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]"), d[el].comment, d[el].user)
+                    enableWarning(document.querySelector("button[onclick=\"setWarning('"+el+"')\"]"), d[el].comment, d[el].user, "red")
                 });
             });
     });
