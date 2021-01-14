@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/templates/default/assets/css/style.css?t=20201126T155740">
   <link href="/templates/default/assets/css/sidebar.css?t=20201209T124458" rel="stylesheet">
   <script src="/templates/default/assets/js/jquery.min.js?t=16102020T165620"></script>
-  <script src="/templates/default/assets/js/script.js?t=20210111T153944"></script>
+  <script src="/templates/default/assets/js/script.js?t=20210114T111941"></script>
   <script>
     if('ontouchstart' in window){
       document.write('<script type="text/javascript" src="/templates/default/assets/js/swipe_menu.js?t=16102020T165616""><\/script>');
@@ -69,7 +69,7 @@
       </div>
       <div class="col-auto">
         <a href="/cp/WMS/HourLogger.php">
-          <img id="HourLoggerStatus" style="width: 24px" src="/templates/default/assets/icons/wall-clock-r.svg" data-toggle="tooltip" data-placement="bottom" title="Shift not started">
+          <img id="HourLoggerStatus" style="width: 24px" src="/templates/default/assets/icons/wall-clock-r.svg" data-toggle="tooltip" data-placement="bottom" >
         </a>
       </div>
     {/if}

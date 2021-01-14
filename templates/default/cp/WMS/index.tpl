@@ -169,9 +169,6 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
-    $(".tooltip_copy").tooltip({
-        trigger: 'click'
-    });
     function copyURL(element) {
         $(element+"link").tooltip();
         setTimeout(function() {

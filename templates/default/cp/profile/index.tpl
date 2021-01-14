@@ -45,6 +45,15 @@
 <script>
     window.addEventListener("load", function () {
         setPageTitle("Profile");
+        if (getCookie("user_id") !== ""){
+            if (getCookie("darkTheme") === "true"){
+                document.getElementById("dark-modeTheme").selected = true;
+            } else if (getCookie("standardTheme") === "true"){
+                document.getElementById("standardTheme").selected = true;
+            } else if (getCookie("defaultTheme") === "true"){
+                document.getElementById("defaultTheme").selected = true;
+            }
+        }
     });
     function generateAccessToken(){
         fetch("/controllers/generateAccessToken.php").then(response=>response.json()).then((d)=>{

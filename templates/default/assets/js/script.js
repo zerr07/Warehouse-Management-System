@@ -74,20 +74,23 @@ function turnOnPreloader(){
     document.getElementById("main_block").style.filter = "blur(1.5rem)";
 }
 function turnOffPreloader(){
-    document.getElementById("main_block").style.filter = "blur(1.5rem)";
-    loader.fadeOut();
-    preloader.delay(150).fadeOut(100);
+    if (loader && preloader){
+        document.getElementById("main_block").style.filter = "blur(1.5rem)";
+        loader.fadeOut();
+        preloader.delay(150).fadeOut(100);
 
-    let blur = 1.5;
-    var intervalId = setInterval(function(){
-        if (document.getElementById("main_block").style.filter !== "blur(0rem)"){
-            blur = Math.round((blur-0.1) * 100) / 100;
-            document.getElementById("main_block").style.filter = "blur("+blur+"rem)";
-        } else {
-            $("#main_block").removeAttr("style");
-            clearInterval(intervalId);
-        }
-    }, 1);
+        let blur = 1.5;
+        var intervalId = setInterval(function(){
+            if (document.getElementById("main_block").style.filter !== "blur(0rem)"){
+                blur = Math.round((blur-0.1) * 100) / 100;
+                document.getElementById("main_block").style.filter = "blur("+blur+"rem)";
+            } else {
+                $("#main_block").removeAttr("style");
+                clearInterval(intervalId);
+            }
+        }, 1);
+    }
+
 
 }
 
@@ -142,13 +145,10 @@ window.addEventListener('DOMContentLoaded', function() {
     if (getCookie("user_id") !== ""){
         if (getCookie("darkTheme") === "true"){
             toggleTheme("dark-mode/main.css");
-            document.getElementById("dark-modeTheme").selected = true;
         } else if (getCookie("standardTheme") === "true"){
             toggleTheme("standard/main.css");
-            document.getElementById("standardTheme").selected = true;
         } else if (getCookie("defaultTheme") === "true"){
             toggleTheme("default/bootstrap.min.css");
-            document.getElementById("defaultTheme").selected = true;
         }
     }
     turnOffPreloader();
