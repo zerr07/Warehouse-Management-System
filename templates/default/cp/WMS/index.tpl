@@ -25,7 +25,7 @@
             </div>
             <div class="row">
                 <form action="/cp/WMS/" class="text-left w-100 form-inline" style="padding-top: 10px;" method="GET" id="SearchForm">
-                    <div class="col-sm-12 col-md-4 col-lg-3 mt-2">
+                    <div class="col-sm-12 col-md-4 col-lg-2 mt-2">
                         <input type="text" class="form-control w-100" name="searchTagID" id="searchTagID" placeholder="Search by ID" autofocus>
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-3 mt-2">
@@ -52,8 +52,44 @@
                             <img width="32px" height="32px" src="/templates/default/assets/icons/p-WHITE.svg" data-toggle="tooltip" data-placement="top" title="No filter">
                         </label>
                     </div>
-                    <div class="col-md-12 col-lg-3 mt-2 ">
+                    <div class="col-md-6 col-lg-2 mt-2 ">
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#moreOptions" aria-expanded="false" aria-controls="moreOptions">
+                            More options
+                        </button>
+                    </div>
+                    <div class="col-md-6 col-lg-2 mt-2 ">
                         <button type="button" name="search" class="btn btn-outline-secondary inline-items w-100" value="Search" id="SearchBtn">Search</button>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <div class="collapse" id="moreOptions">
+                            <div class="card card-body">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-4">
+                                        <input type="text" class="form-control w-100" name="searchSupplierName" id="searchSupplierName" placeholder="Search by supplier name or domain"
+                                               {if isset($searchSupplierName) && $searchSupplierName != ""}value="{$searchSupplierName}"{/if}
+                                        >
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="quantitySearch" name="quantitySearch" {if isset($quantitySearch) && $quantitySearch == "on"}checked{/if}>
+                                            <label class="custom-control-label d-flex justify-content-start" for="quantitySearch">Show only positive quantity</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-4">
+                                        {foreach $platforms as $key => $value}
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="platformSearch[{$key}]" name="platformSearch[{$key}]" {if array_key_exists($key, $platformSearch)}checked{/if}>
+                                                <label class="custom-control-label d-flex justify-content-start" for="platformSearch[{$key}]">{$value.name}</label>
+                                            </div>
+                                        {/foreach}
+
+                                    </div>
+                                </div>
+{debug}
+
+
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>

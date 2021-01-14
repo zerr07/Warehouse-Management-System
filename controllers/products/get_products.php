@@ -21,6 +21,7 @@ function get_product_range($page, $status, $shard){
     global $search, $select, $searchSelect, $searchSearch;
     $onPage = _ENGINE['onPage'];
     $start = $page*$onPage;
+
     if ($status == "Search"){
         return /** @lang text */ "SELECT $searchSelect FROM {*products*} WHERE id_shard='$shard' $searchSearch";
     }
@@ -451,8 +452,8 @@ if (isset($_GET['getProductsFromArray'])){
 if (isset($_GET['getSingleProduct'])){
     echo json_encode(get_product($_GET['getSingleProduct']));
 }
-if (isset($_GET['searchName'])){
-    $search = "AND id IN (SELECT id_product FROM {*product_name*} WHERE (id_lang='3' OR id_lang='1')";
+if (isset($_GET['searchName']) && $_GET['searchName'] != ""){
+    $search .= "AND id IN (SELECT id_product FROM {*product_name*} WHERE (id_lang='3' OR id_lang='1')";
     $searchString = htmlentities($_GET['searchName'], ENT_QUOTES, "UTF-8");
     $searchString = explode(" ", $searchString);
     foreach ($searchString as $str){
@@ -461,6 +462,31 @@ if (isset($_GET['searchName'])){
     $search.=")";
     $searchString = implode(" ", $searchString);
     $search .= " OR id IN (SELECT id_item FROM {*supplier_data*} WHERE SKU LIKE '%$searchString%')";
+    $searchSearch = $search;
+}
+if (isset($_GET['searchSupplierName']) && $_GET['searchSupplierName'] != ""){
+
+    $searchString = htmlentities($_GET['searchSupplierName'], ENT_QUOTES, "UTF-8");
+    $search .= "AND id IN (SELECT id_item FROM {*supplier_data*} WHERE supplierName LIKE '%$searchString%'";
+    $searchString = explode(" ", $searchString);
+    foreach ($searchString as $str){
+        $search .= " OR `URL` LIKE '%".$str."%'";
+    }
+    $search.=")";
+    $searchSearch = $search;
+}
+if (isset($_GET['quantitySearch']) && $_GET['quantitySearch'] == "on"){
+    $search .= " AND (SELECT SUM(quantity) FROM {*product_locations*} WHERE id_item={*products*}.id)>0";
+    $searchSearch = $search;
+}
+if (isset($_GET['platformSearch'])){
+    $search .= " AND (";
+    $a = array();
+    foreach ($_GET['platformSearch'] as $key => $value){
+        array_push($a, "(SELECT export FROM {*product_platforms*} WHERE id_item={*products*}.id && id_platform='$key')=1");
+    }
+    $search .= implode(" OR ", $a);
+    $search .= ")";
     $searchSearch = $search;
 }
 if (isset($_GET['cat'])){

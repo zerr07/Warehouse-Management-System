@@ -26,11 +26,20 @@ $smarty->assign('products', $arr);
 if (isset($_GET['only'])){
     $smarty->assign('onlyFilter', $_GET['only']);
 }
-
+$smarty->assign("platforms", get_platforms());
 
 $smarty->assign('cat_tree', array_filter(get_tree()));
 if (isset($_GET['searchName'])) {
     $smarty->assign("searchName", $_GET['searchName']);
+}
+if (isset($_GET['searchSupplierName'])) {
+    $smarty->assign("searchSupplierName", $_GET['searchSupplierName']);
+}
+if (isset($_GET['quantitySearch'])) {
+    $smarty->assign("quantitySearch", $_GET['quantitySearch']);
+}
+if (isset($_GET['platformSearch'])) {
+    $smarty->assign("platformSearch", $_GET['platformSearch']);
 }
 $smarty->display('cp/WMS/index.tpl');
 
