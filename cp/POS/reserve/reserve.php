@@ -203,6 +203,20 @@ function getSingleCartReservation($id){
     return $arr;
 }
 
+function get_reservation_cart_sum($id){
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*reserved_products*} WHERE id_reserved='$id'"));
+    if ($q){
+        $sum = 0;
+        while ($row = $q->fetch_assoc()){
+            $sum += $row['price'];
+        }
+        return $sum;
+    } else {
+        return null;
+    }
+
+}
+
 function readReservationResult($row){
     $id = $row['id'];
     $arr = $row;

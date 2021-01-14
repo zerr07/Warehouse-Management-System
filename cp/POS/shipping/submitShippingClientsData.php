@@ -18,12 +18,13 @@ if (isset($_GET['cash']) &&
             "id_cart" => $_GET['id_cart'],
             "shipmentID" => $_GET['shipmentID'])
         );
-    $id = $_GET['shipmentID'];
+    insertShipmentClientData($_GET['shipmentID'], $data);
+}
+function insertShipmentClientData($id, $data){
     $data = rawurlencode(json_encode($data));
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "DELETE FROM {*shipment_client_data*} WHERE id_shipment='$id'"));
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "INSERT INTO {*shipment_client_data*} (id_shipment, data) VALUES ('$id', '$data')"));
 }
-
 function getShipmentClientData($id){
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT * FROM {*shipment_client_data*} WHERE id_shipment='$id' LIMIT 1"));
     if ($q->num_rows == 0){

@@ -464,6 +464,29 @@ will not be canceled unless the product canceled was not the last one in it.
 
 
 #### Shipments
+**Shipment types**
+
+| ID | Value | Allowed in the API |
+| :----: | :----- | :----- | 
+| 1 | Smartpost | Yes |
+| 2 | Venipak | No |
+| 3 | Others | No |
+| 4 | Pickup | Yes |
+
+**Shipment status types**
+
+| ID | Value |
+| :----: | :----- | 
+| 1 | No data |
+| 2 | Carrier selected |
+| 3 | Barcode generated |
+| 4 | Label generated |
+| 5 | Posted |
+| 6 | Checked out |
+| 7 | Data saved |
+| 8 | Pickup from store |
+| 9 | Ready for pickup |
+
 
 | Method | Allowed |
 | :----: | :-----: | 
@@ -621,6 +644,140 @@ will not be deleted unless the product deleted was not the last one in it.
 | 901 | Could not get product in shipment by its tag for `$value`. |
 | 902 | There is on or multiple products with this tag for `$value`. Please contact administrator. |
 | 903 | Shipment status does not allow cancellation. |
+
+
+#### Shipments data
+
+| Method | Allowed |
+| :----: | :-----: | 
+| GET | Yes |
+| POST | Yes |
+| PUT | No |
+| DELETE | No |
+
+<b>GET</b> - Returns shipment and payment data
+Path : {Your_Domain}/api/shipments/data
+
+You need to supply "id" which value represents shipment ID.
+
+Example response for Smartpost type: 
+<pre>
+{
+    "shipment_data": {
+        "id_status": "3",
+        "data": {
+            "name": "Customer name",
+            "phone": "9999999",
+            "deliveryNr": "",
+            "terminal": "190",
+            "checked": "defDelivery",
+            "email": "",
+            "comment": "",
+            "COD_Sum": "",
+            "barcode": "4216100029191734",
+            "reference": []
+        },
+        "barcode": "4216100029191734",
+        "data_file": null
+    },
+    "payment_data": {
+        "data": {
+            "cash": "17.99",
+            "card": "0.00",
+            "ostja": "",
+            "tellimuseNr": "",
+            "mode": "Bigshop",
+            "id_cart": "5819",
+            "shipmentID": "5819"
+        }
+    }
+}
+</pre>
+**Errors**
+
+| Code | Message |
+| :---: | :---- | 
+| 1000 | No shipment id supplied. |
+
+**POST** - Inserts payment and shipment data
+
+Path: {Your_Domain}/api/shipments/data
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| id | Integer | A shipment id | Yes |
+| id_type | Integer | A type of shipment | Yes |
+| barcode | Boolean | Will send request to Smartpost and return barcode | No |
+| shipment_data | Array | An array of shipment data  | Yes |
+| payment_data | Array | An array of payment data  | Yes |
+
+
+'shipment_data' for Smartpost:
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| name | String | A clients name | Yes |
+| phone | String | A clients phone number | Yes |
+| shipmentNr | String | External shipment number (can be left empty) | Yes |
+| terminal | Integer | Id of Smartpost parcel terminal | Yes |
+| smartpost_type | Integer | Id of Smartpost delivery type  | Yes |
+| smartpost_COD_sum | Float/Double with 2 decimal places | Cash on delivery price (is required if you choose 'smartpost_type' with id 2) | No |
+| email | String | A clients email | No |
+| comment | String |  | No |
+
+
+'shipment_data' for Pickup:
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| phone | String | A clients phone number | Yes |
+
+
+'payment_data':
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| card | Integer (1 or 0) | If 1 - 100% of payment will be registered as card payment otherwise cash | Yes |
+| mode | String | Supported values "Bigshop", "Minuvalik", "Shoppa", "Osta" | Yes |
+| client | String | Will only be applied if mode value is equal to "Bigshop", if empty "Eraisik" will be inserted | No |
+| shipmentNr | String | External shipment number | No |
+
+
+Example request body:
+<pre>
+{
+	"id": "5845",
+    "id_type": "1",
+    "barcode": true,
+    "shipment_data": {
+        "name": "Aleksandr",
+        "phone": "56545454",
+        "shipmentNr": "",
+        "terminal": "190",
+        "smartpost_type": "1"
+    },
+    "payment_data": {
+        "card": 1,
+        "mode": "Bigshop",
+        "client": "Clients name",
+        "shipmentNr": "123"
+    }
+}
+</pre>
+
+**Errors**
+
+| Code | Message |
+| :---: | :---- | 
+| 1100 | Shipment id not found. |
+| 1101 | Shipment type id not supported. |
+| 1102 | Shipment type id not submitted. |
+| 1103 | Unable to get cart sum. |
+| 1104 | `some-key` key is missing, check your request. |
+| 1105 | Unknown 'smartpost_type. |
+| 1106 | 'smartpost_COD_sum' not found. |
+
+
 
 <b>!!!WARNING!!!</b><br>
 <b>The documentation below is deprecated. It still can be used but will be removed on the project release.</b>
