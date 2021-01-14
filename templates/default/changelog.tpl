@@ -3,6 +3,42 @@
             <div class="accordion text-left mt-4" id="accordion">
 
                 <div class="card">
+                    <div class="card-header" id="heading0180">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse0180" aria-expanded="false" aria-controls="collapse0180">
+                                Version 0.18.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse0180" class="collapse" aria-labelledby="heading0180" data-parent="#accordion">
+                        <div class="card-body">
+                            New search options added.<br />
+                            Shipment API extended.<br />
+                            Reservation confirm added to the API.<br />
+                            Sales functions added to the API.<br />
+                            <hr>
+                            Fixed minor js bugs.<br />
+                            Fixed ability to view shipment on reservations page.<br />
+                            Hour logger mobile layout fix.<br />
+                            {literal}
+                                <pre>
+┈┈┈┈┈┈┈┈┈
+┈┈┈┈┈┈┈┈┈┈┈┈╭━━━
+┈┈┈╭━━╮┈┈┈┈┈┃RAWR
+┈┈╭╯┊◣╰━━━╮┈╰┳━━
+┈┈┃┊┊┊╱▽▽▽┛┈┈┃┈┈
+┈┈┃┊┊┊▏━━━━━━╯┈┈
+━━╯┊┊┊╲△△△┓┈┈┈┈┈
+┊┊┊┊╭━━━━━╯┈┈┈┈┈
+                                </pre>
+                            {/literal}
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
                     <div class="card-header" id="heading0170">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
