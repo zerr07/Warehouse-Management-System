@@ -603,7 +603,8 @@ Example request body:
 
 | Code | Message |
 | :---: | :---- | 
-| 800 | Reservation id not found. |
+| 800 | Reservation id not supplied. |
+| 801 | Reservation id not found. |
 
 **DELETE** - Cancels shipment
 

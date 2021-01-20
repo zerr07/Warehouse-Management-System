@@ -33,7 +33,7 @@ Route::add("/api/shipments", function () {
             exit(json_encode(array("success" => "Reservation converted to shipment.")));
 
         } else {
-            exit(json_encode(array("error" => "Reservation id not found.", "code"=>"800")));
+            exit(json_encode(array("error" => "Reservation id not supplied.", "code"=>"800")));
         }
 
     } else if (isset($check['error'])) {
