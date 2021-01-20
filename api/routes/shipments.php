@@ -30,8 +30,6 @@ Route::add("/api/shipments", function () {
         $data = json_decode(file_get_contents('php://input'), true);
         if (isset($data['id'])){
             convertToShipping($data['id']);
-            exit(json_encode(array("success" => "Reservation converted to shipment.")));
-
         } else {
             exit(json_encode(array("error" => "Reservation id not supplied.", "code"=>"800")));
         }

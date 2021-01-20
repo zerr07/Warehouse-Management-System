@@ -5,7 +5,7 @@ function convertToShipping($id){
 
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"UPDATE {*reserved*} SET id_type='2' WHERE id='$id'"));
     if ($GLOBALS['DBCONN']->affected_rows == 0){
-        return json_encode(array("error" => "Reservation id not found.", "code"=>"801"));
+        exit(json_encode(array("error" => "Reservation id not found.", "code"=>"801")));
     } else {
         $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*shipment_status*} WHERE id_shipment='$id'"));
         if ($q){
@@ -14,9 +14,7 @@ function convertToShipping($id){
             }
         }
     }
-
-
-    return json_encode(array("response"=>"success"));
+    exit(json_encode(array("success" => "Reservation converted to shipment.")));
 }
 
 if (isset($_GET['id'])){
