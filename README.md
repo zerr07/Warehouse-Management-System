@@ -487,6 +487,15 @@ will not be canceled unless the product canceled was not the last one in it.
 | 8 | Pickup from store |
 | 9 | Ready for pickup |
 
+**Smartpost types**
+
+| ID | Value |
+| :----: | :----- | 
+| 1 | Default |
+| 2 | Cash on delivery |
+| 3 | Client pays the delivery |
+
+
 
 | Method | Allowed |
 | :----: | :-----: | 
