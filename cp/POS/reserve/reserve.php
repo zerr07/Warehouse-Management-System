@@ -162,6 +162,10 @@ function getReservedCarts($type='unset', $api=false){
     if ($type == 2){
         $str = " AND (SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)!='6'";
     }
+    if ($type == "checked"){
+        $type = 2;
+        $str = " AND (SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)='6'";
+    }
     $type_q = "WHERE id_type='$type'";
     if ($type == 'unset'){
         $type_q = "WHERE id_type='1' OR id_type='2'";

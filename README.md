@@ -577,9 +577,11 @@ Path: {Your_Domain}/api/shipments?display=both
     ...
 }
 </pre>
+<p>
+A "display" key can also be equal to "checked" which would return all shipments with status 6.
 
 You can also supply "id" which value represents shipment ID. The request will return shipment data.
-
+</p>
 Example response: 
 <pre>
 {

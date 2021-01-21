@@ -4,10 +4,11 @@ Route::add("/api/shipments", function () {
     $check = json_decode(checkToken(), true);
     if (isset($check['user_id'])) {
         include_once $_SERVER['DOCUMENT_ROOT'] . "/cp/POS/reserve/reserve.php";
-
         if (isset($_GET['display'])) {
             if ($_GET['display'] == 'both') {
                 exit(json_encode(getReservedCarts('unset', true)));
+            } elseif($_GET['display'] == 'checked') {
+                exit(json_encode(getReservedCarts('checked', true)));
             }
         } elseif (isset($_GET['id'])) {
             exit(json_encode(getSingleCartReservation($_GET['id'])));
