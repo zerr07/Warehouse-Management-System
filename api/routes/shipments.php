@@ -124,7 +124,15 @@ Route::add("/api/shipments/data", function () {
 
         $data = json_decode(file_get_contents('php://input'), true);
         if (isset($data['id'])){
-
+            $id = $data['id'];
+            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*reserved*} WHERE id='$id' AND id_type='2'"));
+            if ($q->num_rows == 0){
+                exit(json_encode(array("error" => "Shipment id not found.", "code"=>"1107")));
+            }
+            $d = getData_full($data['id']);
+            if (isset($d['id_status']) && $d['id_status'] != 1 && $d['id_status'] != 2){
+                exit(json_encode(array("error" => "Shipment status does not allow data change.", "code"=>"1108")));
+            }
             if (isset($data['shipment_data'])){
                 if (isset($data['id_type'])){
 
@@ -239,7 +247,7 @@ Route::add("/api/shipments/data", function () {
             exit(json_encode(array("success" => "Shipment data submitted.")));
 
         } else {
-            exit(json_encode(array("error" => "Shipment id not found.", "code"=>"1100")));
+            exit(json_encode(array("error" => "Shipment id not submitted.", "code"=>"1100")));
         }
 
     } else if (isset($check['error'])) {

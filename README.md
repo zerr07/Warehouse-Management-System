@@ -756,7 +756,7 @@ Path: {Your_Domain}/api/shipments/data
 Example request body:
 <pre>
 {
-	"id": "5845",
+    "id": "5845",
     "id_type": "1",
     "barcode": true,
     "shipment_data": {
@@ -779,14 +779,15 @@ Example request body:
 
 | Code | Message |
 | :---: | :---- | 
-| 1100 | Shipment id not found. |
+| 1100 | Shipment id not submitted. |
 | 1101 | Shipment type id not supported. |
 | 1102 | Shipment type id not submitted. |
 | 1103 | Unable to get cart sum. |
 | 1104 | `some-key` key is missing, check your request. |
 | 1105 | Unknown 'smartpost_type. |
 | 1106 | 'smartpost_COD_sum' not found. |
-
+| 1107 | Shipment id not found. |
+| 1108 | Shipment status does not allow data change. |
 
 
 <b>!!!WARNING!!!</b><br>
