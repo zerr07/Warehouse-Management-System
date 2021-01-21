@@ -187,3 +187,50 @@ Route::add("/api/reservations/confirm", function () {
     header("HTTP/1.0 405 Method Not Allowed");
     exit();
 }, "DELETE");
+Route::add("/api/reservations/merge", function () {
+    header("HTTP/1.0 405 Method Not Allowed");
+    exit();
+}, "GET");
+Route::add("/api/reservations/merge", function () {
+    header("HTTP/1.0 405 Method Not Allowed");
+    exit();
+}, "POST");
+Route::add("/api/reservations/merge", function () {
+    $check = json_decode(checkToken(), true);
+    if (isset($check['user_id'])) {
+        include_once($_SERVER['DOCUMENT_ROOT'] . "/cp/POS/reserve/reserve.php");
+        include_once($_SERVER['DOCUMENT_ROOT'] . "/cp/POS/reserve/merge.php");
+
+        $data = json_decode(file_get_contents('php://input'), true);
+        foreach ($data as $id){
+            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*reserved*} WHERE id='$id'"));
+            if ($q){
+                if ($q->num_rows == 0){
+                    exit(json_encode(array("error" => "Reservation with id ".$id." not found", "code"=>"1202")));
+                }
+                $row = $q->fetch_assoc();
+                if ($row['id_type'] != 1){
+                    exit(json_encode(array("error" => "Reservation with id ".$id." is invalid type and cannot be merged", "code"=>"1201")));
+                }
+            } else {
+                exit(json_encode(array("error" => "Failed to process query", "code"=>"1200")));
+            }
+        }
+        $res = mergeReservations($data);
+        if (is_null($res)){
+            exit(json_encode(array("error" => "Invalid result received, please contact administrator.", "code"=>"1203")));
+        } else {
+            exit(json_encode(array("id" => $res)));
+        }
+
+
+    } else if (isset($check['error'])) {
+        exit(json_encode($check));
+    } else {
+        exit(json_encode(array("error" => "Unknown error", "code"=>"100")));
+    }
+}, "PUT");
+Route::add("/api/reservations/merge", function () {
+    header("HTTP/1.0 405 Method Not Allowed");
+    exit();
+}, "DELETE");

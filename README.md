@@ -301,6 +301,39 @@ Example request body:
 | 700 | Reservation id not supplied. |
 | 701 | Error processing reservation with id: `id`. Check your request. |
 
+#### Merge reservations
+
+| Method | Allowed |
+| :----: | :-----: | 
+| GET | No |
+| POST | No |
+| PUT | Yes |
+| DELETE | No |
+
+**PUT** - Merges reservations
+
+Path: {Your_Domain}/api/reservations/merge
+
+
+<p>
+    In request body you need to specify the array of reservation ids. The example below will merge two reservations with
+    id 5555 and 4444.
+</p>
+
+Example request body:
+<pre>
+["5555", "4444"]
+</pre>
+
+**Errors**
+
+| Code | Message |
+| :---: | :---- | 
+| 1200 | Failed to process query |
+| 1201 | Reservation with id `id` is invalid type and cannot be merged |
+| 1202 | Reservation with id `id` not found |
+| 1203 | Invalid result received, please contact administrator. |
+
 
 #### Sales
 

@@ -58,12 +58,13 @@ function mergeReservations($data){
             $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "DELETE FROM {*reserved*} WHERE id='$id'"));
             $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "INSERT INTO {*reservation_merge_history*} (`from`, `merged_to`) VALUES ('$id', '$last')"));
         }
+        return $last;
     } catch (\ErrorException $e){
         echo $e;
         echo "Error occured.";
     }
 
-
+    return null;
 }
 if (isset($_GET['mergeList'])){
     $data = $_GET['mergeList'];
