@@ -120,6 +120,7 @@ Route::add("/api/shipments/data", function () {
     $check = json_decode(checkToken(), true);
     if (isset($check['user_id'])) {
         include_once($_SERVER['DOCUMENT_ROOT'] . "/cp/POS/reserve/reserve.php");
+        include_once $_SERVER['DOCUMENT_ROOT'] . "/cp/POS/shipping/getShippingData.php";
         include_once($_SERVER['DOCUMENT_ROOT'] . "/cp/POS/shipping/submitShippingClientsData.php");
 
         $data = json_decode(file_get_contents('php://input'), true);
@@ -256,3 +257,11 @@ Route::add("/api/shipments/data", function () {
         exit(json_encode(array("error" => "Unknown error", "code"=>"100")));
     }
 }, "POST");
+Route::add("/api/shipments/data", function () {
+    header("HTTP/1.0 405 Method Not Allowed");
+    exit();
+}, "PUT");
+Route::add("/api/shipments/data", function () {
+    header("HTTP/1.0 405 Method Not Allowed");
+    exit();
+}, "DELETE");
