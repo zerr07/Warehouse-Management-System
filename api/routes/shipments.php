@@ -4,10 +4,11 @@ Route::add("/api/shipments", function () {
     $check = json_decode(checkToken(), true);
     if (isset($check['user_id'])) {
         include_once $_SERVER['DOCUMENT_ROOT'] . "/cp/POS/reserve/reserve.php";
-
         if (isset($_GET['display'])) {
             if ($_GET['display'] == 'both') {
                 exit(json_encode(getReservedCarts('unset', true)));
+            } elseif($_GET['display'] == 'checked') {
+                exit(json_encode(getReservedCarts('checked', true)));
             }
         } elseif (isset($_GET['id'])) {
             exit(json_encode(getSingleCartReservation($_GET['id'])));
@@ -30,10 +31,8 @@ Route::add("/api/shipments", function () {
         $data = json_decode(file_get_contents('php://input'), true);
         if (isset($data['id'])){
             convertToShipping($data['id']);
-            exit(json_encode(array("success" => "Reservation converted to shipment.")));
-
         } else {
-            exit(json_encode(array("error" => "Reservation id not found.", "code"=>"800")));
+            exit(json_encode(array("error" => "Reservation id not supplied.", "code"=>"800")));
         }
 
     } else if (isset($check['error'])) {
@@ -122,11 +121,20 @@ Route::add("/api/shipments/data", function () {
     $check = json_decode(checkToken(), true);
     if (isset($check['user_id'])) {
         include_once($_SERVER['DOCUMENT_ROOT'] . "/cp/POS/reserve/reserve.php");
+        include_once $_SERVER['DOCUMENT_ROOT'] . "/cp/POS/shipping/getShippingData.php";
         include_once($_SERVER['DOCUMENT_ROOT'] . "/cp/POS/shipping/submitShippingClientsData.php");
 
         $data = json_decode(file_get_contents('php://input'), true);
         if (isset($data['id'])){
-
+            $id = $data['id'];
+            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*reserved*} WHERE id='$id' AND id_type='2'"));
+            if ($q->num_rows == 0){
+                exit(json_encode(array("error" => "Shipment id not found.", "code"=>"1107")));
+            }
+            $d = getData_full($data['id']);
+            if (isset($d['id_status']) && $d['id_status'] != 1 && $d['id_status'] != 2){
+                exit(json_encode(array("error" => "Shipment status does not allow data change.", "code"=>"1108")));
+            }
             if (isset($data['shipment_data'])){
                 if (isset($data['id_type'])){
 
@@ -241,7 +249,7 @@ Route::add("/api/shipments/data", function () {
             exit(json_encode(array("success" => "Shipment data submitted.")));
 
         } else {
-            exit(json_encode(array("error" => "Shipment id not found.", "code"=>"1100")));
+            exit(json_encode(array("error" => "Shipment id not submitted.", "code"=>"1100")));
         }
 
     } else if (isset($check['error'])) {
@@ -250,3 +258,11 @@ Route::add("/api/shipments/data", function () {
         exit(json_encode(array("error" => "Unknown error", "code"=>"100")));
     }
 }, "POST");
+Route::add("/api/shipments/data", function () {
+    header("HTTP/1.0 405 Method Not Allowed");
+    exit();
+}, "PUT");
+Route::add("/api/shipments/data", function () {
+    header("HTTP/1.0 405 Method Not Allowed");
+    exit();
+}, "DELETE");

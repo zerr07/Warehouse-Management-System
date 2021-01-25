@@ -1,7 +1,6 @@
 <?php
 include_once($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/prestashop/Products.php');
-
 if (isset($_POST['id'])){
     $id = $_POST['id'];
     if (isset($_POST['comment'])){
@@ -45,7 +44,7 @@ if (isset($_POST['id'])){
     }
     if (isset($_POST['quantityNew']) && isset($_POST['priceNew'])  && isset($_POST['loc_select'])){
         foreach ($_POST['quantityNew'] as $key => $value){
-            $loc = $_POST['loc_select'];
+            $loc = $_POST['loc_select'][$key];
 
             $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT * FROM {*product_locations*} WHERE id='$loc'"));
             $row_q = $q->fetch_assoc();
@@ -59,5 +58,6 @@ if (isset($_POST['id'])){
         }
     }
     header("Location: /cp/POS/reserve/index.php?view=".$id);
+} else {
+    header("Location: /cp/POS/reserve/");
 }
-header("Location: /cp/POS/reserve/");

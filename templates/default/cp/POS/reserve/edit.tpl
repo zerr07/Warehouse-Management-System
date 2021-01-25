@@ -1,6 +1,6 @@
 {include file='header.tpl'}
 <script src="/templates/default/assets/js/moment.js"></script>
-<form action="/cp/POS/reserve/update.php" method="POST">
+<form action="/cp/POS/reserve/update.php" method="POST" id="formEdit">
     <div class="row mt-3">
         <div class="col-md-12">
             <div class="row">
@@ -51,7 +51,7 @@
                     </div>
 
                 </div>
-            {/foreach}{debug}
+            {/foreach}
             <div class="row mt-5">
                 <div class="col-12" id="extra">
 
@@ -60,7 +60,7 @@
             <div class="row mt-3">
 
                 <div class="col-2 d-flex justify-content-start mt-3">
-                    <button type="submit" class="btn btn-secondary">
+                    <button type="submit" class="btn btn-secondary" id="saveEdit">
                         <i class="far fa-save"></i> Save
                     </button>
                 </div>
@@ -90,6 +90,11 @@
     </div>
 </form>
 <script>
+    document.getElementById("saveEdit").addEventListener("click", function () {
+        this.disabled = true;
+        document.getElementById("formEdit").submit();
+
+    })
     document.getElementById("addExtraItem").addEventListener("click", function () {
         document.getElementById("searchName").setAttribute("class", "form-control");
         document.getElementById("searchNameFeedback").setAttribute("class", "");

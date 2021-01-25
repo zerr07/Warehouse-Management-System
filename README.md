@@ -301,6 +301,39 @@ Example request body:
 | 700 | Reservation id not supplied. |
 | 701 | Error processing reservation with id: `id`. Check your request. |
 
+#### Merge reservations
+
+| Method | Allowed |
+| :----: | :-----: | 
+| GET | No |
+| POST | No |
+| PUT | Yes |
+| DELETE | No |
+
+**PUT** - Merges reservations
+
+Path: {Your_Domain}/api/reservations/merge
+
+
+<p>
+    In request body you need to specify the array of reservation ids. The example below will merge two reservations with
+    id 5555 and 4444.
+</p>
+
+Example request body:
+<pre>
+["5555", "4444"]
+</pre>
+
+**Errors**
+
+| Code | Message |
+| :---: | :---- | 
+| 1200 | Failed to process query |
+| 1201 | Reservation with id `id` is invalid type and cannot be merged |
+| 1202 | Reservation with id `id` not found |
+| 1203 | Invalid result received, please contact administrator. |
+
 
 #### Sales
 
@@ -487,6 +520,15 @@ will not be canceled unless the product canceled was not the last one in it.
 | 8 | Pickup from store |
 | 9 | Ready for pickup |
 
+**Smartpost types**
+
+| ID | Value |
+| :----: | :----- | 
+| 1 | Default |
+| 2 | Cash on delivery |
+| 3 | Client pays the delivery |
+
+
 
 | Method | Allowed |
 | :----: | :-----: | 
@@ -535,9 +577,11 @@ Path: {Your_Domain}/api/shipments?display=both
     ...
 }
 </pre>
+<p>
+A "display" key can also be equal to "checked" which would return all shipments with status 6.
 
 You can also supply "id" which value represents shipment ID. The request will return shipment data.
-
+</p>
 Example response: 
 <pre>
 {
@@ -603,7 +647,8 @@ Example request body:
 
 | Code | Message |
 | :---: | :---- | 
-| 800 | Reservation id not found. |
+| 800 | Reservation id not supplied. |
+| 801 | Reservation id not found. |
 
 **DELETE** - Cancels shipment
 
@@ -746,7 +791,7 @@ Path: {Your_Domain}/api/shipments/data
 Example request body:
 <pre>
 {
-	"id": "5845",
+    "id": "5845",
     "id_type": "1",
     "barcode": true,
     "shipment_data": {
@@ -769,14 +814,15 @@ Example request body:
 
 | Code | Message |
 | :---: | :---- | 
-| 1100 | Shipment id not found. |
+| 1100 | Shipment id not submitted. |
 | 1101 | Shipment type id not supported. |
 | 1102 | Shipment type id not submitted. |
 | 1103 | Unable to get cart sum. |
 | 1104 | `some-key` key is missing, check your request. |
 | 1105 | Unknown 'smartpost_type. |
 | 1106 | 'smartpost_COD_sum' not found. |
-
+| 1107 | Shipment id not found. |
+| 1108 | Shipment status does not allow data change. |
 
 
 <b>!!!WARNING!!!</b><br>
