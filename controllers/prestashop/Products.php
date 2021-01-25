@@ -1,6 +1,5 @@
 <?php
-ini_set("display_errors", "on");
-error_reporting(E_ALL ^ E_NOTICE);
+
 include_once($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/prestashop/API.php');
 if (!defined('PRODUCTS_INCLUDED')){
@@ -107,25 +106,28 @@ function PR_POST_Product_Image($id, $image){
 function PR_POST_Product($id){
     global $domain, $api_key;
     $data = get_product($id);
-    $PriceTaxExcluded = round($data['platforms'][2]['price']/1.2, 5);
+    $PriceTaxExcluded = round($data['platforms'][_ENGINE['ps_platform_id']]['price']/1.2, 5);
     $active = 0;
-    if (isset($data['platforms'][2]['export'])){
-        $active = $data['platforms'][2]['export'];
+    if (isset($data['platforms'][_ENGINE['ps_platform_id']]['export'])){
+        $active = $data['platforms'][_ENGINE['ps_platform_id']]['export'];
     }
     $xml = '
 <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
   <product>
     <name>
-        <language id="2"><![CDATA['.trim($data['name']['et']).']]></language>
-        <language id="3"><![CDATA['.trim($data['name']['ru']).']]></language>
+        <language id="'._LANG['ps_en'].'"><![CDATA['.trim($data['name']['en']).']]></language>
+        <language id="'._LANG['ps_et'].'"><![CDATA['.trim($data['name']['et']).']]></language>
+        <language id="'._LANG['ps_ru'].'"><![CDATA['.trim($data['name']['ru']).']]></language>
     </name>
     <description>
-      <language id="2"><![CDATA['.trim($data['descriptions']['et']).']]></language>
-      <language id="3"><![CDATA['.trim($data['descriptions']['ru']).']]></language>
+        <language id="'._LANG['ps_en'].'"><![CDATA['.trim($data['descriptions']['en']).']]></language>
+        <language id="'._LANG['ps_et'].'"><![CDATA['.trim($data['descriptions']['et']).']]></language>
+        <language id="'._LANG['ps_ru'].'"><![CDATA['.trim($data['descriptions']['ru']).']]></language>
     </description>
     <link_rewrite>
-      <language id="2"><![CDATA['.get_ET_URL(trim($data['name']['et'])).']]></language>
-      <language id="3"><![CDATA['.get_ET_URL(trim($data['name']['ru'])).']]></language>
+        <language id="'._LANG['ps_en'].'"><![CDATA['.get_EN_URL(trim($data['name']['en'])).']]></language>
+        <language id="'._LANG['ps_et'].'"><![CDATA['.get_ET_URL(trim($data['name']['et'])).']]></language>
+        <language id="'._LANG['ps_ru'].'"><![CDATA['.get_RU_URL(trim($data['name']['ru'])).']]></language>
     </link_rewrite>
     <available_for_order>'.$active.'</available_for_order>
     
@@ -167,26 +169,29 @@ function PR_PUT_Product($id_product){
     global $domain, $api_key;
     $data = get_product($id_product);
     $id = PR_GET_Product_By_Tag($data['tag'])['products'][0]['id'];
-    $PriceTaxExcluded = round($data['platforms'][2]['price']/1.2, 5);
+    $PriceTaxExcluded = round($data['platforms'][_ENGINE['ps_platform_id']]['price']/1.2, 5);
     $active = 0;
-    if (isset($data['platforms'][2]['export'])){
-        $active = $data['platforms'][2]['export'];
+    if (isset($data['platforms'][_ENGINE['ps_platform_id']]['export'])){
+        $active = $data['platforms'][_ENGINE['ps_platform_id']]['export'];
     }
     $xml = '
 <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
   <product>
     <id>'.$id.'</id>
     <name>
-        <language id="2"><![CDATA['.trim($data['name']['et']).']]></language>
-        <language id="3"><![CDATA['.trim($data['name']['ru']).']]></language>
+        <language id="'._LANG['ps_en'].'"><![CDATA['.trim($data['name']['en']).']]></language>
+        <language id="'._LANG['ps_et'].'"><![CDATA['.trim($data['name']['et']).']]></language>
+        <language id="'._LANG['ps_ru'].'"><![CDATA['.trim($data['name']['ru']).']]></language>
     </name>
     <description>
-      <language id="2"><![CDATA['.trim($data['descriptions']['et']).']]></language>
-      <language id="3"><![CDATA['.trim($data['descriptions']['ru']).']]></language>
+        <language id="'._LANG['ps_en'].'"><![CDATA['.trim($data['descriptions']['en']).']]></language>
+        <language id="'._LANG['ps_et'].'"><![CDATA['.trim($data['descriptions']['et']).']]></language>
+        <language id="'._LANG['ps_ru'].'"><![CDATA['.trim($data['descriptions']['ru']).']]></language>
     </description>
     <link_rewrite>
-      <language id="2"><![CDATA['.get_ET_URL(trim($data['name']['et'])).']]></language>
-      <language id="3"><![CDATA['.get_ET_URL(trim($data['name']['ru'])).']]></language>
+        <language id="'._LANG['ps_en'].'"><![CDATA['.get_EN_URL(trim($data['name']['en'])).']]></language>
+        <language id="'._LANG['ps_et'].'"><![CDATA['.get_ET_URL(trim($data['name']['et'])).']]></language>
+        <language id="'._LANG['ps_ru'].'"><![CDATA['.get_RU_URL(trim($data['name']['ru'])).']]></language>
     </link_rewrite>
     <available_for_order>'.$active.'</available_for_order>
     <price>'.$PriceTaxExcluded.'</price>
@@ -233,26 +238,29 @@ function PR_PUT_Product_Without_IMG($id_product){
     global $domain, $api_key;
     $data = get_product($id_product);
     $id = PR_GET_Product_By_Tag($data['tag'])['products'][0]['id'];
-    $PriceTaxExcluded = round($data['platforms'][2]['price']/1.2, 5);
+    $PriceTaxExcluded = round($data['platforms'][_ENGINE['ps_platform_id']]['price']/1.2, 5);
     $active = 0;
-    if (isset($data['platforms'][2]['export'])){
-        $active = $data['platforms'][2]['export'];
+    if (isset($data['platforms'][_ENGINE['ps_platform_id']]['export'])){
+        $active = $data['platforms'][_ENGINE['ps_platform_id']]['export'];
     }
     $xml = '
 <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
   <product>
     <id>'.$id.'</id>
     <name>
-        <language id="2"><![CDATA['.trim($data['name']['et']).']]></language>
-        <language id="3"><![CDATA['.trim($data['name']['ru']).']]></language>
+        <language id="'._LANG['ps_en'].'"><![CDATA['.trim($data['name']['en']).']]></language>
+        <language id="'._LANG['ps_et'].'"><![CDATA['.trim($data['name']['et']).']]></language>
+        <language id="'._LANG['ps_ru'].'"><![CDATA['.trim($data['name']['ru']).']]></language>
     </name>
     <description>
-      <language id="2"><![CDATA['.trim($data['descriptions']['et']).']]></language>
-      <language id="3"><![CDATA['.trim($data['descriptions']['ru']).']]></language>
+        <language id="'._LANG['ps_en'].'"><![CDATA['.trim($data['descriptions']['en']).']]></language>
+        <language id="'._LANG['ps_et'].'"><![CDATA['.trim($data['descriptions']['et']).']]></language>
+        <language id="'._LANG['ps_ru'].'"><![CDATA['.trim($data['descriptions']['ru']).']]></language>
     </description>
     <link_rewrite>
-      <language id="2"><![CDATA['.get_ET_URL(trim($data['name']['et'])).']]></language>
-      <language id="3"><![CDATA['.get_ET_URL(trim($data['name']['ru'])).']]></language>
+        <language id="'._LANG['ps_en'].'"><![CDATA['.get_EN_URL(trim($data['name']['en'])).']]></language>
+        <language id="'._LANG['ps_et'].'"><![CDATA['.get_ET_URL(trim($data['name']['et'])).']]></language>
+        <language id="'._LANG['ps_ru'].'"><![CDATA['.get_RU_URL(trim($data['name']['ru'])).']]></language>
     </link_rewrite>
     <available_for_order>'.$active.'</available_for_order>
     <price>'.$PriceTaxExcluded.'</price>
@@ -290,19 +298,21 @@ function PR_PUT_Product_category_only($id_product, $category){
     global $domain, $api_key;
     $data = get_product($id_product);
     $id = PR_GET_Product_By_Tag($data['tag'])['products'][0]['id'];
-    $PriceTaxExcluded = round($data['platforms'][2]['price']/1.2, 5);
+    $PriceTaxExcluded = round($data['platforms'][_ENGINE['ps_platform_id']]['price']/1.2, 5);
 
     $xml = '
 <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
   <product>
     <id>'.$id.'</id>
     <name>
-        <language id="2"><![CDATA['.trim($data['name']['et']).']]></language>
-        <language id="3"><![CDATA['.trim($data['name']['ru']).']]></language>
+        <language id="'._LANG['ps_en'].'"><![CDATA['.trim($data['name']['en']).']]></language>
+        <language id="'._LANG['ps_et'].'"><![CDATA['.trim($data['name']['et']).']]></language>
+        <language id="'._LANG['ps_ru'].'"><![CDATA['.trim($data['name']['ru']).']]></language>
     </name>
     <description>
-      <language id="2"><![CDATA['.trim($data['descriptions']['et']).']]></language>
-      <language id="3"><![CDATA['.trim($data['descriptions']['ru']).']]></language>
+        <language id="'._LANG['ps_en'].'"><![CDATA['.trim($data['descriptions']['en']).']]></language>
+        <language id="'._LANG['ps_et'].'"><![CDATA['.trim($data['descriptions']['et']).']]></language>
+        <language id="'._LANG['ps_ru'].'"><![CDATA['.trim($data['descriptions']['ru']).']]></language>
     </description>
     <price>'.$PriceTaxExcluded.'</price>
     <reference>'.$data['tag'].'</reference>

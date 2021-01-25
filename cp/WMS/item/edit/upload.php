@@ -34,9 +34,12 @@ $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*products*} SET
 
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_name*} WHERE id_product='$itemID'"));
 $itemNameET = htmlentities($_POST['itemNameET'], ENT_QUOTES, 'UTF-8');
+$itemNameEN = htmlentities($_POST['itemNameEN'], ENT_QUOTES, 'UTF-8');
 $itemNameRU = htmlentities($_POST['itemNameRU'], ENT_QUOTES, 'UTF-8');
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
                         (`name`, id_product, id_lang) VALUES ('$itemNameET', '$itemID', '3')"));
+$GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
+                        (`name`, id_product, id_lang) VALUES ('$itemNameEN', '$itemID', '2')"));
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
                         (`name`, id_product, id_lang) VALUES ('$itemNameRU', '$itemID', '1')"));
 $last = $itemID;

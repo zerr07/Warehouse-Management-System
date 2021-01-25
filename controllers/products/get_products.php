@@ -377,8 +377,10 @@ function get_name($index){
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *
                                 FROM {*product_name*} WHERE id_product='$index'"));
     while ($row = mysqli_fetch_assoc($q)){
-        if ($row['id_lang'] == 3){
+        if ($row['id_lang'] == 3) {
             $lang = 'et';
+        } elseif ($row['id_lang'] == 2) {
+            $lang = 'en';
         } else {
             $lang = 'ru';
         }
@@ -412,6 +414,20 @@ function get_product_sales($index){
         return array_filter($arr);
     }
     return null;
+}
+
+function get_product_by_supp_sku($sku){
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*supplier_data*} WHERE SKU='$sku'"));
+
+    if ($q->num_rows == 0){
+        $found = "false";
+    } else {
+        $found = "true";
+    }
+    return $found;
+}
+if (isset($_POST['ifProductExistWithSKU'])){
+    exit(json_encode(array("found"=>get_product_by_supp_sku($_POST['ifProductExistWithSKU']))));
 }
 $search = "";
 $select = "";

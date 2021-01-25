@@ -8,15 +8,20 @@
         <form class="text-left" method="POST" action="upload.php" enctype="multipart/form-data">
             <input type="text" name="idEdit" value="{$item.id}" hidden>
             <div class="row">
-                <div class="col-12 col-sm-12 col-md-6">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-4">
                     <label for="catNameET">Kategooria nimi<span style="color: red;">*</span> </label>
                     <input type="text" class="form-control" name="catNameET" id="catNameET" value="{$item.name.et}"
                            placeholder="Kategooria nimi" required="required">
                 </div>
-                <div class="col-12 col-sm-12 col-md-6">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-4">
                     <label for="catNameRU">Название категории<span style="color: red;">*</span> </label>
                     <input type="text" class="form-control" name="catNameRU" id="catNameRU" value="{$item.name.ru}"
                            placeholder="Название категории" required="required">
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-4">
+                    <label for="catNameRU">Category name<span style="color: red;">*</span> </label>
+                    <input type="text" class="form-control" name="catNameEN" id="catNameEN" value="{$item.name.en}"
+                           placeholder="Category name" required="required">
                 </div>
             </div>
             <div class="custom-control custom-switch">

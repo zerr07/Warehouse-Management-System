@@ -87,8 +87,11 @@
                                     </div>
                                     <div class="col-sm-12 col-md-6">
                                         <label for="itemNameRU">Toode nimi</label>
-
                                         <input type="text" class="form-control" name="itemNameRU" id="itemNameRU" placeholder="Название товара">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="itemNameEN">Product name</label>
+                                        <input type="text" class="form-control" name="itemNameEN" id="itemNameEN" placeholder="Product name">
                                     </div>
                                 </div>
 

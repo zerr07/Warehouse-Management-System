@@ -5,6 +5,11 @@ function translit($str) {
     return str_replace($rus, $lat, $str);
 }
 
+function get_EN_URL($string){
+    $urlEN = str_replace(array("'", "\""), "", $string);
+    $urlEN = translit(htmlentities(str_replace(" ", "-", $urlEN), ENT_QUOTES, 'UTF-8'));
+    return preg_replace("/[^a-zA-Z]/", "", $urlEN);
+}
 function get_ET_URL($string){
     $urlET = str_replace(array("'", "\""), "", $string);
     $urlET = translit(htmlentities(str_replace(" ", "-", $urlET), ENT_QUOTES, 'UTF-8'));

@@ -4,13 +4,17 @@
         <h1>Create new category</h1>
         <form class="text-left" method="POST" action="upload.php" enctype="multipart/form-data">
             <div class="row">
-                <div class="col-12 col-sm-12 col-md-6">
+                <div class="col-12 col-sm-12 col-md-6  col-lg-4">
                     <label for="catNameET">Kategooria nimi<span style="color: red;">*</span> </label>
                     <input type="text" class="form-control" name="catNameET" id="catNameET" placeholder="Kategooria nimi" required="required">
                 </div>
-                <div class="col-12 col-sm-12 col-md-6">
+                <div class="col-12 col-sm-12 col-md-6  col-lg-4">
                     <label for="catNameRU">Название категории<span style="color: red;">*</span> </label>
                     <input type="text" class="form-control" name="catNameRU" id="catNameRU" placeholder="Название категории" required="required">
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-4">
+                    <label for="catNameRU">Category name<span style="color: red;">*</span> </label>
+                    <input type="text" class="form-control" name="catNameEN" id="catNameEN" placeholder="Category name" required="required">
                 </div>
             </div>
             <label>Parent category</label><br>

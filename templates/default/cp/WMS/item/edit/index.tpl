@@ -90,8 +90,11 @@
                                     </div>
                                     <div class="col-sm-12 col-md-6">
                                         <label for="itemNameRU">Toode nimi</label>
-
-                                        <input type="text" class="form-control" name="itemNameRU" value="{$item.name.ru|escape}" id="itemNameRU" placeholder="Название товара">
+                                        <input type="text" class="form-control" name="itemNameRU" value="{if isset($item.name.ru)}{$item.name.ru|escape}{/if}" id="itemNameRU" placeholder="Название товара">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="itemNameEN">Product name</label>
+                                        <input type="text" class="form-control" name="itemNameEN" value="{if isset($item.name.en)}{$item.name.en|escape}{/if}" id="itemNameEN" placeholder="Product name">
                                     </div>
                                 </div>
 

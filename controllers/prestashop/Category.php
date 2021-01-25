@@ -19,7 +19,7 @@ function PR_GET_Category($id){
     return CallGETAPI($url);
 }
 
-function PR_POST_Category($parent, $catNameET, $catNameRU, $enabled, $urlET, $urlRU){
+function PR_POST_Category($parent, $catNameET, $catNameRU, $catNameEN, $enabled, $urlET, $urlRU, $urlEN){
     global $domain, $api_key;
     $url = "https://$api_key@$domain/api/categories?output_format=JSON&display=full";
     $xml = '
@@ -28,19 +28,21 @@ function PR_POST_Category($parent, $catNameET, $catNameRU, $enabled, $urlET, $ur
         <id_parent>'.$parent.'</id_parent>
         <active>'.$enabled.'</active>
         <name>
-          <language id="2"><![CDATA['.$catNameET.']]></language>
-          <language id="3"><![CDATA['.$catNameRU.']]></language>
+          <language id="'._LANG['ps_en'].'"><![CDATA['.$catNameEN.']]></language>
+          <language id="'._LANG['ps_ru'].'"><![CDATA['.$catNameET.']]></language>
+          <language id="'._LANG['ps_et'].'"><![CDATA['.$catNameRU.']]></language>
         </name>
         <link_rewrite>
-          <language id="2"><![CDATA['.$urlET.']]></language>
-          <language id="3"><![CDATA['.$urlRU.']]></language>
+          <language id="'._LANG['ps_en'].'"><![CDATA['.$urlEN.']]></language>
+          <language id="'._LANG['ps_ru'].'"><![CDATA['.$urlRU.']]></language>
+          <language id="'._LANG['ps_et'].'"><![CDATA['.$urlET.']]></language>
         </link_rewrite>
     </category>
 </prestashop>
     ';
     return CallPOSTAPI($url, $xml)['categories'][0]['id'];
 }
-function PR_PUT_Category($id, $urlET, $urlRU){
+function PR_PUT_Category($id, $urlET, $urlRU, $urlEN){
     global $domain, $api_key;
     $url = "https://$api_key@$domain/api/categories?output_format=JSON&display=full";
     $data = get_category($id);
@@ -51,12 +53,14 @@ function PR_PUT_Category($id, $urlET, $urlRU){
         <id_parent>'.$data['parent'].'</id_parent>
         <active>'.$data['enabled'].'</active>
         <name>
-          <language id="2"><![CDATA['.$data['name']['et'].']]></language>
-          <language id="3"><![CDATA['.$data['name']['ru'].']]></language>
+            <language id="'._LANG['ps_en'].'"><![CDATA['.$data['name']['en'].']]></language>
+            <language id="'._LANG['ps_ru'].'"><![CDATA['.$data['name']['ru'].']]></language>
+            <language id="'._LANG['ps_et'].'"><![CDATA['.$data['name']['et'].']]></language>
         </name>
         <link_rewrite>
-          <language id="2"><![CDATA['.$urlET.']]></language>
-          <language id="3"><![CDATA['.$urlRU.']]></language>
+          <language id="'._LANG['ps_en'].'"><![CDATA['.$urlEN.']]></language>
+          <language id="'._LANG['ps_ru'].'"><![CDATA['.$urlRU.']]></language>
+          <language id="'._LANG['ps_et'].'"><![CDATA['.$urlET.']]></language>
         </link_rewrite>
     </category>
 </prestashop>

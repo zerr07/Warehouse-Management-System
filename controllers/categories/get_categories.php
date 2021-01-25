@@ -71,6 +71,8 @@ function get_category_names($index){
         while ($row = $result->fetch_assoc()) {
             if ($row['id_lang'] == 3){
                 $lang = 'et';
+            } else if ($row['id_lang'] == 2){
+                $lang = 'en';
             } else {
                 $lang = 'ru';
             }
@@ -91,7 +93,20 @@ function get_category($index){
     }
     return null;
 }
+function get_category_by_name_from_parent($name, $parent){
+    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM category_name WHERE name='$name' 
+                            AND id_category in (SELECT id FROM categories WHERE parent='$parent') LIMIT 1"));
+    if($result){
+        if ($result->num_rows == 0){
+            return array("error"=>"notFound");
+        } else {
+            return $result->fetch_assoc();
+        }
 
+
+    }
+    return array("error"=>"SQL error");
+}
 function getLinked($id, $id_platform){
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT id_category_platform FROM {*category_platform*} WHERE id_platform='$id_platform' AND id_category='$id' LIMIT 1"));
     return $q->fetch_assoc()['id_category_platform'];
@@ -110,4 +125,7 @@ function getEmptyCategoies(){
         }
     }
     return $arr;
+}
+if (isset($_POST['getByName']) && isset($_POST['getByName_Parent'])){
+    exit(json_encode(get_category_by_name_from_parent($_POST['getByName'], $_POST['getByName_Parent'])));
 }

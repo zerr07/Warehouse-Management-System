@@ -1,6 +1,5 @@
 <?php
-ini_set("display_errors", "on");
-error_reporting(E_ALL ^ E_NOTICE);
+
 $date = new DateTime();
 
 $req_dump = print_r($_POST, TRUE);
@@ -75,11 +74,13 @@ if (isset($_POST['itemEAN']) && $_POST['itemEAN'] != "") {
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_codes*}
                         (id_product, ean) VALUES ('$last', '$ean')"));
 }
-
+$itemNameEN = htmlentities($_POST['itemNameEN'], ENT_QUOTES, 'UTF-8');
 $itemNameET = htmlentities($_POST['itemNameET'], ENT_QUOTES, 'UTF-8');
 $itemNameRU = htmlentities($_POST['itemNameRU'], ENT_QUOTES, 'UTF-8');
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
                         (`name`, id_product, id_lang) VALUES ('$itemNameET', '$last', '3')"));
+$GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
+                        (`name`, id_product, id_lang) VALUES ('$itemNameEN', '$last', '2')"));
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
                         (`name`, id_product, id_lang) VALUES ('$itemNameRU', '$last', '1')"));
 
@@ -266,6 +267,10 @@ if (!empty($images)) {
 }
 
 PR_POST_Product($last);
+if (isset($_POST['request'])){
+    exit(json_encode(array("status"=>$last)));
+} else {
+    header("Location: /cp/WMS/");
+}
 
-header("Location: /cp/WMS/");
 ?>
