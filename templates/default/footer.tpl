@@ -16,7 +16,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
-                <p class="mb-0">© <span id="hr">2018-2020</span> AZdev. All rights reserved. Version:
+                <p class="mb-0">© <span id="hr">2018-2021</span> AZdev. All rights reserved. Version:
                     <a data-toggle="tooltip" data-placement="top" data-html="true" title="<pre class='text-left'>{literal}/\_/\
 (='_' )
 (, (') ('){/literal}</pre>"
