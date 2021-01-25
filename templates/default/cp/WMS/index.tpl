@@ -98,7 +98,7 @@
 
                     {if $products|@count == 0}
                         <div class="row">
-                            <div class="col-md-12" style="margin-top: 50px;">
+                            <div class="col-md-12 d-flex justify-content-center" style="margin-top: 50px;">
                                 <p>Nothing Found</p>
                                 <img class="img-fluid d-block align-items-center d-inline-flex notFound" src="/templates/default/assets/7e2e8b70e25555eeafe05f2a17c8d81f.png">
                             </div>
