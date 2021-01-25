@@ -193,13 +193,46 @@ Route::add("/api/shipments/data", function () {
                             "COD_Sum"=> $COD
                         );
                         saveData($data["id"], json_encode($data_shipment), 2, 1);
-                    } else if ($data['id_type'] == 4){
-                        if (isset($data["phone"])){
-                            $data_shipment = array("phone"=>$data["phone"]);
+                    } else if ($data['id_type'] == 4) {
+                        if (isset($data["phone"])) {
+                            $data_shipment = array("phone" => $data["phone"]);
                             saveData($data["id"], json_encode($data_shipment), 8, 4);
                         } else {
+                            exit(json_encode(array("error" => "'phone' key is missing, check your request.", "code" => "1104")));
+                        }
+                    } else if ($data['id_type'] == 2){
+
+                        if (!isset($data['shipment_data']['name'])){
+                            exit(json_encode(array("error" => "'name' key is missing, check your request.", "code"=>"1104")));
+                        }
+                        if (!isset($data['shipment_data']['address'])){
+                            exit(json_encode(array("error" => "'address' key is missing, check your request.", "code"=>"1104")));
+                        }
+                        if (!isset($data['shipment_data']['postcode'])){
+                            exit(json_encode(array("error" => "'postcode' key is missing, check your request.", "code"=>"1104")));
+                        }
+                        if (!isset($data['shipment_data']['housenr'])){
+                            exit(json_encode(array("error" => "'housenr' key is missing, check your request.", "code"=>"1104")));
+                        }
+                        if (!isset($data['shipment_data']['barcode'])){
+                            exit(json_encode(array("error" => "'barcode' key is missing, check your request.", "code"=>"1104")));
+                        }
+                        if (!isset($data['shipment_data']['phone'])){
                             exit(json_encode(array("error" => "'phone' key is missing, check your request.", "code"=>"1104")));
                         }
+                        if (!isset($data['shipment_data']['email'])){
+                            exit(json_encode(array("error" => "'email' key is missing, check your request.", "code"=>"1104")));
+                        }
+                        $data_shipment = array(
+                            "name"=>$data['shipment_data']['name'],
+                            "address"=> $data['shipment_data']['address'],
+                            "postcode"=> $data['shipment_data']['postcode'],
+                            "housenr"=> $data['shipment_data']['housenr'],
+                            "barcode"=> $data['shipment_data']['barcode'],
+                            "phone"=> $data['shipment_data']['phone'],
+                            "email"=> $data['shipment_data']['email']
+                        );
+                        saveData($data["id"], json_encode($data_shipment), 2, 2);
                     } else {
                         exit(json_encode(array("error" => "Shipment type id not supported.", "code"=>"1101")));
                     }
