@@ -2,6 +2,9 @@
 include_once($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 
 function CallGETAPI($url){
+    if(!isset($GLOBALS['BIGCONN'])){
+        return null;
+    }
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
@@ -26,6 +29,9 @@ function CallGETAPI($url){
     }
 }
 function CallPOSTAPI($url, $data){
+    if(!isset($GLOBALS['BIGCONN'])){
+        return null;
+    }
     $curl = curl_init();
     curl_setopt_array($curl, array(
         CURLOPT_URL => $url,
@@ -48,6 +54,9 @@ function CallPOSTAPI($url, $data){
 }
 
 function CallPUTAPI($url, $data){
+    if(!isset($GLOBALS['BIGCONN'])){
+        return null;
+    }
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
@@ -74,6 +83,9 @@ function CallPUTAPI($url, $data){
 }
 
 function CallDELETEAPI($url){
+    if(!isset($GLOBALS['BIGCONN'])){
+        return null;
+    }
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
