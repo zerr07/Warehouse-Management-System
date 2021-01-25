@@ -502,7 +502,7 @@ will not be canceled unless the product canceled was not the last one in it.
 | ID | Value | Allowed in the API |
 | :----: | :----- | :----- | 
 | 1 | Smartpost | Yes |
-| 2 | Venipak | No |
+| 2 | Venipak | Yes(Partly) |
 | 3 | Others | No |
 | 4 | Pickup | Yes |
 
@@ -769,6 +769,20 @@ Path: {Your_Domain}/api/shipments/data
 | smartpost_COD_sum | Float/Double with 2 decimal places | Cash on delivery price (is required if you choose 'smartpost_type' with id 2) | No |
 | email | String | A clients email | No |
 | comment | String |  | No |
+
+'shipment_data' for Venipak:
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| name | String | A clients name | Yes |
+| address | String | A clients address | Yes |
+| postcode | String | A clients address postcode | Yes |
+| housenr | Integer | A clients house number | Yes |
+| barcode | Integer | Venipak barcode  | Yes |
+| phone | String | A clients phone number | Yes |
+| email | String | A clients email | Yes |
+
+While submitting Venipak values can be empty, but the keys are mandatory.
 
 
 'shipment_data' for Pickup:
