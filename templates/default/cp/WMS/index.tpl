@@ -78,7 +78,7 @@
                                     <div class="col-12 col-sm-12 col-md-4">
                                         {foreach $platforms as $key => $value}
                                             <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input" id="platformSearch[{$key}]" name="platformSearch[{$key}]" {if array_key_exists($key, $platformSearch)}checked{/if}>
+                                                <input type="checkbox" class="custom-control-input" id="platformSearch[{$key}]" name="platformSearch[{$key}]" {if isset($platformSearch)}{if array_key_exists($key, $platformSearch)}checked{/if}{/if}>
                                                 <label class="custom-control-label d-flex justify-content-start" for="platformSearch[{$key}]">{$value.name}</label>
                                             </div>
                                         {/foreach}
