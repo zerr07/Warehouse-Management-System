@@ -308,9 +308,13 @@ function get_main_image_live($index){
 
 function get_reserve_info($index){
     $arr = array(array());
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *,
-    (SELECT `comment` FROM {*reserved*} WHERE {*reserved*}.id={*reserved_products*}.id_reserved) as `comment`
-    FROM {*reserved_products*} WHERE id_product='$index'"));
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT {*reserved_products*}.*,
+    (SELECT `comment` FROM {*reserved*} WHERE {*reserved*}.id={*reserved_products*}.id_reserved) as `comment`,
+    {*shipment_status*}.id_status
+    FROM {*reserved_products*}
+    LEFT JOIN {*shipment_status*} ON ({*reserved_products*}.id_reserved = {*shipment_status*}.id_shipment)
+    WHERE id_product='$index' AND ({*shipment_status*}.id_status IS NULL OR {*shipment_status*}.id_status!=6)"));
+
     if ($q){
         $arr['reserved_sum'] = 0;
         while ($row = $q->fetch_assoc()){
