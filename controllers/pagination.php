@@ -43,7 +43,14 @@ function GETPageLinks($url){
         parse_str($parts['query'], $query);
         foreach ($query as $key => $value){
             if ($key != "page") {
-                $link .=  $key . "=" . $value . "&";
+                if(is_array($value)){
+                    foreach ($value as $k => $v){
+                        $link .=  $key . "[$k]=" . $v . "&";
+                    }
+                } else {
+                    $link .=  $key . "=" . $value . "&";
+                }
+
             }
         }
     }
