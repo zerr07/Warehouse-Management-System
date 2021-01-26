@@ -69,19 +69,53 @@
                                                {if isset($searchSupplierName) && $searchSupplierName != ""}value="{$searchSupplierName}"{/if}
                                         >
                                     </div>
-                                    <div class="col-12 col-sm-12 col-md-4">
+                                    <div class="col-12 col-sm-12 col-md-3">
                                         <div class="custom-control custom-switch">
                                             <input type="checkbox" class="custom-control-input" id="quantitySearch" name="quantitySearch" {if isset($quantitySearch) && $quantitySearch == "on"}checked{/if}>
                                             <label class="custom-control-label d-flex justify-content-start" for="quantitySearch">Show only positive quantity</label>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-12 col-md-4">
-                                        {foreach $platforms as $key => $value}
-                                            <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input" id="platformSearch[{$key}]" name="platformSearch[{$key}]" {if array_key_exists($key, $platformSearch)}checked{/if}>
-                                                <label class="custom-control-label d-flex justify-content-start" for="platformSearch[{$key}]">{$value.name}</label>
-                                            </div>
-                                        {/foreach}
+                                    <div class="col-12 col-sm-12 col-md-5">
+                                        <div class="row">
+                                            {foreach $platforms as $key => $value}
+                                                <div class="col-5">
+                                                    {$value.name}
+                                                </div>
+                                                <div class="col-7">
+                                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                               id="platformSearchOff{$key}" name="platformSearchOff[{$key}]"
+                                                               {if isset($platformSearchOff)}{if array_key_exists($key, $platformSearchOff)}checked{/if}{/if}>
+                                                        <label class="custom-control-label" for="platformSearchOff{$key}">Off</label>
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                               id="platformSearchOn{$key}" name="platformSearchOn[{$key}]"
+                                                               {if isset($platformSearchOff)}{if array_key_exists($key, $platformSearchOn)}checked{/if}{/if}>
+                                                        <label class="custom-control-label" for="platformSearchOn{$key}">On</label>
+                                                    </div>
+                                                    {* <div class="custom-control custom-radio custom-control-inline">
+                                                         <input type="radio" id="platformSearchOff{$key}" name="platformSearch[{$key}]" class="custom-control-input">
+                                                         <label class="custom-control-label" for="platformSearchOff{$key}">off</label>
+                                                     </div>
+                                                     <div class="custom-control custom-radio custom-control-inline">
+                                                         <input type="radio" id="platformSearch{$key}" name="platformSearch[{$key}]" class="custom-control-input">
+                                                         <label class="custom-control-label" for="platformSearch{$key}">n</label>
+                                                     </div>
+                                                     <div class="custom-control custom-radio custom-control-inline">
+                                                         <input type="radio" id="platformSearchOn{$key}" name="platformSearch[{$key}]" class="custom-control-input">
+                                                         <label class="custom-control-label" for="platformSearchOn{$key}">on</label>
+                                                     </div>
+
+                                                   {*<div class="custom-control custom-switch">
+                                                         <input type="checkbox" class="custom-control-input" id="platformSearch[{$key}]" name="platformSearch[{$key}]" {if array_key_exists($key, $platformSearch)}checked{/if}>
+                                                         <label class="custom-control-label d-flex justify-content-start" for="platformSearch[{$key}]">{$value.name}</label>
+                                                     </div>*}
+                                                </div>
+
+                                            {/foreach}
+                                        </div>
+
 
                                     </div>
                                 </div>

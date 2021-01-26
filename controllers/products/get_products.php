@@ -433,6 +433,7 @@ $search = "";
 $select = "";
 $searchSelect ="COUNT(*) as count";
 $searchSearch ="";
+$searchPlatform = "";
 if (isset($_GET['searchTagID'])) {
     if ($_GET['searchTagID'] != "") {
         $tagID = $_GET['searchTagID'];
@@ -495,16 +496,32 @@ if (isset($_GET['quantitySearch']) && $_GET['quantitySearch'] == "on"){
     $search .= " AND (SELECT SUM(quantity) FROM {*product_locations*} WHERE id_item={*products*}.id)>0";
     $searchSearch = $search;
 }
-if (isset($_GET['platformSearch'])){
+if (isset($_GET['platformSearchOn']) || isset($_GET['platformSearchOff'])){
     $search .= " AND (";
-    $a = array();
-    foreach ($_GET['platformSearch'] as $key => $value){
-        array_push($a, "(SELECT export FROM {*product_platforms*} WHERE id_item={*products*}.id && id_platform='$key')=1");
+    if (isset($_GET['platformSearchOn'])){
+        $a = array();
+        foreach ($_GET['platformSearchOn'] as $key => $value){
+            array_push($a, "(SELECT export FROM {*product_platforms*} WHERE id_item={*products*}.id && id_platform='$key')=1");
+        }
+        $searchPlatform .= implode(" OR ", $a);
     }
-    $search .= implode(" OR ", $a);
+    if (isset($_GET['platformSearchOff'])){
+        if ($searchPlatform != ""){
+            $searchPlatform .= " OR ";
+        }
+        $a = array();
+        foreach ($_GET['platformSearchOff'] as $key => $value){
+            array_push($a, "(SELECT export FROM {*product_platforms*} WHERE id_item={*products*}.id && id_platform='$key')=0");
+        }
+        $searchPlatform .= implode(" OR ", $a);
+    }
+    $search .= $searchPlatform;
     $search .= ")";
     $searchSearch = $search;
+
 }
+
+
 if (isset($_GET['cat'])){
     $cat = $_GET['cat'];
     $searchSearch = "AND id_category='$cat'";
