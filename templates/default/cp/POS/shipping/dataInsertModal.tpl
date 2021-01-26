@@ -249,9 +249,11 @@
         });
     }
     function getSmartpostLabel(){
+        console.log("/cp/POS/shipping/getShippingData.php?getSmartPostLabel={$reservation.id}")
         fetch("/cp/POS/shipping/getShippingData.php?getSmartPostLabel={$reservation.id}")
         .then(response => response.text())
         .then(d => {
+            console.log(d)
             {literal}printJS({printable: d, type: 'pdf', base64: true}){/literal}
         });
 
@@ -318,7 +320,7 @@
         } catch (err) {
             deliveryNrInput.setAttribute("class", "form-control mt-3 is-invalid");
             deliveryNrFeedback.setAttribute("class", "invalid-feedback");
-            deliveryNrFeedback.innerText = "Please specify phone number!";
+            deliveryNrFeedback.innerText = "Please specify delivery number!";
             return false;
         }
         try {
@@ -343,7 +345,7 @@
         } catch (err) {
             CODInput.setAttribute("class", "form-control is-invalid");
             CODFeedback.setAttribute("class", "invalid-feedback");
-            CODFeedback.innerText = "Please specify phone number!";
+            CODFeedback.innerText = "Please specify cash on delivery sum!";
             return false;
         }
         return true;

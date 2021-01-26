@@ -338,7 +338,6 @@
     </div>
 </div>
 
-
 <script src="/cp/WMS/item/edit/editEAN.js?t=16102020T165358"></script>
 <script src="/templates/default/assets/js/auction_charts_init.js?d=20201112T103709"></script>
 
