@@ -48,6 +48,9 @@ while ($row = mysqli_fetch_assoc($q)){
         if (strlen(strip_tags($arr['descriptions']['et'])) < 20){
             continue;
         }
+        if (!$arr['carrier'][1]['enabled'] && !$arr['carrier'][2]['enabled']){
+            continue;
+        }
         $index = $arr['id_category'];
         $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*category_platform*} WHERE id_platform='6' AND id_category='$index' LIMIT 2"));
         if(mysqli_num_rows($query) == 0) {
@@ -153,18 +156,23 @@ while ($row = mysqli_fetch_assoc($q)){
         xmlwriter_start_element($xw, 'shipment_term');
         xmlwriter_text($xw, "7");
         xmlwriter_end_element($xw); // shipment_term
-
-        xmlwriter_start_element($xw, 'shipment_price_courier');
-        xmlwriter_text($xw, $arr['carrier'][2]['price']);
-        xmlwriter_end_element($xw); // shipment_price_courier
+        /*if($arr['carrier'][2]['enabled']) {
+            xmlwriter_start_element($xw, 'shipment_price_courier');
+            xmlwriter_text($xw, $arr['carrier'][2]['price']);
+            xmlwriter_end_element($xw); // shipment_price_courier
+        }*/
         if($arr['carrier'][1]['enabled']){
             xmlwriter_start_element($xw, 'ship_courier_smartpost');
             xmlwriter_end_element($xw); // ship_courier_smartpost
             xmlwriter_start_element($xw, 'smartpost_size_id');
             xmlwriter_text($xw, "1");
             xmlwriter_end_element($xw); // smartpost_size_id
+        } elseif($arr['carrier'][2]['enabled']) {
+            xmlwriter_start_element($xw, 'shipment_price_courier');
+            xmlwriter_text($xw, $arr['carrier'][2]['price']);
+            xmlwriter_end_element($xw); // shipment_price_courier
         }
-        if($arr['carrier'][2]['enabled']){
+        /*if($arr['carrier'][2]['enabled']){
             xmlwriter_start_element($xw, 'ship_courier_pickup');
             xmlwriter_end_element($xw); // ship_courier_pickup
             xmlwriter_start_element($xw, 'pickup_description');
@@ -172,14 +180,14 @@ while ($row = mysqli_fetch_assoc($q)){
             Tööaeg: E-R 12.00-17.00
             Tel. 58834435");
             xmlwriter_end_element($xw); // pickup_description
-        }
-        if($arr['carrier'][1]['enabled']){
+        }*/
+        /*if($arr['carrier'][1]['enabled']){
             xmlwriter_start_element($xw, 'ship_courier_agreement');
             xmlwriter_end_element($xw); // ship_courier_agreement
             xmlwriter_start_element($xw, 'agreement_description');
             xmlwriter_text($xw, "Mitme eseme ostmisel, saadame ühes pakkis.");
             xmlwriter_end_element($xw); // agreement_description
-        }
+        }*/
 
         xmlwriter_end_element($xw); // shipment
 

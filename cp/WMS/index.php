@@ -38,8 +38,11 @@ if (isset($_GET['searchSupplierName'])) {
 if (isset($_GET['quantitySearch'])) {
     $smarty->assign("quantitySearch", $_GET['quantitySearch']);
 }
-if (isset($_GET['platformSearch'])) {
-    $smarty->assign("platformSearch", $_GET['platformSearch']);
+if (isset($_GET['platformSearchOff'])) {
+    $smarty->assign("platformSearchOff", $_GET['platformSearchOff']);
+}
+if (isset($_GET['platformSearchOn'])) {
+    $smarty->assign("platformSearchOn", $_GET['platformSearchOn']);
 }
 $smarty->display('cp/WMS/index.tpl');
 

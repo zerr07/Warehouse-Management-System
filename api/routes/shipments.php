@@ -206,31 +206,43 @@ Route::add("/api/shipments/data", function () {
                             exit(json_encode(array("error" => "'name' key is missing, check your request.", "code"=>"1104")));
                         }
                         if (!isset($data['shipment_data']['address'])){
-                            exit(json_encode(array("error" => "'address' key is missing, check your request.", "code"=>"1104")));
+                            $address = "";
+                        } else {
+                            $address = $data['shipment_data']['address'];
                         }
                         if (!isset($data['shipment_data']['postcode'])){
-                            exit(json_encode(array("error" => "'postcode' key is missing, check your request.", "code"=>"1104")));
+                            $postcode = "";
+                        } else {
+                            $postcode = $data['shipment_data']['postcode'];
                         }
                         if (!isset($data['shipment_data']['housenr'])){
-                            exit(json_encode(array("error" => "'housenr' key is missing, check your request.", "code"=>"1104")));
+                            $housenr = "";
+                        } else {
+                            $housenr = $data['shipment_data']['housenr'];
                         }
                         if (!isset($data['shipment_data']['barcode'])){
-                            exit(json_encode(array("error" => "'barcode' key is missing, check your request.", "code"=>"1104")));
+                            $barcode = "";
+                        } else {
+                            $barcode = $data['shipment_data']['barcode'];
                         }
                         if (!isset($data['shipment_data']['phone'])){
-                            exit(json_encode(array("error" => "'phone' key is missing, check your request.", "code"=>"1104")));
+                            $phone = "";
+                        } else {
+                            $phone = $data['shipment_data']['phone'];
                         }
                         if (!isset($data['shipment_data']['email'])){
-                            exit(json_encode(array("error" => "'email' key is missing, check your request.", "code"=>"1104")));
+                            $email = "";
+                        } else {
+                            $email = $data['shipment_data']['email'];
                         }
                         $data_shipment = array(
                             "name"=>$data['shipment_data']['name'],
-                            "address"=> $data['shipment_data']['address'],
-                            "postcode"=> $data['shipment_data']['postcode'],
-                            "housenr"=> $data['shipment_data']['housenr'],
-                            "barcode"=> $data['shipment_data']['barcode'],
-                            "phone"=> $data['shipment_data']['phone'],
-                            "email"=> $data['shipment_data']['email']
+                            "address"=> $address,
+                            "postcode"=> $postcode,
+                            "housenr"=> $housenr,
+                            "barcode"=> $barcode,
+                            "phone"=> $phone,
+                            "email"=> $email
                         );
                         saveData($data["id"], json_encode($data_shipment), 2, 2);
                     } else {
