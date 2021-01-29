@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/templates/default/assets/css/style.css?t=20201126T155740">
   <link href="/templates/default/assets/css/sidebar.css?t=20201209T124458" rel="stylesheet">
   <script src="/templates/default/assets/js/jquery.min.js?t=16102020T165620"></script>
-  <script src="/templates/default/assets/js/script.js?t=20210114T111941"></script>
+  <script src="/templates/default/assets/js/script.js?t=29012021T122410"></script>
   <script>
     if('ontouchstart' in window){
       document.write('<script type="text/javascript" src="/templates/default/assets/js/swipe_menu.js?t=16102020T165616""><\/script>');
@@ -66,6 +66,9 @@
       <div class="col-auto mr-auto d-none d-sm-none d-md-inline-flex d-lg-inline-flex d-xl-inline-flex">
         <a href="/cp/POS/">POS</a>
         <a href="/cp/POS/shipping/" class=" ml-3">Shipments</a>
+      </div>
+      <div class="col-auto">
+        <a href="javascript:void(0)" onclick="forceReloadCache()" data-toggle="tooltip" data-placement="bottom" title="Reload cache"><i class="fas fa-retweet"  style="width: 32px;height: 28px"></i></a>
       </div>
       <div class="col-auto">
         <a href="/cp/WMS/HourLogger.php">

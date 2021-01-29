@@ -31,6 +31,21 @@ function getCookie(cname) {
     return "";
 }
 
+function forceReloadCache(){
+    fetch("/controllers/cache.php?forceCache").then(response => response.json())
+        .then(d => {
+            if (d.hasOwnProperty("result")){
+                if (d['result'] === "success"){
+                    alert("Cache reloaded")
+                } else {
+                    alert("Cache reload failed")
+                }
+            } else {
+                alert("Cache reload call failed")
+            }
+        });
+}
+
 $(window).on("load", function (){
     preloaderProgress = $('#loaderAreaProgress');
     loaderProgress = preloaderProgress.find('.loaderProgress');
