@@ -7,6 +7,7 @@ fwrite($fp, $req_dump);
 fclose($fp);
 include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/prestashop/Products.php');
+include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/cache.php');
 
 function writeFile($file, $txt, $UploadFolder){
     $WriteFile = fopen($UploadFolder.$file, "wb");
@@ -265,7 +266,7 @@ if (!empty($images)) {
 }
 PR_PUT_Product($last);
 
-
+cacheProductNameBackground($last);
 //exit("Redirect temporarily disabled");
 header("Location: /cp/WMS/");
 

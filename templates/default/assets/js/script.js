@@ -31,18 +31,25 @@ function getCookie(cname) {
     return "";
 }
 
-function forceReloadCache(){
-    fetch("/controllers/cache.php?forceCache").then(response => response.json())
+function forceReloadCache(el){
+    el.innerHTML = "<div class=\"spinner-border text-primary\" role=\"status\">\n" +
+        "  <span class=\"visually-hidden\">Loading...</span>\n" +
+        "</div>";
+    fetch("/controllers/cache.php?forceCache")
+        .then(response => response.json())
         .then(d => {
             if (d.hasOwnProperty("result")){
                 if (d['result'] === "success"){
-                    alert("Cache reloaded")
+                    el.innerHTML = "<i class=\"fas fa-retweet\" style=\"width: 32px;height: 28px\"></i>";
                 } else {
-                    alert("Cache reload failed")
+                    el.innerHTML = "Failed"
                 }
             } else {
-                alert("Cache reload call failed")
+                el.innerHTML = "Call failed"
             }
+        })
+        .catch(function (err) {
+            alert("Error: "+err)
         });
 }
 

@@ -1,5 +1,5 @@
 <?php
-
+include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/cache.php');
 $date = new DateTime();
 
 $req_dump = print_r($_POST, TRUE);
@@ -267,6 +267,9 @@ if (!empty($images)) {
 }
 
 PR_POST_Product($last);
+cacheProductNameBackground($last);
+
+
 if (isset($_POST['request'])){
     exit(json_encode(array("status"=>$last)));
 } else {

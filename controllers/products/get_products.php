@@ -59,6 +59,10 @@ function get_products_from_array($shard, $id_array){
     }
     return null;
 }
+function generateDatalistName($tag, $name): string {
+    return $tag. " | ".html_entity_decode($name, ENT_QUOTES, "UTF-8");
+}
+
 function get_products_dataList($shard){
     $arr = array(array());
     $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, tag, 
@@ -68,7 +72,8 @@ function get_products_dataList($shard){
         while ($row = $result->fetch_assoc()){
             $id = $row['id'];
             //$sku = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT `SKU` FROM {*supplier_data*} WHERE id_item='$id'"));
-            $prod = $row['tag']. " | ".html_entity_decode($row['name'], ENT_QUOTES, "UTF-8");
+            $prod = generateDatalistName($row['tag'], $row['name']);
+
             /*if ($sku){
                 while ($rowSKU = $sku->fetch_assoc()){
                     if (!is_null($rowSKU['SKU'])){
