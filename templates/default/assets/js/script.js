@@ -166,11 +166,11 @@ function scrollFunction() {
 window.addEventListener('DOMContentLoaded', function() {
     if (getCookie("user_id") !== ""){
         if (getCookie("darkTheme") === "true"){
-            toggleTheme("dark-mode/main.css");
+            toggleTheme("dark-mode/main.css?t=27012021T165958");
         } else if (getCookie("standardTheme") === "true"){
-            toggleTheme("standard/main.css");
+            toggleTheme("standard/main.css?t=27012021T170005");
         } else if (getCookie("defaultTheme") === "true"){
-            toggleTheme("default/bootstrap.min.css");
+            toggleTheme("default/bootstrap.min.css?t=27012021T170008");
         }
     }
     turnOffPreloader();

@@ -153,6 +153,17 @@ function parseTagTextData($key, $prod)
             return $prod['name']['ru'];
         case "ProductDescRU":
             return $prod['descriptions']['ru'];
+        case "Delivery":
+        case "DeliveryStrong":
+            return "1";
+        case "ItellaPrice":
+            if (isset($prod['carrier'][1])){
+                return $prod['carrier'][1]['price'];
+            } else {
+                return "2.99";
+            }
+
+
     }
     return "";
 }

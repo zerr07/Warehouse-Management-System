@@ -9920,4 +9920,8 @@ body, .navbar-brand, .navbar-light .navbar-nav .nav-link.active {
   background-color: #495057;
 }
 
+.modal-content {
+  background-color: #484848;
+}
+
 /*# sourceMappingURL=main.css.map */
