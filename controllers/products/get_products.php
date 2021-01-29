@@ -17,7 +17,7 @@ function array_sort_by_column(&$arr, $col, $dir = SORT_ASC) {
 
 }
 
-function get_product_range($page, $status, $shard){
+function get_product_range($page, $status, $shard, $full=true){
     global $search, $select, $searchSelect, $searchSearch;
     $onPage = _ENGINE['onPage'];
     $start = $page*$onPage;
@@ -29,7 +29,7 @@ function get_product_range($page, $status, $shard){
                                                         WHERE id_shard='$shard' $search
                                                         ORDER BY id DESC LIMIT $start, $onPage"));
     if($result){
-        return read_result_multiple($result);
+        return read_result_multiple($result, $full);
     }
     return null;
 }
@@ -129,34 +129,37 @@ function get_product_id_by_tag($index){
     return null;
 }
 
-function read_result_multiple($result){
+function read_result_multiple($result, $full=true){
     global $langID, $lang;
     $arr = array(array());
     while ($row = $result->fetch_assoc()){
         $id = $row['id'];
-        $arr[$id] = read_result_single($row);
+        $arr[$id] = read_result_single($row, $full);
 
     }
     return $arr;
 }
-function read_result_single($row){
+function read_result_single($row, $full=true){
     $id = $row['id'];
     $arr = $row;
     $arr['name'] = get_name($id);
     $arr['quantity'] = get_quantity_sum($id);
     $arr = array_merge($arr, get_locations($id));
-    $arr['suppliers'] = get_supplier_data($id);
-    $arr['platforms'] = get_platform_data($id);
-    $arr['reservations'] = get_reserve_info($id);
-    $arr['descriptions'] = get_desc($id);
-    $arr['FB_description'] = get_FB_desc($id);
+    if ($full){
+        $arr['suppliers'] = get_supplier_data($id);
+        $arr['platforms'] = get_platform_data($id);
+        $arr['reservations'] = get_reserve_info($id);
+        $arr['descriptions'] = get_desc($id);
+        $arr['FB_description'] = get_FB_desc($id);
+        $arr['images_live'] = get_images_live($id);
+        $arr['mainImage_live'] = get_main_image_live($id);
+        $arr['carrier'] = get_carrier($id);
+        $arr['category_name'] = get_product_category_name($arr['id_category']);
+
+    }
     $arr['images'] = get_images($id);
     $arr['mainImage'] = get_main_image($id);
-    $arr['images_live'] = get_images_live($id);
-    $arr['mainImage_live'] = get_main_image_live($id);
-    $arr['carrier'] = get_carrier($id);
     $arr['exportStatus'] = get_export_state($id);
-    $arr['category_name'] = get_product_category_name($arr['id_category']);
     //$arr['attributes'] = get_attributes($id);
     $arr['manufacturer'] = get_manufacturer_name($arr['id_manufacturer']);
     return $arr;
@@ -459,8 +462,8 @@ if (isset($_GET['searchTagID'])) {
         //header("Location: /cp/");
     }
 }
-if (isset($_GET['getDataList'])){
-    echo json_encode(get_products_dataList($_COOKIE['id_shard']));
+if (isset($_GET['getDataList']) && isset($_GET['getDataListStr'])){
+    echo json_encode(get_products_dataList($_COOKIE['id_shard'],$_GET['getDataListStr']));
 }
 if (isset($_GET['getProductsFromArray'])){
     echo json_encode(get_products_dataList($_COOKIE['id_shard']));

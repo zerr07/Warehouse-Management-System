@@ -13,11 +13,11 @@ include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/categories/get_categories.p
 
 if (isset($_GET['page'])) {
     $pages = get_product_pages($_GET['page']);
-    $arr = array_filter(get_product_range($_GET['page']-1, "Normal", $_COOKIE['id_shard']));
+    $arr = array_filter(get_product_range($_GET['page']-1, "Normal", $_COOKIE['id_shard'], false));
     $smarty->assign("current_page", $_GET['page']);
 } else {
     $pages = get_product_pages(1);
-    $arr = array_filter(get_product_range(0, "Normal", $_COOKIE['id_shard']));
+    $arr = array_filter(get_product_range(0, "Normal", $_COOKIE['id_shard'], false));
     $smarty->assign("current_page", 1);
 }
 $smarty->assign("pageBase" , GETPageLinks("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"));
