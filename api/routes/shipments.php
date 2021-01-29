@@ -118,13 +118,20 @@ Route::add("/api/shipments/data", function () {
 }, "GET");
 
 Route::add("/api/shipments/data", function () {
+
+    ini_set("display_errors", "on");
+    error_reporting(E_ALL ^ E_NOTICE);
     $check = json_decode(checkToken(), true);
     if (isset($check['user_id'])) {
         include_once($_SERVER['DOCUMENT_ROOT'] . "/cp/POS/reserve/reserve.php");
         include_once $_SERVER['DOCUMENT_ROOT'] . "/cp/POS/shipping/getShippingData.php";
         include_once($_SERVER['DOCUMENT_ROOT'] . "/cp/POS/shipping/submitShippingClientsData.php");
+        include($_SERVER["DOCUMENT_ROOT"] . '/controllers/log.php');
+
+        sys_log(file_get_contents('php://input'));
 
         $data = json_decode(file_get_contents('php://input'), true);
+
         if (isset($data['id'])){
             $id = $data['id'];
             $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*reserved*} WHERE id='$id' AND id_type='2'"));
@@ -272,9 +279,9 @@ Route::add("/api/shipments/data", function () {
                     "data"=>array(
                         "cash" => $cash,
                         "card" => $card,
-                        "ostja" => $data['client'],
-                        "tellimuseNr" => $data['shipmentNr'],
-                        "mode" => $data['mode'],
+                        "ostja" => $data['payment_data']['client'],
+                        "tellimuseNr" => $data['payment_data']['shipmentNr'],
+                        "mode" => $data['payment_data']['mode'],
                         "id_cart" => $data['id'],
                         "shipmentID" => $data['id'])
                 );
