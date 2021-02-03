@@ -68,15 +68,11 @@ function get_active_session(){
         return json_encode(array("error"=>"SQL error"));
     }
 }
-function get_past_sessions($start, $end){
-    $id = $_COOKIE['user_id'];
-    if (!array_key_exists('user_id', $_COOKIE)){
-        return json_encode(array("error"=>"No user id found. Contact administrator"));
-    }
+function get_past_sessions($start, $end, $id_user){
 
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT id, date_check_in, date_check_out  FROM {*hour_logger*} 
     WHERE date_check_out IS NOT NULL 
-    AND user_id='$id' 
+    AND user_id='$id_user' 
     AND DATE(date_check_in) between STR_TO_DATE('$start','%m/%d/%Y') AND STR_TO_DATE('$end','%m/%d/%Y')
     ORDER BY date_check_in DESC"));
     if ($q){
@@ -91,12 +87,8 @@ function get_past_sessions($start, $end){
     }
 }
 
-function get_past_session($id){
-    $user_id = $_COOKIE['user_id'];
-    if (!array_key_exists('user_id', $_COOKIE)){
-        return json_encode(array("error"=>"No user id found. Contact administrator"));
-    }
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT * FROM {*hour_logger*} WHERE date_check_out IS NOT NULL AND id='$id' AND user_id='$user_id'"));
+function get_past_session($id, $id_user){
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT * FROM {*hour_logger*} WHERE date_check_out IS NOT NULL AND id='$id' AND user_id='$id_user'"));
     if ($q){
         return json_encode($q->fetch_assoc());
     } else {
@@ -112,8 +104,8 @@ if (isset($data['checkIn']) && $data['checkIn'] == true){
 if (isset($_GET['getHourLogger'])){
     exit(get_active_session());
 }
-if (isset($_GET['getSession'])){
-    exit(get_past_session($_GET['getSession']));
+if (isset($_GET['getSession']) && isset($_GET['getSessionUserID'])){
+    exit(get_past_session($_GET['getSession'], $_GET['getSessionUserID']));
 }
 if (isset($data['checkOut']) && $data['checkOut'] == true){
     checkOut($data);
