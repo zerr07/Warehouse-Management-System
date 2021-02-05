@@ -32,8 +32,8 @@ if (isset($_GET['between'])){
         $smarty->assign("HourLoggerUserID", $_COOKIE['user_id']);
     }
 } else {
-    $d1 = date('m/d/Y', strtotime('-30 days'));
-    $d2 = date("m/d/Y");
+    $d1 = date('m/01/Y');
+    $d2 = date("m/t/Y");
     $smarty->assign("date1", $d1);
     $smarty->assign("date2", $d2);
     if (isset($_GET['user_id'])){
