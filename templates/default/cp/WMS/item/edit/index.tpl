@@ -20,6 +20,7 @@
                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabcat">Category<span style="color: red;">*</span></a> </li>
                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabwar">Warehouse<span style="color: red;">*</span></a> </li>
                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabFB">Facebook data</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabProp">Properties</a> </li>
                     </ul>
                     <div class="tab-content mt-2">
                         <div class="tab-pane fade active show" id="tabdata" role="tabpanel">
@@ -332,11 +333,21 @@
                             <textarea name="FB" id="FBText">{if isset($item.FB_description) && $item.FB_description !== ""}{$item.FB_description}{/if}</textarea>
 
                         </div>
+                        <div class="tab-pane fade ml-20 mb-3" id="tabProp" role="tabpanel">
+                            <div class="row" id="PropBlock">
+
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-primary" onclick="loadParamsEditField('PropBlock');">Add extra property</button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
             </div>
-
             <button type="submit" style="display: inline-block; float:right;" class="btn btn-primary"><i class="fas fa-save"></i> Submit</button>
             <a class="btn btn-primary"  href="/cp/WMS/"><i class="fas fa-undo-alt"></i> Back</a>
         </form>
@@ -349,6 +360,8 @@
 
 <link rel="stylesheet" href="/templates/default/assets/css/image-uploader.css?t=16102020T165503">
 <script src="/templates/default/assets/js/image-uploader.js?t=16102020T165504"></script>
+<script src="/templates/default/assets/js/parameters.js?t=04022021T103520"></script>
+
 <script>
     init_image_uploader("");
     init_image_uploader("_live");
@@ -362,14 +375,22 @@
         ['exist', "/uploads/images/products/{$value.image}"],
         {/foreach}
     ];
+
     $(window).on('load', function(){
         setPageTitle("Edit {$item.tag}");
         ImageUploader_displayImagePreview("");
         ImageUploader_displayImagePreview("_live");
+        loadParamsEdit('PropBlock','{$item.id}');
     });
+    document.querySelector("input[name='cat']").addEventListener("invalid", function (e) {
+        alert("Please select category");
+    });
+
+
 </script>
 
 <script>
+
     function addExtraLoc() {
         let input = "<div class=\"row mt-3 border border-secondary p-2\">\n" +
                 "<div class=\"col-12 col-md-4\"\">\n" +
@@ -393,6 +414,7 @@
             "</div>";
         $("#listWarehouse").append(input);
     }
+
     function addExtra() {
 
         var input = "<div class=\"row mt-3 border border-secondary p-2\">\n" +

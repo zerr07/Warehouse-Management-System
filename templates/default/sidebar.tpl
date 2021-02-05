@@ -29,7 +29,7 @@
                 <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/tree-links/"><i class="fas fa-tree"></i> Tree links</a>
                 <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/FB/auctions/"><i class="fab fa-facebook-square"></i> Facebook auctions controlls</a>
                 <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/WMS/XML/"><i class="far fa-file-code"></i> XML generator</a>
-
+                <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/WMS/properties"><i class="fas fa-ellipsis-v"></i> Properties</a>
 
 
             </div>

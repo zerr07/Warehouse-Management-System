@@ -4,6 +4,8 @@ include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/getLang.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/get_platforms.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/applyRule.php');
+include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/properties.php');
+
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/products/get_location_types.php');
 function array_sort_by_column(&$arr, $col, $dir = SORT_ASC) {
     if (sizeof($arr) !== 0){
@@ -160,7 +162,7 @@ function read_result_single($row, $full=true){
         $arr['mainImage_live'] = get_main_image_live($id);
         $arr['carrier'] = get_carrier($id);
         $arr['category_name'] = get_product_category_name($arr['id_category']);
-
+        $arr['properties'] = get_product_properties($id, 2);
     }
     $arr['images'] = get_images($id);
     $arr['mainImage'] = get_main_image($id);

@@ -3,6 +3,37 @@
             <div class="accordion text-left mt-4" id="accordion">
 
                 <div class="card">
+                    <div class="card-header" id="heading0200">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse0200" aria-expanded="false" aria-controls="collapse0200">
+                                Version 0.20.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse0200" class="collapse" aria-labelledby="heading0200" data-parent="#accordion">
+                        <div class="card-body">
+                            Added check if status already set<br/>
+                            Added check for id in shipping conversion.<br />
+                            Merge reservation API implemented.<br />
+                            Added English names for export purposes.<br />
+                            Extended config. Now able to disable connections to external databases.<br />
+                            <hr>
+                            Fixed locations bug on new products added to reservation.<br />
+                            Multi submit prevention fix.<br />
+                            Layout fix when no products on the page.<br />
+                            {literal}
+                                <pre>
+༼ つ ◕_◕ ༽つ gib
+                                </pre>
+                            {/literal}
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="card">
                     <div class="card-header" id="heading0190">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"

@@ -79,6 +79,19 @@
         {/foreach}
         <hr class="d-none d-sm-flex d-md-flex d-lg-none">
     </div>
+    <div class="col-sm-12 col-md-12 offset-lg-9 col-lg-3">
+        <hr class="d-none d-sm-flex d-md-flex d-lg-none">
+        <h3 class="pt-2">Properties</h3>
+        {foreach $item.properties  as $prop}
+            <div class="row">
+                {assign var=key1 value = $prop.prop_name|@key}
+                {assign var=key2 value = $prop.value_name|@key}
+                <div class="col-auto m-auto">{$prop.prop_name.$key1.name}</div>
+                <div class="col-auto m-auto">{$prop.value_name.$key2.name}</div>
+            </div>
+        {/foreach}
+        <hr class="d-none d-sm-flex d-md-flex d-lg-none">
+    </div>
     <div class="col-sm-12 mt-3">
             <div class="btn-group btn-group-toggle d-flex" data-toggle="buttons">
             {if $item.tag == ""}
@@ -337,7 +350,6 @@
 
     </div>
 </div>
-
 <script src="/cp/WMS/item/edit/editEAN.js?t=16102020T165358"></script>
 <script src="/templates/default/assets/js/auction_charts_init.js?d=20201112T103709"></script>
 

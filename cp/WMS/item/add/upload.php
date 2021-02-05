@@ -122,6 +122,13 @@ if(isset($_POST['carrierEnabled'])){
         }
     }
 }
+if (isset($_POST['param_val'])){
+    foreach ($_POST['param_val'] as $value){
+        if ($value != "" && $value != "None"){
+            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_properties*} (id_product, id_value) VALUES ('$last', '$value')"));
+        }
+    }
+}
 foreach ($_POST['platformID'] as $key => $value){
     $PLid = $_POST['platformID'][$key];
     $PLurl = $_POST['platformURL'][$key];

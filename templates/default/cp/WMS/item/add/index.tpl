@@ -20,6 +20,7 @@
                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabcat">Category<span style="color: red;">*</span></a> </li>
                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabwar">Warehouse<span style="color: red;">*</span></a> </li>
                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabFB">Facebook data</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabProp">Properties</a> </li>
                     </ul>
                     <div class="tab-content mt-2">
                         <div class="tab-pane fade active show" id="tabdata" role="tabpanel">
@@ -312,6 +313,17 @@
 
                     <textarea name="FB" id="FBText"></textarea>
                 </div>
+                <div class="tab-pane fade ml-20 mb-3" id="tabProp" role="tabpanel">
+                    <div class="row" id="PropBlock">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-primary" onclick="loadParamsEditField('PropBlock');">Add extra property</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
     </div>
 
@@ -329,9 +341,20 @@
 
 <link rel="stylesheet" href="/templates/default/assets/css/image-uploader.css?t=16102020T165438">
 <script src="/templates/default/assets/js/image-uploader.js?t=16102020T165436"></script>
+<script src="/templates/default/assets/js/parameters.js?t=04022021T103520"></script>
+
 <script>
-    init_image_uploader("");
-    init_image_uploader("_live");
+    $(window).on('load', function(){
+        setPageTitle("Create product");
+        init_image_uploader("");
+        init_image_uploader("_live");
+        loadParamsEditField('PropBlock');
+    });
+    document.querySelector("input[name='cat']").addEventListener("invalid", function (e) {
+        alert("Please select category");
+    });
+
+
 </script>
 <script>
     function addExtraLoc() {
@@ -390,7 +413,6 @@
         $("#listURL").append(input);
     }
     $(window).on('load', function(){
-        setPageTitle("Create product");
         applyPrices();
         loadEditor('lvText', 'lv');
         loadEditor('plText', 'pl');
