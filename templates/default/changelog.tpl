@@ -13,18 +13,27 @@
                     </div>
                     <div id="collapse0200" class="collapse" aria-labelledby="heading0200" data-parent="#accordion">
                         <div class="card-body">
-                            Added check if status already set<br/>
-                            Added check for id in shipping conversion.<br />
-                            Merge reservation API implemented.<br />
-                            Added English names for export purposes.<br />
-                            Extended config. Now able to disable connections to external databases.<br />
+                            Product properties implemented.<br/>
+                            Hour logger date format adjusted.<br />
+                            Product cache implemented to increase search speed.<br />
+                            Product output limited to increase performance.<br />
+                            Shipment status added to reserve info.<br />
+                            Chat disabled<br />
+                            Platform search extended<br/>
+                            Venipak added to Shipments API<br/>
+                            Latvian and Lithuanian languages added to products and categories. <br/>
                             <hr>
-                            Fixed locations bug on new products added to reservation.<br />
-                            Multi submit prevention fix.<br />
-                            Layout fix when no products on the page.<br />
+                            Invalid key in shipment API fixed.<br />
+                            Smartpost label output fixed.<br />
+                            Pagination fixed for new search filters.<br />
                             {literal}
                                 <pre>
-༼ つ ◕_◕ ༽つ gib
+{\__/}
+(●_●)
+( > 🍪 Want a cookie?
+{\__/}
+(●_●)
+( 🍪< No my cookie.
                                 </pre>
                             {/literal}
                         </div>
