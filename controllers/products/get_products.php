@@ -395,8 +395,12 @@ function get_name($index){
             $lang = 'et';
         } elseif ($row['id_lang'] == 2) {
             $lang = 'en';
-        } else {
+        } elseif ($row['id_lang'] == 1) {
             $lang = 'ru';
+        } elseif ($row['id_lang'] == 4) {
+            $lang = 'lv';
+        } elseif ($row['id_lang'] == 6) {
+            $lang = 'lt';
         }
         $arr[$lang] = html_entity_decode($row['name'], ENT_QUOTES, "UTF-8");
     }

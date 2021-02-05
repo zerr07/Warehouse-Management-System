@@ -90,12 +90,20 @@
                                         <input type="text" class="form-control" name="itemNameET" value="{$item.name.et|escape}" id="itemNameET" placeholder="Toode nimi" required="required">
                                     </div>
                                     <div class="col-sm-12 col-md-6">
-                                        <label for="itemNameRU">Toode nimi</label>
+                                        <label for="itemNameRU">Название товара</label>
                                         <input type="text" class="form-control" name="itemNameRU" value="{if isset($item.name.ru)}{$item.name.ru|escape}{/if}" id="itemNameRU" placeholder="Название товара">
                                     </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="itemNameEN">Product name EN</label>
+                                        <input type="text" class="form-control" name="itemNameEN" value="{if isset($item.name.en)}{$item.name.en|escape}{/if}" id="itemNameEN" placeholder="Product name EN">
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <label for="itemNameEN">Product name LV</label>
+                                        <input type="text" class="form-control" name="itemNameLV" value="{if isset($item.name.lv)}{$item.name.lv|escape}{/if}" id="itemNameLV" placeholder="Product name LV">
+                                    </div>
                                     <div class="col-12">
-                                        <label for="itemNameEN">Product name</label>
-                                        <input type="text" class="form-control" name="itemNameEN" value="{if isset($item.name.en)}{$item.name.en|escape}{/if}" id="itemNameEN" placeholder="Product name">
+                                        <label for="itemNameEN">Product name LT</label>
+                                        <input type="text" class="form-control" name="itemNameLT" value="{if isset($item.name['lt'])}{$item.name['lt']|escape}{/if}" id="itemNameLT" placeholder="Product name LT">
                                     </div>
                                 </div>
 
@@ -212,6 +220,8 @@
                                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabPL">PL</a> </li>
                                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabENG">ENG</a> </li>
                                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabLV">LV</a> </li>
+                                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabLT">LT</a> </li>
+
                                     </ul>
                                     <div class="tab-content mt-2">
                                         <div class="tab-pane fade active show ml-20" id="tabRUS" role="tabpanel">
@@ -228,6 +238,9 @@
                                         </div>
                                         <div class="tab-pane fade ml-20" id="tabLV" role="tabpanel">
                                             <textarea name="LV" id="lvText">{if isset($item.descriptions.lv)}{$item.descriptions.lv}{/if}</textarea>
+                                        </div>
+                                        <div class="tab-pane fade ml-20" id="tabLT" role="tabpanel">
+                                            <textarea name="LT" id="ltText">{if isset($item.descriptions['lt'])}{$item.descriptions['lt']}{/if}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -361,7 +374,6 @@
 <link rel="stylesheet" href="/templates/default/assets/css/image-uploader.css?t=16102020T165503">
 <script src="/templates/default/assets/js/image-uploader.js?t=16102020T165504"></script>
 <script src="/templates/default/assets/js/parameters.js?t=04022021T103520"></script>
-
 <script>
     init_image_uploader("");
     init_image_uploader("_live");
@@ -449,6 +461,7 @@
     }
     $(window).on('load', function(){
         applyPrices();
+        loadEditor('ltText', 'lt');
         loadEditor('lvText', 'lv');
         loadEditor('plText', 'pl');
         loadEditor('ruText', 'ru');

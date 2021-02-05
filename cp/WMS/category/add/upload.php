@@ -8,7 +8,8 @@ session_start();
 $catNameRU = $_POST['catNameRU'];
 $catNameET = $_POST['catNameET'];
 $catNameEN = $_POST['catNameEN'];
-
+$catNameLV = $_POST['catNameLV'];
+$catNameLT = $_POST['catNameLT'];
 if ($_POST['cat'] == 'None'){
     $parent = 2;
 } else {
@@ -30,7 +31,10 @@ $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO  {*category
                                                                             VALUES ('$last', '2', '$catNameEN')"));
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO  {*category_name*} (id_category, id_lang, `name`) 
                                                                             VALUES ('$last', '3', '$catNameET')"));
-
+$GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO  {*category_name*} (id_category, id_lang, `name`) 
+                                                                            VALUES ('$last', '4', '$catNameLV')"));
+$GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO  {*category_name*} (id_category, id_lang, `name`) 
+                                                                            VALUES ('$last', '6', '$catNameLT')"));
 if (isset($_POST['request'])){
     exit(json_encode(array("status"=>$last)));
 } else {

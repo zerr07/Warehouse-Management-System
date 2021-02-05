@@ -77,6 +77,12 @@ if (isset($_POST['itemEAN']) && $_POST['itemEAN'] != "") {
 $itemNameEN = htmlentities($_POST['itemNameEN'], ENT_QUOTES, 'UTF-8');
 $itemNameET = htmlentities($_POST['itemNameET'], ENT_QUOTES, 'UTF-8');
 $itemNameRU = htmlentities($_POST['itemNameRU'], ENT_QUOTES, 'UTF-8');
+$itemNameLV = htmlentities($_POST['itemNameLV'], ENT_QUOTES, 'UTF-8');
+$itemNameLT = htmlentities($_POST['itemNameLT'], ENT_QUOTES, 'UTF-8');
+$GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
+                        (`name`, id_product, id_lang) VALUES ('$itemNameLT', '$itemID', '6')"));
+$GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
+                        (`name`, id_product, id_lang) VALUES ('$itemNameLV', '$itemID', '4')"));
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
                         (`name`, id_product, id_lang) VALUES ('$itemNameET', '$last', '3')"));
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
@@ -172,6 +178,7 @@ $ruTXT = "\xEF\xBB\xBF".$_POST['RUS'];
 $enTXT = "\xEF\xBB\xBF".$_POST['ENG'];
 $etTXT = "\xEF\xBB\xBF".$_POST['EST'];
 $lvTXT = "\xEF\xBB\xBF".$_POST['LV'];
+$ltTXT = "\xEF\xBB\xBF".$_POST['LT'];
 $FBTXT = "\xEF\xBB\xBF".$_POST['FB'];
 $product = array("product" => array(
     'pl' => array("description" => htmlentities($plTXT, ENT_QUOTES)),
@@ -179,6 +186,7 @@ $product = array("product" => array(
     'en' => array("description" => htmlentities($enTXT, ENT_QUOTES)),
     'et' => array("description" => htmlentities($etTXT, ENT_QUOTES)),
     'lv' => array("description" => htmlentities($lvTXT, ENT_QUOTES)),
+    'lt' => array("description" => htmlentities($ltTXT, ENT_QUOTES)),
     'FB' => array("description" => htmlentities($FBTXT, ENT_QUOTES))
 ));
 $json = json_encode($product);

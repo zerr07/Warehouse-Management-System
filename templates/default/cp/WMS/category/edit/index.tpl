@@ -19,9 +19,19 @@
                            placeholder="Название категории" required="required">
                 </div>
                 <div class="col-12 col-sm-12 col-md-12 col-lg-4">
-                    <label for="catNameRU">Category name<span style="color: red;">*</span> </label>
+                    <label for="catNameEN">Category name EN<span style="color: red;">*</span> </label>
                     <input type="text" class="form-control" name="catNameEN" id="catNameEN" value="{$item.name.en}"
                            placeholder="Category name" required="required">
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                    <label for="catNameLV">Category name LV</label>
+                    <input type="text" class="form-control" name="catNameLV" id="catNameLV" value="{$item.name.lv}"
+                           placeholder="Category name">
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                    <label for="catNameLT">Category name LT</label>
+                    <input type="text" class="form-control" name="catNameLT" id="catNameLT" value="{$item.name['lt']}"
+                           placeholder="Category name">
                 </div>
             </div>
             <div class="custom-control custom-switch">

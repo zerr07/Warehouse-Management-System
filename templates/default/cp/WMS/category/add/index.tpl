@@ -14,7 +14,15 @@
                 </div>
                 <div class="col-12 col-sm-12 col-md-12 col-lg-4">
                     <label for="catNameRU">Category name<span style="color: red;">*</span> </label>
-                    <input type="text" class="form-control" name="catNameEN" id="catNameEN" placeholder="Category name" required="required">
+                    <input type="text" class="form-control" name="catNameEN" id="catNameEN" placeholder="Category name EN" required="required">
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                    <label for="catNameLV">Category name LV</label>
+                    <input type="text" class="form-control" name="catNameLV" id="catNameLV" placeholder="Category name LV">
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                    <label for="catNameLT">Category name LT</label>
+                    <input type="text" class="form-control" name="catNameLT" id="catNameLT" placeholder="Category name LT">
                 </div>
             </div>
             <label>Parent category</label><br>

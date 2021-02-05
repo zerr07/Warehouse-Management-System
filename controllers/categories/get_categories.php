@@ -69,12 +69,16 @@ function get_category_names($index){
                                                                 WHERE id_category='$index'"));
     if ($result) {
         while ($row = $result->fetch_assoc()) {
-            if ($row['id_lang'] == 3){
+            if ($row['id_lang'] == 3) {
                 $lang = 'et';
-            } else if ($row['id_lang'] == 2){
+            } elseif ($row['id_lang'] == 2) {
                 $lang = 'en';
-            } else {
+            } elseif ($row['id_lang'] == 1) {
                 $lang = 'ru';
+            } elseif ($row['id_lang'] == 4) {
+                $lang = 'lv';
+            } elseif ($row['id_lang'] == 6) {
+                $lang = 'lt';
             }
             $arr[$lang] = html_entity_decode($row['name'], ENT_QUOTES, "UTF-8");;
         }
