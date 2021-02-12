@@ -95,9 +95,9 @@
     <div class="col-sm-12 mt-3">
             <div class="btn-group btn-group-toggle d-flex" data-toggle="buttons">
             {if $item.tag == ""}
-                <a class="btn btn-secondary disabled" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape}&tag={$item.tag}">Print label</a>
+                <a class="btn btn-secondary disabled" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape:'url'}&tag={$item.tag}">Print label</a>
             {else}
-                <a class="btn btn-secondary" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape}&tag={$item.tag}">Print label</a>
+                <a class="btn btn-secondary" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape:'url'}&tag={$item.tag}">Print label</a>
             {/if}
             <button type="button" class="btn btn-primary" onclick="getCodes({$item.id})"
                     data-toggle="modal" data-target="#linkEANModalBody"><i class="fas fa-edit"></i> EAN Codes</button>
