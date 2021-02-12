@@ -49,6 +49,25 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label for="invoicePayment">Bank account</label>
+                            </div>
+                            <div class="col-9">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="bank" id="bankRegular" value="Regular" checked>
+                                    <label class="form-check-label" for="bankRegular">
+                                        Regular
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="bank" id="bankFB" value="FB">
+                                    <label class="form-check-label" for="bankFB">
+                                        FB
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 
@@ -78,6 +97,7 @@
         let bankInvoice = document.getElementById("bankInvoicePDF");
         let cardInvoice = document.getElementById("cardInvoicePDF");
         let cashInvoice = document.getElementById("cashInvoicePDF");
+        let bank = document.querySelector("input[type='radio'][name='bank']:checked");
         let invoicePayment = "";
         if (cashInvoice.checked || cardInvoice.checked || bankInvoice.checked) {
             let c = 0;
@@ -115,7 +135,8 @@
                 PaymentMethod: invoicePayment,
                 DueDate: due,
                 Sum: {$sum|string_format:"%.2f"},
-                base64: ""
+                base64: "",
+                bank: bank.value
 
             })
         };

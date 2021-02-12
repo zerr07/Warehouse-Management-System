@@ -198,13 +198,17 @@ if (isset($post->save) || isset($post->base64)){
     $Email = "info@bigshop.ee";
     $KMKR = "EE101681917";
     $SWIFT = "HABAEE2X";
-    $SWEDBANK = "EE792200221057460362";
     $Company = "AZ TRADE OÜ";
     $Address = "J. Koorti tn 2-122, 13623, Tallinn";
     $RegNr = "12474341";
     $Interest = "0.05%";
     $Currency = "EUR";
     $CurrentDate = date("d/m/Y H:i:s");
+    if (isset($post->bank) && $post->bank == "FB"){
+        $SWEDBANK = "EE232200221075720262";
+    } else {
+        $SWEDBANK = "EE132200221058780944";
+    }
     $InvoiceNum = $post->InvoiceNum; //"5827";
     $Client = $post->Client; //"Eraisik";
     $PaymentMethod = $post->PaymentMethod; //"Kaart";
