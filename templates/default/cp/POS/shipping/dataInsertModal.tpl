@@ -202,14 +202,14 @@
         let commentInput    = document.getElementById("SmartPostCommentInput");
 
         let obj = {
-            name: nameInput.value.replaceAll("#", ''),
-            phone: phoneInput.value.replaceAll("#", ''),
-            deliveryNr: deliveryNrInput.value.replaceAll("#", ''),
-            terminal: terminalID.replaceAll("#", ''),
-            checked: checked.replaceAll("#", ''),
-            email: emailInput.value.replaceAll("#", ''),
-            comment: commentInput.value.replaceAll("#", ''),
-            COD_Sum: COD_SUMInput.value.replaceAll("#", '')
+            name:       encodeURIComponent(nameInput.value),
+            phone:      encodeURIComponent(phoneInput.value),
+            deliveryNr: encodeURIComponent(deliveryNrInput.value),
+            terminal:   encodeURIComponent(terminalID),
+            checked:    encodeURIComponent(checked),
+            email:      encodeURIComponent(emailInput.value),
+            comment:    encodeURIComponent(commentInput.value),
+            COD_Sum:    encodeURIComponent(COD_SUMInput.value)
         }
         let json = JSON.stringify(obj);
         console.log("/cp/POS/shipping/getShippingData.php?saveSmartPost={$reservation.id}&saveSmartPostData="+json)
@@ -689,13 +689,13 @@
         let EmailInput = document.getElementById("VenipakInputEmail");
         let PhoneInput = document.getElementById("VenipakInputPhone");
         let obj = {
-            name: NameInput.value.replace("#", ''),
-            address: AddressInput.value.replace("#", ''),
-            postcode: PostcodeNrInput.value.replace("#", ''),
-            housenr: HouseNrInput.value.replace("#", ''),
-            barcode: BarcodeInput.value.replace("#", ''),
-            phone: PhoneInput.value.replace("#", ''),
-            email: EmailInput.value.replace("#", '')
+            name:       encodeURIComponent(NameInput.value),
+            address:    encodeURIComponent(AddressInput.value),
+            postcode:   encodeURIComponent(PostcodeNrInput.value),
+            housenr:    encodeURIComponent(HouseNrInput.value),
+            barcode:    encodeURIComponent(BarcodeInput.value),
+            phone:      encodeURIComponent(PhoneInput.value),
+            email:      encodeURIComponent(EmailInput.value)
         }
         let json = JSON.stringify(obj);
         console.log("/cp/POS/shipping/getShippingData.php?saveVenipak={$reservation.id}&saveVenipakData=" + json)
@@ -1026,13 +1026,13 @@
         let EmailInput = document.getElementById("DefaultInputEmail");
         let PhoneInput = document.getElementById("DefaultInputPhone");
         let obj = {
-            name: NameInput.value.replace("#", ''),
-            address: AddressInput.value.replace("#", ''),
-            postcode: PostcodeNrInput.value.replace("#", ''),
-            housenr: HouseNrInput.value.replace("#", ''),
-            barcode: BarcodeInput.value.replace("#", ''),
-            phone: PhoneInput.value.replace("#", ''),
-            email: EmailInput.value.replace("#", '')
+            name:       encodeURIComponent(NameInput.value),
+            address:    encodeURIComponent(AddressInput.value),
+            postcode:   encodeURIComponent(PostcodeNrInput.value),
+            housenr:    encodeURIComponent(HouseNrInput.value),
+            barcode:    encodeURIComponent(BarcodeInput.value),
+            phone:      encodeURIComponent(PhoneInput.value),
+            email:      encodeURIComponent(EmailInput.value)
         }
         let json = JSON.stringify(obj);
         console.log("/cp/POS/shipping/getShippingData.php?saveDefault={$reservation.id}&saveDefaultData=" + json)
@@ -1126,7 +1126,7 @@
     async function formJSONPickup() {
         let PhoneInput = document.getElementById("PickupInputPhone");
         let obj = {
-            phone: PhoneInput.value.replace("#", '')
+            phone: encodeURIComponent(PhoneInput.value)
         }
         let json = JSON.stringify(obj);
         console.log("/cp/POS/shipping/getShippingData.php?savePickup={$reservation.id}&savePickupData=" + json)
