@@ -251,7 +251,7 @@ Route::add("/api/shipments/data", function () {
                             "phone"=> $phone,
                             "email"=> $email
                         );
-                        saveData($data["id"], json_encode($data_shipment), 2, 2);
+                        saveData($data["id"], json_encode($data_shipment), 7, 2);
                     } else {
                         exit(json_encode(array("error" => "Shipment type id not supported.", "code"=>"1101")));
                     }
