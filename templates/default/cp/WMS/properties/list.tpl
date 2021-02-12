@@ -40,7 +40,6 @@
     </div>
 </div>
 
-{debug}
 
 <div class="modal fade" id="PropModal" tabindex="-1" role="dialog" aria-labelledby="PropModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -97,12 +96,6 @@
             div5.append(createInputBlock("etName", "ET value name"))
             div5.append(createInputBlock("ruName", "RU value name"))
 
-            let btn = document.createElement("button");
-            btn.setAttribute("type", "button");
-            btn.setAttribute("class", "btn btn-primary")
-
-            btn.innerHTML = "Create value";
-            div5.append(btn)
 
             body.append(div1)
 

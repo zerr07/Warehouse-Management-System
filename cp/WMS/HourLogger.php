@@ -11,6 +11,7 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/HourLogger/HourLoggerContr
 if ($_COOKIE['user_id'] == '11'){
     $smarty->assign("users", getUsers());
 }
+$smarty->assign("HourLoggerUserID", $_COOKIE['user_id']);
 if (isset($_GET['between'])){
     $dates = explode(" - ", $_GET['between']);
     $smarty->assign("date1", $dates[0]);
@@ -28,8 +29,6 @@ if (isset($_GET['between'])){
             }
 
         }
-    } else {
-        $smarty->assign("HourLoggerUserID", $_COOKIE['user_id']);
     }
 } else {
     $d1 = date('m/01/Y');
@@ -49,7 +48,6 @@ if (isset($_GET['between'])){
         }
     } else {
         $pastSessions = json_decode(get_past_sessions($d1,$d2, $_COOKIE['user_id']), true);
-        $smarty->assign("HourLoggerUserID", $_COOKIE['user_id']);
     }
 
 }

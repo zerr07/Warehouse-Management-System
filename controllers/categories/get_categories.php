@@ -116,6 +116,11 @@ function getLinked($id, $id_platform){
     return $q->fetch_assoc()['id_category_platform'];
 }
 
+function get_minuvalik_categories($id){
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT * FROM {*TreeMinuvalik*} WHERE id_category='$id'"));
+    return $q->fetch_assoc();
+}
+
 function getEmptyCategoies(){
     $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *, 
     (SELECT `name` FROM {*category_name*} WHERE {*categories*}.id={*category_name*}.id_category AND {*category_name*}.id_lang='3' LIMIT 1) as `name`

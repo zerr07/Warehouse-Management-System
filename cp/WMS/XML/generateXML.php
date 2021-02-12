@@ -82,10 +82,12 @@ function processElement($key, $platform, $product){
                 $id_category = $product['id_category'];
                 $cat = get_category($id_category);
                 $xml->startElement("CATEGORY_LEVEL_1");
-                $xml->text(trim(getLinked($cat['id'], $platform)));
+                $xml->text(trim(get_minuvalik_categories(getLinked($cat['id'], $platform))['parent']));
                 $xml->endElement();
                 $xml->startElement("CATEGORY_LEVEL_2");
-                $xml->text(trim(getLinked($cat['parent'], $platform)));
+                //$xml->text(trim(getLinked($cat['parent'], $platform)));
+                $xml->text(trim(getLinked($cat['id'], $platform)));
+
                 $xml->endElement();
                 break;
         }
