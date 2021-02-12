@@ -44,6 +44,20 @@ function get_products($shard){
     }
     return null;
 }
+
+
+function get_products_tags_only($shard): ?array{
+    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, tag FROM {*products*} WHERE id_shard='$shard'"));
+    $arr = array();
+    if($result){
+        while($row = $result->fetch_assoc()){
+            $arr[$row['id']] = $row['tag'];
+        }
+        return $arr;
+    }
+    return null;
+}
+
 function get_products_from_array($shard, $id_array){
     $str = "";
     $i = 0;
@@ -570,3 +584,12 @@ if(isset($_GET['only']) && $_GET['only'] == "Full"){
     }
 }
 
+if (isset($_GET['getTagsOnly'])){
+    $tags = get_products_tags_only(1);
+    $arr = array();
+    foreach ($tags as $key => $value){
+        $arr[$key]['tag'] = $value;
+        $arr[$key]['images'] = get_images($key);
+    }
+    exit(json_encode($arr));
+}
