@@ -152,9 +152,10 @@ function read_result_single($row, $full=true){
     $arr['name'] = get_name($id);
     $arr['quantity'] = get_quantity_sum($id);
     $arr = array_merge($arr, get_locations($id));
+    $arr['platforms'] = get_platform_data($id);
+
     if ($full){
         $arr['suppliers'] = get_supplier_data($id);
-        $arr['platforms'] = get_platform_data($id);
         $arr['reservations'] = get_reserve_info($id);
         $arr['descriptions'] = get_desc($id);
         $arr['FB_description'] = get_FB_desc($id);
@@ -529,7 +530,7 @@ if (isset($_GET['platformSearchOn']) || isset($_GET['platformSearchOff'])){
         }
         $a = array();
         foreach ($_GET['platformSearchOff'] as $key => $value){
-            array_push($a, "(SELECT export FROM {*product_platforms*} WHERE id_item={*products*}.id && id_platform='$key')=0");
+            array_push($a, "(SELECT export FROM {*product_platforms*} WHERE id_item={*products*}.id && id_platform='$key')=0 OR id not in (SELECT id_item FROM product_platforms WHERE id_item=products.id && id_platform='$key')");
         }
         $searchPlatform .= implode(" OR ", $a);
     }
