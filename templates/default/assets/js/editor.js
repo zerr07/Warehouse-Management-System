@@ -44,15 +44,36 @@ function editor_justifyRight() {
 function editor_justifyFull() {
     document.execCommand('justifyFull');
 }
+function editor_Translate(block, lang){
+    let editor = document.getElementById(block);
+    let req = {
+        method: "POST",
+        headers: new Headers({"Content-Type": "application/json"}),
+        body: JSON.stringify({
+            target: lang,
+            text: editor.innerHTML
 
-function clickCheck(ele) {
-    if (ele.children[0].checked === true){
-        $(ele).removeClass('active');
-        ele.children[0].checked = false;
-    } else {
-        $(ele).addClass('active');
-        ele.children[0].checked = true;
+        })
     }
+    fetch("/controllers/translateText.php",req).then(response => response.json()).then(d => {
+        editor.innerHTML = d.result
+    })
+}
+function clickCheck(ele) {
+    console.log(ele)
+    let checkbox = ele.parentNode.querySelector("[id*='HTMLCheckbox']");
+    console.log(ele.parentNode.querySelector("[id*='HTMLCheckbox']").checked)
+    if (checkbox.checked === true){
+        ele.classList.remove("active")
+        //$(ele).removeClass('active');
+        checkbox.checked = false;
+    } else {
+        console.log(checkbox.checked)
+        ele.classList.add("active")
+        //$(ele).addClass('active');
+        checkbox.checked = true;
+    }
+
 }
 
 function editor_fontsize(fontsize) {
@@ -98,7 +119,7 @@ function loadEditor(index, lang, mode =1) {
 
 
         if ($("#HTMLCheckbox"+index).prop('checked') === true){
-            let text = (e.originalEvent || e).clipboardData.getData('text/plain');
+            let text = (e.originalEvent || e).clipboardData.getData('text/html');
             document.execCommand("insertHTML", false, text)
         } else {
             let text = (e.originalEvent || e).clipboardData.getData('text/plain');
@@ -107,7 +128,7 @@ function loadEditor(index, lang, mode =1) {
 
     });
     if (mode === 1){
-        let boldButton          = "<button class='btn btn-primary w-100' id='btnBold' type='button' onclick='editor_bold()'><b>B</b></button>";
+        let boldButton          = "<button class='btn btn-primary w-100' type='button' onclick='editor_bold()'><b>B</b></button>";
         let italicButton        = "<button class='btn btn-primary w-100' type='button' onclick='editor_italic()'><em>I</em></button>";
         let underlineButton     = "<button class='btn btn-primary w-100' type='button' onclick='editor_underline()'><u>U</u></button>";
         let removeFormatButton  = "<button class='btn btn-primary w-100' type='button' onclick='editor_removeTextFormat()'><i class='fas fa-eraser'></i></button>";
@@ -124,18 +145,21 @@ function loadEditor(index, lang, mode =1) {
         let justifyFull         = "<button class='btn btn-primary w-100' type='button' onclick='editor_justifyFull()'><i class='fas fa-align-justify'></i></button>";
 
         let HTMLtoggle = "<div class='btn-group-toggle' data-toggle='buttons' >" +
+            "<input type='checkbox' id='HTMLCheckbox"+index+"' autocomplete='off' style='visibility: hidden;\n" +
+            "    position: absolute;'>" +
             "   <label class='btn btn-primary html-editor-btn w-100' onclick='clickCheck(this)'>" +
-            "       <input type='checkbox' id='HTMLCheckbox"+index+"' autocomplete='off'>HTML" +
+            "       HTML" +
             "   </label>" +
             "</div>";
+        let Translate           = "<button class='btn btn-primary w-100' type='button' onclick='editor_Translate(\""+editorAreaID+"\",\""+lang+"\")'>Translate</button>";
 
         let fontSizeDropdown = "" +
             "<div class='dropdown'>" +
-            "  <button class='btn btn-primary dropdown-toggle dropdown-btn-editor w-100' type='button' id='dropdownMenuButton'" +
+            "  <button class='btn btn-primary dropdown-toggle dropdown-btn-editor w-100' type='button' id='dropdownMenuButton"+index+"'" +
             "    data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>" +
             "   Font" +
             "  </button>" +
-            "   <div class='dropdown-menu dropdown-menu-editor' aria-labelledby='dropdownMenuButton'>" +
+            "   <div class='dropdown-menu dropdown-menu-editor' aria-labelledby='dropdownMenuButton"+index+"'>" +
             "    <button type='button' class='dropdown-item dropdown-item-editor' onclick='editor_fontsize(15)'>15px</button>" +
             "    <button type='button' class='dropdown-item dropdown-item-editor' onclick='editor_fontsize(22)'>22px</button>" +
             "  </div>" +
@@ -158,6 +182,7 @@ function loadEditor(index, lang, mode =1) {
         $(btnRowArea).append("<div class='col p-0 m-0'>"+outdent+"</div>");
         $(btnRowArea).append("<div class='col p-0 m-0'>"+indent+"</div>");
         $(btnRowArea).append("<div class='col p-0 m-0'>"+HTMLtoggle+"</div>");
+        $(btnRowArea).append("<div class='col p-0 m-0'>"+Translate+"</div>");
     }
 
     window.forms[index] = index+"editor";
