@@ -291,12 +291,7 @@ div.preview > ol {
     /*animation: animate1 0.07s 1.2s infinite linear;*/
 }
 
-#customToast{
-    position: fixed;
-    bottom: 0;
-    right: 10px;
-    z-index: 2222;
-}
+
 
 .hover {
     background-color: #007bff;
@@ -499,4 +494,25 @@ div.preview > ol {
 .highlight{
     background: radial-gradient(circle, rgb(243 252 3 / 33%) 0%, rgb(0 255 255 / 0%) 100%);
     border-radius: 250px;
+}
+
+.thumbnail-img {
+    max-height: 66px;
+    max-width: 55px;
+}
+
+.customToast{
+    position: fixed;
+    bottom: 0;
+    right: 10px;
+    z-index: 2222;
+}
+
+.alertToast-success {
+    background-color: #37e437c9;
+    color: black;
+}
+.alertToast-error {
+    background-color: #ff2525d6;
+    color: black;
 }
