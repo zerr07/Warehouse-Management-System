@@ -5,9 +5,16 @@
         <a class="btn btn-primary w-100" href="/cp/WMS/category/add"><i class="fas fa-plus"></i>&nbsp;Add category</a>
     </div>
     <div class="col-12 mt-3">
-        <a class="btn btn-primary w-100" href="#" data-toggle="collapse" data-target="#moresettings" aria-expanded="false" aria-controls="multiCollapseExample2">
-            <i class="fas fa-filter"></i>&nbsp;Empty categories
-        </a>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6">
+                <a class="btn btn-primary w-100" href="#" data-toggle="collapse" data-target="#moresettings" aria-expanded="false" aria-controls="multiCollapseExample2">
+                    <i class="fas fa-filter"></i>&nbsp;Empty categories
+                </a>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6">
+                <button type="button" data-toggle="modal" data-target="#moveModal" class="btn btn-info w-100">Move categories</button>
+            </div>
+        </div>
         <div class="collapse multi-collapse mt-3" id="moresettings">
             <div class="card card-body" >
                 <div class="ml-3">
@@ -30,6 +37,7 @@
 
 
         <div>
+            {include file='cp/WMS/category/moveModal.tpl'}
             {include file='cp/WMS/category/linkModal.tpl'}
             {function name=cat_tree margin=1}
                 {foreach $data as $key => $value}
