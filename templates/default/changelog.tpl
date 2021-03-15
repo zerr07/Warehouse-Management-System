@@ -13,7 +13,8 @@
                     </div>
                     <div id="collapse0211" class="collapse" aria-labelledby="heading0211" data-parent="#accordion">
                         <div class="card-body">
-                            Added function to move products between categories.<br/>
+                            Added function to move products between categories.<br />
+                            Datalist added for categories move form.<br />
                             <hr>
                             Fixed z-index on custom alert.<br />
                         </div>
