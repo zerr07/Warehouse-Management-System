@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-<link rel="stylesheet" href="/templates/default/assets/css/editor.css?t=16102020T165419">
+<link rel="stylesheet" href="/templates/default/assets/css/editor.css?t=05032021T152427">
 
 
             <div class="row mt-3">

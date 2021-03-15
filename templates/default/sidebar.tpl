@@ -27,9 +27,11 @@
                 <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="#staticBackdrop" data-toggle="modal" data-target="#staticBackdrop"><i class="fas fa-tags"></i> Custom Label Generator</a>
                 <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="#staticBackdropLG" data-toggle="modal" data-target="#staticBackdropLG"><i class="fas fa-tags"></i> Large Custom Label Generator</a>
                 <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/tree-links/"><i class="fas fa-tree"></i> Tree links</a>
-                <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/FB/auctions/"><i class="fab fa-facebook-square"></i> Facebook auctions controlls</a>
+                <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/FB/auctions/"><i class="fab fa-facebook-square"></i> Facebook auctions controls</a>
                 <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/WMS/XML/"><i class="far fa-file-code"></i> XML generator</a>
                 <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/WMS/properties"><i class="fas fa-ellipsis-v"></i> Properties</a>
+                <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/WMS/parsers/list/"><i class="far fa-list-alt"></i> Parser list by images</a>
+
 
 
             </div>

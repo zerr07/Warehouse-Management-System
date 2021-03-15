@@ -18,7 +18,7 @@
   <!-- CSS dependencies -->
 
   <link rel="stylesheet" href="/templates/default/assets/css/default/bootstrap.min.css?t=16102020T165624" id="main-stylesheet">
-  <link rel="stylesheet" href="/templates/default/assets/css/style.css?t=20201126T155740">
+  <link rel="stylesheet" href="/templates/default/assets/css/style.css?t=05032021T125559">
   <link href="/templates/default/assets/css/sidebar.css?t=20201209T124458" rel="stylesheet">
   <script src="/templates/default/assets/js/jquery.min.js?t=16102020T165620"></script>
   <script src="/templates/default/assets/js/script.js?t=29012021T123223"></script>

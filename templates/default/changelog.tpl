@@ -3,6 +3,38 @@
             <div class="accordion text-left mt-4" id="accordion">
 
                 <div class="card">
+                    <div class="card-header" id="heading0210">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse0210" aria-expanded="false" aria-controls="collapse0210">
+                                Version 0.21.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse0210" class="collapse" aria-labelledby="heading0210" data-parent="#accordion">
+                        <div class="card-body">
+                            Custom alert box implemented<br/>
+                            Parser implemented.<br />
+                            Images tab in editor separated from categories.<br />
+                            Text auto translation implemented.<br />
+                            Invoice bank details switch added.<br />
+                            <hr>
+                            Products controller description language fix.<br />
+                            Fixed bug when product does not have platform data it db.<br />
+                            Encoding fixed in barcode generator link<br />
+                            {literal}
+                                <pre>
+/\_/\
+(='_' )
+(, (") (")
+                                </pre>
+                            {/literal}
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
                     <div class="card-header" id="heading0200">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
