@@ -1,6 +1,6 @@
 <?php
-
-global $DBCONN, $BIGCONN, $ENGINE, $DRUNCONN;
+global $DBCONN, $BIGCONN, $ENGINE, $DRUNCONN, $PARSERCONN;
+require $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php';
 include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/DB/query.php');
 include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/saveCart.php');
 
@@ -27,7 +27,16 @@ if (!defined('_ENGINE')){
     define("_ENGINE", SETTINGS['engine']);
     $ENGINE = SETTINGS['engine'];
 }
+if (!defined('_PARSER')){
+    define("_PARSER", SETTINGS['database_parser']);
+}
+if (!defined('_PARSER_PROFILE')){
+    define("_PARSER_PROFILE", SETTINGS['parser_profiles']);
+}
 
+if (_PARSER['active']){
+    $PARSERCONN = new MongoDB\Client(_PARSER['dburl']);
+}
 $DBCONN = new MySQLi(
     _DB['dbhost'],
     _DB['dbuser'],
