@@ -19,6 +19,7 @@
                         <li class="nav-item"> <a href="" class="nav-link active show" data-toggle="tab" data-target="#tabdata">Data<span style="color: red;">*</span></a> </li>
                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabcat">Category<span style="color: red;">*</span></a> </li>
                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabwar">Warehouse<span style="color: red;">*</span></a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabimg">Images</a> </li>
                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabFB">Facebook data</a> </li>
                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabProp">Properties</a> </li>
                     </ul>
@@ -226,6 +227,9 @@
                                 {include file='cp/WMS/category/tree.tpl'}
                                 <br>
                             </div>
+                        </div>
+                        <div class="tab-pane fade ml-20" id="tabimg" role="tabpanel">
+
                             {* IMAGES *}
                             <div class="form-group"> <label>Images (In order not to loose image quality file size
                                     should not exceed 1MB)</label>
@@ -335,7 +339,7 @@
 </div>
 </div>
 <script src="/templates/default/assets/js/DragDropTouch.js?t=16102020T165444"></script>
-<script src="/templates/default/assets/js/editor.js?t=16102020T165443"></script>
+<script src="/templates/default/assets/js/editor.js?t=09032021T122302"></script>
 <script src="/templates/default/assets/js/priceCalc.js?t=20210104T143849"></script>
 <script src="/cp/WMS/item/edit/editEAN.js?t=16102020T165440"></script>
 
