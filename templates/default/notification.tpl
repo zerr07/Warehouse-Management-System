@@ -10,7 +10,7 @@
         The system has been updated to version {$system.version}. <br />You can review changes <a href="/changelog">here</a><br />
         Don't forget to hard refresh(Ctrl+F5).
         <pre class="text-left"></pre>
-        <img src="/templates/default/assets/AvFA9dt2owI.jpg" style="max-height: 300px; max-width: 350px; width: auto">
+        <img src="/templates/default/assets/LhkPtNWSQow.jpg" style="max-height: 300px; max-width: 350px; width: auto">
     </div>
 </div>
 <script>
@@ -18,13 +18,13 @@
         document.getElementById("customToast").style.display = "none";
         let updName = "upd1";
         let upd = getCookie(updName);
-        if (upd === "true" || upd === ""){   // change true/false for new push notification
+        if (upd === "true" || upd === "false" || upd === ""){   // change true/false for new push notification
             setTimeout(function () {
                 document.getElementById("customToast").style.display = "";
 
                 $('#customToast').toast('show');
             }, 1000);
         }
-        setCookie(updName, "false", 365);      // change true/false for new push notification
+        setCookie(updName, "false1", 365);      // change true/false for new push notification
     });
 </script>

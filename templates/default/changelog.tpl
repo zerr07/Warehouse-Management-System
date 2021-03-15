@@ -3,6 +3,25 @@
             <div class="accordion text-left mt-4" id="accordion">
 
                 <div class="card">
+                    <div class="card-header" id="heading0211">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse0211" aria-expanded="false" aria-controls="collapse0211">
+                                Version 0.21.1
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse0211" class="collapse" aria-labelledby="heading0211" data-parent="#accordion">
+                        <div class="card-body">
+                            Added function to move products between categories.<br/>
+                            <hr>
+                            Fixed z-index on custom alert.<br />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
                     <div class="card-header" id="heading0210">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
