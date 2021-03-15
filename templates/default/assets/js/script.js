@@ -235,6 +235,11 @@ function LimitDataList(Input, DataList, Content, Limit){
 }
 
 function displayAlert(msg, delay, type){
+    /*
+    Types:
+        success,
+        error
+     */
     let uid = "alertToast" + Date.now()
     let bottom = 0
     let count = document.querySelectorAll("div[class*='alertToast']")
@@ -249,7 +254,7 @@ function displayAlert(msg, delay, type){
     } else if (type === "error"){
         cl = "alertToast-error"
     }
-    let d = "<div class=\"position-fixed bottom-0 right-0 p-3\" style=\"z-index: 5; right: 0; top: "+bottom+"px;\">\n" +
+    let d = "<div class=\"position-fixed bottom-0 right-0 p-3\" style=\"z-index: 99999; right: 0; top: "+bottom+"px;\">\n" +
         "  <div id=\""+uid+"\" class=\"toast "+cl+" hide\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\" data-delay=\""+delay+"\">\n" +
         "    <div class=\"toast-body\">\n" +
         msg +
