@@ -234,3 +234,34 @@ function LimitDataList(Input, DataList, Content, Limit){
     })
 }
 
+function displayAlert(msg, delay, type){
+    let uid = "alertToast" + Date.now()
+    let bottom = 0
+    let count = document.querySelectorAll("div[class*='alertToast']")
+    if (count.length !== 0){
+        var viewportOffset = count[count.length - 1].getBoundingClientRect();
+        console.log(viewportOffset.bottom)
+        bottom = viewportOffset.bottom
+    }
+    let cl
+    if (type === "success"){
+        cl = "alertToast-success"
+    } else if (type === "error"){
+        cl = "alertToast-error"
+    }
+    let d = "<div class=\"position-fixed bottom-0 right-0 p-3\" style=\"z-index: 5; right: 0; top: "+bottom+"px;\">\n" +
+        "  <div id=\""+uid+"\" class=\"toast "+cl+" hide\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\" data-delay=\""+delay+"\">\n" +
+        "    <div class=\"toast-body\">\n" +
+        msg +
+        "    </div>\n" +
+        "  </div>\n" +
+        "</div>"
+
+    document.getElementById("alertToastBox").innerHTML += d
+    let toast = $('#'+uid);
+    toast.toast('show')
+    toast.on('hidden.bs.toast', function () {
+        let elem = document.getElementById(uid).parentNode
+        elem.parentNode.removeChild(elem);
+    })
+}
