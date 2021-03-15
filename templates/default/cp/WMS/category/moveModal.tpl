@@ -10,12 +10,12 @@
             <div class="modal-body" id="moveModalBody">
                 <div class="form-group">
                     <label for="fromCategory">From (id)</label>
-                    <input type="text" class="form-control" id="fromCategory">
+                    <input type="text" class="form-control" id="fromCategory" list="categoriesDatalist">
                     <div class="" id="fromCategoryFeedback"></div>
                 </div>
                 <div class="form-group">
                     <label for="toCategory">To (id)</label>
-                    <input type="text" class="form-control" id="toCategory">
+                    <input type="text" class="form-control" id="toCategory" list="categoriesDatalist">
                     <div class="" id="toCategoryFeedback"></div>
                 </div>
                 <button type="button" onclick="MoveCategories()" class="btn btn-primary">Submit</button>

@@ -39,6 +39,11 @@
         <div>
             {include file='cp/WMS/category/moveModal.tpl'}
             {include file='cp/WMS/category/linkModal.tpl'}
+            <datalist id="categoriesDatalist">
+                {foreach $categories as $value}
+                    <option value="{$value.id}">{$value.name}</option>
+                {/foreach}
+            </datalist>
             {function name=cat_tree margin=1}
                 {foreach $data as $key => $value}
                     {if is_null($value.child) || sizeof($value.child) === 0}
