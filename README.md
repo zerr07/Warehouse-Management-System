@@ -1,4 +1,9 @@
 # Warehouse Management System API documentation
+#### Installation
+You should manually edit configs/config.json by your needs.
+
+After the config file is ready, fire `composer install` in terminal.
+
 
 #### Error handling
 It is recommended that you keep track of what response code you receive. A successful request always returns

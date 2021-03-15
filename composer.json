@@ -1,0 +1,8 @@
+{
+    "require": {
+        "mongodb/mongodb": "1.8.0",
+      "ext-json": "*",
+      "ext-curl": "*",
+        "dejurin/php-google-translate-for-free": "^1.0"
+    }
+}
