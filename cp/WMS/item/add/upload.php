@@ -80,9 +80,9 @@ $itemNameRU = htmlentities($_POST['itemNameRU'], ENT_QUOTES, 'UTF-8');
 $itemNameLV = htmlentities($_POST['itemNameLV'], ENT_QUOTES, 'UTF-8');
 $itemNameLT = htmlentities($_POST['itemNameLT'], ENT_QUOTES, 'UTF-8');
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
-                        (`name`, id_product, id_lang) VALUES ('$itemNameLT', '$itemID', '6')"));
+                        (`name`, id_product, id_lang) VALUES ('$itemNameLT', '$last', '6')"));
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
-                        (`name`, id_product, id_lang) VALUES ('$itemNameLV', '$itemID', '4')"));
+                        (`name`, id_product, id_lang) VALUES ('$itemNameLV', '$last', '4')"));
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
                         (`name`, id_product, id_lang) VALUES ('$itemNameET', '$last', '3')"));
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
