@@ -97,28 +97,40 @@
                                             </div>
                                         </div>
                                         <hr style="border-color: #4c4c4c;">
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-6">
-                                                <label for="itemNameET">Toode nimi<span style="color: red;">*</span> </label>
-                                                <input type="text" class="form-control" name="itemNameET" value="{$item.name.et|escape}" id="itemNameET" placeholder="Toode nimi" required="required">
-                                            </div>
-                                            <div class="col-sm-12 col-md-6">
-                                                <label for="itemNameRU">Название товара</label>
-                                                <input type="text" class="form-control" name="itemNameRU" value="{if isset($item.name.ru)}{$item.name.ru|escape}{/if}" id="itemNameRU" placeholder="Название товара">
-                                            </div>
-                                            <div class="col-sm-12 col-md-6">
-                                                <label for="itemNameEN">Product name EN</label>
-                                                <input type="text" class="form-control" name="itemNameEN" value="{if isset($item.name.en)}{$item.name.en|escape}{/if}" id="itemNameEN" placeholder="Product name EN">
-                                            </div>
-                                            <div class="col-sm-12 col-md-6">
-                                                <label for="itemNameEN">Product name LV</label>
-                                                <input type="text" class="form-control" name="itemNameLV" value="{if isset($item.name.lv)}{$item.name.lv|escape}{/if}" id="itemNameLV" placeholder="Product name LV">
-                                            </div>
-                                            <div class="col-12">
-                                                <label for="itemNameEN">Product name LT</label>
-                                                <input type="text" class="form-control" name="itemNameLT" value="{if isset($item.name['lt'])}{$item.name['lt']|escape}{/if}" id="itemNameLT" placeholder="Product name LT">
+                                        <div class="row my-4">
+                                            <div class="w-100">
+                                                <ul class="nav nav-tabs">
+                                                    <li class="nav-item"> <a href="" class="nav-link active show" data-toggle="tab" data-target="#tabtitle-ET">ET</a> </li>
+                                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabtitle-RU">RU</a> </li>
+                                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabtitle-EN">EN</a> </li>
+                                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabtitle-LV">LV</a> </li>
+                                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabtitle-LT">LT</a> </li>
+                                                </ul>
+                                                <div class="tab-content mt-2">
+                                                    <div class="tab-pane fade active show" id="tabtitle-ET" role="tabpanel">
+                                                        <label for="itemNameET">Product name ET</label>
+                                                        <input type="text" class="form-control" name="itemNameET" value="{$item.name.et|escape}" id="itemNameET" placeholder="Product name ET">
+                                                    </div>
+                                                    <div class="tab-pane fade" id="tabtitle-RU" role="tabpanel">
+                                                        <label for="itemNameLT">Product name RU</label>
+                                                        <input type="text" class="form-control" name="itemNameRU" value="{if isset($item.name.ru)}{$item.name.ru|escape}{/if}" id="itemNameRU" placeholder="Product name RU">
+                                                    </div>
+                                                    <div class="tab-pane fade" id="tabtitle-EN" role="tabpanel">
+                                                        <label for="itemNameLT">Product name EN</label>
+                                                        <input type="text" class="form-control" name="itemNameEN" value="{if isset($item.name.en)}{$item.name.en|escape}{/if}" id="itemNameEN" placeholder="Product name EN">
+                                                    </div>
+                                                    <div class="tab-pane fade" id="tabtitle-LV" role="tabpanel">
+                                                        <label for="itemNameLT">Product name LV</label>
+                                                        <input type="text" class="form-control" name="itemNameLV" value="{if isset($item.name.lv)}{$item.name.lv|escape}{/if}" id="itemNameLV" placeholder="Product name LV">
+                                                    </div>
+                                                    <div class="tab-pane fade" id="tabtitle-LT" role="tabpanel">
+                                                        <label for="itemNameLT">Product name LT</label>
+                                                        <input type="text" class="form-control" name="itemNameLT" value="{if isset($item.name['lt'])}{$item.name['lt']|escape}{/if}" id="itemNameLT" placeholder="Product name LT">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+
 
                                         <hr style="border-color: #4c4c4c;">
 
@@ -228,31 +240,31 @@
                                         </div>
                                         <div style="padding-top: 20px;">
                                             <ul class="nav nav-tabs">
-                                                <li class="nav-item"> <a href="" class="nav-link active show" data-toggle="tab" data-target="#tabRUS">RUS</a> </li>
-                                                <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabEST">EST</a> </li>
+                                                <li class="nav-item"> <a href="" class="nav-link active show" data-toggle="tab" data-target="#tabET">ET</a> </li>
+                                                <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabRU">RU</a> </li>
                                                 <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabPL">PL</a> </li>
-                                                <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabENG">ENG</a> </li>
+                                                <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabEN">EN</a> </li>
                                                 <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabLV">LV</a> </li>
                                                 <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabLT">LT</a> </li>
 
                                             </ul>
                                             <div class="tab-content mt-2">
-                                                <div class="tab-pane fade active show ml-20" id="tabRUS" role="tabpanel">
+                                                <div class="tab-pane fade active show" id="tabRUS" role="tabpanel">
                                                     <textarea name="RUS" id="ruText">{if isset($item.descriptions.ru)}{$item.descriptions.ru}{/if}</textarea>
                                                 </div>
-                                                <div class="tab-pane fade ml-20" id="tabEST" role="tabpanel">
+                                                <div class="tab-pane fade" id="tabEST" role="tabpanel">
                                                     <textarea name="EST" id="etText">{if isset($item.descriptions.et)}{$item.descriptions.et}{/if}</textarea>
                                                 </div>
-                                                <div class="tab-pane fade ml-20" id="tabPL" role="tabpanel">
+                                                <div class="tab-pane fade" id="tabPL" role="tabpanel">
                                                     <textarea name="PL" id="plText">{if isset($item.descriptions.pl)}{$item.descriptions.pl}{/if}</textarea>
                                                 </div>
-                                                <div class="tab-pane fade ml-20" id="tabENG" role="tabpanel">
+                                                <div class="tab-pane fade" id="tabENG" role="tabpanel">
                                                     <textarea name="ENG" id="enText">{if isset($item.descriptions.en)}{$item.descriptions.en}{/if}</textarea>
                                                 </div>
-                                                <div class="tab-pane fade ml-20" id="tabLV" role="tabpanel">
+                                                <div class="tab-pane fade" id="tabLV" role="tabpanel">
                                                     <textarea name="LV" id="lvText">{if isset($item.descriptions.lv)}{$item.descriptions.lv}{/if}</textarea>
                                                 </div>
-                                                <div class="tab-pane fade ml-20" id="tabLT" role="tabpanel">
+                                                <div class="tab-pane fade" id="tabLT" role="tabpanel">
                                                     <textarea name="LT" id="ltText">{if isset($item.descriptions['lt'])}{$item.descriptions['lt']}{/if}</textarea>
                                                 </div>
                                             </div>
@@ -261,7 +273,7 @@
                                 </div>
                                 <div class="tab-pane fade ml-20" id="tabcat" role="tabpanel">
                                     <div>
-                                        {include file='cp/WMS/category/tree.tpl'}
+                                        {include file='cp/WMS/category/tree/checkbox/tree.tpl'}
                                         <br>
                                     </div>
                                 </div>
@@ -270,11 +282,11 @@
                                         {assign var="counter" value=0}
                                         {foreach $item.locationList as $loc}
                                             <div class="row mt-3 border border-secondary p-2">
-                                                <div class="col-12 col-md-4"">
+                                                <div class="col-12 col-md-4">
                                                     <input type="text" class="form-control w-100 d-flex"
                                                            name="itemQuantity[{$loc.id}]" value="{$loc.quantity}" id="form17"  placeholder="Quanitity">
                                                 </div>
-                                                <div class="col-12 col-md-5"">
+                                                <div class="col-12 col-md-5">
                                                     <input type="text" class="form-control w-100 d-flex"
                                                            name="itemLocation[{$loc.id}]" value="{$loc.location}" id="form17" placeholder="Location">
                                                 </div>
@@ -544,6 +556,20 @@
             parser_matches = d
         })
     }
+    function checkCats(cats){
+        let isChecked = false;
+        cats.forEach(cat => {
+            if (cat.checked)
+                isChecked = true;return;
+        });
+        if (isChecked){
+            cats.forEach(cat => {
+                cat.required = false
+            });
+        } else {
+            document.querySelector("input[name='cat[]'][id='none']").required = true
+        }
+    }
     $(window).on('load', async function(){
         setPageTitle("Edit {$item.tag}");
         ImageUploader_displayImagePreview("");
@@ -571,11 +597,17 @@
             }
         })
         getParsedImages("{$item.id}")
+        checkCats(cats);
     });
-    document.querySelector("input[name='cat']").addEventListener("invalid", function (e) {
-        alert("Please select category");
+    document.querySelector("input[name='cat[]']").addEventListener("invalid", function (e) {
+        displayAlert("Please select category", 2000, "error");
     });
-
+    let cats = document.querySelectorAll("input[name='cat[]']");
+    cats.forEach(el => {
+        el.addEventListener("change", function (e) {
+            checkCats(cats);
+        });
+    });
 
 </script>
 

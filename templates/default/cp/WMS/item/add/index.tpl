@@ -82,18 +82,37 @@
                                     </div>
                                 </div>
                                 <hr style="border-color: #4c4c4c;">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-6">
-                                        <label for="itemNameET">Toode nimi<span style="color: red;">*</span> </label>
-                                        <input type="text" class="form-control" name="itemNameET" id="itemNameET" placeholder="Toode nimi" required="required">
-                                    </div>
-                                    <div class="col-sm-12 col-md-6">
-                                        <label for="itemNameRU">Toode nimi</label>
-                                        <input type="text" class="form-control" name="itemNameRU" id="itemNameRU" placeholder="Название товара">
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="itemNameEN">Product name</label>
-                                        <input type="text" class="form-control" name="itemNameEN" id="itemNameEN" placeholder="Product name">
+                                <div class="row my-4">
+                                    <div class="w-100">
+                                        <ul class="nav nav-tabs">
+                                            <li class="nav-item"> <a href="" class="nav-link active show" data-toggle="tab" data-target="#tabtitle-ET">ET</a> </li>
+                                            <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabtitle-RU">RU</a> </li>
+                                            <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabtitle-EN">EN</a> </li>
+                                            <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabtitle-LV">LV</a> </li>
+                                            <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabtitle-LT">LT</a> </li>
+                                        </ul>
+                                        <div class="tab-content mt-2">
+                                            <div class="tab-pane fade active show" id="tabtitle-ET" role="tabpanel">
+                                                <label for="itemNameET">Product name ET</label>
+                                                <input type="text" class="form-control" name="itemNameET" id="itemNameET" placeholder="Product name ET">
+                                            </div>
+                                            <div class="tab-pane fade" id="tabtitle-RU" role="tabpanel">
+                                                <label for="itemNameLT">Product name RU</label>
+                                                <input type="text" class="form-control" name="itemNameRU" id="itemNameRU" placeholder="Product name RU">
+                                            </div>
+                                            <div class="tab-pane fade" id="tabtitle-EN" role="tabpanel">
+                                                <label for="itemNameLT">Product name EN</label>
+                                                <input type="text" class="form-control" name="itemNameEN" id="itemNameEN" placeholder="Product name EN">
+                                            </div>
+                                            <div class="tab-pane fade" id="tabtitle-LV" role="tabpanel">
+                                                <label for="itemNameLT">Product name LV</label>
+                                                <input type="text" class="form-control" name="itemNameLV" id="itemNameLV" placeholder="Product name LV">
+                                            </div>
+                                            <div class="tab-pane fade" id="tabtitle-LT" role="tabpanel">
+                                                <label for="itemNameLT">Product name LT</label>
+                                                <input type="text" class="form-control" name="itemNameLT" id="itemNameLT" placeholder="Product name LT">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -196,27 +215,31 @@
                                 </div>
                                 <div style="padding-top: 20px;">
                                     <ul class="nav nav-tabs">
-                                        <li class="nav-item"> <a href="" class="nav-link active show" data-toggle="tab" data-target="#tabRUS">RUS</a> </li>
-                                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabEST">EST</a> </li>
+                                        <li class="nav-item"> <a href="" class="nav-link active show" data-toggle="tab" data-target="#tabET">ET</a> </li>
+                                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabRU">RU</a> </li>
                                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabPL">PL</a> </li>
-                                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabENG">ENG</a> </li>
+                                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabEN">EN</a> </li>
                                         <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabLV">LV</a> </li>
+                                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabLT">LT</a> </li>
                                     </ul>
                                     <div class="tab-content mt-2">
-                                        <div class="tab-pane fade active show ml-20" id="tabRUS" role="tabpanel">
-                                            <textarea name="RUS" id="ruText"></textarea>
-                                        </div>
-                                        <div class="tab-pane fade ml-20" id="tabEST" role="tabpanel">
+                                        <div class="tab-pane fade active show" id="tabET" role="tabpanel">
                                             <textarea name="EST" id="etText"></textarea>
                                         </div>
-                                        <div class="tab-pane fade ml-20" id="tabPL" role="tabpanel">
+                                        <div class="tab-pane fade" id="tabRU" role="tabpanel">
+                                            <textarea name="RUS" id="ruText"></textarea>
+                                        </div>
+                                        <div class="tab-pane fade" id="tabPL" role="tabpanel">
                                             <textarea name="PL" id="plText"></textarea>
                                         </div>
-                                        <div class="tab-pane fade ml-20" id="tabENG" role="tabpanel">
+                                        <div class="tab-pane fade" id="tabEN" role="tabpanel">
                                             <textarea name="ENG" id="enText"></textarea>
                                         </div>
-                                        <div class="tab-pane fade ml-20" id="tabLV" role="tabpanel">
+                                        <div class="tab-pane fade" id="tabLV" role="tabpanel">
                                             <textarea name="LV" id="lvText"></textarea>
+                                        </div>
+                                        <div class="tab-pane fade" id="tabLT" role="tabpanel">
+                                            <textarea name="LT" id="ltText"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -224,7 +247,7 @@
                         </div>
                         <div class="tab-pane fade ml-20" id="tabcat" role="tabpanel">
                             <div>
-                                {include file='cp/WMS/category/tree.tpl'}
+                                {include file='cp/WMS/category/tree/checkbox/tree.tpl'}
                                 <br>
                             </div>
                         </div>
@@ -355,7 +378,7 @@
         loadParamsEditField('PropBlock');
     });
     document.querySelector("input[name='cat']").addEventListener("invalid", function (e) {
-        alert("Please select category");
+        displayAlert("Please select category", 2000, "error");
     });
 
 
@@ -418,12 +441,13 @@
     }
     $(window).on('load', function(){
         applyPrices();
+        loadEditor('ltText', 'lt');
         loadEditor('lvText', 'lv');
         loadEditor('plText', 'pl');
         loadEditor('ruText', 'ru');
         loadEditor('etText', 'et');
         loadEditor('enText', 'en');
-        loadEditor('FBText', 'et');
+        loadEditor('FBText', 'et', 0);
     });
 </script>
 {include file='footer.tpl'}
