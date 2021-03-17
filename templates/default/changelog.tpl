@@ -15,6 +15,7 @@
                         <div class="card-body">
                             Added function to move products between categories.<br />
                             Datalist added for categories move form.<br />
+                            Parser by sku implemented<br />
                             <hr>
                             Fixed z-index on custom alert.<br />
                         </div>
