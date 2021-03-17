@@ -28,6 +28,15 @@ if (isset($post['parse'])){
 if (isset($_GET['profiles'])){
     exit(json_encode(array_keys(_PARSER_PROFILE)));
 }
+if (isset($_GET['profiles_sku'])){
+    $arr = array();
+    foreach (_PARSER_PROFILE as $key => $value){
+        if ($value['sku'] == true){
+            $arr[$key] = $value['sku'];
+        }
+    }
+    exit(json_encode($arr));
+}
 if (isset($_GET['insert']) && isset($_GET['url']) && isset($_GET['id_product'])){
     try {
         $url = $_GET['url'];
@@ -63,6 +72,14 @@ if (isset($_GET['inserted']) && isset($_GET['id_product'])){
 if (isset($_GET['images'])){
     $collection  = $GLOBALS['PARSERCONN']->images->images_matches1;
     $cursor = $collection->find(['id_product' => $_GET['images']])->toArray();
+    exit(json_encode($cursor));
+}
+if (isset($_GET['sku']) && isset($_GET['platform'])){
+    $name = 'products_data_'.explode(".", $_GET['platform'])[0];
+
+    $collection  = $GLOBALS['PARSERCONN']->products->$name;
+    $filter  = array('sku' => $_GET['sku']);
+    $cursor = $collection->find($filter)->toArray();
     exit(json_encode($cursor));
 }
 if (isset($_GET['title']) && isset($_GET['offset']) && isset($_GET['platform'])){

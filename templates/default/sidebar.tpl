@@ -31,7 +31,17 @@
                 <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/WMS/XML/"><i class="far fa-file-code"></i> XML generator</a>
                 <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/WMS/properties"><i class="fas fa-ellipsis-v"></i> Properties</a>
                 <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/WMS/parsers/list/"><i class="far fa-list-alt"></i> Parser list by images</a>
-
+                <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="javascript:void(0);" data-toggle="collapse" data-target="#btnGroupDropParsers"
+                   role="button" aria-expanded="false" aria-controls="btnGroupDropParsers">
+                    <i class="far fa-list-alt"></i> Parser list by sku<i class="dropdown_svg fas fa-chevron-right"></i>
+                </a>
+                <div class="collapse multi-collapse sidebar_dropdown_menu" id="btnGroupDropParsers">
+                    {if isset($parser_profiles_sku)}
+                        {foreach $parser_profiles_sku as $key => $value}
+                            <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/WMS/parsers/sku/?platform={$key} " onclick="closeNav();turnOnPreloader()"><i class="far fa-list-alt"></i> {$key} </a>
+                        {/foreach}
+                    {/if}
+                </div>
 
 
             </div>

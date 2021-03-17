@@ -399,6 +399,9 @@
                 <a class="nav-link" id="by-text-tab" data-toggle="pill" data-target="#by-text" href="" role="tab" aria-controls="by-text" aria-selected="false">By text</a>
             </li>
             <li class="nav-item" role="presentation">
+                <a class="nav-link" id="by-sku-tab" data-toggle="pill" data-target="#by-sku" href="" role="tab" aria-controls="by-sku" aria-selected="false">By sku</a>
+            </li>
+            <li class="nav-item" role="presentation">
                 <a class="nav-link" id="by-manual-tab" data-toggle="pill" data-target="#by-manual" href="" role="tab" aria-controls="by-manual" aria-selected="false">Manual match</a>
             </li>
             <li class="nav-item" role="presentation">
@@ -423,6 +426,15 @@
 
                 </div>
                 <button type="button" class="btn btn-info" onclick="loadMoreTextParser()">Load more</button>
+            </div>
+            <div class="tab-pane fade" id="by-sku" role="tabpanel" aria-labelledby="by-sku-tab">
+                <div class="form-group">
+                    <label for="siteParserSelectSku">Source</label>
+                    <select class="form-control" id="siteParserSelectSku" onchange='getBySKU()'></select>
+                </div>
+                <div class="row" id="by-sku-block">
+
+                </div>
             </div>
             <div class="tab-pane fade" id="by-manual" role="tabpanel" aria-labelledby="by-manual-tab">
                 <div class="row">
@@ -484,6 +496,14 @@
             getParsedByText("{$item.id}", "{$item.name.en}", 0, document.getElementById("siteParserSelect").value)
         }
     })
+    function getBySKU(){
+        document.querySelectorAll("input[id*='itemSKU']").forEach(el => {
+            getParsedBySku("{$item.id}", el.value, document.getElementById("siteParserSelectSku").value)
+        })
+    }
+    $('a#by-sku-tab').on('show.bs.tab', function (event) {
+        getBySKU();
+    })
     $('a#parse-data-tab').on('show.bs.tab', function (event) {
         getParseBlock("{$item.id}")
     })
@@ -519,23 +539,35 @@
         ['exist', "/uploads/images/products/{$value.image}"],
         {/foreach}
     ];
-
+    async function loadParserMatches(){
+        await fetch("/controllers/parser/getData.php?inserted&id_product={$item.id}").then(response => response.json()).then(d => {
+            parser_matches = d
+        })
+    }
     $(window).on('load', async function(){
         setPageTitle("Edit {$item.tag}");
         ImageUploader_displayImagePreview("");
         ImageUploader_displayImagePreview("_live");
         loadParamsEdit('PropBlock','{$item.id}');
-        await fetch("/controllers/parser/getData.php?inserted&id_product={$item.id}").then(response => response.json()).then(d => {
-            parser_matches = d
-        })
+        await loadParserMatches();
         await fetch("/controllers/parser/getData.php?profiles").then(response => response.json()).then(d => {
             for (let id in d){
                 if (d[id] !== "active"){
+                    console.log(d)
                     let opt = document.createElement("option");
                     opt.setAttribute("value", d[id]);
                     opt.innerText = d[id];
-                    document.getElementById("siteParserSelect").append(opt)
+                    document.getElementById("siteParserSelect").append(opt.cloneNode(true))
+
                 }
+            }
+        })
+        await fetch("/controllers/parser/getData.php?profiles_sku").then(response => response.json()).then(d => {
+            for (let id in d){
+                let opt = document.createElement("option");
+                opt.setAttribute("value", id);
+                opt.innerText = id;
+                document.getElementById("siteParserSelectSku").append(opt.cloneNode(true))
             }
         })
         getParsedImages("{$item.id}")

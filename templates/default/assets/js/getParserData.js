@@ -21,6 +21,30 @@ function getParsedImages(id_product){
     }
 }
 
+function getParsedBySku(id, sku, platform){
+    console.log("/controllers/parser/getData.php?sku="+sku+"&platform="+encodeURIComponent(platform))
+    fetch("/controllers/parser/getData.php?sku="+sku+"&platform="+encodeURIComponent(platform)).then(response => response.json())
+        .then(async d => {
+            let block = document.getElementById("by-sku-block");
+            block.innerHTML = "";
+            if (d.length === 0){
+                block.innerText = "Nothing found"
+            }
+            console.log(d)
+            for (let c = 0; c < d.length; c++){
+                console.log("/controllers/parser/getData.php?url="+encodeURIComponent(d[c].url))
+
+                await fetch("/controllers/parser/getData.php?url="+encodeURIComponent(d[c].url)).then(response => response.json()).then(r => {
+                    if (parser_matches.includes(d[c].url)){
+                        console.log("includes")
+                        block.append(ParsedBox(id, r, d[c].url, true, false, false))
+                    } else {
+                        block.append(ParsedBox(id, r, d[c].url, false, false, false))
+                    }
+                });
+            }
+        })
+}
 
 function getParsedByText(id, title, offset, platform=null){
     let btns = document.querySelectorAll("[onclick*='loadMoreTextParser(']")
@@ -81,7 +105,7 @@ function getParseBlock(id){
         })
 }
 
-function MarkAsMatch(id, url, el=null){
+async function MarkAsMatch(id, url, el=null){
     console.log(id, url)
     if (el !== null){
         if (el.checked){
@@ -92,7 +116,9 @@ function MarkAsMatch(id, url, el=null){
                         el.checked = false
                     }
 
-                })
+                }).finally(()=>{
+                loadParserMatches();
+            })
         } else {
             fetch("/controllers/parser/getData.php?delete&id_product="+id+"&url="+encodeURIComponent(url)).then(response => response.json())
                 .then(d => {
@@ -101,10 +127,9 @@ function MarkAsMatch(id, url, el=null){
                         displayAlert("Error: " + d.error, 10000, "error")
                         el.checked = true
                     }
-
-
-
-                })
+                }).finally(()=>{
+                loadParserMatches();
+            })
         }
     } else {
         fetch("/controllers/parser/getData.php?insert&id_product="+id+"&url="+encodeURIComponent(url)).then(response => response.json())
@@ -113,7 +138,9 @@ function MarkAsMatch(id, url, el=null){
                     displayAlert("Error: " + d.error, 10000, "error")
 
                 }
-            })
+            }).finally(()=>{
+            loadParserMatches();
+        })
     }
 
 
@@ -121,11 +148,14 @@ function MarkAsMatch(id, url, el=null){
 
 function RemoveMatch(id, url){
     fetch("/controllers/parser/getData.php?delete&id_product="+id+"&url="+encodeURIComponent(url)).then(response => response.json())
-        .then(d => {
+        .then(async d => {
             if (d.hasOwnProperty("error")){
                 displayAlert("Error: " + d.error, 10000, "error")
             }
-        })
+
+        }).finally(()=>{
+        loadParserMatches();
+    })
 }
 
 function ParseProductData(el, preview=false){

@@ -63,3 +63,13 @@ if (!isset($_COOKIE['default_location_type']) && isset($_COOKIE['Authenticated']
     setcookie("default_location_type", $res['default_location_type'], time() + (86400 * 30), "/");
     header("Refresh:0");
 }
+
+if (defined("_PARSER_PROFILE")){
+    $arr = array();
+    foreach (_PARSER_PROFILE as $key => $value){
+        if ($value['sku'] == true){
+            $arr[explode(".", $key)[0]] = $value;
+        }
+    }
+    $smarty->assign("parser_profiles_sku", $arr);
+}
