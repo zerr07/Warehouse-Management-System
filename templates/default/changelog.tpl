@@ -14,6 +14,7 @@
                         <div class="card-body">
                             Name and tag copy added to sale items in case of item deletion.<br />
                             Multiple categories selection implemented.<br />
+                            Function to toggle multiple tabs at once implemented<br />
                             <hr>
                             Fixed search field in POS.<br />
                             Changed redirection on product deletion.<br />
