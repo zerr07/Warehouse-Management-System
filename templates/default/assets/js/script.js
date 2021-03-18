@@ -124,7 +124,7 @@ function deleteProduct(id){
             async: false,
             url: "/controllers/products/delete.php?delete="+id
         });
-        location.reload();
+        window.location.href = "/cp/WMS";
     } else {
         return;
     }
