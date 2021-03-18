@@ -156,10 +156,11 @@ foreach ($cartItems as $value){
     }
     $price = $value['price'];
     $basePrice = $value['basePrice'];
-
+    $tag = $value['tag'];
+    $name = get_name($itemID)['et'];
     mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
-        "INSERT INTO {*sold_items*} (id_sale, id_item, price, quantity, basePrice, statusSet, id_location
-                                        ) VALUES ('$id', '$itemID', '$price', '$quantity', '$basePrice','Müük', '$loc')"));
+        "INSERT INTO {*sold_items*} (id_sale, id_item, price, quantity, basePrice, statusSet, id_location, tag, `name`
+                                        ) VALUES ('$id', '$itemID', '$price', '$quantity', '$basePrice','Müük', '$loc', '$tag', '$name')"));
 
 }
 ?>

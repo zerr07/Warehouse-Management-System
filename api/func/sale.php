@@ -71,8 +71,11 @@ function performSale($data, $cart, $id_type)
             $loc = get_single_location_with_type($id_type, get_locations($key)['locationList']);
             update_quantity($key, "", "-", $quantity);
         }
+        $prod_data = get_product($key, false);
+        $tag = $prod_data['tag'];
+        $name = $prod_data['name']['et'];
         mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
-            "INSERT INTO {*sold_items*} (id_sale, id_item, price, quantity, basePrice, statusSet, id_location
-                                        ) VALUES ('$id', '$key', '$price', '$quantity', '$basePrice','Müük', '$loc')"));
+            "INSERT INTO {*sold_items*} (id_sale, id_item, price, quantity, basePrice, statusSet, id_location, tag, `name`
+                                        ) VALUES ('$id', '$key', '$price', '$quantity', '$basePrice','Müük', '$loc', '$tag', '$name')"));
     }
 }

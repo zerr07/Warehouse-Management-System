@@ -109,12 +109,18 @@ function get_sales($searchQuery, $start, $onPage){
             $itemID = $rowItems['id_item'];
             if (is_numeric($itemID)){
                 $qItemDesc = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*products*} WHERE id='$itemID'"));
-
-                while ($rowItemDesc = mysqli_fetch_assoc($qItemDesc)){
-                    $desc[$rowItems['id']]['name'] = get_name($itemID)['et'];
-                    $desc[$rowItems['id']]['tag'] = $rowItemDesc['tag'];
-                    $desc[$rowItems['id']]['id'] = $rowItemDesc['id'];
+                if ($qItemDesc->num_rows == 0){
+                    $desc[$rowItems['id']]['name'] = "Deleted ".$rowItems['name'];
+                    $desc[$rowItems['id']]['tag'] = $rowItems['tag'];
+                    $desc[$rowItems['id']]['id'] = "Deleted";
+                } else {
+                    while ($rowItemDesc = mysqli_fetch_assoc($qItemDesc)){
+                        $desc[$rowItems['id']]['name'] = get_name($itemID)['et'];
+                        $desc[$rowItems['id']]['tag'] = $rowItemDesc['tag'];
+                        $desc[$rowItems['id']]['id'] = $rowItemDesc['id'];
+                    }
                 }
+
             } else {
                 $desc[$rowItems['id']]['name'] = $itemID;
                 $desc[$rowItems['id']]['tag'] = "Buffertoode";
