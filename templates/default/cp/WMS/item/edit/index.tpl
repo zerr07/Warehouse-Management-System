@@ -252,13 +252,13 @@
                                                 <div class="tab-pane fade active show" id="tabRUS" role="tabpanel">
                                                     <textarea name="RUS" id="ruText">{if isset($item.descriptions.ru)}{$item.descriptions.ru}{/if}</textarea>
                                                 </div>
-                                                <div class="tab-pane fade" id="tabEST" role="tabpanel">
+                                                <div class="tab-pane fade" id="tabET" role="tabpanel">
                                                     <textarea name="EST" id="etText">{if isset($item.descriptions.et)}{$item.descriptions.et}{/if}</textarea>
                                                 </div>
                                                 <div class="tab-pane fade" id="tabPL" role="tabpanel">
                                                     <textarea name="PL" id="plText">{if isset($item.descriptions.pl)}{$item.descriptions.pl}{/if}</textarea>
                                                 </div>
-                                                <div class="tab-pane fade" id="tabENG" role="tabpanel">
+                                                <div class="tab-pane fade" id="tabEN" role="tabpanel">
                                                     <textarea name="ENG" id="enText">{if isset($item.descriptions.en)}{$item.descriptions.en}{/if}</textarea>
                                                 </div>
                                                 <div class="tab-pane fade" id="tabLV" role="tabpanel">
