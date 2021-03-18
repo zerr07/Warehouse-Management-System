@@ -31,23 +31,6 @@
 
                         <h5 id="sum">Sum: {$cartTotal}</h5>
                     </div>
-                    {*<div class="col-12 col-sm-12 col-md-3  form-group">
-                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#saleModal" style=" height: 5em; margin-top: 10px; display: block;">Perform sale</button>
-                        <button type="submit" class="btn btn-info w-100" id="saveCart" name="update" formaction="/cp/POS/update.php" style="margin-top: 25px;">Save cart</button>
-                        <a href="/cp/POS/search.php?clear=yes" class="btn btn-dark w-100"  style="margin-top: 10px; display: block;">Clear cart</a>
-                        <a href="/cp/POS/sales" class="btn btn-light w-100"  style="margin-top: 10px; display: block;">Sales history</a>
-                        <select class="custom-select mr-sm-2" id="modeSelect" name="mode"
-                                style="height:42px;margin-top: 10px; display: block;
-                                            background: #009ac0; border-color: #009ac0;color: white;">
-                            <option value="Bigshop" selected>Shop</option>
-                            <option value="Osta">Osta</option>
-                            <option value="Minuvalik">Minuvalik</option>
-                            <option value="Shoppa">Shoppa</option>
-                        </select>
-                        <input type="submit"  formaction="/cp/POS/buffer.php" name="addBuffer" class="btn btn-outline-success w-100" style="margin-top: 10px; display: block;" value="Add Buffertoode">
-                        <button type="button" class="btn btn-outline-info w-100" style="margin-top: 10px; display: block;" onclick="reserveCart()">Reserve this cart</button>
-                        <a href="/cp/POS/reserve" class="btn btn-info w-100"  style="margin-top: 10px; display: block;">Reserved carts</a>
-                    </div>*}
                     <div class="col-12 col-sm-12 col-md-12 col-lg-3  form-group">
                         <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#saleModal" style=" height: 5em; margin-top: 10px; display: block;" id="performSale">Perform sale</button>
                         <select class="custom-select mr-sm-2" id="modeSelect" name="mode"
@@ -184,22 +167,7 @@
     $(window).on('load', function () {
         setPageTitle("POS");
         $('[data-toggle="tooltip"]').tooltip();
-        fetch("/controllers/products/get_products.php?getDataList=true")
-        .then(response => response.json())
-        .then((d) => {
-            let datalist = document.getElementById("productDataListTemplate");
-            Object.keys(d).forEach(k => {
-                let el = document.createElement("option");
-                el.setAttribute("value", d[k]);
-                el.setAttribute("data-id", k);
-                el.innerText = d[k];
-                datalist.appendChild(el);
-            })
-        }).finally(function () {
-            LimitDataList(document.getElementById("searchnamePOS"),
-                document.getElementById("productDataList"),
-                document.getElementById("productDataListTemplate"), 5);
-        });
+
     });
     $('#modalOTHER').hide();
     const target = document.querySelector('body');
@@ -292,5 +260,26 @@
             }
         });
     });
+    let timeout = null;
+    document.getElementById("searchnamePOS").addEventListener('keyup', function (e) {
+        let datalist = document.getElementById("productDataList");
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            fetch("/controllers/cache.php?getProductDataList=1&getDataListStr="+document.getElementById("searchnamePOS").value)
+                .then(response => response.json())
+                .then((d) =>  {
+                    console.log(d)
+                    datalist.innerHTML = "";
+                    Object.keys(d).forEach(k => {
+                        let el = document.createElement("option");
+                        el.setAttribute("value", d[k].trim());
+                        el.setAttribute("data-id", k);
+                        el.innerText = d[k].trim();
+                        datalist.appendChild(el);
+                    })
+                });
+        }, 100);
+    });
+
 </script>
 {include file='footer.tpl'}
