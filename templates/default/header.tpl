@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/templates/default/assets/css/style.css?t=05032021T125559">
   <link href="/templates/default/assets/css/sidebar.css?t=20201209T124458" rel="stylesheet">
   <script src="/templates/default/assets/js/jquery.min.js?t=16102020T165620"></script>
-  <script src="/templates/default/assets/js/script.js?t=15032021T125451"></script>
+  <script src="/templates/default/assets/js/script.js?t=18032021T171748"></script>
   <script>
     if('ontouchstart' in window){
       document.write('<script type="text/javascript" src="/templates/default/assets/js/swipe_menu.js?t=16102020T165616""><\/script>');

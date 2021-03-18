@@ -270,3 +270,20 @@ function displayAlert(msg, delay, type){
         elem.parentNode.removeChild(elem);
     })
 }
+
+function toggleTabs(btns, tabs){
+    btns.forEach(d => {
+        document.querySelector(d).parentNode.parentNode.querySelectorAll("a[class*='nav-link active show']").forEach(el => {
+            el.setAttribute("class", "nav-link")
+        })
+        document.querySelector(d).setAttribute("class", "nav-link active show")
+    })
+
+    tabs.forEach(d => {
+        console.log(d)
+        document.querySelector(d).parentNode.querySelectorAll("div[class*='tab-pane fade active show']").forEach(el => {
+            el.setAttribute("class", "tab-pane fade")
+        })
+        $(d).tab("show")
+    })
+}

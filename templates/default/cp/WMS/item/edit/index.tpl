@@ -100,11 +100,11 @@
                                         <div class="row my-4">
                                             <div class="w-100">
                                                 <ul class="nav nav-tabs">
-                                                    <li class="nav-item"> <a href="" class="nav-link active show" data-toggle="tab" data-target="#tabtitle-ET">ET</a> </li>
-                                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabtitle-RU">RU</a> </li>
-                                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabtitle-EN">EN</a> </li>
-                                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabtitle-LV">LV</a> </li>
-                                                    <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabtitle-LT">LT</a> </li>
+                                                    <li class="nav-item"> <a href="javascript:void(0)" id="TabBtnTitle-ET" class="nav-link active show" onclick="toggleTabs(['#TabBtnDesc-ET', '#TabBtnTitle-ET'], ['#tabET', '#tabtitle-ET'])">ET</a> </li>
+                                                    <li class="nav-item"> <a href="javascript:void(0)" id="TabBtnTitle-RU" class="nav-link" onclick="toggleTabs(['#TabBtnDesc-RU', '#TabBtnTitle-RU'], ['#tabRU', '#tabtitle-RU'])">RU</a> </li>
+                                                    <li class="nav-item"> <a href="javascript:void(0)" id="TabBtnTitle-EN" class="nav-link" onclick="toggleTabs(['#TabBtnDesc-EN', '#TabBtnTitle-EN'], ['#tabEN', '#tabtitle-EN'])">EN</a> </li>
+                                                    <li class="nav-item"> <a href="javascript:void(0)" id="TabBtnTitle-LV" class="nav-link" onclick="toggleTabs(['#TabBtnDesc-LV', '#TabBtnTitle-LV'], ['#tabLV', '#tabtitle-LV'])">LV</a> </li>
+                                                    <li class="nav-item"> <a href="javascript:void(0)" id="TabBtnTitle-LT" class="nav-link" onclick="toggleTabs(['#TabBtnDesc-LT', '#TabBtnTitle-LT'], ['#tabLT', '#tabtitle-LT'])">LT</a> </li>
                                                 </ul>
                                                 <div class="tab-content mt-2">
                                                     <div class="tab-pane fade active show" id="tabtitle-ET" role="tabpanel">
@@ -240,13 +240,11 @@
                                         </div>
                                         <div style="padding-top: 20px;">
                                             <ul class="nav nav-tabs">
-                                                <li class="nav-item"> <a href="" class="nav-link active show" data-toggle="tab" data-target="#tabET">ET</a> </li>
-                                                <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabRU">RU</a> </li>
-                                                <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabPL">PL</a> </li>
-                                                <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabEN">EN</a> </li>
-                                                <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabLV">LV</a> </li>
-                                                <li class="nav-item"> <a href="" class="nav-link" data-toggle="tab" data-target="#tabLT">LT</a> </li>
-
+                                                <li class="nav-item"> <a href="javascript:void(0)" id="TabBtnDesc-ET" class="nav-link active show" onclick="toggleTabs(['#TabBtnDesc-ET', '#TabBtnTitle-ET'], ['#tabET', '#tabtitle-ET'])">ET</a> </li>
+                                                <li class="nav-item"> <a href="javascript:void(0)" id="TabBtnDesc-RU" class="nav-link" onclick="toggleTabs(['#TabBtnDesc-RU', '#TabBtnTitle-RU'], ['#tabRU', '#tabtitle-RU'])">RU</a> </li>
+                                                <li class="nav-item"> <a href="javascript:void(0)" id="TabBtnDesc-EN" class="nav-link" onclick="toggleTabs(['#TabBtnDesc-EN', '#TabBtnTitle-EN'], ['#tabEN', '#tabtitle-EN'])">EN</a> </li>
+                                                <li class="nav-item"> <a href="javascript:void(0)" id="TabBtnDesc-LV" class="nav-link" onclick="toggleTabs(['#TabBtnDesc-LV', '#TabBtnTitle-LV'], ['#tabLV', '#tabtitle-LV'])">LV</a> </li>
+                                                <li class="nav-item"> <a href="javascript:void(0)" id="TabBtnDesc-LT" class="nav-link" onclick="toggleTabs(['#TabBtnDesc-LT', '#TabBtnTitle-LT'], ['#tabLT', '#tabtitle-LT'])">LT</a> </li>
                                             </ul>
                                             <div class="tab-content mt-2">
                                                 <div class="tab-pane fade active show" id="tabET" role="tabpanel">
@@ -254,9 +252,6 @@
                                                 </div>
                                                 <div class="tab-pane fade" id="tabRU" role="tabpanel">
                                                     <textarea name="RUS" id="ruText">{if isset($item.descriptions.ru)}{$item.descriptions.ru}{/if}</textarea>
-                                                </div>
-                                                <div class="tab-pane fade" id="tabPL" role="tabpanel">
-                                                    <textarea name="PL" id="plText">{if isset($item.descriptions.pl)}{$item.descriptions.pl}{/if}</textarea>
                                                 </div>
                                                 <div class="tab-pane fade" id="tabEN" role="tabpanel">
                                                     <textarea name="ENG" id="enText">{if isset($item.descriptions.en)}{$item.descriptions.en}{/if}</textarea>
@@ -673,7 +668,6 @@
         applyPrices();
         loadEditor('ltText', 'lt');
         loadEditor('lvText', 'lv');
-        loadEditor('plText', 'pl');
         loadEditor('ruText', 'ru');
         loadEditor('etText', 'et');
         loadEditor('enText', 'en');
