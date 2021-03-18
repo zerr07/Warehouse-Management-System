@@ -74,6 +74,13 @@ if (isset($_POST['itemEAN']) && $_POST['itemEAN'] != "") {
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_codes*}
                         (id_product, ean) VALUES ('$last', '$ean')"));
 }
+
+foreach ($_POST['cat'] as $key => $value){
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_categories*}
+                        (id_category, id_product) 
+                        VALUES ('$value', '$last')"));
+}
+
 $itemNameEN = htmlentities($_POST['itemNameEN'], ENT_QUOTES, 'UTF-8');
 $itemNameET = htmlentities($_POST['itemNameET'], ENT_QUOTES, 'UTF-8');
 $itemNameRU = htmlentities($_POST['itemNameRU'], ENT_QUOTES, 'UTF-8');

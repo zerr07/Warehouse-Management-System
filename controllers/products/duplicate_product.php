@@ -28,12 +28,14 @@ if (isset($_GET['id'])){
         $tag = "0".$tag;
     }
     $tag = "$prefix".$tag;
-    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*products*} (`name`, id_category, actPrice, 
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*products*} (`name`, actPrice, 
         tag, quantity, override, def_margin_percent, def_margin_number, ean, id_shard)
-        SELECT `name`, id_category, actPrice, '$tag', quantity, override, def_margin_percent, def_margin_number,
+        SELECT `name`, actPrice, '$tag', quantity, override, def_margin_percent, def_margin_number,
         ean, id_shard FROM {*products*} WHERE id=$id;"));
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT MAX(id) as id FROM {*products*}"));
     $last = $q->fetch_assoc()['id'];
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_categories*} 
+        (id_product, id_category) SELECT id_product, id_category FROM {*product_categories*} WHERE id_product='$id'"));
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_codes*} (id_product, ean) 
         SELECT '$last', ean FROM {*product_codes*} WHERE id_product=$id"));
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_images*} (id_item, image, `primary`) 

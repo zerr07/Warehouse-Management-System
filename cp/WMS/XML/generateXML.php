@@ -79,7 +79,7 @@ function processElement($key, $platform, $product){
                 $xml->endElement();
                 break;
             case "CategoryBlock":
-                $id_category = $product['id_category'];
+                $id_category = get_main_category($product['id']);
                 $cat = get_category($id_category);
                 $xml->startElement("CATEGORY_LEVEL_1");
                 $xml->text(trim(get_minuvalik_categories(getLinked($cat['id'], $platform))['parent']));

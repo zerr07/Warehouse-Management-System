@@ -2,7 +2,7 @@
 include_once $_SERVER['DOCUMENT_ROOT'].'/configs/config.php';
 
 function MoveProducts($from, $to){
-   $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*products*} SET id_category='$to' WHERE id_category='$from'"));
+   $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_categories*} SET id_category='$to' WHERE id_category='$from'"));
 }
 
 if (isset($_GET['from']) && isset($_GET['to'])){

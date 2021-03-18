@@ -1,5 +1,4 @@
 <?php
-
 $date = new DateTime();
 $req_dump = print_r($_POST, TRUE);
 $fp = fopen($_SERVER["DOCUMENT_ROOT"]."/dump/".$date->getTimestamp().'.log', 'a');
@@ -16,7 +15,6 @@ function writeFile($file, $txt, $UploadFolder){
 }
 $actPrice = $_POST['itemActPrice'];
 $itemTagID = $_POST['itemTagID'];
-$catID = $_POST['cat'];
 $itemID = $_POST['idEdit'];
 
 
@@ -30,9 +28,16 @@ $marginPercent = $_POST['itemMarginPercent'];
 $marginNumber = $_POST['itemMarginNumber'];
 
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*products*} SET 
-        id_category='$catID', actPrice='$actPrice', tag='$itemTagID', override='$override', 
+        actPrice='$actPrice', tag='$itemTagID', override='$override', 
         def_margin_percent='$marginPercent' , def_margin_number='$marginNumber' WHERE id='$itemID'"));
 
+$GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_categories*} WHERE id_product='$itemID'"));
+
+foreach ($_POST['cat'] as $value){
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_categories*}
+                        (id_category, id_product) 
+                        VALUES ('$value', '$itemID')"));
+}
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_name*} WHERE id_product='$itemID'"));
 $itemNameET = htmlentities($_POST['itemNameET'], ENT_QUOTES, 'UTF-8');
 $itemNameEN = htmlentities($_POST['itemNameEN'], ENT_QUOTES, 'UTF-8');

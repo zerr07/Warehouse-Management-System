@@ -14,7 +14,7 @@ function get_tree(){
             $id = $row['id'];
             $name = get_category_name($id);
             $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */"SELECT COUNT(*) as product_count FROM 
-            {*products*} WHERE id_category='$id'"));
+            {*product_categories*} WHERE id_category='$id'"));
             $count = $q->fetch_assoc()['product_count'];
             $temp[$id] = array("id"=> $id, "enabled"=>$row['enabled'], "name"=>$name, "parent"=>$row['parent'], "child"=>array(), "count"=>$count);
             $temp[$id]['child'] = array_filter(get_sub_cat($id));
@@ -32,7 +32,7 @@ function get_sub_cat($index) {
             $id = $row['id'];
             $name = get_category_name($id);
             $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */"SELECT COUNT(*) as product_count FROM 
-            {*products*} WHERE id_category='$id'"));
+            {*product_categories*} WHERE id_category='$id'"));
             $count = $q->fetch_assoc()['product_count'];
             $temp[$id] = array("id"=> $id, "enabled"=>$row['enabled'], "name"=>$name, "parent"=>$row['parent'], "child"=>array(), "count"=>$count);
             $temp[$id]['child'] = array_filter(get_sub_cat($id));
@@ -124,7 +124,7 @@ function get_minuvalik_categories($id){
 function getEmptyCategoies(){
     $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *, 
     (SELECT `name` FROM {*category_name*} WHERE {*categories*}.id={*category_name*}.id_category AND {*category_name*}.id_lang='3' LIMIT 1) as `name`
-     FROM {*categories*} WHERE (SELECT count(*) FROM {*products*} WHERE {*categories*}.id={*products*}.id_category)=0"));
+     FROM {*categories*} WHERE (SELECT count(*) FROM {*product_categories*} WHERE {*categories*}.id={*product_categories*}.id_category)=0"));
     $arr = array(array());
     if($result){
         while ($row = $result->fetch_assoc()){

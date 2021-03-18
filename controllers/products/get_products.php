@@ -13,7 +13,6 @@ function array_sort_by_column(&$arr, $col, $dir = SORT_ASC) {
         foreach ($arr as $key=> $row) {
             $sort_col[$key] = $row[$col];
         }
-
         array_multisort($sort_col, $dir, $arr);
     }
 
@@ -103,12 +102,12 @@ function get_products_dataList($shard){
     }
     return null;
 }
-function get_product($index){
+function get_product($index, $full=true){
     $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*products*} 
                                                                                     WHERE id='$index'"));
     if($result){
         while ($row = $result->fetch_assoc()) {
-            return read_result_single($row);
+            return read_result_single($row, $full);
         }
     }
     return null;
@@ -167,7 +166,8 @@ function read_result_single($row, $full=true){
     $arr['quantity'] = get_quantity_sum($id);
     $arr = array_merge($arr, get_locations($id));
     $arr['platforms'] = get_platform_data($id);
-
+    $arr['categories'] = get_product_categories($id);
+    $arr['main_category'] = get_main_category($id);
     if ($full){
         $arr['suppliers'] = get_supplier_data($id);
         $arr['reservations'] = get_reserve_info($id);
@@ -176,7 +176,7 @@ function read_result_single($row, $full=true){
         $arr['images_live'] = get_images_live($id);
         $arr['mainImage_live'] = get_main_image_live($id);
         $arr['carrier'] = get_carrier($id);
-        $arr['category_name'] = get_product_category_name($arr['id_category']);
+        $arr['category_name'] = get_product_category_name($arr['categories']);
         $arr['properties'] = get_product_properties($id, 2);
     }
     $arr['images'] = get_images($id);
@@ -204,6 +204,21 @@ function get_quantity_sum($index){
     }
     return null;
 }
+
+function get_product_categories($index){
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id_category FROM {*product_categories*} WHERE id_product='$index'"));
+    $arr = array();
+    while ($row = $q->fetch_assoc()){
+        array_push($arr, $row['id_category']);
+    }
+    return $arr;
+}
+function get_main_category($index){
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id_category FROM {*product_categories*} WHERE id_product='$index' LIMIT 1"));
+    while ($row = $q->fetch_assoc()){
+        return $row['id_category'];
+    }
+}
 function get_attributes($index){
     $arr = array(array());
     $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_attributes*}
@@ -230,13 +245,27 @@ function get_locations($index){
     return $arr;
 }
 function get_product_category_name($index){
-    $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*category_name*}
-        WHERE id_category='$index' AND id_lang='3'"));
-    while ($row = mysqli_fetch_assoc($query)) {
-        return $row['name'];
+    if (is_array($index)){
+        $arr = array();
+        foreach ($index as $id){
+            $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT `name` FROM {*category_name*}
+                WHERE id_category='$id' AND id_lang='3'"));
+            while ($row = mysqli_fetch_assoc($query)) {
+                $arr[$id] = $row['name'];
+            }
+        }
+        return $arr;
+    } else {
+        $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*category_name*}
+            WHERE id_category='$index' AND id_lang='3'"));
+        while ($row = mysqli_fetch_assoc($query)) {
+            return $row['name'];
+        }
     }
+
     return null;
 }
+
 function get_supplier_data($index){
     $arr = array();
     $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*supplier_data*}
@@ -558,8 +587,8 @@ if (isset($_GET['platformSearchOn']) || isset($_GET['platformSearchOff'])){
 
 if (isset($_GET['cat'])){
     $cat = $_GET['cat'];
-    $searchSearch = "AND id_category='$cat'";
-    $search = "AND id_category='$cat'";
+    $searchSearch = "AND $cat IN (SELECT id_category FROM {*product_categories*} WHERE id_product={*products.id*})";
+    $search = "AND $cat IN (SELECT id_category FROM {*product_categories*} WHERE id_product={*products.id*})";
 
 }
 if(isset($_GET['only']) && $_GET['only'] == "Full"){

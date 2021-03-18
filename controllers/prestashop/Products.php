@@ -111,6 +111,10 @@ function PR_POST_Product($id){
     if (isset($data['platforms'][_ENGINE['ps_platform_id']]['export'])){
         $active = $data['platforms'][_ENGINE['ps_platform_id']]['export'];
     }
+    $categories = "";
+    foreach ($data['categories'] as $value){
+        $categories .= "<category><id>$value</id></category>";
+    }
     $xml = '
 <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
   <product>
@@ -138,13 +142,11 @@ function PR_POST_Product($id){
     <pack_stock_type>3</pack_stock_type>
     <state>1</state>
     <indexed>1</indexed>
-    <id_category_default>'.$data['id_category'].'</id_category_default>
+    <id_category_default>'.$data['main_category'].'</id_category_default>
     <id_tax_rules_group>1</id_tax_rules_group>
     <associations>
       <categories>
-        <category>
-          <id>'.$data['id_category'].'</id>
-        </category>
+        '.$categories.'
       </categories>
      </associations>
   </product>
@@ -174,6 +176,10 @@ function PR_PUT_Product($id_product){
     if (isset($data['platforms'][_ENGINE['ps_platform_id']]['export'])){
         $active = $data['platforms'][_ENGINE['ps_platform_id']]['export'];
     }
+    $categories = "";
+    foreach ($data['categories'] as $value){
+        $categories .= "<category><id>$value</id></category>";
+    }
     $xml = '
 <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
   <product>
@@ -201,13 +207,11 @@ function PR_PUT_Product($id_product){
     <pack_stock_type>3</pack_stock_type>
     <state>1</state>
     <indexed>1</indexed>
-    <id_category_default>'.$data['id_category'].'</id_category_default>
+    <id_category_default>'.$data['main_category'].'</id_category_default>
     <id_tax_rules_group>1</id_tax_rules_group>
     <associations>
       <categories>
-        <category>
-          <id>'.$data['id_category'].'</id>
-        </category>
+        '.$categories.'
       </categories>
      </associations>
   </product>
@@ -243,6 +247,10 @@ function PR_PUT_Product_Without_IMG($id_product){
     if (isset($data['platforms'][_ENGINE['ps_platform_id']]['export'])){
         $active = $data['platforms'][_ENGINE['ps_platform_id']]['export'];
     }
+    $categories = "";
+    foreach ($data['categories'] as $value){
+        $categories .= "<category><id>$value</id></category>";
+    }
     $xml = '
 <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
   <product>
@@ -270,13 +278,11 @@ function PR_PUT_Product_Without_IMG($id_product){
     <pack_stock_type>3</pack_stock_type>
     <state>1</state>
     <indexed>1</indexed>
-    <id_category_default>'.$data['id_category'].'</id_category_default>
+    <id_category_default>'.$data['main_category'].'</id_category_default>
     <id_tax_rules_group>1</id_tax_rules_group>
     <associations>
       <categories>
-        <category>
-          <id>'.$data['id_category'].'</id>
-        </category>
+        '.$categories.'
       </categories>
      </associations>
   </product>
@@ -294,12 +300,15 @@ function PR_PUT_Product_Without_IMG($id_product){
     }
 }
 
-function PR_PUT_Product_category_only($id_product, $category){
+function PR_PUT_Product_category_only($id_product){
     global $domain, $api_key;
     $data = get_product($id_product);
     $id = PR_GET_Product_By_Tag($data['tag'])['products'][0]['id'];
     $PriceTaxExcluded = round($data['platforms'][_ENGINE['ps_platform_id']]['price']/1.2, 5);
-
+    $categories = "";
+    foreach ($data['categories'] as $value){
+        $categories .= "<category><id>$value</id></category>";
+    }
     $xml = '
 <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
   <product>
@@ -320,13 +329,11 @@ function PR_PUT_Product_category_only($id_product, $category){
     <pack_stock_type>3</pack_stock_type>
     <state>1</state>
     <indexed>1</indexed>
-    <id_category_default>'.$category.'</id_category_default>
+    <id_category_default>'.$data['main_category'].'</id_category_default>
     <id_tax_rules_group>1</id_tax_rules_group>
     <associations>
       <categories>
-        <category>
-          <id>'.$category.'</id>
-        </category>
+        '.$categories.'
       </categories>
      </associations>
   </product>

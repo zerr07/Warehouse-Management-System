@@ -40,7 +40,7 @@
             </div>
             <label>Parent category</label><br>
             <div style="margin-left: 20px;">
-                {include file='cp/WMS/category/treeEdit.tpl'}
+                {include file='cp/WMS/category/tree/radio/treeEdit.tpl'}
             </div>
             <div class="row mt-3">
                 <div class="col-6">

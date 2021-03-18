@@ -29,14 +29,14 @@ function tag_process($str, $tag){
     return $string;
 }
 
-$result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*products*} WHERE
+$result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *, (SELECT id_category FROM {*product_categories*} WHERE id_product={*products*}.id LIMIT 1) as id_category1 FROM {*products*} WHERE
 id=(SELECT id_item FROM {*product_platforms*} WHERE id_platform='10' AND {*products*}.id=id_item AND export=1) AND
-id_category=(SELECT id_category FROM {*category_platform*} WHERE id_platform='10' AND {*products*}.id_category=id_category LIMIT 1)
+id_category1=(SELECT id_category FROM {*category_platform*} WHERE id_platform='10' AND id_category1=id_category LIMIT 1)
 AND quantity>=1"));
 $arr = read_result_multiple($result);
 $arr = array_filter($arr);
 foreach ($arr as $key => $value){
-    $cat = $value['id_category'];
+    $cat = $value['id_category1'];
     $tempRU = tag_process($platform_desc['ru'], $arr[$key]['tag']);
     $tempET = tag_process($platform_desc['et'], $arr[$key]['tag']);
     $arr[$key]['descriptions']['ru'] = $arr[$key]['descriptions']['ru'].$tempRU;
