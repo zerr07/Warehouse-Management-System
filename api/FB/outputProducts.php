@@ -16,7 +16,7 @@ if ($pass == null || $user == null){
 }
 function insertOutputProduct($tag, $id){
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"SELECT * FROM {*FB_output*} WHERE tag='$tag'"));
-s    /*if ($q->num_rows != 0){
+    /*if ($q->num_rows != 0){
         return json_encode(array("resp"=>"keyExists"));
     } else {*/
         $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */"INSERT INTO {*FB_output*} (tag, id_list) VALUES ('$tag', '$id')"));

@@ -8,7 +8,7 @@
         {foreach $sales as $item}
             <script>
                 window.addEventListener("load", function (){
-                    setPageTitle("Edit reservation {$reservation.id}");
+                    setPageTitle("Sale {$item.arveNr}")
                 });
             </script>
             <div class="row">
@@ -69,7 +69,7 @@
                             <div class="col-6 col-sm-6 col-md-3 m-auto text-truncate"><a style="color: white;text-overflow: ellipsis;" href="/cp/WMS/view/?view={$prod.id}">{$prod.name}</a></div>
                         {else}
                             <div class="col-4 col-sm-4 col-md-2 m-auto">{$prod.tag}</div>
-                            <div class="col-4 col-sm-4 col-md-2 m-auto">{$prod.name}</div>
+                            <div class="col-4 col-sm-4 col-md-2 m-auto text-truncate" title="{$prod.name}"><span style="color: white;text-overflow: ellipsis;">{$prod.name}</span></div>
                         {/if}
                         <div class="col-4 col-sm-4 col-md-2 m-auto">{$prod.quantity} pcs</div>
                         <div class="col-4 col-sm-4 col-md-2 m-auto">{$prod.price} €</div>
@@ -94,5 +94,4 @@
         {/foreach}
     </div>
 </div>
-
 {include file='footer.tpl'}
