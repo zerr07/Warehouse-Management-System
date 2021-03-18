@@ -249,11 +249,11 @@
 
                                             </ul>
                                             <div class="tab-content mt-2">
-                                                <div class="tab-pane fade active show" id="tabRUS" role="tabpanel">
-                                                    <textarea name="RUS" id="ruText">{if isset($item.descriptions.ru)}{$item.descriptions.ru}{/if}</textarea>
-                                                </div>
-                                                <div class="tab-pane fade" id="tabET" role="tabpanel">
+                                                <div class="tab-pane fade active show" id="tabET" role="tabpanel">
                                                     <textarea name="EST" id="etText">{if isset($item.descriptions.et)}{$item.descriptions.et}{/if}</textarea>
+                                                </div>
+                                                <div class="tab-pane fade" id="tabRU" role="tabpanel">
+                                                    <textarea name="RUS" id="ruText">{if isset($item.descriptions.ru)}{$item.descriptions.ru}{/if}</textarea>
                                                 </div>
                                                 <div class="tab-pane fade" id="tabPL" role="tabpanel">
                                                     <textarea name="PL" id="plText">{if isset($item.descriptions.pl)}{$item.descriptions.pl}{/if}</textarea>
