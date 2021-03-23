@@ -2,12 +2,13 @@
 {function name=cat_tree margin=1}
     {foreach $data as $key => $value}
         <input class='form-check-input' type='checkbox' name='cat[]' id='cat{$key}' value='{$key}' >
-        {if is_null($value.child)}
-            <label class='form-check-label' for='exampleRadios1'>
+        <input class='form-check-input ml-0' type='radio' name='catmain' id='catMain{$key}' value='{$key}' disabled>
+        {if is_null($value.child) || sizeof($value.child) === 0}
+            <label class='form-check-label ml-3 text-white' for='exampleRadios1'>
                 {$value.name}<span class="badge badge-secondary ml-2 mr-2">{$value.count}</span>
             </label><br>
         {else}
-            <label class='form-check-label' data-toggle='collapse' data-target="#k{$key}" aria-expanded='false' aria-controls='collapseExample' for='exampleRadios1'>
+            <label class='form-check-label ml-3 text-white' data-toggle='collapse' data-target="#k{$key}" aria-expanded='false' aria-controls='collapseExample' for='exampleRadios1'>
                 {$value.name}<span class="badge badge-secondary ml-2 mr-2">{$value.count}</span>+</label><br>
             <div  class='collapse collapseDiv' id='k{$key}' style="margin: 0 0 0 {$margin*20}px">
                 {if !is_null($value.child)}
@@ -28,15 +29,23 @@
                 });
             </script>
             <input class='form-check-input' type='checkbox' name='cat[]' id='cat{$key}' value='{$key}' checked>
+            {if $item.main_category == $key}
+                <input class='form-check-input ml-0' type='radio' name='catmain' id='catMain{$key}' value='{$key}' checked>
+                {else}
+                <input class='form-check-input ml-0' type='radio' name='catmain' id='catMain{$key}' value='{$key}'>
+            {/if}
+
         {else}
             <input class='form-check-input' type='checkbox' name='cat[]' id='cat{$key}' value='{$key}' >
+            <input class='form-check-input ml-0' type='radio' name='catmain' id='catMain{$key}' value='{$key}' disabled>
+
         {/if}
         {if is_null($value.child) || sizeof($value.child) === 0}
-            <label class='form-check-label' for='exampleRadios1'>
+            <label class='form-check-label ml-3 text-white' for='exampleRadios1'>
                 {$value.name}<span class="badge badge-secondary ml-2 mr-2">{$value.count}</span>
             </label><br>
         {else}
-            <label class='form-check-label' data-toggle='collapse' data-target="#collapse{$key}" aria-expanded='false' aria-controls='collapseExample' for='exampleRadios1'>
+            <label class='form-check-label ml-3 text-white' data-toggle='collapse' data-target="#collapse{$key}" aria-expanded='false' aria-controls='collapseExample' for='exampleRadios1'>
                 {$value.name}<span class="badge badge-secondary ml-2 mr-2">{$value.count}</span>+</label><br>
             <div  class='collapse collapseDiv' id='collapse{$key}' style="margin: 0 0 0 {$margin*20}px;">
                 {if !is_null($value.child)}
@@ -53,7 +62,7 @@
             aria-controls='collapseExample'>Expand all</button>
     <br>
     <input class='form-check-input' type='checkbox' name='cat[]' id='none' value='None' required>
-    <label class='form-check-label' for='exampleRadios1'>None</label><br>
+    <label class='form-check-label text-white' for='exampleRadios1'>None</label><br>
 
     {cat_treeEdit data=$cat_tree}
 
@@ -63,6 +72,6 @@
             aria-controls='collapseExample'>Expand all</button>
     <br>
     <input class='form-check-input' type='checkbox' name='cat[]' id='none' value='None' required checked>
-    <label class='form-check-label' for='exampleRadios1'>None</label><br>
+    <label class='form-check-label text-white' for='exampleRadios1'>None</label><br>
     {cat_tree data=$cat_tree}
 {/if}
