@@ -28,6 +28,7 @@ $prefix = $q->fetch_assoc()['tag_prefix'];
 $itemActPrice = $_POST['itemActPrice'];
 $itemTagID = $_POST['itemTagID'];
 $catID = $_POST['cat'];
+$main_cat = $_POST['catmain'];
 if ($_POST['override'] == "Yes"){
     $override = 1;
 } else {
@@ -80,7 +81,9 @@ foreach ($_POST['cat'] as $key => $value){
                         (id_category, id_product) 
                         VALUES ('$value', '$last')"));
 }
-
+if ($main_cat != ""){
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_categories*} SET `main`='1' WHERE id_category='$main_cat' AND id_product='$last'"));
+}
 $itemNameEN = htmlentities($_POST['itemNameEN'], ENT_QUOTES, 'UTF-8');
 $itemNameET = htmlentities($_POST['itemNameET'], ENT_QUOTES, 'UTF-8');
 $itemNameRU = htmlentities($_POST['itemNameRU'], ENT_QUOTES, 'UTF-8');

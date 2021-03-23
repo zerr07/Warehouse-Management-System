@@ -365,6 +365,8 @@
 <link rel="stylesheet" href="/templates/default/assets/css/image-uploader.css?t=16102020T165438">
 <script src="/templates/default/assets/js/image-uploader.js?t=16102020T165436"></script>
 <script src="/templates/default/assets/js/parameters.js?t=04022021T103520"></script>
+<script src="/templates/default/assets/js/categories_main_select.js?t=16102020T165504"></script>
+
 
 <script>
     $(window).on('load', function(){
@@ -372,6 +374,7 @@
         init_image_uploader("");
         init_image_uploader("_live");
         loadParamsEditField('PropBlock');
+        DisableNotSelectable();
     });
     document.querySelector("input[name='cat']").addEventListener("invalid", function (e) {
         displayAlert("Please select category", 2000, "error");

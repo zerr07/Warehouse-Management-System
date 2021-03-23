@@ -214,10 +214,14 @@ function get_product_categories($index){
     return $arr;
 }
 function get_main_category($index){
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id_category FROM {*product_categories*} WHERE id_product='$index' LIMIT 1"));
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id_category FROM {*product_categories*} WHERE id_product='$index' AND `main`='1'"));
+    if ($q->num_rows === 0){
+        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id_category FROM {*product_categories*} WHERE id_product='$index' LIMIT 1"));
+    }
     while ($row = $q->fetch_assoc()){
         return $row['id_category'];
     }
+    return null;
 }
 function get_attributes($index){
     $arr = array(array());

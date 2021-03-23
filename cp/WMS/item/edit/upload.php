@@ -16,6 +16,7 @@ function writeFile($file, $txt, $UploadFolder){
 $actPrice = $_POST['itemActPrice'];
 $itemTagID = $_POST['itemTagID'];
 $itemID = $_POST['idEdit'];
+$main_cat = $_POST['catmain'];
 
 
 if (isset($_POST['override']) && $_POST['override'] == "Yes"){
@@ -37,6 +38,10 @@ foreach ($_POST['cat'] as $value){
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_categories*}
                         (id_category, id_product) 
                         VALUES ('$value', '$itemID')"));
+}
+if ($main_cat != ""){
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_categories*} SET `main`='0' WHERE AND id_product='$itemID'"));
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_categories*} SET `main`='1' WHERE id_category='$main_cat' AND id_product='$itemID'"));
 }
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_name*} WHERE id_product='$itemID'"));
 $itemNameET = htmlentities($_POST['itemNameET'], ENT_QUOTES, 'UTF-8');
