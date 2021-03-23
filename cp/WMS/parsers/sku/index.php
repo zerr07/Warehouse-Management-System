@@ -14,34 +14,47 @@ $name = 'products_data_'.explode(".", $_GET['platform'])[0];
 
 $collection  = $GLOBALS['PARSERCONN']->products->$name;
 
-$search = "";
-$select = ", (SELECT COUNT(export) FROM {*product_platforms*} WHERE products.id = {*product_platforms*}.id_item AND export=1) as count1";
-$search .= "HAVING count1=0";
-$searchSelect = "COUNT((SELECT COUNT(export) as count1 FROM {*product_platforms*} 
-            WHERE {*products.id*} = {*product_platforms*}.id_item AND export=1 HAVING count1=0)) as count";
-$onPage = _ENGINE['onPage'];;
+$onPage = _ENGINE['onPage'];
 $shard = $_COOKIE['id_shard'];
-$start = 0;
-
+$tmp_conf = json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"].'/configs/tmp.json'), true);
+if (!isset($tmp_conf['parser_start'])){
+    $tmp_conf['parser_start'] = 0;
+    file_put_contents($_SERVER["DOCUMENT_ROOT"].'/configs/tmp.json', json_encode($tmp_conf));
+}
+$start = $tmp_conf['parser_start'];
+$c = 0;
 $arr = array();
 while (true){
-    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id$select FROM {*products*} 
-                                                        WHERE id_shard='$shard' $search
-                                              ORDER BY id DESC LIMIT $start, $onPage"));
+    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, 
+    (SELECT COUNT(export) FROM {*product_platforms*} WHERE products.id = {*product_platforms*}.id_item AND export=1) as count1 
+    FROM {*products*} 
+    WHERE id_shard='$shard' HAVING count1=0
+    ORDER BY id ASC LIMIT $start, $onPage"));
+
+
     while ($row = $result->fetch_assoc()){
         $suppliers = get_supplier_data($row['id']);
         foreach ($suppliers as $supp){
             $filter  = array('sku' => $supp['SKU']);
             $cursor = $collection->find($filter)->toArray();
-            if (count($cursor) != 0)
+            if (count($cursor) != 0){
                 $arr[$row['id']] = get_product($row['id']);
+                if (count($arr) == 1){
+                    $tmp_conf['parser_start']=$start;
+                    file_put_contents($_SERVER["DOCUMENT_ROOT"].'/configs/tmp.json', json_encode($tmp_conf));
+                }
+            }
+
         }
     }
     if (count($arr) >= $onPage)
         break;
     else
+        if (count($arr) == 0){
+            $tmp_conf['parser_start']=$start;
+            file_put_contents($_SERVER["DOCUMENT_ROOT"].'/configs/tmp.json', json_encode($tmp_conf));
+        }
         $start += $onPage;
-
 }
 
 $smarty->assign("matches", $arr);
