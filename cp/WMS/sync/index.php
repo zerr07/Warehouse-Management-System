@@ -35,7 +35,7 @@ if (isset($_GET['getProducts'])){
     $tag = $_GET['POSTPROD'];
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT id FROM {*products*} WHERE tag='$tag' LIMIT 1"));
     $id = $q->fetch_assoc()['id'];
-    PR_POST_Product($id);
+    PR_POST_Product($id, true);
     exit("POSTPROD " . $id);
 } elseif (isset($_GET['PUTPROD'])){
     $tag = $_GET['PUTPROD'];

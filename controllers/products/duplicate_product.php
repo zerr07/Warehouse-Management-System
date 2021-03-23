@@ -81,5 +81,5 @@ if (isset($_GET['id'])){
             $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images_live*} SET image='$newfilename' WHERE image='$oldfilename' AND id_item='$last'"));
         }
     }
-    PR_POST_Product($last);
+    PR_POST_Product($last, true);
 }
