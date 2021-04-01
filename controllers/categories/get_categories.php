@@ -135,6 +135,28 @@ function getEmptyCategoies(){
     }
     return $arr;
 }
+function getCategoryFullPath($id){
+    $arr = array();
+    while (true){
+        $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*categories*} WHERE id='$id'"));
+        if ($result->num_rows == 0){
+            break;
+        }
+
+        if($result){
+            $row = $result->fetch_assoc();
+            array_push($arr, get_category_names($row['id'])['en']);
+            if ($row['parent'] == 1 || $row['parent'] == 0){
+                break;
+            } else {
+                $id = $row['parent'];
+            }
+        } else {
+            break;
+        }
+    }
+    return array_reverse($arr);
+}
 if (isset($_POST['getByName']) && isset($_POST['getByName_Parent'])){
     exit(json_encode(get_category_by_name_from_parent($_POST['getByName'], $_POST['getByName_Parent'])));
 }
