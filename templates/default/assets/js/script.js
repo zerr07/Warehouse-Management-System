@@ -287,3 +287,18 @@ function toggleTabs(btns, tabs){
         $(d).tab("show")
     })
 }
+function setFlag(id, flag, reload=true){
+    turnOnPreloader();
+    fetch("/controllers/products/flags.php?insert="+flag+"&id="+id)
+        .then(response => response.json())
+        .then(d => {
+            if (d.hasOwnProperty("success")){
+                if (reload){
+                    location.reload();
+                } else {
+                    turnOffPreloader();
+                }
+            }
+
+        })
+}
