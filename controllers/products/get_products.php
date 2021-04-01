@@ -505,7 +505,11 @@ if (isset($_GET['searchTagID'])) {
     if ($_GET['searchTagID'] != "") {
         $tagID = $_GET['searchTagID'];
         if (is_numeric($tagID)){
-            $tempTag = "AZ".$tagID;
+            $id_shard = $_COOKIE['id_shard'];
+            $q_prefix = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */"SELECT tag_prefix FROM {*shards*} WHERE id='$id_shard'"));
+            if ($q_prefix){
+                $tempTag = $q_prefix->fetch_assoc()['tag_prefix'].$tagID;
+            }
         } else {
             $tempTag = $tagID;
         }
