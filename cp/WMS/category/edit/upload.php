@@ -14,9 +14,6 @@ if ($_POST['cat'] == 'None'){
 } else {
     $parent = $_POST['cat'];
 }
-$urlEN = get_EN_URL($catNameEN);
-$urlET = get_ET_URL($catNameET);
-$urlRU = get_RU_URL($catNameRU);
 $date = date("Y-m-d H:i:s");
 if (isset($_POST['enabled']) && $_POST['enabled'] == 'Yes'){
     $enabled = 1;
@@ -41,6 +38,6 @@ $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO  {*category
                                                                             VALUES ('$id', '6', '$catNameLT')"));
 
 
-PR_PUT_Category($id, $urlET, $urlRU, $urlEN);
+PR_PUT_Category($id);
 
 header("Location: /cp/WMS/category/");

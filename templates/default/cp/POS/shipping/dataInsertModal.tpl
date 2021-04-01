@@ -635,6 +635,16 @@
         }
 
     }
+	function showFileInputOther(el){
+        if ('files' in el){
+            for (var i = 0; i < el.files.length; i++) {
+                var file = el.files[i];
+                document.getElementById("DefaultFileInputLabel").innerText = "name: " + file.name;
+            }
+        }
+
+    }
+
 
     async function submitVenipak(){
         if (checkVenipakFields()){
@@ -911,6 +921,7 @@
 
         let fileInputLabel = document.createElement("label");
         fileInputLabel.setAttribute("class", "custom-file-label");
+	fileInputLabel.setAttribute("id", "DefaultFileInputLabel");
         fileInputLabel.setAttribute("for", "DefaultFileInput");
         fileInputLabel.innerText = "Choose file";
 
@@ -919,6 +930,7 @@
         fileInputForm.setAttribute("class", "custom-file-input");
         fileInputForm.setAttribute("id", "DefaultFileInput");
         fileInputForm.setAttribute("accept", "application/pdf, application/vnd.ms-excel");
+	fileInputForm.setAttribute("onchange", "showFileInputVenipak(this)");
 
         fileInputDiv.appendChild(fileInputLabel);
         fileInputDiv.appendChild(fileInputForm);
