@@ -337,6 +337,36 @@
                     <textarea name="FB" id="FBText"></textarea>
                 </div>
                 <div class="tab-pane fade ml-20 mb-3" id="tabProp" role="tabpanel">
+                    <div class="row my-3">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="Width">Width (mm)</label>
+                                <input type="number" class="form-control w-100" name="width"
+                                       id="Width" placeholder="0.00 mm" step="0.01">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="Height">Height (mm)</label>
+                                <input type="number" class="form-control w-100" name="height"
+                                       id="Height" placeholder="0.00 mm" step="0.01">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="Depth">Depth (mm)</label>
+                                <input type="number" class="form-control w-100" name="depth"
+                                       id="Depth" placeholder="0.00 mm" step="0.01">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="Weight">Weight (g)</label>
+                                <input type="number" class="form-control w-100" name="weight"
+                                       id="Weight" placeholder="0 g" step="1">
+                            </div>
+                        </div>
+                    </div>
                     <div class="row" id="PropBlock">
 
                     </div>

@@ -35,6 +35,23 @@ if ($_POST['override'] == "Yes"){
     $override = 0;
 }
 
+$width = $_POST['width'];
+$height = $_POST['height'];
+$depth = $_POST['depth'];
+$weight = $_POST['weight'];
+if ($width == ""){
+    $width = 0.00;
+}
+if ($height == ""){
+    $height = 0.00;
+}
+if ($depth == ""){
+    $depth = 0.00;
+}
+if ($weight == ""){
+    $weight = 0.00;
+}
+
 $marginPercent = $_POST['itemMarginPercent'];
 $marginNumber = $_POST['itemMarginNumber'];
 
@@ -65,8 +82,8 @@ while (True){
 
 
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*products*}
-                        (id_category, actPrice, tag, override, def_margin_percent, def_margin_number) 
-                        VALUES ('$catID', '$itemActPrice', '$itemTagID', '$override', '$marginPercent', '$marginNumber')"));
+                        (actPrice, tag, override, def_margin_percent, def_margin_number, width, height, depth, weight) 
+                        VALUES ('$itemActPrice', '$itemTagID', '$override', '$marginPercent', '$marginNumber', '$width', '$height', '$depth', '$weight')"));
 
 $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT MAX(id) as id FROM {*products*}"));
 $last = $q->fetch_assoc()['id'];
