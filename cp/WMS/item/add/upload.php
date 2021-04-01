@@ -65,8 +65,8 @@ while (True){
 
 
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*products*}
-                        (actPrice, tag, override, def_margin_percent, def_margin_number) 
-                        VALUES ('$itemActPrice', '$itemTagID', '$override', '$marginPercent', '$marginNumber')"));
+                        (actPrice, tag, override, def_margin_percent, def_margin_number, width, height, depth, weight) 
+                        VALUES ('$itemActPrice', '$itemTagID', '$override', '$marginPercent', '$marginNumber', '$width', '$height', '$depth', '$weight')"));
 
 $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT MAX(id) as id FROM {*products*}"));
 $last = $q->fetch_assoc()['id'];
@@ -291,7 +291,7 @@ if (!empty($images)) {
     deleteImages($existImages, $last, "_live");
 }
 
-PR_POST_Product($last, true);
+PR_POST_Product($last);
 cacheProductNameBackground($last);
 
 

@@ -8,11 +8,12 @@ if (isset($_POST['bulk'])) {
     $platformCat = $_POST['platformCategory'];
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*category_platform*}
                              (id_category, id_platform, id_category_platform) VALUES ('$id', '$platformID', '$platformCat')"));
-    $cats = get_categories(267);
+    $cats = get_categories($id);
     foreach ($cats as $cat){
         $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*category_platform*}
                              (id_category, id_platform, id_category_platform) VALUES ('$cat', '$platformID', '$platformCat')"));
     }
+    // TODO Make it link not only level 1 children
 } else {
     $id = $_POST['catID'];
     $platformID = $_POST['platformID'];

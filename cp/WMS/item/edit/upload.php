@@ -18,6 +18,22 @@ $itemTagID = $_POST['itemTagID'];
 $itemID = $_POST['idEdit'];
 $main_cat = $_POST['catmain'];
 
+$width = $_POST['width'];
+$height = $_POST['height'];
+$depth = $_POST['depth'];
+$weight = $_POST['weight'];
+if ($width == ""){
+    $width = 0.00;
+}
+if ($height == ""){
+    $height = 0.00;
+}
+if ($depth == ""){
+    $depth = 0.00;
+}
+if ($weight == ""){
+    $weight = 0.00;
+}
 
 if (isset($_POST['override']) && $_POST['override'] == "Yes"){
     $override = 1;
@@ -30,7 +46,7 @@ $marginNumber = $_POST['itemMarginNumber'];
 
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*products*} SET 
         actPrice='$actPrice', tag='$itemTagID', override='$override', 
-        def_margin_percent='$marginPercent' , def_margin_number='$marginNumber' WHERE id='$itemID'"));
+        def_margin_percent='$marginPercent' , def_margin_number='$marginNumber', width='$width', height='$height', depth='$depth', weight='$weight' WHERE id='$itemID'"));
 
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_categories*} WHERE id_product='$itemID'"));
 
@@ -308,7 +324,8 @@ if (!empty($images)) {
 PR_PUT_Product($last);
 
 cacheProductNameBackground($last);
-//exit("Redirect temporarily disabled");
+//exit("Redirect temporarily disabled, product saved though");
+
 header("Location: /cp/WMS/");
 
 ?>

@@ -64,6 +64,17 @@
     window.addEventListener("load", function () {
         setPageTitle("Properties");
     });
+    function deleteProp(id) {
+        fetch("/controllers/products/properties.php?deleteProp="+id).then(response => response.json())
+        .then(d => {
+            if (d.hasOwnProperty("success")){
+                displayAlert("Success", 2000, "success");
+                location.reload();
+            } else {
+                displayAlert("Error", 2000, "error");
+            }
+        })
+    }
     function ListPropVal(id){
         fetch("/controllers/products/properties.php?getPropertyValues="+id+"&id_lang=0").then(response => response.json())
         .then(d => {

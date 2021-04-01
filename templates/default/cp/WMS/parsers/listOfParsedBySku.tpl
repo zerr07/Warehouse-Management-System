@@ -9,14 +9,17 @@
                 <div class="col-sm-3 col-md-2 my-auto">
                     <img class="thumbnail-img" src="/uploads/images/products/{$match.mainImage}">
                 </div>
-                <div class="col-sm-9 col-md-6 my-auto">
+                <div class="col-sm-9 col-md-3 my-auto">
                     <span class="d-block">Title: {if isset($match.name.en)}{$match.name.en|escape}{/if}</span>
                 </div>
-                <div class="col-sm-6 col-md-2 my-auto">
+                <div class="col-sm-4 col-md-2 my-auto">
                     <a class="btn btn-primary float-right w-100" href="/cp/WMS/item/edit/?edit={$key}">Edit</a>
                 </div>
-                <div class="col-sm-6 col-md-2 my-auto">
+                <div class="col-sm-4 col-md-2 my-auto">
                     <a class="btn btn-info float-right w-100" href="/cp/WMS/view/?view={$key}">Go to</a>
+                </div>
+                <div class="col-sm-4 col-md-2 my-auto">
+                    <button type="button" class="btn btn-warning float-right w-100" onclick="setFlag('{$key}', 'Parser_SKU_Exclude')">Exclude</button>
                 </div>
             </div>
 
@@ -34,6 +37,7 @@
     $(window).on('load', async function() {
         setPageTitle("Parser list by images");
     })
+
 </script>
 
 {include file='footer.tpl'}

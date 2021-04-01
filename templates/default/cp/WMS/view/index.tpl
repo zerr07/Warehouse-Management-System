@@ -272,9 +272,10 @@
                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                             <a href="" class="nav-link active show" data-toggle="tab" data-target="#tabRUS">RUS</a>
                             <a href="" class="nav-link" data-toggle="tab" data-target="#tabEST">EST</a>
-                            <a href="" class="nav-link" data-toggle="tab" data-target="#tabPL">PL</a>
+
                             <a href="" class="nav-link" data-toggle="tab" data-target="#tabENG">ENG</a>
                             <a href="" class="nav-link" data-toggle="tab" data-target="#tabLV">LV</a>
+                            <a href="" class="nav-link" data-toggle="tab" data-target="#tabLT">LT</a>
                         </div>
                     </div>
                     <div class="col-9">
@@ -289,11 +290,6 @@
                                     {$item.descriptions.et}
                                 {/if}
                             </div>
-                            <div class="tab-pane fade tabTXT" id="tabPL" role="tabpanel">
-                                {if isset($item.descriptions.pl)}
-                                    {$item.descriptions.pl}
-                                {/if}
-                            </div>
                             <div class="tab-pane fade tabTXT" id="tabENG" role="tabpanel">
                                 {if isset($item.descriptions.en)}
                                     {$item.descriptions.en}
@@ -302,6 +298,11 @@
                             <div class="tab-pane fade tabTXT" id="tabLV" role="tabpanel">
                                 {if isset($item.descriptions.lv)}
                                     {$item.descriptions.lv}
+                                {/if}
+                            </div>
+                            <div class="tab-pane fade tabTXT" id="tabLT" role="tabpanel">
+                                {if isset($item.descriptions['lt'])}
+                                    {$item.descriptions['lt']}
                                 {/if}
                             </div>
                         </div>

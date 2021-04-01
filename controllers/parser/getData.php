@@ -20,7 +20,7 @@ if (isset($post['parse'])){
     $domain = str_ireplace('www.', '', parse_url($data['url'], PHP_URL_HOST));
     if (array_key_exists($domain, _PARSER_PROFILE)){
         include_once $_SERVER['DOCUMENT_ROOT']."/controllers/parser/profiles/"._PARSER_PROFILE[$domain]['parser'];
-        GetParserSubmitData($data['url'], $data['lang'], $data['title'], $data['desc']);
+        call_user_func('GetParserSubmitData_' . _PARSER_PROFILE[$domain]['tag'], $data['url'], $data['lang'], $data['title'], $data['desc']);
         exit();
     }
 
@@ -117,7 +117,7 @@ if (isset($_GET['url'])){
 
     if (array_key_exists($domain, _PARSER_PROFILE)){
         include_once $_SERVER['DOCUMENT_ROOT']."/controllers/parser/profiles/"._PARSER_PROFILE[$domain]['parser'];
-        GetParserSearchData($_GET['url']);
+        call_user_func('GetParserSearchData_' . _PARSER_PROFILE[$domain]['tag'], $_GET['url']);
         exit();
     }
 }

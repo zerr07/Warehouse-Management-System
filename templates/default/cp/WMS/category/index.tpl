@@ -12,7 +12,7 @@
                 </a>
             </div>
             <div class="col-12 col-sm-12 col-md-6">
-                <button type="button" data-toggle="modal" data-target="#moveModal" class="btn btn-info w-100">Move categories</button>
+                <button type="button" data-toggle="modal" data-target="#moveModal" class="btn btn-info w-100">Move product to category</button>
             </div>
         </div>
         <div class="collapse multi-collapse mt-3" id="moresettings">
@@ -44,12 +44,18 @@
                     <option value="{$value.id}">{$value.name}</option>
                 {/foreach}
             </datalist>
+            {assign var="counter" value="1"}
             {function name=cat_tree margin=1}
+
                 {foreach $data as $key => $value}
                     {if is_null($value.child) || sizeof($value.child) === 0}
-
-
-                        <div class="row mt-3 border border-secondary p-1">
+                        {if $counter/2 == 1}
+                            {assign var="counter" value="1"}
+                            <div class="row mt-3 border border-secondary p-1 bg-dark">
+                        {else}
+                            {assign var="counter" value="2"}
+                            <div class="row mt-3 border border-secondary p-1">
+                        {/if}
                             <div class="col-2">
                                 <label class='form-check-label'>{$value.id}</label>
                             </div>
@@ -73,7 +79,13 @@
 
                     {else}
 
-                        <div class="row mt-3 border border-secondary p-1">
+                            {if $counter/2 == 1}
+                                 {assign var="counter" value="1"}
+                                 <div class="row mt-3 border border-secondary p-1 bg-dark">
+                            {else}
+                                 {assign var="counter" value="2"}
+                                 <div class="row mt-3 border border-secondary p-1">
+                            {/if}
                             <div class="col-2">
                                 <label class='form-check-label'>{$value.id}</label>
                             </div>
