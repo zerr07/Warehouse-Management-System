@@ -168,6 +168,7 @@ function read_result_single($row, $full=true){
     $arr['platforms'] = get_platform_data($id);
     $arr['categories'] = get_product_categories($id);
     $arr['main_category'] = get_main_category($id);
+    $arr['main_category_export'] = get_main_category_export($id);
     if ($full){
         $arr['suppliers'] = get_supplier_data($id);
         $arr['reservations'] = get_reserve_info($id);
@@ -218,8 +219,22 @@ function get_main_category($index){
     if ($q->num_rows === 0){
         $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id_category FROM {*product_categories*} WHERE id_product='$index' LIMIT 1"));
     }
-    while ($row = $q->fetch_assoc()){
-        return $row['id_category'];
+    if ($q->num_rows !== 0) {
+        while ($row = $q->fetch_assoc()) {
+            return $row['id_category'];
+        }
+    }
+    return null;
+}
+function get_main_category_export($index){
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id_category FROM {*product_categories*} WHERE id_product='$index' AND `main`='1' AND (SELECT export FROM {*categories*} WHERE id={*product_categories*}.id_category)='1'"));
+    if ($q->num_rows === 0){
+        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id_category FROM {*product_categories*} WHERE id_product='$index' AND (SELECT export FROM {*categories*} WHERE id={*product_categories*}.id_category)='1' LIMIT 1"));
+    }
+    if ($q->num_rows !== 0) {
+        while ($row = $q->fetch_assoc()) {
+            return $row['id_category'];
+        }
     }
     return null;
 }
