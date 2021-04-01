@@ -380,6 +380,11 @@ function get_reserve_info($index){
             $arr['reserved_list'][$row['id']] = $row;
             $arr['reserved_sum'] += $row['quantity'];
         }
+        if(!empty($arr['reserved_list'])){
+            ksort($arr['reserved_list']);
+            $arr['reserved_list'] = array_reverse($arr['reserved_list']); 
+        }
+        
         return $arr;
     }
     return null;
