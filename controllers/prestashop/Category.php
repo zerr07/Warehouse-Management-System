@@ -4,6 +4,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 include_once($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/prestashop/API.php');
 include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/categories/get_categories.php');
+include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/generateURL.php');
 
 $api_key = _DB_EXPORT['auth_key'];
 $domain = _DB_EXPORT['domain'];
@@ -42,10 +43,31 @@ function PR_POST_Category($parent, $catNameET, $catNameRU, $catNameEN, $enabled,
     ';
     return CallPOSTAPI($url, $xml)['categories'][0]['id'];
 }
-function PR_PUT_Category($id, $urlET, $urlRU, $urlEN){
+function PR_PUT_Category($id){
     global $domain, $api_key;
     $url = "https://$api_key@$domain/api/categories?output_format=JSON&display=full";
     $data = get_category($id);
+    if(!array_key_exists("en", $data['name'])){
+        $data['name']['en'] = "";
+    }
+    if(!array_key_exists("et", $data['name'])){
+        $data['name']['et'] = "";
+    }
+    if(!array_key_exists("ru", $data['name'])){
+        $data['name']['ru'] = "";
+    }
+    foreach ($data['name'] as $key => $value){
+        if ($value == ""){
+            foreach ($data['name'] as $name){
+                if ($name != ""){
+                    $data['name'][$key] = $name." ".$key;
+                    break;
+                }
+            }
+        }
+    }
+
+
     $xml = '
     <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
     <category>
@@ -58,13 +80,14 @@ function PR_PUT_Category($id, $urlET, $urlRU, $urlEN){
             <language id="'._LANG['ps_et'].'"><![CDATA['.$data['name']['et'].']]></language>
         </name>
         <link_rewrite>
-          <language id="'._LANG['ps_en'].'"><![CDATA['.$urlEN.']]></language>
-          <language id="'._LANG['ps_ru'].'"><![CDATA['.$urlRU.']]></language>
-          <language id="'._LANG['ps_et'].'"><![CDATA['.$urlET.']]></language>
+          <language id="'._LANG['ps_en'].'"><![CDATA['.get_EN_URL(trim($data['name']['en'])).']]></language>
+          <language id="'._LANG['ps_ru'].'"><![CDATA['.get_RU_URL(trim($data['name']['ru'])).']]></language>
+          <language id="'._LANG['ps_et'].'"><![CDATA['.get_ET_URL(trim($data['name']['et'])).']]></language>
         </link_rewrite>
     </category>
 </prestashop>
     ';
+    echo '<pre>'; print_r ($data['name']); echo '</pre>';
     return CallPUTAPI($url, $xml)['categories'][0]['id'];
 }
 function PR_PUT_Category_parent_only($id, $parent){

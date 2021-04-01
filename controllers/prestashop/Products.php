@@ -119,6 +119,35 @@ function PR_POST_Product($id, $images=false){
     foreach ($data['categories'] as $value){
         $categories .= "<category><id>$value</id></category>";
     }
+    if(!array_key_exists("en", $data['name'])){
+        $data['name']['en'] = "";
+    }
+    if(!array_key_exists("et", $data['name'])){
+        $data['name']['et'] = "";
+    }
+    if(!array_key_exists("ru", $data['name'])){
+        $data['name']['ru'] = "";
+    }
+    foreach ($data['name'] as $key => $value){
+        if ($value == ""){
+            foreach ($data['name'] as $name){
+                if ($name != ""){
+                    $data['name'][$key] = $name;
+                    break;
+                }
+            }
+        }
+    }
+    foreach ($data['descriptions'] as $key => $value){
+        if ($value == ""){
+            foreach ($data['descriptions'] as $descriptions){
+                if ($name != ""){
+                    $data['descriptions'][$key] = $descriptions;
+                    break;
+                }
+            }
+        }
+    }
     $xml = '
 <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
   <product>
@@ -188,6 +217,24 @@ function PR_PUT_Product($id_product, $images=false){
     $categories = "";
     foreach ($data['categories'] as $value){
         $categories .= "<category><id>$value</id></category>";
+    }
+    foreach ($data['name'] as $key => $value){
+        if ($value == ""){
+            foreach ($data['name'] as $name){
+                if ($name != ""){
+                    $data['name'][$key] = $name." ".$key;
+                }
+            }
+        }
+    }
+    foreach ($data['descriptions'] as $key => $value){
+        if ($value == ""){
+            foreach ($data['descriptions'] as $descriptions){
+                if ($name != ""){
+                    $data['descriptions'][$key] = $descriptions;
+                }
+            }
+        }
     }
     $xml = '
 <prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
