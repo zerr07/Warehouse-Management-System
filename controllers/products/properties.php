@@ -179,7 +179,16 @@ function assign_property($id_prod, $id_value){
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_properties*} WHERE id_product='$id_prod' AND id_value='$id_value'"));
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_properties*} (id_product, id_value) VALUES ('$id_prod', '$id_value')"));
 }
-
+function deleteProperty($id){
+    $values = get_property_value($id);
+    foreach ($values as $key => $value){
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_properties*} WHERE id_value='$key'"));
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*property_value_name*} WHERE id_value='$key'"));
+    }
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*properties*} WHERE id='$id'"));
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*property_name*} WHERE id_property='$id'"));
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*property_value*} WHERE id_property='$id'"));
+}
 
 
 function get_product_properties($id, $id_lang=0): array{
@@ -200,6 +209,10 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 if (isset($_GET['getProperties'])){
     exit(json_encode(get_properties(2)));
+}
+if (isset($_GET['deleteProp'])){
+    deleteProperty($_GET['deleteProp']);
+    exit(json_encode(array("success" => "")));
 }
 if (isset($_GET['getProperty'])){
     exit(json_encode(get_property($_GET['getProperty'], 2)));
