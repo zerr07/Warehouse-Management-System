@@ -216,6 +216,9 @@ $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images
 
 $existImages = array();
 $counter = 1;
+
+$id_prestashop = PR_GET_Product_By_Tag($itemTagID)['products'][0]['id'];
+
 if (!empty($images)) {
     foreach ($images as $val) {
         if ($val[0] == "exist"){
@@ -250,9 +253,19 @@ if (!empty($images)) {
         }
         file_put_contents($name, $value);
         array_push($existImages, '/uploads/images/products/' . $filename);
+        $res = PR_POST_Product_Image($id_prestashop, $_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$filename, false);
+        $id_img_prestashop = (string) simplexml_load_string($res)->image->id;
         mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "INSERT INTO {*product_images*}
-                                            (id_item, image, `position`) VALUES ('$last','$filename','$counter')"));
+                                            (id_item, image, `position`, id_prestashop) VALUES ('$last','$filename','$counter', '$id_img_prestashop')"));
+
+
         $counter++;
+    }
+    $q_img_del = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_images*} WHERE id_item='$last'
+        AND position='0'"));
+    while ($row = $q_img_del->fetch_assoc()){
+        $id_img_prestashop = $row['id_prestashop'];
+        PR_DELETE_Product_Image($id_prestashop, $id_img_prestashop);
     }
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_images*} WHERE id_item='$last'
         AND position='0'"));

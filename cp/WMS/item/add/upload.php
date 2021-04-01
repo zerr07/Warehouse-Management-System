@@ -35,23 +35,6 @@ if ($_POST['override'] == "Yes"){
     $override = 0;
 }
 
-$width = $_POST['width'];
-$height = $_POST['height'];
-$depth = $_POST['depth'];
-$weight = $_POST['weight'];
-if ($width == ""){
-    $width = 0.00;
-}
-if ($height == ""){
-    $height = 0.00;
-}
-if ($depth == ""){
-    $depth = 0.00;
-}
-if ($weight == ""){
-    $weight = 0.00;
-}
-
 $marginPercent = $_POST['itemMarginPercent'];
 $marginNumber = $_POST['itemMarginNumber'];
 

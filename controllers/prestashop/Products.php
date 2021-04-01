@@ -96,14 +96,18 @@ function PR_DELETE_Product_By_Tag($tag){
     $url = "https://$api_key@$domain/api/products/$id?output_format=JSON";
     CallDELETEAPI($url);
 }
-function PR_POST_Product_Image($id, $image){
+function PR_POST_Product_Image($id, $image, $json = true){
     global $domain, $api_key;
     $data = array('image'=> new CURLFILE($image));
-    $url = "https://$api_key@$domain/api/images/products/$id?output_format=JSON";
-    return CallPOSTAPI( $url, $data);
+    if ($json){
+        $url = "https://$api_key@$domain/api/images/products/$id?output_format=JSON";
+    } else {
+        $url = "https://$api_key@$domain/api/images/products/$id";
+    }
+    return CallPOSTAPI( $url, $data, $json);
 
 }
-function PR_POST_Product($id){
+function PR_POST_Product($id, $images=false){
     global $domain, $api_key;
     $data = get_product($id);
     $PriceTaxExcluded = round($data['platforms'][_ENGINE['ps_platform_id']]['price']/1.2, 5);
@@ -160,14 +164,19 @@ function PR_POST_Product($id){
             $carr_ref = $val['shop_id'];
             $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "INSERT INTO {*ps_product_carrier*} (id_product, id_carrier_reference, id_shop) VALUES ('$id', '$carr_ref', '1')"));
         }
-        foreach ($data['images'] as $key => $value){
-            PR_POST_Product_Image($id, $_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$value['image']);
+        if ($images){
+            foreach ($data['images'] as $key => $value){
+                $res = PR_POST_Product_Image($id, $_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$value['image'], false);
+                $id_img_prestashop = (string) simplexml_load_string($res)->image->id;
+                $id_img = $value['id'];
+                $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET id_prestashop='$id_img_prestashop' WHERE id='$id_img'"));
+            }
         }
         PR_PUT_Product_Stock_Available($id, $data['quantity']);
     }
 }
 
-function PR_PUT_Product($id_product){
+function PR_PUT_Product($id_product, $images=false){
     global $domain, $api_key;
     $data = get_product($id_product);
     $id = PR_GET_Product_By_Tag($data['tag'])['products'][0]['id'];
@@ -232,9 +241,15 @@ function PR_PUT_Product($id_product){
             $carr_ref = $val['shop_id'];
             $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "INSERT INTO {*ps_product_carrier*} (id_product, id_carrier_reference, id_shop) VALUES ('$id', '$carr_ref', '1')"));
         }
-        foreach ($data['images'] as $key => $value){
-            PR_POST_Product_Image($id, $_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$value['image']);
+        if ($images){
+            foreach ($data['images'] as $key => $value){
+                $res = PR_POST_Product_Image($id, $_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$value['image'], false);
+                $id_img_prestashop = (string) simplexml_load_string($res)->image->id;
+                $id_img = $value['id'];
+                $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_images*} SET id_prestashop='$id_img_prestashop' WHERE id='$id_img'"));
+            }
         }
+
         PR_PUT_Product_Stock_Available($id, $data['quantity']);
     }
 }

@@ -28,7 +28,7 @@ function CallGETAPI($url){
         return null;
     }
 }
-function CallPOSTAPI($url, $data){
+function CallPOSTAPI($url, $data, $json = true){
     if(!isset($GLOBALS['BIGCONN'])){
         return null;
     }
@@ -47,7 +47,11 @@ function CallPOSTAPI($url, $data){
     $result = curl_exec($curl);
     curl_close($curl);
     if($result) {
-        return json_decode($result, true);
+        if ($json){
+            return json_decode($result, true);
+        } else {
+            return $result;
+        }
     } else {
         return null;
     }
