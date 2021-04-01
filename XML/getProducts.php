@@ -37,8 +37,7 @@ if (mysqli_num_rows($check) == 0){
     $platform = $res['id_platform'];
     $coefficient_q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT profitMargin FROM {*platforms*} WHERE id='$platform'"));
     $coefficient = mysqli_fetch_assoc($coefficient_q)['profitMargin'];
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *,
-        (SELECT `name` FROM {*category_name*} WHERE id_lang='3' AND id_category={*products*}.id_category) as category_name 
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *
         FROM {*products*} WHERE tag LIKE '$prefix%' AND id_shard='$shard' AND
         id IN (SELECT id_item FROM {*product_platforms*} WHERE id_platform='$platform' AND export='1')"));
 
@@ -54,8 +53,11 @@ if (mysqli_num_rows($check) == 0){
         if($row['tag'] != "" && $row['quantity'] != "" ) {
             $arr = read_result_single($row);
 
-            $index = $arr['id_category'];
             $id = $arr['id'];
+            $main_cat = get_main_category_export($arr['id']);
+            if (is_null($main_cat)){
+                continue;
+            }
 
             $code = "";
             $queryCode = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*product_codes*} WHERE id_product='$id' LIMIT 1"));
@@ -65,7 +67,7 @@ if (mysqli_num_rows($check) == 0){
 
             $xml->startElement('product');
 
-            if ($platform==9){
+            if ($platform==5){
                 $xml->startElement('ProductId');
                 $xml->text($arr['id']);
                 $xml->endElement();
@@ -125,26 +127,26 @@ if (mysqli_num_rows($check) == 0){
             }
 
             $xml->startElement('id_category');
-            $xml->text($arr['id_category']);
+            $xml->text($main_cat);
             $xml->endElement();
 
             if (isset($_GET['type']) && $_GET['type'] == "full"){
                 $xml->startElement('category_name');
-                $xml->writeCdata($arr['category_name']);
+                $xml->writeCdata(get_product_category_name($main_cat));
                 $xml->endElement();
                 $xml->startElement('category_name_text');
-                $xml->text($arr['category_name']);
+                $xml->text(get_product_category_name($main_cat));
                 $xml->endElement();
             }
             if (isset($_POST['type']) && $_POST['type'] == "full"){
                 $xml->startElement('category_name');
-                $xml->writeCdata($arr['category_name']);
+                $xml->writeCdata(get_product_category_name($main_cat));
                 $xml->endElement();
                 $xml->startElement('category_name_text');
-                $xml->text($arr['category_name']);
+                $xml->text(get_product_category_name($main_cat));
                 $xml->endElement();
             }
-            if ($platform == 9){
+            if ($platform == 5){
                 $xml->startElement('weight');
                 $xml->endElement();
                 $images = "";
@@ -229,16 +231,16 @@ if (mysqli_num_rows($check) == 0){
                 $xml->endElement();
             }
             $xml->startElement('price');
-            /*if ($platform == 5){
+            /*if ($platform == 3){
                 $xml->text(round($arr['platforms'][2]['price']/1.2, 2));
             } else {*/
                 $xml->text($arr['platforms'][$platform]['price']);
             //}
             $xml->endElement();
 
-            if ($platform == 5) {
+            if ($platform == 3) {
                 $xml->startElement('buyPrice');
-                $xml->text(round($arr['platforms'][5]['price']*$coefficient,2));
+                $xml->text(round($arr['platforms'][3]['price']*$coefficient,2));
                 $xml->endElement();
             }
 

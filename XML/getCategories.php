@@ -25,7 +25,7 @@ if (mysqli_num_rows($check) == 0){
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *, 
         (SELECT `name` FROM {*category_name*} WHERE id_lang='3' AND id_category={*categories*}.id LIMIT 1) as category_name,
         (SELECT `name` FROM {*category_name*} WHERE id_lang='3' AND id_category={*categories*}.parent LIMIT 1) as category_parent 
-        FROM {*categories*}"));
+        FROM {*categories*} WHERE export='1'"));
 
     $xml = new XMLWriter();
     $xml->openURI("test.xml");

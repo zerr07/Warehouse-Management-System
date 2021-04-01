@@ -36,8 +36,7 @@ if (mysqli_num_rows($check) == 0){
     $platform = $res['id_platform'];
     $coefficient_q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT profitMargin FROM {*platforms*} WHERE id='$platform'"));
     $coefficient = mysqli_fetch_assoc($coefficient_q)['profitMargin'];
-    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *, 
-        (SELECT `name` FROM {*category_name*} WHERE id_lang='3' AND id_category={*products*}.id_category) as category_name 
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT *
         FROM {*products*} WHERE tag='$id' AND id_shard='$shard' AND
         id IN (SELECT id_item FROM {*product_platforms*} WHERE id_platform='$platform' AND export='1')"));
 
@@ -50,7 +49,10 @@ if (mysqli_num_rows($check) == 0){
     while ($row = mysqli_fetch_assoc($q)){
         if($row['tag'] != "" && $row['quantity'] != "" ) {
             $arr = read_result_single($row);
-            $index = $arr['id_category'];
+            $main_cat = get_main_category_export($arr['id']);
+            if (is_null($main_cat)){
+                continue;
+            }
             $id = $arr['id'];
 
             $code = "";
@@ -122,17 +124,23 @@ if (mysqli_num_rows($check) == 0){
             }
 
             $xml->startElement('id_category');
-            $xml->text($arr['id_category']);
+            $xml->text($main_cat);
             $xml->endElement();
 
             if (isset($_GET['type']) && $_GET['type'] == "full"){
                 $xml->startElement('category_name');
-                $xml->writeCdata($arr['category_name']);
+                $xml->writeCdata(get_product_category_name($main_cat));
+                $xml->endElement();
+                $xml->startElement('category_name_text');
+                $xml->text(get_product_category_name($main_cat));
                 $xml->endElement();
             }
             if (isset($_POST['type']) && $_POST['type'] == "full"){
                 $xml->startElement('category_name');
-                $xml->writeCdata($arr['category_name']);
+                $xml->writeCdata(get_product_category_name($main_cat));
+                $xml->endElement();
+                $xml->startElement('category_name_text');
+                $xml->text(get_product_category_name($main_cat));
                 $xml->endElement();
             }
 

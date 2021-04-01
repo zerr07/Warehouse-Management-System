@@ -6,11 +6,11 @@ include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 if (!defined('PRODUCTS_INCLUDED')){
     include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_products.php');
 }
-$q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*products*} WHERE tag LIKE 'AZ%' AND
-                                id IN (SELECT id_item FROM {*product_platforms*} WHERE id_platform='6' AND export='1')"));
+$q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*products*} WHERE tag LIKE 'LT%' AND
+                                id IN (SELECT id_item FROM {*product_platforms*} WHERE id_platform='4' AND export='1')"));
 
 include_once($_SERVER["DOCUMENT_ROOT"] . '/controllers/products/get_platforms.php');
-$platform_desc = get_platform_desc_decoded(6);
+$platform_desc = get_platform_desc_decoded(4);
 function tag_process($str, $tag){
     $string = str_replace("&lt;-TAG-&gt;",$tag , $str);
     $string = str_replace("<-TAG->",$tag , $string);
@@ -51,8 +51,11 @@ while ($row = mysqli_fetch_assoc($q)){
         if (!$arr['carrier'][1]['enabled'] && !$arr['carrier'][2]['enabled']){
             continue;
         }
-        $index = $arr['id_category'];
-        $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*category_platform*} WHERE id_platform='6' AND id_category='$index' LIMIT 2"));
+        $index = get_main_category_export($arr['id']);
+        if (is_null($index)){
+            continue;
+        }
+        $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*category_platform*} WHERE id_platform='4' AND id_category='$index' LIMIT 2"));
         if(mysqli_num_rows($query) == 0) {
             continue;
         }
@@ -85,15 +88,21 @@ while ($row = mysqli_fetch_assoc($q)){
         xmlwriter_start_element($xw, 'images');
 
         xmlwriter_start_element($xw, 'image_url');
-        xmlwriter_text($xw, "http://cp.azdev.eu/uploads/images/products/".$arr['mainImage']);
+        xmlwriter_text($xw, "http://ass.azdev.eu/uploads/images/products/".$arr['mainImage']);
         xmlwriter_end_element($xw); // image_url
-
+	$c = 0;
         foreach ($arr['images'] as $img){
             if ($img['primary'] != 1){
                 xmlwriter_start_element($xw, 'image_url');
-                xmlwriter_text($xw, "http://cp.azdev.eu/uploads/images/products/".$img['image']);
+                xmlwriter_text($xw, "http://ass.azdev.eu/uploads/images/products/".$img['image']);
                 xmlwriter_end_element($xw); // image_url
             }
+		if($c < 10){
+			$c++;
+		} else {
+			break;
+		}
+		
         }
 
         xmlwriter_end_element($xw); // images
@@ -123,7 +132,7 @@ while ($row = mysqli_fetch_assoc($q)){
         xmlwriter_start_element($xw, 'price');
 
         xmlwriter_start_element($xw, 'start_price');
-        xmlwriter_text($xw, $arr['platforms'][6]['price']);
+        xmlwriter_text($xw, $arr['platforms'][4]['price']);
         xmlwriter_end_element($xw); // start_price
 
         xmlwriter_end_element($xw); // price
@@ -153,9 +162,9 @@ while ($row = mysqli_fetch_assoc($q)){
 
         xmlwriter_start_element($xw, 'shipment');
 
-        xmlwriter_start_element($xw, 'shipment_term');
-        xmlwriter_text($xw, "7");
-        xmlwriter_end_element($xw); // shipment_term
+        //xmlwriter_start_element($xw, 'shipment_term');
+        //xmlwriter_text($xw, "7");
+        //xmlwriter_end_element($xw); // shipment_term
         /*if($arr['carrier'][2]['enabled']) {
             xmlwriter_start_element($xw, 'shipment_price_courier');
             xmlwriter_text($xw, $arr['carrier'][2]['price']);
@@ -163,7 +172,9 @@ while ($row = mysqli_fetch_assoc($q)){
         }*/
         if($arr['carrier'][1]['enabled']){
             xmlwriter_start_element($xw, 'ship_courier_smartpost');
-            xmlwriter_end_element($xw); // ship_courier_smartpost
+            xmlwriter_end_element($xw); // ship_courier_smartpost_free
+            xmlwriter_start_element($xw, 'ship_courier_smartpost_free');
+            xmlwriter_end_element($xw); // ship_courier_smartpost_free
             xmlwriter_start_element($xw, 'smartpost_size_id');
             xmlwriter_text($xw, "1");
             xmlwriter_end_element($xw); // smartpost_size_id
@@ -192,7 +203,6 @@ while ($row = mysqli_fetch_assoc($q)){
         xmlwriter_end_element($xw); // shipment
 
         xmlwriter_end_element($xw); // item
-
     }
 }
 xmlwriter_end_element($xw); // items
