@@ -930,7 +930,7 @@
         fileInputForm.setAttribute("class", "custom-file-input");
         fileInputForm.setAttribute("id", "DefaultFileInput");
         fileInputForm.setAttribute("accept", "application/pdf, application/vnd.ms-excel");
-	fileInputForm.setAttribute("onchange", "showFileInputVenipak(this)");
+	fileInputForm.setAttribute("onchange", "showFileInputOther(this)");
 
         fileInputDiv.appendChild(fileInputLabel);
         fileInputDiv.appendChild(fileInputForm);
