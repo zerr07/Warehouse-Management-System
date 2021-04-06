@@ -6,13 +6,13 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
 <head>
     <title>Manual Mobile Scanner</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="/templates/default/assets/js/cookie.js"></script>
+    <script type="text/javascript" src="/templates/default/assets/js/script.js"></script>
     <script type="text/javascript" src="api/quagga/dist/quagga.min.js"></script>
     <link rel="stylesheet" href="/templates/default/assets/css/default/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="/templates/default/assets/js/fontawesome-all.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=0.4, maximum-scale=0.4, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
     <style>
 
@@ -28,42 +28,41 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
             overflow: auto;
         }
         .btnQuantity {
-            width: 18.5%;
-            margin-right: 10px;
-            height: 100px;
-            font-size: xxx-large;
-            font-size: -webkit-xxx-large;
+            /*width: 18.5%;
+            margin-right: 2%;
+            height: 7vh;
+            font-size: 3vh;*/
         }
         .btnScan {
             width: 100%;
-            margin-top: 100px;
+            margin-top: 3vh;
             margin-right: 10px;
-            height: 100px;
-            font-size: xx-large;
-            font-size: -webkit-xx-large;
+            height: 7vh;
+            font-size: 3vh;
         }
-        .inputTag {
-            position: fixed;
-            bottom: 255px;
-            left: 0;
-        }
+
     </style>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row flex-xl-nowrap">
+<div class="container-fluid h-100 min-vh-100">
+    <div class="row flex-xl-nowrap" style="min-height: 75vh !important;">
         <div class="col-12">
             <div class="col-12" id="productBox">
 
             </div>
         </div>
     </div>
-    <input type="text" id="tagbox" class="form-control-lg w-100 inputTag" placeholder="Product tag" onfocus="setScannerState('product')">
-    <button type="button" class="btn btn-primary w-100" style="height: 250px;position: fixed;
-    bottom: 0;
-    left: 0;" onclick="scanProduct()">
-        <span style="font-size: xxx-large;font-size: -webkit-xxx-large;"><i class="fa fa-barcode"></i> Scan</span>
-    </button>
+    <div class="row">
+        <div class="col-12">
+            <input type="text" id="tagbox" class="form-control-lg w-100 inputTag" placeholder="Product tag" onfocus="setScannerState('product')">
+        </div>
+        <div class="col-12">
+            <button type="button" class="btn btn-primary w-100" style="height: 18vh;" onclick="scanProduct()">
+                <span style="font-size: xxx-large;font-size: -webkit-xxx-large;"><i class="fa fa-barcode"></i> Scan</span>
+            </button>
+        </div>
+
+    </div>
     <!-- location Scanner Modal -->
     <div id="location_scanner" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="location_scannerLabel" aria-hidden="true" bis_skin_checked="1">
         <div class="modal-dialog" role="document" bis_skin_checked="1">
@@ -197,22 +196,28 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
             $("#productBox").html(
                 "<div class='jumbotron'>" +
                 "<div class='row'>" +
-                "<div class='col-3'>" +
-                "<img class='img-fluid' src='/uploads/images/products/"+data['mainImage']+"'>" +
+                "<div class='col-3 col-sm-3 col-md-3 col-lg-3'>" +
+                "<img class='img-fluid' style='min-height: 3vh;max-height: 18vh;min-width: 3vh' src='/uploads/images/products/"+data['mainImage']+"'>" +
                 "</div>" +
-                "<div class='col-9'>" +
-                "<h1 class='display-4'>"+ data['name']['et'] +"</h1>" +
-                "</div></div>"+
-                "<p class='lead display-4'>Tag: " + data['tag'] + "</p>"+
-                "<p class='lead display-4'>Location: " + data['locations'] + "</p>"+
-                "<p class='lead display-4'>Quantity: " + data['quantity'] + "</p>"+
+                "<div class='col-9 col-sm-9 col-md-9 col-lg-6'>" +
+                "<h1 style='font-size: 3vh'>"+ data['name']['et'] +"</h1>" +
+                "</div>" +
+                "<div class='col-12 col-sm-12 col-md-12 col-lg-3'>" +
+                "<p class='lead' style='font-size: 3vh'>Tag: " + data['tag'] + "</p>"+
+                "<p class='lead' style='font-size: 3vh'>Location: " + data['locations'] + "</p>"+
+                "<p class='lead' style='font-size: 3vh'>Quantity: " + data['quantity'] + "</p>" +
+                "</div>"+
+                "</div>"+
+
                 "<select class=\"custom-select w-100\" name=\"location\" id='location'>"+
                 "</select>"+
-                "<button type=\"button\" class=\"btn btn-primary btnQuantity\"   onclick=\"changeQuantity('plus1',      "+ data['id'] +")\">+1</button>" +
-                "<button type=\"button\" class=\"btn btn-primary btnQuantity\"   onclick=\"changeQuantity('plus3',      "+ data['id'] +")\">+3</button>" +
-                "<button type=\"button\" class=\"btn btn-primary btnQuantity\"   onclick=\"changeQuantity('plus5',      "+ data['id'] +")\">+5</button>" +
-                "<button type=\"button\" class=\"btn btn-primary btnQuantity\"   onclick=\"changeQuantity('plus10',     "+ data['id'] +")\">+10</button>" +
-                "<button type=\"button\" class=\"btn btn-secondary btnQuantity\" onclick=\"changeQuantity('minus1',     "+ data['id'] +")\">-1</button>" +
+                "<div class='row mt-2'>" +
+                "<div class='col-3 col-sm-3 col-md-2'> <button type=\"button\" class=\"btn btn-primary btnQuantity w-100\"   onclick=\"changeQuantity('plus1',      "+ data['id'] +")\">+1</button></div>" +
+                "<div class='col-3 col-sm-3 col-md-2'> <button type=\"button\" class=\"btn btn-primary btnQuantity w-100\"   onclick=\"changeQuantity('plus3',      "+ data['id'] +")\">+3</button></div>" +
+                "<div class='col-3 col-sm-3 col-md-2'> <button type=\"button\" class=\"btn btn-primary btnQuantity w-100\"   onclick=\"changeQuantity('plus5',      "+ data['id'] +")\">+5</button></div>" +
+                "<div class='col-3 col-sm-3 col-md-3'> <button type=\"button\" class=\"btn btn-primary btnQuantity w-100\"   onclick=\"changeQuantity('plus10',     "+ data['id'] +")\">+10</button></div>" +
+                "<div class='col-12 col-sm-12 col-md-3 mt-2 mt-sm-2 mt-md-0'> <button type=\"button\" class=\"btn btn-warning btnQuantity w-100\" onclick=\"changeQuantity('minus1',     "+ data['id'] +")\">-1</button></div>" +
+                "</div>" +
                 "<button type=\"button\" class=\"btn btn-primary btnScan\"   onclick=\"setScannerState('location');locbox.focus();\"" +
                 " data-toggle=\"modal\" data-target=\"#location_scanner\">Scan new location</button>" +
                 "<button type=\"button\" class=\"btn btn-primary btnScan\"" +
@@ -221,6 +226,7 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
         }
         let options = "";
         let def = getCookie("default_location_type");
+        console.log(data)
         for (let c in data['locationList']){
             if (def === data['locationList'][c]['id_type']){
                 options += "<option value='"+data['locationList'][c]['id']+"' selected>";
