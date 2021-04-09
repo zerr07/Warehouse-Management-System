@@ -22,7 +22,6 @@ function get_product_range($page, $status, $shard, $full=true){
     global $search, $select, $searchSelect, $searchSearch;
     $onPage = _ENGINE['onPage'];
     $start = $page*$onPage;
-
     if ($status == "Search"){
         return /** @lang text */ "SELECT $searchSelect FROM {*products*} WHERE id_shard='$shard' $searchSearch";
     }
@@ -164,6 +163,8 @@ function read_result_single($row, $full=true){
     $arr = $row;
     $arr['name'] = get_name($id);
     $arr['quantity'] = get_quantity_sum($id);
+    $arr['home_qty'] = get_quantity_sum_home($id);
+    $arr['supp_qty'] = get_quantity_sum_supp($id);
     $arr = array_merge($arr, get_locations($id));
     $arr['platforms'] = get_platform_data($id);
     $arr['categories'] = get_product_categories($id);
@@ -200,6 +201,40 @@ function get_manufacturer_name($index){
 }
 function get_quantity_sum($index){
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT SUM(quantity) as q FROM {*product_locations*} WHERE id_item='$index'"));
+    if ($q){
+        return $q->fetch_assoc()['q'];
+    }
+    return null;
+}
+
+function get_quantity_sum_home($index){
+    if (!empty(_ENGINE['home_warehouse'])){
+        $append = array();
+        foreach (_ENGINE['home_warehouse'] as $id){
+            array_push($append, "id_type='$id'");
+        }
+        $append = " AND (".implode(" OR ", $append).")";
+    } else {
+        $append = "";
+    }
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT SUM(quantity) as q FROM {*product_locations*} WHERE id_item='$index'$append"));
+    if ($q){
+        return $q->fetch_assoc()['q'];
+    }
+    return null;
+}
+
+function get_quantity_sum_supp($index){
+    if (!empty(_ENGINE['home_warehouse'])){
+        $append = array();
+        foreach (_ENGINE['home_warehouse'] as $id){
+            array_push($append, "NOT id_type='$id'");
+        }
+        $append = " AND (".implode(" AND ", $append).")";
+    } else {
+        $append = "";
+    }
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT SUM(quantity) as q FROM {*product_locations*} WHERE id_item='$index'$append"));
     if ($q){
         return $q->fetch_assoc()['q'];
     }
@@ -558,10 +593,13 @@ if (isset($_GET['getProductsFromArray'])){
     echo json_encode(get_products_dataList($_COOKIE['id_shard']));
 }
 if (isset($_GET['getSingleProduct'])){
-    echo json_encode(get_product($_GET['getSingleProduct']));
+    exit(json_encode(get_product($_GET['getSingleProduct'])));
+}
+if (isset($_GET['getSingleProductNotFull'])){
+    exit(json_encode(get_product($_GET['getSingleProductNotFull'], false)));
 }
 if (isset($_GET['searchName']) && $_GET['searchName'] != ""){
-    $search .= "AND id IN (SELECT id_product FROM {*product_name*} WHERE (id_lang='3' OR id_lang='1')";
+    $search .= " AND (id IN (SELECT id_product FROM {*product_name*} WHERE (id_lang='3' OR id_lang='1')";
     $searchString = htmlentities($_GET['searchName'], ENT_QUOTES, "UTF-8");
     $searchString = explode(" ", $searchString);
     foreach ($searchString as $str){
@@ -569,7 +607,7 @@ if (isset($_GET['searchName']) && $_GET['searchName'] != ""){
     }
     $search.=")";
     $searchString = implode(" ", $searchString);
-    $search .= " OR id IN (SELECT id_item FROM {*supplier_data*} WHERE SKU LIKE '%$searchString%')";
+    $search .= " OR id IN (SELECT id_item FROM {*supplier_data*} WHERE SKU LIKE '%$searchString%'))";
     $searchSearch = $search;
 }
 if (isset($_GET['searchSupplierName']) && $_GET['searchSupplierName'] != ""){
@@ -615,8 +653,11 @@ if (isset($_GET['platformSearchOn']) || isset($_GET['platformSearchOff'])){
 
 if (isset($_GET['cat'])){
     $cat = $_GET['cat'];
-    $searchSearch = "AND $cat IN (SELECT id_category FROM {*product_categories*} WHERE id_product={*products.id*})";
-    $search = "AND $cat IN (SELECT id_category FROM {*product_categories*} WHERE id_product={*products.id*})";
+    if ($cat != "None"){
+        $searchSearch .= " AND $cat IN (SELECT id_category FROM {*product_categories*} WHERE id_product={*products.id*})";
+        $search .= " AND $cat IN (SELECT id_category FROM {*product_categories*} WHERE id_product={*products.id*})";
+    }
+
 
 }
 if(isset($_GET['only']) && $_GET['only'] == "Full"){
