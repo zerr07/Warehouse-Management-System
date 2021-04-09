@@ -75,8 +75,8 @@ include_once($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
                 </div>
                 <div class="modal-body" bis_skin_checked="1">
                     <input type="text" id="scanLocationBox" class="form-control-lg w-100" placeholder="New Location" onfocus="setScannerState('location')">
-                    <button type="button" class="btn btn-lg btn-primary w-100"
-                        <span style="font-size: xxx-large;font-size: -webkit-xxx-large;"><i class="fa fa-barcode"></i> Submit</span>
+                    <button type="button" class="btn btn-lg btn-primary w-100"><span style="font-size: xxx-large;font-size: -webkit-xxx-large;">
+                        <i class="fa fa-barcode"></i> Submit</span>
                     </button>
                 </div>
                 <div class="modal-footer" bis_skin_checked="1">
