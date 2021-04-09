@@ -1,5 +1,7 @@
 {include file='header.tpl'}
 {assign var="SHOP" value=1}
+<form action="/cp/WMS/" class="text-left" method="GET"  id="SearchForm">
+
             <div class="row">
                 <div class="col-md-4 col-sm-12 mt-3">
                     <a class="btn btn-primary w-100" href="/cp/WMS/item/add/"><i class="fas fa-plus"></i>&nbsp;Add item</a>
@@ -16,15 +18,15 @@
                     </a>
                     <div class="collapse multi-collapse" id="moresettings" style="margin-top: 4px;">
                         <div class="card card-body" >
-                            <form action="/cp/WMS/" class="text-left" style="margin-left: 10px;" method="GET">
+                            <div class="ml-2">
                                 {include file='cp/WMS/category/tree/radio/tree.tpl'}
-                            </form>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <form action="/cp/WMS/" class="text-left w-100 form-inline" style="padding-top: 10px;" method="GET" id="SearchForm">
                     <div class="col-sm-12 col-md-4 col-lg-2 mt-2">
                         <input type="text" class="form-control w-100" name="searchTagID" id="searchTagID" placeholder="Search by ID" autofocus>
                     </div>
@@ -108,9 +110,10 @@
                             </div>
                         </div>
                     </div>
-                </form>
             </div>
-                <div class="row">
+</form>
+
+<div class="row">
                 <div class="col-md-12">
 
                     {if $products|@count == 0}
@@ -141,7 +144,7 @@
 
                                                     <p class="card-text m-0">Shop price:
                                                         {if !isset($item.platforms.$SHOP.price) || $item.platforms.$SHOP.price == ""}Not set{else}{$item.platforms.$SHOP.price}{/if}</p>
-                                                    <p class="card-text m-0">Quantity: {if $item.quantity == ""}Not set{else}{$item.quantity}{/if}</p>
+                                                    <p class="card-text m-0">Quantity: {if $item.home_qty == ""}Not set{else}{$item.home_qty}{/if} (+{if $item.supp_qty == ""}Not set{else}{$item.supp_qty}{/if})</p>
                                                     <p class="card-text m-0">Locations: {if $item.locations|replace:" ":"" == ""}Not set{else}{$item.locations}{/if}</p>
 
 
