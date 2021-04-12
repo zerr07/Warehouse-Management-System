@@ -15,17 +15,19 @@ class Smarty_startup extends Smarty {
    function __construct()
    {
 
-        // Конструктор класса.
-        // Он автоматически вызывается при создании нового экземпляра.
+       // Конструктор класса.
+       // Он автоматически вызывается при создании нового экземпляра.
+       parent::__construct();
+       $this->setTemplateDir($_SERVER["DOCUMENT_ROOT"].'/templates/'._ENGINE['template']);
+       $this->setCompileDir($_SERVER["DOCUMENT_ROOT"].'/templates_c');
+       $this->setCacheDir($_SERVER["DOCUMENT_ROOT"].'/cache');
+       $this->setConfigDir($_SERVER["DOCUMENT_ROOT"].'/configs');
 
-        parent::__construct();
-
-        $this->setTemplateDir($_SERVER["DOCUMENT_ROOT"].'/templates/'._ENGINE['template']);
-        $this->setCompileDir($_SERVER["DOCUMENT_ROOT"].'/templates_c');
-        $this->setCacheDir($_SERVER["DOCUMENT_ROOT"].'/cache');
-        $this->setConfigDir($_SERVER["DOCUMENT_ROOT"].'/configs');
-
-        $this->caching = FALSE;
+       $this->caching = _ENGINE['cache'];
+       $this->setCaching(Smarty::CACHING_LIFETIME_SAVED);
+       $this->setCacheLifetime(3600); // 1hour
+       $this->loadFilter('output', 'trimwhitespace');
+       $this->setCompileCheck(_ENGINE['compile_check']);
    }
 }
 global $smarty;
