@@ -52,7 +52,7 @@
 <script src="/templates/default/assets/js/popper.js?t=16102020T165603"></script>
 <script src="/templates/default/assets/js/bootstrap.min.js?t=16102020T165600"></script>
 
-
+<script src="/templates/default/assets/js/lazysizes.min.js?t=12042021T111844"></script>
 <script src="/templates/default/assets/js/smooth-scroll.js?t=16102020T165557"></script>
 <script src="/templates/default/assets/js/sidebar.js?t=20201209T124521"></script>
 

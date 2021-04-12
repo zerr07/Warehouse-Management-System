@@ -44,6 +44,8 @@ if (isset($_GET['platformSearchOff'])) {
 if (isset($_GET['platformSearchOn'])) {
     $smarty->assign("platformSearchOn", $_GET['platformSearchOn']);
 }
+if (isset($_GET['cat'])) {
+    $smarty->assign("cat_search", $_GET['cat']);
+}
 $smarty->display('cp/WMS/index.tpl');
-
 ?>
