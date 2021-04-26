@@ -28,16 +28,22 @@ function get_parser_prices($id, $platforms){
     }
 
     if (!empty($prices)){
-        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT MAX(priceVAT) as price FROM supplier_data WHERE id_item='$id'"));
+        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT MAX(priceVAT) as price 
+            FROM supplier_data WHERE id_item='$id'"));
         $price_supp = round($q->fetch_assoc()['price']*1.2, 2);
         $min_price = number_format(round(min($prices), 2), 2);
         foreach ($platforms as $key => $value){
-            if (round($price_supp*1.1/$value['profitMargin'], 2) < $min_price){
-                $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_platforms*} SET price='$min_price' WHERE id_item='$id' AND id_platform='$key'"));
-
+            if (round(($price_supp*1.1)-$price_supp, 2) < $value['minMargin'])
+                $pr_supp = $price_supp + $value['minMargin'];
+            else
+                $pr_supp = $price_supp * 1.1;
+            if (round($pr_supp/$value['profitMargin'], 2) < $min_price){
+                $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_platforms*} 
+                    SET price='$min_price' WHERE id_item='$id' AND id_platform='$key' AND custom='0'"));
             } else {
-                $new_price = number_format(round($price_supp*1.1/$value['profitMargin'], 2), 2);
-                $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_platforms*} SET price='$new_price' WHERE id_item='$id' AND id_platform='$key'"));
+                $new_price = number_format(round($pr_supp/$value['profitMargin'], 2), 2);
+                $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_platforms*} 
+                    SET price='$new_price' WHERE id_item='$id' AND id_platform='$key' AND custom='0'"));
             }
         }
         return array("success"=>$price_supp." < ".$min_price);
