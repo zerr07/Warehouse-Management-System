@@ -176,7 +176,7 @@
 <script>
     document.getElementById("SearchBtn").addEventListener("click", function () {
         let nameSearch = document.getElementById("searchName");
-        let nameID = document.querySelector("datalist[id='productDataList'] > option[value='"+nameSearch.value+"']");
+        let nameID = document.querySelector("datalist[id='productDataList'] > option[value='"+nameSearch.value.replace(/'/g, "\\'")+"']");
         if (nameID){
             window.location.href = "/cp/WMS/view/?view="+nameID.getAttribute("data-id");
         } else {
