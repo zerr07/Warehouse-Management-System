@@ -51,7 +51,13 @@ function getSKU($start, $end){
         $arr = array();
         foreach ($q as $row) {
             $q_n = $GLOBALS['DBCONN']->query(prefixQuery("SELECT `name` FROM {*product_name*} WHERE id_product=(SELECT id FROM {*products*} WHERE tag='".$row['productsku']."')"));
-            $arr[$row['productsku']] = $q_n->fetch_assoc()['name'];
+            while ($row_n = $q_n->fetch_assoc()){
+                if(str_replace(" ", "", $row_n['name']) != ""){
+                    $arr[$row['productsku']] = $row_n['name'];
+                    break;
+                }
+            }
+
         }
         return $arr;
     }
