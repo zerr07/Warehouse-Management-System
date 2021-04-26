@@ -844,6 +844,91 @@ Example request body:
 | 1108 | Shipment status does not allow data change. |
 
 
+#### Supplier quantity and price sync
+| Method | Allowed |
+| :----: | :-----: | 
+| GET | Yes |
+| POST | No |
+| PUT | Yes |
+| DELETE | Yes |
+
+
+**GET** - Returns skus by a supplier name
+
+Path: {Your_Domain}/api/SyncSupplier
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| supplier_name | String | A supplier name | Yes |
+
+| Code | Message |
+| :---: | :---- | 
+| 1300 | Supplier name either empty or not supplied. |
+
+**PUT** - Updates quantity and price of product by supplier SKU
+
+Path: {Your_Domain}/api/SyncSupplier
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| supplier_sku | String | A supplier SKU | Yes |
+| supplier_name | String | A supplier name | Yes(if price supplied) |
+| supplier_url | String | A supplier url in case supplier data does not exist in the database | No |
+| warehouse_id | Integer | A warehouse id | Yes(if qty supplied) |
+| qty | Integer | Quantity of product  | No |
+| price | Float/Double with 2 decimal places | Supplier's price (Needed if supplier data does not exist in the database) | No |
+| barcodes | Array | Array of barcodes in case supplier data does not exist in the database | No |
+| product_name | String | A product name will be used to find product if not found by barcode and sku  | No |
+
+
+Example request body:
+<pre>
+{
+    "supplier_sku": "D-213211",
+    "supplier_name": "Dreamlove",
+    "supplier_url": "url",
+    "warehouse_id": "1",
+    "qty": "12",
+    "price": "55.22",
+    "barcodes": ["2132132132131"],
+    "product_name": ""
+}
+</pre>
+
+| Code | Message |
+| :---: | :---- | 
+| 1200 | Supplier SKU either empty or not supplied. |
+| 1201 | Supplier name either empty or not supplied. |
+| 1202 | Warehouse id either empty or not supplied. |
+| 1203 | No product found by SKU, no product found by barcode. |
+| 1204 | No product found by SKU, barcodes either empty or not supplied. |
+| 1205 | No price supplied hence supplier data cannot be inserted. |
+| 1206 | No url supplied hence supplier data cannot be inserted. |
+| 1207 | No product found by SKU, by barcode and name. |
+
+**DELETE** - Deletes the suppliers warehouse
+
+Path: {Your_Domain}/api/SyncSupplier
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| supplier_sku | String | A supplier SKU | Yes |
+| supplier_name | String | A supplier name | Yes |
+
+Example request body:
+<pre>
+{
+    "supplier_sku": "D-213211",
+    "supplier_name": "Dreamlove"
+}
+</pre>
+
+| Code | Message |
+| :---: | :---- | 
+| 1400 | Supplier name either empty or not supplied. |
+| 1401 | Supplier SKU either empty or not supplied. |
+| 1402 | Error wile processing delete query. |
+
 <b>!!!WARNING!!!</b><br>
 <b>The documentation below is deprecated. It still can be used but will be removed on the project release.</b>
 [Old documentation](old-docs.md)
