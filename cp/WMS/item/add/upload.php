@@ -63,7 +63,10 @@ while (True){
     }
 }
 
-
+$width = $_POST['width'];
+$height = $_POST['height'];
+$depth = $_POST['depth'];
+$weight = $_POST['weight'];
 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*products*}
                         (actPrice, tag, override, def_margin_percent, def_margin_number, width, height, depth, weight) 
                         VALUES ('$itemActPrice', '$itemTagID', '$override', '$marginPercent', '$marginNumber', '$width', '$height', '$depth', '$weight')"));
