@@ -191,7 +191,8 @@ function PR_POST_Product($id, $images=false){
         $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "DELETE FROM {*ps_product_carrier*} WHERE id_product='$id'"));
         foreach ($data['carrier'] as $val){
             $carr_ref = $val['shop_id'];
-            $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "INSERT INTO {*ps_product_carrier*} (id_product, id_carrier_reference, id_shop) VALUES ('$id', '$carr_ref', '1')"));
+            if ($val['enabled'] == 1)
+                $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "INSERT INTO {*ps_product_carrier*} (id_product, id_carrier_reference, id_shop) VALUES ('$id', '$carr_ref', '1')"));
         }
         if ($images){
             foreach ($data['images'] as $key => $value){
@@ -286,7 +287,8 @@ function PR_PUT_Product($id_product, $images=false){
         $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "DELETE FROM {*ps_product_carrier*} WHERE id_product='$id'"));
         foreach ($data['carrier'] as $val){
             $carr_ref = $val['shop_id'];
-            $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "INSERT INTO {*ps_product_carrier*} (id_product, id_carrier_reference, id_shop) VALUES ('$id', '$carr_ref', '1')"));
+            if ($val['enabled'] == 1)
+                $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "INSERT INTO {*ps_product_carrier*} (id_product, id_carrier_reference, id_shop) VALUES ('$id', '$carr_ref', '1')"));
         }
         if ($images){
             foreach ($data['images'] as $key => $value){
@@ -356,7 +358,8 @@ function PR_PUT_Product_Without_IMG($id_product){
         $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "DELETE FROM {*ps_product_carrier*} WHERE id_product='$id'"));
         foreach ($data['carrier'] as $val){
             $carr_ref = $val['shop_id'];
-            $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "INSERT INTO {*ps_product_carrier*} (id_product, id_carrier_reference, id_shop) VALUES ('$id', '$carr_ref', '1')"));
+            if ($val['enabled'] == 1)
+                $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "INSERT INTO {*ps_product_carrier*} (id_product, id_carrier_reference, id_shop) VALUES ('$id', '$carr_ref', '1')"));
         }
         PR_PUT_Product_Stock_Available($id, $data['quantity']);
     }
@@ -411,7 +414,8 @@ function PR_PUT_Product_category_only($id_product){
         $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "DELETE FROM {*ps_product_carrier*} WHERE id_product='$id'"));
         foreach ($data['carrier'] as $val){
             $carr_ref = $val['shop_id'];
-            $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "INSERT INTO {*ps_product_carrier*} (id_product, id_carrier_reference, id_shop) VALUES ('$id', '$carr_ref', '1')"));
+            if ($val['enabled'] == 1)
+                $GLOBALS['BIGCONN']->query(prefixQuery(/** @lang */ "INSERT INTO {*ps_product_carrier*} (id_product, id_carrier_reference, id_shop) VALUES ('$id', '$carr_ref', '1')"));
         }
         foreach ($data['images'] as $key => $value){
             PR_POST_Product_Image($id, $_SERVER['DOCUMENT_ROOT']."/uploads/images/products/".$value['image']);
