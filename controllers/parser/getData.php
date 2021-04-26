@@ -5,6 +5,32 @@ include_once($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 
 include_once($_SERVER["DOCUMENT_ROOT"].'/libs/simple_html_dom.php');
 
+function isDomainAvailible($domain)
+{
+    //check, if a valid url is provided
+    if(!filter_var($domain, FILTER_VALIDATE_URL))
+    {
+        return false;
+    }
+
+    //initialize curl
+    $curlInit = curl_init($domain);
+
+    curl_setopt($curlInit, CURLOPT_TIMEOUT, 3);
+    curl_setopt($curlInit,CURLOPT_CONNECTTIMEOUT,3);
+    curl_setopt($curlInit,CURLOPT_HEADER,true);
+    curl_setopt($curlInit,CURLOPT_NOBODY,true);
+    curl_setopt($curlInit,CURLOPT_RETURNTRANSFER,true);
+
+    //get answer
+    $response = curl_exec($curlInit);
+
+    curl_close($curlInit);
+
+    if ($response) return true;
+
+    return false;
+}
 
 function GetMatchedProducts($id): array {
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM parser_match WHERE id_product='$id'"));
@@ -114,7 +140,9 @@ if (isset($_GET['title']) && isset($_GET['offset']) && isset($_GET['platform']))
 }
 if (isset($_GET['url'])){
     $domain = str_ireplace('www.', '', parse_url($_GET['url'], PHP_URL_HOST));
-
+    if (!isDomainAvailible($_GET['url'])){
+        exit(json_encode(array("error", "URL not accessible: ".$_GET['url'])));
+    }
     if (array_key_exists($domain, _PARSER_PROFILE)){
         include_once $_SERVER['DOCUMENT_ROOT']."/controllers/parser/profiles/"._PARSER_PROFILE[$domain]['parser'];
         call_user_func('GetParserSearchData_' . _PARSER_PROFILE[$domain]['tag'], $_GET['url']);
