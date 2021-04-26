@@ -240,13 +240,15 @@
         }
     }
     function SmartpostGetBar(){
-        let json = formJSONSmartpost();
-        console.log("/cp/POS/shipping/getShippingData.php?saveAndBarSmartPost={$reservation.id}&saveAndBarSmartPostData="+json)
-        fetch("/cp/POS/shipping/getShippingData.php?saveAndBarSmartPost={$reservation.id}&saveAndBarSmartPostData="+json)
-        .finally(function () {
-            setShippingStatus();
-            loadSmartpostForm();
-        });
+        if (checkSmartpostFields()) {
+            let json = formJSONSmartpost();
+            console.log("/cp/POS/shipping/getShippingData.php?saveAndBarSmartPost={$reservation.id}&saveAndBarSmartPostData=" + json)
+            fetch("/cp/POS/shipping/getShippingData.php?saveAndBarSmartPost={$reservation.id}&saveAndBarSmartPostData=" + json)
+                .finally(function () {
+                    setShippingStatus();
+                    loadSmartpostForm();
+                });
+        }
     }
     function getSmartpostLabel(){
         console.log("/cp/POS/shipping/getShippingData.php?getSmartPostLabel={$reservation.id}")
@@ -313,7 +315,7 @@
             phoneFeedback.innerText = "Please specify phone number!";
             return false;
         }
-        try {
+        /*try {
             if (deliveryNrInput.value === ""){
                 throw "Delivery number is empty";
             }
@@ -322,7 +324,7 @@
             deliveryNrFeedback.setAttribute("class", "invalid-feedback");
             deliveryNrFeedback.innerText = "Please specify delivery number!";
             return false;
-        }
+        }*/
         try {
             let el = terminalInput.value;
             let val = document.querySelector("datalist > option[value='"+el+"']").getAttribute("data-id");
