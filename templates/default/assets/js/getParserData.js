@@ -68,12 +68,17 @@ function getParsedByText(id, title, offset, platform=null){
                 console.log("/controllers/parser/getData.php?url="+encodeURIComponent(d[c].url))
 
                 await fetch("/controllers/parser/getData.php?url="+encodeURIComponent(d[c].url)).then(response => response.json()).then(r => {
-                    if (parser_matches.includes(d[c].url)){
-                        console.log("includes")
-                        block.append(ParsedBox(id, r, d[c].url, true, false, false,  d[c].score))
+                    if (r.hasOwnProperty("error")){
+                        displayAlert(r.error, 5000, "error");
                     } else {
-                        block.append(ParsedBox(id, r, d[c].url, false, false, false,  d[c].score))
+                        if (parser_matches.includes(d[c].url)){
+                            console.log("includes")
+                            block.append(ParsedBox(id, r, d[c].url, true, false, false,  d[c].score))
+                        } else {
+                            block.append(ParsedBox(id, r, d[c].url, false, false, false,  d[c].score))
+                        }
                     }
+
                 });
             }
         })
