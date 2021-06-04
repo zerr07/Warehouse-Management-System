@@ -66,6 +66,7 @@
       <div class="col-auto mr-auto d-none d-sm-none d-md-inline-flex d-lg-inline-flex d-xl-inline-flex">
         <a href="/cp/POS/">POS</a>
         <a href="/cp/POS/shipping/" class=" ml-3">Shipments</a>
+        <a href="/cp/POS/reserve/" class=" ml-3">Reservations</a>
       </div>
       <div class="col-auto">
         <a href="javascript:void(0)" onclick="forceReloadCache(this)" data-toggle="tooltip" data-placement="bottom" title="Reload cache"><i class="fas fa-retweet"  style="width: 32px;height: 28px"></i></a>
