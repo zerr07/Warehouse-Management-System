@@ -107,25 +107,25 @@
                                                     <li class="nav-item"> <a href="javascript:void(0)" id="TabBtnTitle-LT" class="nav-link" onclick="toggleTabs(['#TabBtnDesc-LT', '#TabBtnTitle-LT'], ['#tabLT', '#tabtitle-LT'])">LT</a> </li>
                                                 </ul>
                                                 <div class="tab-content mt-2">
-                                                    <div class="tab-pane fade active show" id="tabtitle-ET" role="tabpanel">
+                                                    <div data-type="product_name" class="tab-pane fade active show" id="tabtitle-ET" role="tabpanel">
                                                         <label for="itemNameET">Product name ET</label>
-                                                        <input type="text" class="form-control" name="itemNameET" value="{$item.name.et|escape}" id="itemNameET" placeholder="Product name ET">
+                                                        <input type="text" lang="et" class="form-control" name="itemNameET" value="{$item.name.et|escape}" id="itemNameET" placeholder="Product name ET">
                                                     </div>
-                                                    <div class="tab-pane fade" id="tabtitle-RU" role="tabpanel">
+                                                    <div data-type="product_name" class="tab-pane fade" id="tabtitle-RU" role="tabpanel">
                                                         <label for="itemNameLT">Product name RU</label>
-                                                        <input type="text" class="form-control" name="itemNameRU" value="{if isset($item.name.ru)}{$item.name.ru|escape}{/if}" id="itemNameRU" placeholder="Product name RU">
+                                                        <input type="text" lang="ru" class="form-control" name="itemNameRU" value="{if isset($item.name.ru)}{$item.name.ru|escape}{/if}" id="itemNameRU" placeholder="Product name RU">
                                                     </div>
-                                                    <div class="tab-pane fade" id="tabtitle-EN" role="tabpanel">
+                                                    <div data-type="product_name" class="tab-pane fade" id="tabtitle-EN" role="tabpanel">
                                                         <label for="itemNameLT">Product name EN</label>
-                                                        <input type="text" class="form-control" name="itemNameEN" value="{if isset($item.name.en)}{$item.name.en|escape}{/if}" id="itemNameEN" placeholder="Product name EN">
+                                                        <input type="text" lang="en" class="form-control" name="itemNameEN" value="{if isset($item.name.en)}{$item.name.en|escape}{/if}" id="itemNameEN" placeholder="Product name EN">
                                                     </div>
-                                                    <div class="tab-pane fade" id="tabtitle-LV" role="tabpanel">
+                                                    <div data-type="product_name" class="tab-pane fade" id="tabtitle-LV" role="tabpanel">
                                                         <label for="itemNameLT">Product name LV</label>
-                                                        <input type="text" class="form-control" name="itemNameLV" value="{if isset($item.name.lv)}{$item.name.lv|escape}{/if}" id="itemNameLV" placeholder="Product name LV">
+                                                        <input type="text" lang="lv" class="form-control" name="itemNameLV" value="{if isset($item.name.lv)}{$item.name.lv|escape}{/if}" id="itemNameLV" placeholder="Product name LV">
                                                     </div>
-                                                    <div class="tab-pane fade" id="tabtitle-LT" role="tabpanel">
+                                                    <div data-type="product_name" class="tab-pane fade" id="tabtitle-LT" role="tabpanel">
                                                         <label for="itemNameLT">Product name LT</label>
-                                                        <input type="text" class="form-control" name="itemNameLT" value="{if isset($item.name['lt'])}{$item.name['lt']|escape}{/if}" id="itemNameLT" placeholder="Product name LT">
+                                                        <input type="text" lang="lt" class="form-control" name="itemNameLT" value="{if isset($item.name['lt'])}{$item.name['lt']|escape}{/if}" id="itemNameLT" placeholder="Product name LT">
                                                     </div>
                                                 </div>
                                             </div>
@@ -245,21 +245,23 @@
                                                 <li class="nav-item"> <a href="javascript:void(0)" id="TabBtnDesc-EN" class="nav-link" onclick="toggleTabs(['#TabBtnDesc-EN', '#TabBtnTitle-EN'], ['#tabEN', '#tabtitle-EN'])">EN</a> </li>
                                                 <li class="nav-item"> <a href="javascript:void(0)" id="TabBtnDesc-LV" class="nav-link" onclick="toggleTabs(['#TabBtnDesc-LV', '#TabBtnTitle-LV'], ['#tabLV', '#tabtitle-LV'])">LV</a> </li>
                                                 <li class="nav-item"> <a href="javascript:void(0)" id="TabBtnDesc-LT" class="nav-link" onclick="toggleTabs(['#TabBtnDesc-LT', '#TabBtnTitle-LT'], ['#tabLT', '#tabtitle-LT'])">LT</a> </li>
+                                                <li class="nav-item"> <a href="javascript:void(0)" class="nav-link" onclick="translateAll()">Translate all</a> </li>
+
                                             </ul>
                                             <div class="tab-content mt-2">
-                                                <div class="tab-pane fade active show" id="tabET" role="tabpanel">
+                                                <div data-tab="tabText" class="tab-pane fade active show" id="tabET" role="tabpanel">
                                                     <textarea name="EST" id="etText">{if isset($item.descriptions.et)}{$item.descriptions.et}{/if}</textarea>
                                                 </div>
-                                                <div class="tab-pane fade" id="tabRU" role="tabpanel">
+                                                <div data-tab="tabText" class="tab-pane fade" id="tabRU" role="tabpanel">
                                                     <textarea name="RUS" id="ruText">{if isset($item.descriptions.ru)}{$item.descriptions.ru}{/if}</textarea>
                                                 </div>
-                                                <div class="tab-pane fade" id="tabEN" role="tabpanel">
+                                                <div data-tab="tabText" class="tab-pane fade" id="tabEN" role="tabpanel">
                                                     <textarea name="ENG" id="enText">{if isset($item.descriptions.en)}{$item.descriptions.en}{/if}</textarea>
                                                 </div>
-                                                <div class="tab-pane fade" id="tabLV" role="tabpanel">
+                                                <div data-tab="tabText" class="tab-pane fade" id="tabLV" role="tabpanel">
                                                     <textarea name="LV" id="lvText">{if isset($item.descriptions.lv)}{$item.descriptions.lv}{/if}</textarea>
                                                 </div>
-                                                <div class="tab-pane fade" id="tabLT" role="tabpanel">
+                                                <div data-tab="tabText" class="tab-pane fade" id="tabLT" role="tabpanel">
                                                     <textarea name="LT" id="ltText">{if isset($item.descriptions['lt'])}{$item.descriptions['lt']}{/if}</textarea>
                                                 </div>
                                             </div>
@@ -529,6 +531,7 @@
 
 
 <script>
+
     $('a#by-images-tab').on('show.bs.tab', function (event) {
         getParsedImages("{$item.id}")
     })
@@ -709,5 +712,43 @@
         loadEditor('enText', 'en');
         loadEditor('FBText', 'et', 0);
     });
+    {literal}
+    function translateAll(){
+        if (confirm("This will rewrite products names and descriptions! Are you sure?")){
+            let editor = document.querySelector("div[data-tab='tabText'][class*='active'] div[class='editor-block']");
+            let other_editors = document.querySelectorAll("div[data-tab='tabText']:not([class*='active']) div[class='editor-block']");
+            let names = document.querySelectorAll("div[data-type='product_name']:not([class*='active']) input")
+            let name_active = document.querySelector("div[data-type='product_name'][class*='active'] input")
+            other_editors.forEach( el => {
+                let req = {
+                    method: "POST",
+                    headers: new Headers({"Content-Type": "application/json"}),
+                    body: JSON.stringify({
+                        target: el.getAttribute("lang"),
+                        text: editor.innerHTML
+
+                    })
+                }
+                fetch("/controllers/translateText.php",req).then(response => response.json()).then(d => {
+                    el.innerHTML = d.result
+                })
+            })
+            names.forEach( el => {
+                let req = {
+                    method: "POST",
+                    headers: new Headers({"Content-Type": "application/json"}),
+                    body: JSON.stringify({
+                        target: el.getAttribute("lang"),
+                        text: name_active.value
+
+                    })
+                }
+                fetch("/controllers/translateText.php",req).then(response => response.json()).then(d => {
+                    el.value = d.result
+                })
+            })
+        }
+    }
+    {/literal}
 </script>
 {include file='footer.tpl'}

@@ -321,7 +321,7 @@ if (!empty($images)) {
         AND position='0'"));
     //deleteImages($existImages, $last, "_live");
 }
-PR_PUT_Product($last);
+PR_PUT_Product($last, true);
 
 cacheProductNameBackground($last);
 //exit("Redirect temporarily disabled, product saved though");
