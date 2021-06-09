@@ -202,7 +202,12 @@ function get_manufacturer_name($index){
 function get_quantity_sum($index){
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT SUM(quantity) as q FROM {*product_locations*} WHERE id_item='$index'"));
     if ($q){
-        return $q->fetch_assoc()['q'];
+        $res = $q->fetch_assoc()['q'];
+        if ($res != ""){
+            return $res;
+        } else {
+            return 0;
+        }
     }
     return null;
 }
