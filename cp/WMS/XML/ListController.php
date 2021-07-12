@@ -7,6 +7,9 @@ function addList($id, $id_platform){
 function removeList($id, $id_platform){
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "DELETE FROM {*XML_lists*} WHERE id_platform='$id_platform' AND id_product='$id'"));
 }
+function removeListAll($id_platform){
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "DELETE FROM {*XML_lists*} WHERE id_platform='$id_platform'"));
+}
 function getList($id_platform){
     $arr = array();
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT * FROM {*XML_lists*} WHERE id_platform='$id_platform'"));
@@ -23,4 +26,7 @@ if (isset($_GET['post']) && isset($_GET['id']) && isset($_GET['id_platform'])){
 }
 if (isset($_GET['remove']) && isset($_GET['id']) && isset($_GET['id_platform'])){
     removeList($_GET['id'], $_GET['id_platform']);
+}
+if (isset($_GET['removeAll']) && isset($_GET['id_platform'])){
+    removeListAll($_GET['id_platform']);
 }
