@@ -18,17 +18,13 @@ if (isset($_POST['id'])){
             $id_location = $row['id_location'];
             if ($id_location !== 0 || $id_location !== null){
                 $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT * FROM {*product_locations*} WHERE id='$id_location'"));
-                $row_q = $q->fetch_assoc();
-                $quantity = $row_q['quantity']+$oldQuantity-$value;
-                $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "UPDATE {*product_locations*} SET quantity='$quantity' WHERE id='$id_location'"));
-                PR_PUT_Product($id_product);
             } else {
                 $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT * FROM {*product_locations*} WHERE id_product='$id_location' LIMIT 1"));
-                $row_q = $q->fetch_assoc();
-                $quantity = $row_q['quantity']+$oldQuantity-$value;
-                $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "UPDATE {*product_locations*} SET quantity='$quantity' WHERE id='$id_location'"));
             }
-
+            $row_q = $q->fetch_assoc();
+            $quantity = $row_q['quantity']+$oldQuantity-$value;
+            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "UPDATE {*product_locations*} SET quantity='$quantity' WHERE id='$id_location'"));
+            PR_PUT_Product($id_product);
             $price = $_POST['price'][$key];
             $basePrice = round($price/$value, 2);
             $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "UPDATE {*reserved_products*} SET `quantity`='$value', price='$price', basePrice='$basePrice' WHERE id='$key'"));
