@@ -2,6 +2,65 @@
             <div class="accordion text-left mt-4" id="accordion">
 
                 <div class="card">
+                    <div class="card-header" id="heading0230">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse0230" aria-expanded="false" aria-controls="collapse0230">
+                                Version 0.23.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse0230" class="collapse" aria-labelledby="heading0230" data-parent="#accordion">
+                        <div class="card-body">
+                            PUT request replace to optimise speed.<br />
+                            Ean codes and manufacturer added to prestashop API.<br />
+                            Manufacturer functions added.<br />
+                            New route for locations <br />
+                            Sync controller for prestashop. <br />
+                            "Remove all" added to xml generator<br />
+                            Product editor modified<br />
+                            List of parsed by SKU fixed so that it starts loading from where it finished the last load<br />
+                            Main category can now be selected on product add/edit page<br />
+                            Prestashop API now updates images separately rather than reuploads them<br />
+                            Reservastions are sorted now<br />
+                            Product flags implemented (can be used to mark errors or notifications for products)<br />
+                            Parser by sku modified to exclude products from output<br />
+                            Product dimensions added<br />
+                            Function to get only exported main category added<br />
+                            Price parser modified to apply prices specific for each platform<br />
+                            Delete property function implemented<br />
+                            Search optimized for different shards<br />
+                            Price parser added<br />
+                            Parser functions calls modified to include platform name in it<br />
+                            Category full path function implemented<br />
+                            Separated home warehouses from supplier<br />
+                            Category tree is now in the same form with other search options<br />
+                            Manual mobile scanner optimised for both desktop and mobile devices<br />
+                            Parser by SKU is now procedural.<br />
+                            Enabled lazyload for images on main page<br />
+                            Api call to sync supplier data added<br />
+                            Added check in parser if site is reachable<br />
+                            Added error notification to parser<br />
+                            <hr>
+                            Escape fixed.<br />
+                            POS search by name, fixed empty name.<br />
+                            Platform search fixed<br />
+                            Category bulk link fixed missing variable<br />
+                            Default file input file display fixed<br />
+                            Scanners layout fixed<br />
+                            Fixed check on Smartpost submit<br />
+                            Fixed reservations product load with char escape<br />
+                            Fixed non existent variables on product add<br />
+                            Fixed empty names in Auction statistics<br />
+                            Fixed location operations without sync<br />
+                            Carrier sync fixed<br />
+                            Fixed quote escape<br />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
                     <div class="card-header" id="heading0220">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
