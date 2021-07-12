@@ -879,7 +879,7 @@ Path: {Your_Domain}/api/SyncSupplier
 | price | Float/Double with 2 decimal places | Supplier's price (Needed if supplier data does not exist in the database) | No |
 | barcodes | Array | Array of barcodes in case supplier data does not exist in the database | No |
 | product_name | String | A product name will be used to find product if not found by barcode and sku  | No |
-
+| brand | String | A product brand (new will be created if none exist with same name)   | No |
 
 Example request body:
 <pre>
@@ -928,6 +928,32 @@ Example request body:
 | 1400 | Supplier name either empty or not supplied. |
 | 1401 | Supplier SKU either empty or not supplied. |
 | 1402 | Error wile processing delete query. |
+
+#### Product stock locations
+| Method | Allowed |
+| :----: | :-----: | 
+| GET | Yes |
+| POST | No |
+| PUT | No |
+| DELETE | No |
+
+
+**GET** - Returns locations and quantity of items in it for a product.
+
+Path: {Your_Domain}/api/product/locations
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| id | String | A product id | Yes* |
+| reference | String | A product reference | Yes* |
+
+`* - one of these parameters should be passed`
+
+| Code | Message |
+| :---: | :---- | 
+| 1500 | No product id or reference supplied. |
+| 1501 | Query error. |
+| 1502 | No results retrieved. |
 
 <b>!!!WARNING!!!</b><br>
 <b>The documentation below is deprecated. It still can be used but will be removed on the project release.</b>
