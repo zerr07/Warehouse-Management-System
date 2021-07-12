@@ -1,4 +1,5 @@
 <?php
+include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/prestashop/Products.php');
 Route::add("/api/SyncSupplier", function () {
     $check = json_decode(checkToken(), true);
     if (isset($check['user_id'])) {
@@ -148,6 +149,11 @@ Route::add("/api/SyncSupplier", function () {
                     exit(json_encode(array("error" => "Supplier name either empty or not supplied.", "code"=>"1201")));
                 }
             }
+            if (isset($data['brand']) && $data['brand'] != ""){
+                require_once $_SERVER['DOCUMENT_ROOT']."/controllers/products/manufacturer.php";
+                set_manufacturer($id_product, $data['brand']);
+            }
+            PR_PUT_Product_Without_IMG($id_product);
             exit(json_encode(array("success"=>$res)));
         } else {
             exit(json_encode(array("error" => "Supplier SKU either empty or not supplied.", "code"=>"1200")));
