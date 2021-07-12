@@ -69,11 +69,8 @@ if (isset($id) || isset($name) || isset($addID)) {
                 $_SESSION['cart'][$row['id']]['date_added'] = date("Y-m-d H:i:s");
                 $_SESSION['cart'][$row['id']]['quantity'] = 1;
                 $_SESSION['cart'][$row['id']]['Available'] = get_quantity_sum($row['id']);
-                $queryName = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM 
-                                                                    {*product_name*} WHERE id_product='$itemID' AND id_lang='3'"));
-                while ($rowName  = mysqli_fetch_assoc($queryName)){
-                    $_SESSION['cart'][$row['id']]['name'] = html_entity_decode($rowName['name'], ENT_QUOTES, "UTF-8");
-                }
+                $_SESSION['cart'][$row['id']]['name'] = get_name($row['id'])['et'];
+
 
                 $_SESSION['cart'][$row['id']]['loc'] = get_locations($row['id']);
                 $_SESSION['cart'][$row['id']]['loc']['selected'] =
