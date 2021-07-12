@@ -165,9 +165,9 @@
     let product_arr = [
         {foreach $reservation.products as $prod}
         {if $prod.tag == "Buffertoode"}
-            ["{$prod.tag}", "{$prod.name}", "tk", "{$prod.quantity}", "{$prod.basePrice}"],
+            ["{$prod.tag|escape:'htmlall'}", "{$prod.name|escape:'htmlall'}", "tk", "{$prod.quantity}", "{$prod.basePrice}"],
             {else}
-            ["{$prod.tag}", "{$prod.name.et}", "tk", "{$prod.quantity}", "{$prod.basePrice}"],
+            ["{$prod.tag|escape:'htmlall'}", "{$prod.name.et|escape:'htmlall'}", "tk", "{$prod.quantity}", "{$prod.basePrice}"],
         {/if}
         {/foreach}
     ]
