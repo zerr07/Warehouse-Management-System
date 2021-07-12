@@ -44,7 +44,7 @@ if (isset($_GET['getProducts'])){
     $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang */ "SELECT id FROM {*products*} WHERE tag='$tag' LIMIT 1"));
     $id = $q->fetch_assoc()['id'];
     //PR_PUT_Product_Without_IMG($id);
-    PR_PUT_Product($id);
+    PR_PUT_Product($id, true);
     exit("PUTPROD " . $id);
 } elseif (isset($_GET['DELETEPROD'])){
     PR_DELETE_Product_By_Tag($_GET['DELETEPROD']);

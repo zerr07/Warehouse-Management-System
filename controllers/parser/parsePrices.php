@@ -22,33 +22,78 @@ function get_parser_prices($id, $platforms){
             include_once $_SERVER['DOCUMENT_ROOT']."/controllers/parser/profiles/"._PARSER_PROFILE[$domain]['parser'];
             $a = json_decode(call_user_func('GetParserSearchData_' . _PARSER_PROFILE[$domain]['tag'], $row['url'], false), true);
             if (isset($a['price']) && $a['price'] != 0){
-                array_push($prices, floatval(str_replace(",", ".", $a['price'])));
+                array_push($prices, number_format($a['price'], 2, '.', ''));
             }
         }
     }
-
-    if (!empty($prices)){
-        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT MAX(priceVAT) as price 
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT MAX(priceVAT) as price 
             FROM supplier_data WHERE id_item='$id'"));
-        $price_supp = round($q->fetch_assoc()['price']*1.2, 2);
-        $min_price = number_format(round(min($prices), 2), 2);
+    $price_supp = round($q->fetch_assoc()['price'], 2);
+    if ($price_supp == 0.00){
+        $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT actPrice as price 
+            FROM products WHERE id='$id'"));
+        $price_supp = round($q->fetch_assoc()['price'], 2);
+    }
+    if ($price_supp == 0.00){
+        return array("error" => "Supplier price is 0");
+    }
+    if (!empty($prices)){
+        $min_price = number_format(min($prices), 2, '.', '');
         foreach ($platforms as $key => $value){
-            if (round(($price_supp*1.1)-$price_supp, 2) < $value['minMargin'])
-                $pr_supp = $price_supp + $value['minMargin'];
-            else
-                $pr_supp = $price_supp * 1.1;
-            if (round($pr_supp/$value['profitMargin'], 2) < $min_price){
+            $price = $price_supp/$value['profitMargin'];
+            $margin_multiplier = ($price_supp+$value['minMargin'])/($price*$value['profitMargin']);
+
+            if ($key == 1){
+                if (round(($price*1.2)-$price, 2) < $value['minMargin'])
+                    $pr_supp = $price*$margin_multiplier*1.2;
+                else
+                    $pr_supp = ($price * 1.2) * 1.2;
+            } else {
+                if (round(($price*1.2)-$price, 2) < $value['minMargin'])
+                    $pr_supp = $new_price = $price*$margin_multiplier;
+                else
+                    $pr_supp = $price * 1.2;
+            }
+            $pr_supp = round($pr_supp, 2);
+            if ($pr_supp < $min_price){
+                echo '<pre>'; print_r (array("Min"=>$min_price)); echo '</pre>';
                 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_platforms*} 
                     SET price='$min_price' WHERE id_item='$id' AND id_platform='$key' AND custom='0'"));
             } else {
-                $new_price = number_format(round($pr_supp/$value['profitMargin'], 2), 2);
+                echo '<pre>'; print_r (array("pr_supp"=>$pr_supp)); echo '</pre>';
                 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_platforms*} 
-                    SET price='$new_price' WHERE id_item='$id' AND id_platform='$key' AND custom='0'"));
+                    SET price='$pr_supp' WHERE id_item='$id' AND id_platform='$key' AND custom='0'"));
             }
         }
         return array("success"=>$price_supp." < ".$min_price);
     } else {
-        return array("fail" => "No price");
+        foreach ($platforms as $key => $value){
+            $price = $price_supp/$value['profitMargin'];
+            $margin_multiplier = ($price_supp+$value['minMargin'])/($price*$value['profitMargin']);
+            if ($key == 1){
+                if (round($price*1.2*$value['profitMargin']-$price_supp, 2) < $value['minMargin']){
+                    $new_price = $price*$margin_multiplier*1.2;
+                } else {
+                    $new_price = ($price * 1.2) * 1.2;
+                }
+
+            } else {
+                if (round($price*1.2*$value['profitMargin']-$price_supp, 2) < $value['minMargin']){
+                    $new_price = $price*$margin_multiplier;
+                } else {
+
+                    $new_price = $price * 1.2;
+                }
+
+
+            }
+            $new_price = round($new_price, 2);
+            echo '<pre>'; print_r (array("price"=>$new_price)); echo '</pre>';
+
+            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_platforms*}
+                   SET price='$new_price' WHERE id_item='$id' AND id_platform='$key' AND custom='0'"));
+        }
+        return array("success" => "Price generated");
     }
 
 }

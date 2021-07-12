@@ -1,12 +1,11 @@
 <?php
 include_once($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 
-function CallGETAPI($url){
+function CallGETAPI($url, $exit=false){
     if(!isset($GLOBALS['BIGCONN'])){
         return null;
     }
     $curl = curl_init();
-
     curl_setopt_array($curl, array(
         CURLOPT_URL => $url,
         CURLOPT_RETURNTRANSFER => true,
@@ -16,13 +15,12 @@ function CallGETAPI($url){
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'GET',
-        CURLOPT_HTTPHEADER => array(
-            'Content-Type: text/plain'
-        )
     ));
+
     $result = curl_exec($curl);
+
     curl_close($curl);
-    if($result) {
+    if($result) {;
         return json_decode($result, true);
     } else {
         return null;
