@@ -637,23 +637,24 @@ if (isset($_GET['platformSearchOn']) || isset($_GET['platformSearchOff'])){
         foreach ($_GET['platformSearchOn'] as $key => $value){
             array_push($a, "(SELECT export FROM {*product_platforms*} WHERE id_item={*products*}.id && id_platform='$key')=1");
         }
-        $searchPlatform .= implode(" OR ", $a);
+        $searchPlatform .= implode(" AND ", $a);
     }
     if (isset($_GET['platformSearchOff'])){
         if ($searchPlatform != ""){
-            $searchPlatform .= " OR ";
+            $searchPlatform .= " AND ";
         }
         $a = array();
         foreach ($_GET['platformSearchOff'] as $key => $value){
-            array_push($a, "(SELECT export FROM {*product_platforms*} WHERE id_item={*products*}.id && id_platform='$key')=0 OR id not in (SELECT id_item FROM product_platforms WHERE id_item=products.id && id_platform='$key')");
+            array_push($a, "((SELECT export FROM {*product_platforms*} WHERE id_item={*products*}.id && id_platform='$key')=0 OR id not in (SELECT id_item FROM product_platforms WHERE id_item=products.id && id_platform='$key'))");
         }
-        $searchPlatform .= implode(" OR ", $a);
+        $searchPlatform .= implode(" AND ", $a);
     }
     $search .= $searchPlatform;
     $search .= ")";
     $searchSearch = $search;
 
 }
+
 
 
 if (isset($_GET['cat'])){

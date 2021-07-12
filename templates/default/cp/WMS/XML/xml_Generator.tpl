@@ -25,6 +25,9 @@
     <div class="col-12 col-sm-3 col-md-3 offset-md-2 mt-3">
         <button type="button" id="getXML" class="btn btn-success w-100">Get XML</button>
     </div>
+    <div class="col-3 col-sm-2 col-md-2 mt-3">
+        <button type="button" class="btn btn-danger w-100" onclick="DeleteRowAll()">Remove all</button>
+    </div>
     <div class="col-sm-9 col-md-5 mt-3">
         <a class="btn btn-primary" style="display: inline-block; float:right;" href="/cp/WMS"><i class="fas fa-undo-alt"></i> Back</a>
     </div>
@@ -94,7 +97,15 @@
         });
 
     }
-
+    function DeleteRowAll(){
+        if (confirm("Are you sure?")) {
+            let platform = document.querySelector("select[id='platformSelect']").value;
+            fetch("/cp/WMS/XML/ListController.php?removeAll&id_platform=" + platform)
+                .finally(function () {
+                    DrawList();
+                });
+        }
+    }
     window.addEventListener("load", function (){
         setPageTitle("XML Generator");
         fetch("/controllers/products/get_products.php?getDataList=true")
