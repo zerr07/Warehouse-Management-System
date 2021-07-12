@@ -13,6 +13,6 @@ if (isset($_GET['id']) && isset($_GET['location'])){
 
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_locations*}
                                           (id_item, location, id_type) VALUES ('$id', '$loc', '$id_type')"));
-    PR_PUT_Product($id);
+    PR_PUT_Product_Stock($id);
 
 }
