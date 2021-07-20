@@ -135,7 +135,7 @@ function getEmptyCategoies(){
     }
     return $arr;
 }
-function getCategoryFullPath($id){
+function getCategoryFullPath($id, $lang = "en"){
     $arr = array();
     while (true){
         $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*categories*} WHERE id='$id'"));
@@ -145,7 +145,7 @@ function getCategoryFullPath($id){
 
         if($result){
             $row = $result->fetch_assoc();
-            array_push($arr, get_category_names($row['id'])['en']);
+            array_push($arr, get_category_names($row['id'])[$lang]);
             if ($row['parent'] == 1 || $row['parent'] == 0){
                 break;
             } else {
