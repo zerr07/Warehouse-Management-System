@@ -52,7 +52,7 @@
             </a>
             <div class="collapse multi-collapse sidebar_dropdown_menu" id="btnGroupDrop4">
                 <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/statistics/auctions/"><i class="fas fa-gavel"></i> Auctions</a>
-
+                <a class="dropdown-item sidebar_item sidebar_dropdown_item" href="/cp/statistics/export/" onclick="closeNav();turnOnPreloader()"><i class="far fa-list-alt"></i> Export </a>
             </div>
 
 
