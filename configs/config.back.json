@@ -1,0 +1,83 @@
+{
+  "database":
+  {
+    "dbhost":"",
+    "dbuser":"",
+    "dbpass":"",
+    "dbname":"",
+    "dbprefix":""
+  },
+  "database_export":
+  {
+    "dbhost":"",
+    "dbuser":"",
+    "dbpass":"",
+    "dbname":"",
+    "dbprefix":"",
+    "url": "",
+    "domain": "",
+    "auth_key": "",
+    "active": true
+  },
+  "database_drundel":
+  {
+    "dbhost":"",
+    "dbuser":"",
+    "dbpass":"",
+    "dbname":"",
+    "dbprefix":"",
+    "active": false
+  },
+  "database_auctions":
+  {
+    "dbhost":"",
+    "dbuser":"",
+    "dbpass":"",
+    "dbname":"",
+    "dbprefix":"",
+    "active": false
+  },
+  "database_parser":
+  {
+    "dburl": ":",
+    "active": true
+  },
+  "parser_profiles": {
+    "hotlips.ee": {
+      "parser": "",
+      "languages": {
+        "en": {
+          "query": "?___store=en&___from_store=",
+          "selector": "a[title='Inglise']"
+        },
+        "et": {
+          "query": "?___store=et&___from_store=",
+          "selector": "a[title='Eesti']"
+        },
+        "ru": {
+          "query": "?___store=ru&___from_store=",
+          "selector": "a[title='Vene']"
+        }
+      }
+    },
+    "active": true
+  },
+  "engine":
+  {
+    "template":"default",
+    "onPage": "24",
+    "siteName":"Cp",
+    "defaultLang":"ru",
+    "id_shard": "1",
+    "ps_platform_id": 1,
+    "home_warehouse": [2],
+    "cache": true,
+    "compile_check": false,
+    "google_api": ""
+  },
+  "languages": {
+    "ps_ru": 3,
+    "ps_et": 2,
+    "ps_en": 1
+  }
+}
