@@ -23,5 +23,4 @@
         </div>
         <hr>
     {/foreach}
-{debug}
 {include file='footer.tpl'}
