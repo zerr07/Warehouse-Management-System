@@ -5,41 +5,43 @@ include($_SERVER["DOCUMENT_ROOT"].'/configs/config.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/controllers/getLang.php');
 
 function get_tree(){
-    global $langID;
-    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*categories*} WHERE `parent`='2'"));
-    if($result){
+    $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "
+        SELECT c.id, c.enabled, c.parent,cn.name, COUNT(pc.id) as `product_count`
+        FROM categories c
+            LEFT JOIN product_categories pc on c.id = pc.id_category
+            LEFT JOIN category_name cn on c.id = cn.id_category AND cn.id_lang='3'
+        WHERE c.id NOT IN ('1', '2')
+        GROUP BY c.id, c.parent
+        ORDER BY c.parent ASC
+        "));
+    if($q){
         $temp = array();
-        $arr = array();
-        while ($row = $result->fetch_assoc()){
-            $id = $row['id'];
-            $name = get_category_name($id);
-            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */"SELECT COUNT(*) as product_count FROM 
-            {*product_categories*} WHERE id_category='$id'"));
-            $count = $q->fetch_assoc()['product_count'];
-            $temp[$id] = array("id"=> $id, "enabled"=>$row['enabled'], "name"=>$name, "parent"=>$row['parent'], "child"=>array(), "count"=>$count);
-            $temp[$id]['child'] = array_filter(get_sub_cat($id));
+        while ($row = $q->fetch_assoc()){
+            $temp[$row['id']] = $row;
         }
-        return $temp;
+        return tree_process($temp, 2);
     }
     return null;
 }
-function get_sub_cat($index) {
-    global $langID;
-    $temp = array(array());
-    $result = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT * FROM {*categories*} WHERE `parent`='$index'"));
-    if($result){
-        while ($row = $result->fetch_assoc()){
-            $id = $row['id'];
-            $name = get_category_name($id);
-            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */"SELECT COUNT(*) as product_count FROM 
-            {*product_categories*} WHERE id_category='$id'"));
-            $count = $q->fetch_assoc()['product_count'];
-            $temp[$id] = array("id"=> $id, "enabled"=>$row['enabled'], "name"=>$name, "parent"=>$row['parent'], "child"=>array(), "count"=>$count);
-            $temp[$id]['child'] = array_filter(get_sub_cat($id));
+function tree_process($cats, $parent): array
+{
+    $temp = array_filter($cats, function ($v) use ($parent){
+        return $v['parent'] == $parent;
+    });
+    $arr = array();
+    foreach ($temp as $key => $value){
+        if ($value['parent'] == $parent) {
+            $arr[$key] = array(
+                "id" => $key,
+                "enabled" => $value['enabled'],
+                "name" => $value['name'],
+                "parent" => $value['parent'],
+                "child" => tree_process($cats, $key),
+                "count" => $value['product_count']
+            );
         }
-        return $temp;
     }
-    return null;
+    return $arr;
 }
 function get_categories(){
     $arr = array();

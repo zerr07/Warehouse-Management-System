@@ -20,14 +20,14 @@ function get_platforms(){
 function get_platform_desc($id){
     global $lang;
     $arr = array();
+    $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */
+        "SELECT * FROM {*platform_descriptions*} WHERE id_platform='$id'"));
+    while($row = $query->fetch_assoc()){
+        $arr[$lang[$row['id_lang']]] = $row['desc'];
+    }
     foreach ($lang as $key=>$value){
-        $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */
-                "SELECT * FROM {*platform_descriptions*} WHERE id_platform='$id' AND id_lang='$key'"));
-        if (mysqli_num_rows($query) == 1){
-            $arr[$value] = mysqli_fetch_assoc($query)['desc'];
-        } else {
+        if (!array_key_exists($value , $arr))
             $arr[$value] = "";
-        }
     }
     return $arr;
 }

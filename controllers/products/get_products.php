@@ -336,14 +336,10 @@ function get_supplier_data($index){
 }
 function get_platform_data($index){
     $arr = array();
-    $platforms = get_platforms();
-    foreach ($platforms as $platform){
-        $id = $platform['id'];
-        $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, URL, price, custom, export
-        FROM {*product_platforms*} WHERE id_item='$index' AND id_platform='$id'"));
-        while ($row = mysqli_fetch_assoc($query)) {
-            $arr[$id] = $row;
-        }
+    $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, URL, price, custom, export
+       FROM {*product_platforms*} WHERE id_item='$index'"));
+    while ($row = mysqli_fetch_assoc($query)) {
+        $arr[$row['id_platform']] = $row;
     }
     //$arr[2]['price'] = applyRule($index, 2, 2);
     return $arr;
