@@ -7,6 +7,7 @@ include($_SERVER["DOCUMENT_ROOT"]).'/controllers/checkLogin.php';
 include($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/reserve/reserve.php';
 include($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/shipping/getShippingStatus.php';
 include($_SERVER["DOCUMENT_ROOT"]).'/cp/POS/shipping/getShippingData.php';
+include($_SERVER["DOCUMENT_ROOT"]).'/controllers/pagination.php';
 
 if (isset($_GET['view'])){
     $arr = getSingleCartReservation($_GET['view']);
@@ -29,7 +30,18 @@ if (isset($_GET['view'])){
 } else {
     if (isset($_GET['onlyCheckedOut'])) {
         $smarty->assign("onlyCheckedOut", "true");
-        $shipments = getReservedCartsShipmentOnlyChecked(2);
+        if (isset($_GET['page'])) {
+            $pages = get_reservations_pages($_GET['page'], 2);
+            $shipments = getReservedCartsShipmentOnlyChecked($_GET['page']-1, 2);
+            $smarty->assign("current_page", $_GET['page']);
+
+        } else {
+            $pages = get_reservations_pages(1, 2);
+            $shipments = getReservedCartsShipmentOnlyChecked(1, 2);
+            $smarty->assign("current_page", 1);
+        }
+        $smarty->assign("pageBase" , GETPageLinks("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"));
+        $smarty->assign("pages" , $pages);
     } elseif (isset($_GET['searchIDorBarcode'])){
         $smarty->assign("searchIDorBarcode", $_GET['searchIDorBarcode']);
         $shipments = getReservedCartsSearch(2);

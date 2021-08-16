@@ -112,14 +112,20 @@ function getReservedCartsSearch($type){
     return array_filter($arr);
 }
 
-function getReservedCartsShipmentOnlyChecked($type){
+function getReservedCartsShipmentOnlyChecked($page, $type){
     $str = "";
+    $onPage = _ENGINE['onPage'];
+    $start = $page*$onPage;
     if (isset($_GET['searchIDorBarcode'])){
         $s = $_GET['searchIDorBarcode'];
         $str .= "AND ((SELECT barcode FROM {*shipment_data*} WHERE id_shipment={*reserved*}.id)='$s' OR {*reserved*}.id='$s')";
     }
     $arr = array(array());
-    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */ "SELECT * FROM {*reserved*} WHERE id_type='$type' AND (SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)='6' $str ORDER BY date DESC"));
+    $q = mysqli_query($GLOBALS['DBCONN'], prefixQuery(/** @lang text */
+        "SELECT * FROM {*reserved*} 
+                WHERE id_type='$type' AND (SELECT id_status FROM {*shipment_status*} WHERE id_shipment={*reserved*}.id)='6' 
+                $str ORDER BY date DESC LIMIT $start, $onPage"
+    ));
     while ($row = mysqli_fetch_assoc($q)){
         $id = $row['id'];
         $arr[$id] = readReservationResult($row);
