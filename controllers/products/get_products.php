@@ -336,7 +336,7 @@ function get_supplier_data($index){
 }
 function get_platform_data($index){
     $arr = array();
-    $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, URL, price, custom, export
+    $query = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, id_platform, URL, price, custom, export
        FROM {*product_platforms*} WHERE id_item='$index'"));
     while ($row = mysqli_fetch_assoc($query)) {
         $arr[$row['id_platform']] = $row;
