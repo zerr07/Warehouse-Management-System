@@ -41,7 +41,25 @@
         </span>
                 <h4>{$item.name.et}</h4>
                 <h5>{$item.name.ru}</h5>
-                <p>Category: {$item.category_name}</p>
+                <div class="row my-2">
+                    <div class="col-12 col-sm-12 col-md-3 col-xl-2">
+                        Categories:
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-9 col-xl-10">
+                        {foreach $item.category_name as $k_cat => $cat}
+                            {if $item.main_category == $k_cat}
+                                <p title="Main category">
+                                    {$cat} *
+                                </p>
+                            {else}
+                                <p>
+                                    {$cat}
+                                </p>
+                            {/if}
+
+                        {/foreach}
+                    </div>
+                </div>
                 <p>Actual price - {$item.actPrice} <i class="fas fa-euro-sign"></i></p>
                 <p>Quantity : {$item.quantity} (+ {$item.reservations.reserved_sum} from
                     <a data-toggle="collapse" href="#collapseReservations" role="button"
