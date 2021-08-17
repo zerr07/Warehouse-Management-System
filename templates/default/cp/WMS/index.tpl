@@ -151,17 +151,28 @@
 
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3 btn-group-vertical">
-                                                <a class="btn btn-outline-primary d-table" href="/cp/WMS/view/?view={$item.id}" ><i class="fas fa-link"></i>View</a>
-                                                <a class="btn btn-outline-primary d-table" href="/cp/WMS/item/edit/?edit={$item.id}" ><i class="fas fa-edit"></i>Edit</a>
-                                                {if $item.tag == ""}
-                                                    <a class="btn btn-primary disabled d-table" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape}&tag={$item.tag}">Print label</a>
-                                                {else}
-                                                    <a class="btn btn-primary d-table" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape}&tag={$item.tag}">Print label</a>
-                                                {/if}
-                                                <button type="button" class="btn btn-outline-danger d-table p-0" onclick="deleteProduct('{$item.id}')"><i class="fas fa-trash"></i> Delete</button>
+                                            <div class="col-12 col-sm-12 col-md-3">
+                                                <div class="row h-100 justify-content-between" style="align-content: space-evenly;">
+                                                    <div class="col-6">
+                                                        <a class="btn btn-outline-primary w-100" href="/cp/WMS/view/?view={$item.id}" ><i class="fas fa-link"></i>View</a>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <a class="btn btn-outline-primary w-100" href="/cp/WMS/item/edit/?edit={$item.id}" ><i class="fas fa-edit"></i>Edit</a>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        {if $item.tag == ""}
+                                                            <a class="btn btn-primary disabled w-100" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape}&tag={$item.tag}">Print label</a>
+                                                        {else}
+                                                            <a class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer" href="/bar.php?name={$item.name.et|escape}&tag={$item.tag}">Print label</a>
+                                                        {/if}
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <button type="button" class="btn btn-outline-danger w-100" onclick="deleteProduct('{$item.id}')"><i class="fas fa-trash"></i> Delete</button>
 
+                                                    </div>
+                                                </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
