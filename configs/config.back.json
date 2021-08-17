@@ -73,7 +73,17 @@
     "home_warehouse": [2],
     "cache": true,
     "compile_check": false,
-    "google_api": ""
+    "google_api": "",
+    "smartpost": {
+      "clientPaysTheDelivery": {
+        "login": "",
+        "password": ""
+      },
+      "other": {
+        "login": "",
+        "password": ""
+      }
+    }
   },
   "languages": {
     "ps_ru": 3,
