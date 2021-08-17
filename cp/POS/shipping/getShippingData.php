@@ -111,19 +111,19 @@ function getBarSmartpost($id){
     $xml->startElement('authentication');
     if ($data['checked'] == "clientPaysTheDelivery"){
         $xml->startElement('user');
-        $xml->text("levilux");
+        $xml->text(_ENGINE['smartpost']['clientPaysTheDelivery']['login']);
         $xml->endElement();
 
         $xml->startElement('password');
-        $xml->text("gaxGGhBP1B0m_w");
+        $xml->text(_ENGINE['smartpost']['clientPaysTheDelivery']['password']);
         $xml->endElement();
     } else {
         $xml->startElement('user');
-        $xml->text("trade8");
+        $xml->text(_ENGINE['smartpost']['other']['login']);
         $xml->endElement();
 
         $xml->startElement('password');
-        $xml->text("g3giec6");
+        $xml->text(_ENGINE['smartpost']['other']['password']);
         $xml->endElement();
     }
 
