@@ -955,6 +955,62 @@ Path: {Your_Domain}/api/product/locations
 | 1501 | Query error. |
 | 1502 | No results retrieved. |
 
+
+#### Product translations
+| Method | Allowed |
+| :----: | :-----: | 
+| GET | Yes |
+| POST | No |
+| PUT | Yes |
+| DELETE | No |
+
+
+**GET** - Returns product translations for all available languages.
+
+Path: {Your_Domain}/api/product/translations
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| tag | String | A product tag | Yes* |
+| ean | String | A product ean code | Yes* |
+
+`* - one of these parameters should be passed`
+
+| Code | Message |
+| :---: | :---- | 
+| 1600 | No product identifier. |
+| 1601 | No product found. |
+
+**PUT** - Updates product translations
+
+Path: {Your_Domain}/api/product/translations
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| tag | String | A product tag | Yes* |
+| ean | String | A product ean code | Yes* |
+| name | Array | An array of product names where key is language code and value is translation | No |
+| description | Array | An array of product descriptions where key is language code and value is translation | No |
+
+Example request body:
+<pre>
+{
+    "ean": "55555555",
+    "name": {
+        "et": "Est name"
+    },
+    "description": {
+        "et": "Est desc",
+        "ru": "Rus desc"
+    }
+}
+</pre>
+
+| Code | Message |
+| :---: | :---- | 
+| 1700 | No product identifier. |
+| 1701 | No product found. |
+
 <b>!!!WARNING!!!</b><br>
 <b>The documentation below is deprecated. It still can be used but will be removed on the project release.</b>
 [Old documentation](old-docs.md)

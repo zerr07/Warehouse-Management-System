@@ -12,4 +12,6 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/api/routes/other.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/api/FB/routes.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/api/routes/products/stockLocations.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/api/routes/products/product.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/api/routes/products/translations.php');
+
 Route::run('/');
