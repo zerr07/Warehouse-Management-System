@@ -2,6 +2,33 @@
             <div class="accordion text-left mt-4" id="accordion">
 
                 <div class="card">
+                    <div class="card-header" id="heading0240">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse0230" aria-expanded="false" aria-controls="collapse0240">
+                                Version 0.24.0
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse0240" class="collapse" aria-labelledby="heading0240" data-parent="#accordion">
+                        <div class="card-body">
+                            Product translations added to the API.<br />
+                            Product creation route added to API (Not yet documented). <br/>
+                            Languages function added<br/>
+                            Added pagination to checked out shipments.<br/>
+                            Improved performance by optimizing SQL queries.<br/>
+                            Export statistics added.<br/>
+                            XML generator logs.<br/>
+                            Category full path function modified to allow different language output.<br/>
+                            <hr>
+                            Changed buttons layout.<br />
+                            Fixed categories output.<br/>
+                            Fixed platform output array.<br/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
                     <div class="card-header" id="heading0230">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
