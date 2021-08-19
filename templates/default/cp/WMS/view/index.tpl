@@ -80,36 +80,42 @@
                 </div>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-3">
-                <hr class="d-none d-sm-flex d-md-flex d-lg-none">
-                <h3 class="pt-2">Locations</h3>
-                {foreach $item.locationList as $loc}
-                    {assign var="id_type" value=$loc.id_type}
-                    <div class="row">
-                        <div class="col-3 m-auto">{$loc.location}</div>
-                        <div class="col-2 m-auto">{$loc.quantity}</div>
-                        <div class="col-3 m-auto">{$location_types.$id_type.name}</div>
-                        <div class="col-4 m-auto">
-                            <button type="button" class="btn btn-danger w-100" onclick="delete_loc({$loc.id})">
-                                <i class="fas fa-trash"></i>
-                            </button>
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr class="d-none d-sm-flex d-md-flex d-lg-none">
+                    <h3 class="pt-2">Locations</h3>
+                    {foreach $item.locationList as $loc}
+                        {assign var="id_type" value=$loc.id_type}
+                        <div class="row">
+                            <div class="col-3 m-auto">{$loc.location}</div>
+                            <div class="col-2 m-auto">{$loc.quantity}</div>
+                            <div class="col-3 m-auto">{$location_types.$id_type.name}</div>
+                            <div class="col-4 m-auto">
+                                <button type="button" class="btn btn-danger w-100" onclick="delete_loc({$loc.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                {/foreach}
-                <hr class="d-none d-sm-flex d-md-flex d-lg-none">
+                    {/foreach}
+                    <hr class="d-none d-sm-flex d-md-flex d-lg-none">
+                </div>
+                <div class="col-sm-12 mt-lg-4">
+                    <hr class="d-none d-sm-flex d-md-flex d-lg-none">
+                    <h3 class="pt-2">Properties</h3>
+                    {foreach $item.properties  as $prop}
+                        <div class="row">
+                            {assign var=key1 value = $prop.prop_name|@key}
+                            {assign var=key2 value = $prop.value_name|@key}
+                            <div class="col-auto m-auto">{$prop.prop_name.$key1.name}</div>
+                            <div class="col-auto m-auto">{$prop.value_name.$key2.name}</div>
+                        </div>
+                    {/foreach}
+                    <hr class="d-none d-sm-flex d-md-flex d-lg-none">
+                </div>
             </div>
-            <div class="col-sm-12 col-md-12 offset-lg-9 col-lg-3">
-                <hr class="d-none d-sm-flex d-md-flex d-lg-none">
-                <h3 class="pt-2">Properties</h3>
-                {foreach $item.properties  as $prop}
-                    <div class="row">
-                        {assign var=key1 value = $prop.prop_name|@key}
-                        {assign var=key2 value = $prop.value_name|@key}
-                        <div class="col-auto m-auto">{$prop.prop_name.$key1.name}</div>
-                        <div class="col-auto m-auto">{$prop.value_name.$key2.name}</div>
-                    </div>
-                {/foreach}
-                <hr class="d-none d-sm-flex d-md-flex d-lg-none">
             </div>
+
+
             <div class="col-sm-12 mt-3">
                 <div class="btn-group btn-group-toggle d-flex" data-toggle="buttons">
                     {if $item.tag == ""}
@@ -358,12 +364,12 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-6 col-md-3 d-flex justify-content-start">
-                        <a href="/cp/WMS/item/edit/?edit={$item.id}" class="btn btn-primary d-inline-flex"><i class="fas fa-edit"></i> Edit</a>
-                        <button type="button" class="btn btn-secondary d-inline-flex ml-2" onclick="duplicate_product({$item.id})">Duplicate</button>
+                        <a href="/cp/WMS/item/edit/?edit={$item.id}" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
+                        <button type="button" class="btn btn-secondary ml-2" onclick="duplicate_product({$item.id})">Duplicate</button>
                     </div>
                     <div class="col-6 col-md-3 offset-md-6 d-flex justify-content-end">
-                        <button type="button" class="btn btn-outline-danger d-inline-flex" onclick="deleteProduct('{$item.id}')"><i class="fas fa-trash"></i> Delete</button>
-                        <a class="btn btn-primary d-inline-flex ml-2" href="/cp/WMS/"><i class="fas fa-undo-alt"></i> Back</a>
+                        <button type="button" class="btn btn-outline-danger" onclick="deleteProduct('{$item.id}')"><i class="fas fa-trash"></i> Delete</button>
+                        <a class="btn btn-primary ml-2" href="/cp/WMS/"><i class="fas fa-undo-alt"></i> Back</a>
                     </div>
                 </div>
 
