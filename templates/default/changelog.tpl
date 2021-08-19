@@ -5,7 +5,7 @@
                     <div class="card-header" id="heading0240">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-                                    data-target="#collapse0230" aria-expanded="false" aria-controls="collapse0240">
+                                    data-target="#collapse0240" aria-expanded="false" aria-controls="collapse0240">
                                 Version 0.24.0
                             </button>
                         </h2>
