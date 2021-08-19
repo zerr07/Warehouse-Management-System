@@ -74,6 +74,12 @@
     "cache": true,
     "compile_check": false,
     "google_api": "",
+    "azure": {
+      "translator": {
+        "key": "",
+        "region": ""
+      }
+    },
     "smartpost": {
       "clientPaysTheDelivery": {
         "login": "",

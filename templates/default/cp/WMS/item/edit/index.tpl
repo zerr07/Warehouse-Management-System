@@ -561,7 +561,7 @@
     </div>
 </div>
 <script src="/templates/default/assets/js/DragDropTouch.js?t=16102020T165458"></script>
-<script src="/templates/default/assets/js/editor.js?t=09032021T122256"></script>
+<script src="/templates/default/assets/js/editor.js?t=19082021T154217"></script>
 <script src="/templates/default/assets/js/priceCalc.js?t=20210104T143914"></script>
 <script src="/cp/WMS/item/edit/editEAN.js?t=16102020T165502"></script>
 <script src="/templates/default/assets/js/getParserData.js?t=05032021T153915"></script>
@@ -729,8 +729,14 @@
 
                     })
                 }
-                fetch("/controllers/translateText.php",req).then(response => response.json()).then(d => {
-                    el.innerHTML = d.result
+                fetch("/controllers/translateAzure.php",req).then(response => response.json()).then(d => {
+                    if (d.hasOwnProperty("result")){
+                        el.innerHTML = d.result
+                    } else if (d.hasOwnProperty("error")){
+                        alert(d.error)
+                    } else {
+                        alert("Unknown error")
+                    }
                 })
             })
             names.forEach( el => {
@@ -743,7 +749,7 @@
 
                     })
                 }
-                fetch("/controllers/translateText.php",req).then(response => response.json()).then(d => {
+                fetch("/controllers/translateAzure.php",req).then(response => response.json()).then(d => {
                     el.value = d.result
                 })
             })

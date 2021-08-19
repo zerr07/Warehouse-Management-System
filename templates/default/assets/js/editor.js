@@ -55,8 +55,14 @@ function editor_Translate(block, lang){
 
         })
     }
-    fetch("/controllers/translateText.php",req).then(response => response.json()).then(d => {
-        editor.innerHTML = d.result
+    fetch("/controllers/translateAzure.php",req).then(response => response.json()).then(d => {
+        if (d.hasOwnProperty("result")){
+            editor.innerHTML = d.result
+        } else if (d.hasOwnProperty("error")){
+            alert(d.error)
+        } else {
+            alert("Unknown error")
+        }
     })
 }
 function clickCheck(ele) {

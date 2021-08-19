@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-<script src="/templates/default/assets/js/editor.js?t=16102020T165416"></script>
+<script src="/templates/default/assets/js/editor.js?t=19082021T154220"></script>
 
 <script>
 

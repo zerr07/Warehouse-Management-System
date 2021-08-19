@@ -388,7 +388,7 @@
 </div>
 </div>
 <script src="/templates/default/assets/js/DragDropTouch.js?t=16102020T165444"></script>
-<script src="/templates/default/assets/js/editor.js?t=09032021T122302"></script>
+<script src="/templates/default/assets/js/editor.js?t=19082021T154213"></script>
 <script src="/templates/default/assets/js/priceCalc.js?t=20210104T143849"></script>
 <script src="/cp/WMS/item/edit/editEAN.js?t=16102020T165440"></script>
 
