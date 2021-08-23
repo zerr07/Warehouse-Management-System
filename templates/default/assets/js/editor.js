@@ -59,6 +59,7 @@ function editor_Translate(block, lang){
         if (d.hasOwnProperty("result")){
             editor.innerHTML = d.result
         } else if (d.hasOwnProperty("error")){
+			
             alert(d.error)
         } else {
             alert("Unknown error")
