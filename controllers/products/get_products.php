@@ -549,6 +549,14 @@ function get_product_by_supp_sku($sku){
     }
     return $found;
 }
+
+function isPositiveInt($qty): bool
+{
+    if (is_numeric($qty) && $qty > 0)
+        return true;
+    return false;
+}
+
 if (isset($_POST['ifProductExistWithSKU'])){
     exit(json_encode(array("found"=>get_product_by_supp_sku($_POST['ifProductExistWithSKU']))));
 }
