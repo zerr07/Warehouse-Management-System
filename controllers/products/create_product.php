@@ -48,8 +48,13 @@ function setMainCategory($id, $id_category){
 }
 function insertName($id, $id_lang, $name){
     $name = htmlentities($name, ENT_QUOTES, 'UTF-8');
-    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
+    if (is_numeric($id_lang)){
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_name*}
                         (`name`, id_product, id_lang) VALUES ('$name', '$id', '$id_lang')"));
+    } else {
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO product_name 
+            (id_product, id_lang, `name`) SELECT '$id', id, '$name' FROM languages WHERE lang='$id_lang'"));
+    }
 }
 function insertSupplier($id ,$supplierName, $URL, $price, $priceVAT, $suppSKU) {
     if (is_null($price)){

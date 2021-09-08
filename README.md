@@ -1011,6 +1011,133 @@ Example request body:
 | 1700 | No product identifier. |
 | 1701 | No product found. |
 
+
+#### Product translations
+| Method | Allowed |
+| :----: | :-----: | 
+| GET | No |
+| POST | No |
+| PUT | Yes |
+| DELETE | No |
+
+**PUT** - Synchronizes product with prestashop
+
+Path: {Your_Domain}/api/product/sync
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| id | String | A product id | Yes |
+
+Example request body:
+<pre>
+{
+    "id": "1232"
+}
+</pre>
+
+| Code | Message |
+| :---: | :---- | 
+| 1800 | No product id supplied. |
+
+#### Product creation
+| Method | Allowed |
+| :----: | :-----: | 
+| GET | No |
+| POST | Yes |
+| PUT | No |
+| DELETE | No |
+
+**POST** - Creates a product
+
+Path: {Your_Domain}/api/product
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| prefix | String | A product tag prefix | Yes |
+| tag | String | A product tag (can be left with as prefix+001 the API will calculate itself the suitable tag) | Yes |
+| actPrice | Float/Double with 2 decimal places | A main supplier price | Yes |
+| override | Boolean (0 or 1) | Custom margin toggle (Default 0) | No |
+| marginPercent | Float/Double with 2 decimal places | A product margin as percentage (Default 0.0) | No |
+| marginNumber | Float/Double with 2 decimal places | A product margin as number (Default 0.0) | No |
+| width | Float/Double with 2 decimal places | A product width in mm (Default 0.0) | No |
+| height | Float/Double with 2 decimal places | A product height in mm (Default 0.0) | No |
+| depth | Float/Double with 2 decimal places | A product depth in mm (Default 0.0) | No |
+| weight | Integer | A product weight in g (Default 0) | No |
+| category | Integer | A product category ID | Yes |
+| ean | Array | A list of product ean codes | No |
+| name | Array | A 2d array of product names where key is language id (Integer or String equivalent) and value is its name| Yes |
+| supplier | Array | A product supplier data | No |
+| description | Array | A 2d array of product names where key is language id (String variant only) and value is its description | No |
+| images | Array | A list of product images. Each image list should contain string "new" as first element and base64 code as second. Base64 should be without MIME Content-type. | No |
+
+Suppliers array
+
+| Key | Value type | Comment | Mandatory |
+| :--- | :--- | :--- | :--- |
+| name | String | A supplier name | Yes*1 |
+| url | String | A supplier url | Yes*1 |
+| price | Float/Double with 2 decimal places | A supplier price | Yes*1 |
+| sku | String | A supplier sku | Yes*1 |
+| recPrice | Float/Double with 2 decimal places | A supplier recommended price | Yes |
+| idTypeLocation | Integer | A supplier location id | Yes*2 |
+| nameLocation | String | A supplier warehouse location name | Yes*2 |
+| quantity | Integer | A supplier warehouse quantity | Yes*2 |
+
+*1 All from these group should exist in the request to insert supplier data\
+*2 All from these group should exist in the request to insert supplier location
+
+
+Example request body:
+<pre>
+{
+  "prefix":"LT",
+  "tag":"LT001",
+  "actPrice":0.97,
+  "override":0,
+  "marginPercent":0.0,
+  "marginNumber":0.0,
+  "width":115.0,
+  "height":180.0,
+  "depth":10.0,
+  "weight":35,
+  "category":328,
+  "ean":["4719855241358"],
+  "name":{
+    "1":"",
+    "en":""
+    },
+  "supplier":{
+    "name":"Dreamlove",
+    "url":"_SupplierURL_",
+    "price":0.97,
+    "recPrice":13.21,
+    "sku":"D-221989",
+    "idTypeLocation":1,
+    "nameLocation":"Dreamlove ladu",
+    "quantity":2
+    },
+  "description":{
+    "ru":"",
+    "et":"",
+    "lt":"",
+    "en":"",
+    "lv":"",
+    "FB":""
+    },
+  "images":[
+    ["new","base64 image"],["new","base64 image"]
+  ]
+}
+</pre>
+
+| Code | Message |
+| :---: | :---- | 
+| 1900 | Category not supplied. |
+| 1901 | Prefix not supplied. |
+| 1902 | Tag not supplied. |
+| 1903 | actPrice not supplied. |
+| 1904 | Name not supplied. |
+
 <b>!!!WARNING!!!</b><br>
 <b>The documentation below is deprecated. It still can be used but will be removed on the project release.</b>
 [Old documentation](old-docs.md)
