@@ -116,8 +116,6 @@ Route::add("/api/product", function () {
     }
 }, "POST");
 Route::add("/api/product", function () {
-    header("HTTP/1.0 405 Method Not Allowed");
-    exit();
     $check = json_decode(checkToken(), true);
     if (isset($check['user_id'])) {
         $data = json_decode(file_get_contents('php://input'), true);
