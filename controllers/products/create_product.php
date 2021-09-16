@@ -42,6 +42,18 @@ function insertCategory($id, $id_category){
                         (id_category, id_product) 
                         VALUES ('$id_category', '$id')"));
 }
+function insertMultipleCategories($id, $id_categories){
+    foreach ($id_categories as $v){
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO {*product_categories*}
+                        (id_category, id_product) 
+                        VALUES ('$v', '$id')"));
+    }
+}
+function deleteCategory($id, $id_category){
+    $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_categories*} 
+       WHERE id_category='$id_category' AND id_product='$id'"));
+}
+
 function setMainCategory($id, $id_category){
     $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_categories*} 
                         SET `main`='1' WHERE id_category='$id_category' AND id_product='$id'"));
@@ -54,6 +66,16 @@ function insertName($id, $id_lang, $name){
     } else {
         $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "INSERT INTO product_name 
             (id_product, id_lang, `name`) SELECT '$id', id, '$name' FROM languages WHERE lang='$id_lang'"));
+    }
+}
+function updateName($id, $id_lang, $name){
+    $name = htmlentities($name, ENT_QUOTES, 'UTF-8');
+    if (is_numeric($id_lang)){
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_name*}
+                         SET `name`='$name' WHERE id_product='$id' AND id_lang='$id_lang'"));
+    } else {
+        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*product_name*} SET `name`='$name'
+            WHERE id_product='$id' AND id_lang=(SELECT id FROM languages WHERE lang='$id_lang')"));
     }
 }
 function insertSupplier($id ,$supplierName, $URL, $price, $priceVAT, $suppSKU) {
@@ -109,7 +131,28 @@ function insertDescriptions($id, $ru, $en, $et, $lv, $lt, $fb){
     $json = json_encode($product);
     file_put_contents($_SERVER['DOCUMENT_ROOT']."/translations/products/$id.json", $json);
 }
-
+function UpdateDescriptions($id, $ru = null, $en = null, $et = null, $lv = null, $lt = null, $fb = null){
+    $desc = get_desc($id);
+    if (is_null($ru)){
+        $ru = $desc['ru'];
+    }
+    if (is_null($ru)){
+        $en = $desc['en'];
+    }
+    if (is_null($ru)){
+        $et = $desc['et'];
+    }
+    if (is_null($ru)){
+        $lv = $desc['lv'];
+    }
+    if (is_null($ru)){
+        $lt = $desc['lt'];
+    }
+    if (is_null($ru)){
+        $fb = get_FB_desc($id);
+    }
+    insertDescriptions($id, $ru, $en, $et, $lv, $lt, $fb);
+}
 function deleteImages($images, $id, $prefix){
     include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/products/get_products.php');
     if ($prefix == "_live"){
