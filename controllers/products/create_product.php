@@ -168,7 +168,7 @@ function deleteImages($images, $id, $prefix){
     }
 }
 
-function insertImages($id, $images, $prefix){
+function insertImages($id, $images, $prefix, $delete = true){
     $existImages = array();
     $position = 1;
     if (!empty($images)) {
@@ -201,6 +201,7 @@ function insertImages($id, $images, $prefix){
                                             (id_item, image, `position`) VALUES ('$id','$filename','$position')"));
             $position++;
         }
-        deleteImages($existImages, $id, $prefix);
+        if ($delete)
+            deleteImages($existImages, $id, $prefix);
     }
 }

@@ -4,6 +4,10 @@ Route::add("/api/product", function () {
     exit();
 }, "GET");
 Route::add("/api/product", function () {
+    header("HTTP/1.0 405 Method Not Allowed");
+    exit();
+}, "GET");
+Route::add("/api/product", function () {
     $check = json_decode(checkToken(), true);
     if (isset($check['user_id'])) {
         include_once $_SERVER['DOCUMENT_ROOT']."/controllers/products/create_product.php";
@@ -116,10 +120,15 @@ Route::add("/api/product", function () {
     }
 }, "POST");
 Route::add("/api/product", function () {
+    ini_set("display_errors", "on");
+    error_reporting(E_ALL ^ E_NOTICE);
+    include_once $_SERVER['DOCUMENT_ROOT']."/controllers/products/create_product.php";
+    include_once $_SERVER['DOCUMENT_ROOT']."/controllers/cache.php";
+    include_once $_SERVER['DOCUMENT_ROOT']."/controllers/prestashop/Products.php";
     $check = json_decode(checkToken(), true);
     if (isset($check['user_id'])) {
         $data = json_decode(file_get_contents('php://input'), true);
-        if (!isset($data['tag'])){
+        if (!isset($data['tag']) || $data['tag'] == ""){
             exit(json_encode(array("error" => "Tag not supplied.", "code"=>"2000")));
 
         }
@@ -127,25 +136,27 @@ Route::add("/api/product", function () {
         $id_q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*products*} WHERE tag='$tag'"));
         $id = $id_q->fetch_assoc()['id'];
         $update_query = array();
-        if (!isset($data['actPrice']))
+        if (isset($data['actPrice']))
             array_push($update_query, "actPrice='".$data['actPrice']."'");
-        if (!isset($data['override']))
+        if (isset($data['override']))
             array_push($update_query, "override='".$data['override']."'");
-        if (!isset($data['marginPercent']))
+        if (isset($data['marginPercent']))
             array_push($update_query, "def_margin_percent='".$data['marginPercent']."'");
-        if (!isset($data['marginNumber']))
+        if (isset($data['marginNumber']))
             array_push($update_query, "def_margin_number='".$data['marginNumber']."'");
-        if (!isset($data['width']))
+        if (isset($data['width']))
             array_push($update_query, "width='".$data['width']."'");
-        if (!isset($data['height']))
+        if (isset($data['height']))
             array_push($update_query, "height='".$data['height']."'");
-        if (!isset($data['depth']))
+        if (isset($data['depth']))
             array_push($update_query, "depth='".$data['depth']."'");
-        if (!isset($data['weight']))
+        if (isset($data['weight']))
             array_push($update_query, "weight='".$data['weight']."'");
-        $update_query = implode(" ,", $update_query);
+        if (sizeof($update_query) != 0) {
+            $update_query = implode(", ", $update_query);
+            $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*products*} SET $update_query WHERE id='$id'"));
+        }
 
-        $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "UPDATE {*products*} SET $update_query WHERE id='$id'"));
         if (isset($data['name'])){
             foreach (array_filter($data['name']) as $k => $v){
                 updateName($id, $k, $v);
@@ -164,7 +175,7 @@ Route::add("/api/product", function () {
             $data['description']['lt'] = null;
         if (!isset($data['description']['FB']))
             $data['description']['FB'] = null;
-        insertDescriptions(
+        UpdateDescriptions(
             $id,
             $data['description']['ru'],
             $data['description']['en'],
@@ -197,14 +208,16 @@ Route::add("/api/product", function () {
             insertLocation($id, $data['supplier']['idTypeLocation'], $data['supplier']['nameLocation'], $data['supplier']['quantity']);
 
         if (isset($data['images']))
-            insertImages($id, $data['images'], "");
+            insertImages($id, $data['images'], "", false);
 
         if(isset($data['ean'])){
             foreach (array_filter($data['ean']) as $v){
                 insertEAN($id, $v);
             }
         }
-
+        PR_PUT_Product($id);
+        cacheProductNameBackground($id);
+        exit(json_encode(array("success"=>"Successfully edited product with id: ".$id)));
     } else if (isset($check['error'])) {
         exit(json_encode($check));
     } else {
