@@ -3,6 +3,7 @@ global $DBCONN, $BIGCONN, $ENGINE, $DRUNCONN, $PARSERCONN;
 require $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php';
 include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/DB/query.php');
 include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/saveCart.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/controllers/DB/check.php');
 
 //include_once ($_SERVER["DOCUMENT_ROOT"].'/controllers/url_gen.php');
 if (!defined('SETTINGS')){

@@ -14,4 +14,9 @@ include_once($_SERVER['DOCUMENT_ROOT'].'/api/routes/products/stockLocations.php'
 include_once($_SERVER['DOCUMENT_ROOT'].'/api/routes/products/product.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/api/routes/products/translations.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/api/routes/products/images.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/api/routes/products/ean.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/api/routes/products/locations.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/api/routes/locations.php');
+
+
 Route::run('/');

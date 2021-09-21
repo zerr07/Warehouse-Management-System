@@ -4,18 +4,16 @@ Route::add("/api/product/images", function () {
     if (isset($check['user_id'])) {
         if (isset($_GET['tag']) && $_GET['tag'] != ""){
             $tag = $_GET['tag'];
-            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*products*} WHERE tag='$tag' LIMIT 1"));
-            if ($q->num_rows == 0)
+            $id = checkRow("products", "tag='$tag'");
+            if (!$id)
                 exit(json_encode(array("error" => "Product not found using tag: ". $tag, "code"=>"2101")));
         } else if (isset($_GET['id']) && $_GET['id'] != "") {
-            $id = $_GET['id'];
-            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*products*} WHERE id='$id' LIMIT 1"));
-            if ($q->num_rows == 0)
-                exit(json_encode(array("error" => "Product not found using id: ". $id, "code"=>"2102")));
+            $id = checkRow("products", "id='".$_GET['id']."'");
+            if (!$id)
+                exit(json_encode(array("error" => "Product not found using id: ". $_GET['id'], "code"=>"2102")));
         } else {
             exit(json_encode(array("error" => "Product identifier not set", "code"=>"2100")));
         }
-        $id = $q->fetch_assoc()['id'];
         $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id, image FROM {*product_images*} WHERE id_item='$id'"));
         $arr = array();
         while ($row = $q->fetch_assoc()){
@@ -33,20 +31,21 @@ Route::add("/api/product/images", function () {
     $check = json_decode(checkToken(), true);
     if (isset($check['user_id'])) {
         $data = json_decode(file_get_contents('php://input'), true);
-        if (isset($_GET['tag']) && $_GET['tag'] != ""){
-            $tag = $_GET['tag'];
-            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*products*} WHERE tag='$tag' LIMIT 1"));
-            if ($q->num_rows == 0)
+
+
+        if (isset($data['tag']) && $data['tag'] != ""){
+            $tag = $data['tag'];
+            $id = checkRow("products", "tag='$tag'");
+            if (!$id)
                 exit(json_encode(array("error" => "Product not found using tag: ". $tag, "code"=>"2201")));
-        } else if (isset($_GET['id']) && $_GET['id'] != "") {
-            $id = $_GET['id'];
-            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*products*} WHERE id='$id' LIMIT 1"));
-            if ($q->num_rows == 0)
-                exit(json_encode(array("error" => "Product not found using id: ". $id, "code"=>"2202")));
+        } else if (isset($data['id']) && $data['id'] != "") {
+            $id = checkRow("products", "id='".$data['id']."'");
+            if (!$id)
+                exit(json_encode(array("error" => "Product not found using id: ". $data['id'], "code"=>"2202")));
         } else {
             exit(json_encode(array("error" => "Product identifier not set", "code"=>"2200")));
         }
-        $id = $q->fetch_assoc()['id'];
+
         if (isset($data['images'])){
             insertImages($id, $data['images'], "", false);
         }
@@ -70,9 +69,8 @@ Route::add("/api/product/images", function () {
         $data = json_decode(file_get_contents('php://input'), true);
 
         if (isset($data['id']) && $data['id'] != "") {
-            $id = $data['id'];
-            $q = $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "SELECT id FROM {*product_images*} WHERE id='$id' LIMIT 1"));
-            if ($q->num_rows == 0)
+            $id = checkRow("product_images", "id='".$data['id']."'");
+            if (!$id)
                 exit(json_encode(array("error" => "Image not found using id: ". $id, "code"=>"2301")));
             else
                 $GLOBALS['DBCONN']->query(prefixQuery(/** @lang text */ "DELETE FROM {*product_images*} WHERE id='$id'"));
